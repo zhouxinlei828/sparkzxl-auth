@@ -5,6 +5,7 @@ import cn.hutool.core.net.url.UrlPath;
 import cn.hutool.core.util.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.auth.application.service.IOauthService;
+import com.github.sparkzxl.auth.application.service.IRealmManagerService;
 import com.github.sparkzxl.auth.application.service.IRealmPoolService;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
@@ -71,6 +72,8 @@ public class OauthServiceImpl implements IOauthService {
     @Autowired
     private IUserService userService;
     @Autowired
+    private IRealmManagerService realmManagerService;
+    @Autowired
     private IRealmPoolService tenantService;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
@@ -98,7 +101,9 @@ public class OauthServiceImpl implements IOauthService {
         if (!oAuth2AccessTokenResponseEntity.getStatusCode().isError()) {
             OAuth2AccessToken oAuth2AccessToken = oAuth2AccessTokenResponseEntity.getBody();
             assert oAuth2AccessToken != null;
-            buildGlobalUserInfo(oAuth2AccessToken);
+            Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
+            boolean realmStatus = (boolean) additionalInformation.get("realmStatus");
+            buildGlobalUserInfo(oAuth2AccessToken, realmStatus);
             return oAuth2AccessToken;
         }
         SparkZxlExceptionAssert.businessFail(ResponseResultStatus.AUTHORIZED_FAIL);
@@ -118,24 +123,61 @@ public class OauthServiceImpl implements IOauthService {
         return loginEventAndBack(oAuth2AccessTokenResponseEntity);
     }
 
+    @Override
+    public AccessTokenInfo getAccessToken(AuthorizationRequest authorizationRequest) {
+        Map<String, String> parameters = builderAccessTokenParameters(authorizationRequest);
+        OAuth2AccessToken oAuth2AccessToken = customTokenGrantService.getAccessToken(parameters);
+        return loginEventAndBack(oAuth2AccessToken);
+    }
+
+    @Override
+    public AccessTokenInfo postAccessToken(AuthorizationRequest authorizationRequest) {
+        return getAccessToken(authorizationRequest);
+    }
+
+    private AccessTokenInfo loginEventAndBack(OAuth2AccessToken oAuth2AccessToken) {
+        return buildAccessToken(oAuth2AccessToken);
+    }
+
+    private AccessTokenInfo buildAccessToken(OAuth2AccessToken oAuth2AccessToken) {
+        Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
+        boolean realmStatus = (boolean) additionalInformation.get("realmStatus");
+        buildGlobalUserInfo(oAuth2AccessToken, realmStatus);
+        AccessTokenInfo accessTokenInfo = new AccessTokenInfo();
+        accessTokenInfo.setAccessToken(oAuth2AccessToken.getValue());
+        accessTokenInfo.setTokenType(oAuth2AccessToken.getTokenType());
+        accessTokenInfo.setRefreshToken(oAuth2AccessToken.getRefreshToken().getValue());
+        accessTokenInfo.setExpiration(oAuth2AccessToken.getExpiration());
+        accessTokenInfo.setRealmStatus(realmStatus);
+        String realm = (String) additionalInformation.get(BaseContextConstants.JWT_KEY_REALM);
+        if (StringUtils.isNotEmpty(realm)) {
+            accessTokenInfo.setRealm(realm);
+        }
+        return accessTokenInfo;
+    }
+
     /**
      * 设置accessToken缓存
      *
      * @param oAuth2AccessToken 认证token
      */
-    private AuthUserInfo<Long> buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken) {
+    private void buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken, boolean realmStatus) {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
         String username = (String) additionalInformation.get("username");
-        AuthUserInfo<Long> authUserInfo = userService.getAuthUserInfo(username);
+        AuthUserInfo<Long> authUserInfo;
+        if (realmStatus) {
+            authUserInfo = realmManagerService.getAuthUserInfo(username);
+        } else {
+            authUserInfo = userService.getAuthUserInfo(username);
+        }
         String authUserInfoKey = BuildKeyUtils.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
         redisTemplate.opsForHash().put(authUserInfoKey, oAuth2AccessToken.getValue(), authUserInfo);
         redisTemplate.expire(authUserInfoKey, oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);
-        return authUserInfo;
     }
 
     private void checkTenantCode() {
         boolean success = true;
-        String tenantCode = RequestContextHolderUtils.getHeader(BaseContextConstants.JWT_KEY_TENANT);
+        String tenantCode = RequestContextHolderUtils.getHeader(BaseContextConstants.JWT_KEY_REALM);
         if (StringUtils.isNotEmpty(tenantCode)) {
             int count = tenantService.count(new LambdaQueryWrapper<RealmPool>().eq(RealmPool::getCode, tenantCode));
             success = count > 0;
@@ -153,15 +195,17 @@ public class OauthServiceImpl implements IOauthService {
      */
     private Map<String, String> builderAccessTokenParameters(AuthorizationRequest authorizationRequest) {
         Map<String, String> parameters = Maps.newHashMap();
-        parameters.put("grant_type", authorizationRequest.getGrantType());
-        parameters.put("scope", authorizationRequest.getScope());
-        Option.of(authorizationRequest.getCode()).peek(value -> parameters.put("code", value));
-        Option.of(authorizationRequest.getClientId()).peek(value -> parameters.put("client_id", value));
-        Option.of(authorizationRequest.getClientSecret()).peek(value -> parameters.put("client_secret", value));
-        Option.of(authorizationRequest.getRedirectUri()).peek(value -> parameters.put("redirect_uri", value));
+        String grantType = authorizationRequest.getGrantType();
+        parameters.put("grant_type", grantType);
         Option.of(authorizationRequest.getRefreshToken()).peek(value -> parameters.put("refresh_token", value));
         Option.of(authorizationRequest.getUsername()).peek(value -> parameters.put("username", value));
         Option.of(authorizationRequest.getPassword()).peek(value -> parameters.put("password", value));
+        ClientDetails clientDetails = clientDetailsService.loadClientByClientId(openProperties.getAppId());
+        parameters.put("client_id", clientDetails.getClientId());
+        parameters.put("client_secret", clientDetails.getClientSecret());
+        Set<String> detailsScope = clientDetails.getScope();
+        String scope = String.join(",", detailsScope);
+        parameters.put("scope", scope);
         return parameters;
     }
 
@@ -247,20 +291,6 @@ public class OauthServiceImpl implements IOauthService {
         List<String> redirectUriList = ListUtils.setToList(clientDetails.getRegisteredRedirectUri());
         parameters.put("redirect_uri", redirectUriList.get(0));
         DefaultOAuth2AccessToken oAuth2AccessToken = (DefaultOAuth2AccessToken) customTokenGrantService.getAccessToken(parameters);
-        Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
-        AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken);
-        AccessTokenInfo accessTokenInfo = new AccessTokenInfo();
-        accessTokenInfo.setAccessToken(oAuth2AccessToken.getValue());
-        accessTokenInfo.setTokenType(oAuth2AccessToken.getTokenType());
-        accessTokenInfo.setRefreshToken(oAuth2AccessToken.getRefreshToken().getValue());
-        accessTokenInfo.setExpiration(oAuth2AccessToken.getExpiration());
-        Map<String, Object> extraInfo = authUserInfo.getExtraInfo();
-        boolean realmStatus = (boolean) extraInfo.get("realmStatus");
-        accessTokenInfo.setRealmStatus(realmStatus);
-        String tenant = (String) additionalInformation.get(BaseContextConstants.JWT_KEY_TENANT);
-        if (StringUtils.isNotEmpty(tenant)) {
-            accessTokenInfo.setTenant(tenant);
-        }
-        return accessTokenInfo;
+        return buildAccessToken(oAuth2AccessToken);
     }
 }

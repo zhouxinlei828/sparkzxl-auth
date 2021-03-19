@@ -48,7 +48,7 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
             application.setClientId(oauthClientDetails.getClientId());
             oauthClientDetailsRepository.saveOauthClientDetails(oauthClientDetails);
         }
-        String tenant = BaseContextHandler.getTenant();
+        String tenant = BaseContextHandler.getRealm();
         if (StringUtils.isNotEmpty(tenant)) {
             application.setTenantCode(tenant);
         }
@@ -58,7 +58,7 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
 
     @Override
     public PageInfo<AuthApplication> listPage(int pageNum, int pageSize, String clientId, String appName) {
-        String tenantCode = BaseContextHandler.getTenant();
+        String tenantCode = BaseContextHandler.getRealm();
         if (StringUtils.isEmpty(tenantCode)) {
             SparkZxlExceptionAssert.businessFail("领域池信息为空");
         }
@@ -103,7 +103,7 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
             application.setClientId(oauthClientDetails.getClientId());
             oauthClientDetailsRepository.updateOauthClientDetails(oauthClientDetails);
         }
-        String tenant = BaseContextHandler.getTenant();
+        String tenant = BaseContextHandler.getRealm();
         if (StringUtils.isNotEmpty(tenant)) {
             application.setTenantCode(tenant);
         }

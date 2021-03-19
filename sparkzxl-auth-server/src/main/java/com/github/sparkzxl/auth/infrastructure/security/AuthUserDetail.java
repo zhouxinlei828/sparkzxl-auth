@@ -19,7 +19,7 @@ public class AuthUserDetail<T> extends User {
 
     private T id;
 
-    private String tenant;
+    private String realm;
 
     private String name;
 

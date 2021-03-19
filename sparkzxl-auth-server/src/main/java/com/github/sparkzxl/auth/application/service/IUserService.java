@@ -115,4 +115,12 @@ public interface IUserService extends SuperCacheService<AuthUser> {
      * @return boolean
      */
     boolean deleteAuthUser(List<Long> ids);
+
+    /**
+     * 获取用户角色
+     *
+     * @param id 用户id
+     * @return List<String>
+     */
+    List<String> getAuthUserRoles(Long id);
 }

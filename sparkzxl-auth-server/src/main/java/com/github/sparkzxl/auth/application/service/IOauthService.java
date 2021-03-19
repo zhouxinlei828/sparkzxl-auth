@@ -1,6 +1,7 @@
 package com.github.sparkzxl.auth.application.service;
 
 import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
+import com.github.sparkzxl.auth.infrastructure.oauth2.AuthorizationRequest;
 import com.github.sparkzxl.core.entity.CaptchaInfo;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -29,12 +30,27 @@ public interface IOauthService {
     /**
      * POST请求授权登录
      *
-     * @param principal  认证主体
      * @param parameters 认证请求
      * @return OAuth2AccessToken
      * @throws HttpRequestMethodNotSupportedException 请求方法异常
      */
     OAuth2AccessToken postAccessToken(Principal principal, Map<String, String> parameters) throws HttpRequestMethodNotSupportedException;
+
+    /**
+     * POST请求授权登录
+     *
+     * @param authorizationRequest 授权请求参数
+     * @return AccessTokenInfo
+     */
+    AccessTokenInfo getAccessToken(AuthorizationRequest authorizationRequest);
+
+    /**
+     * POST请求授权登录
+     *
+     * @param authorizationRequest 授权请求参数
+     * @return AccessTokenInfo
+     */
+    AccessTokenInfo postAccessToken(AuthorizationRequest authorizationRequest);
 
     /**
      * 生成验证码

@@ -41,10 +41,3 @@ logging:
     com.github.sparkzxl.auth.infrastructure.mapper: debug
 open:
   sso-server-uri: http://127.0.0.1:8801
-sparkzxl:
-  xxl-job:
-    ip: 127.0.0.1
-    port: 8999
-    admin-addresses: http://127.0.0.1:8080
-    app-name: ${spring.application.name}
-    log-path: /Users/fin-9062/xxl-logs

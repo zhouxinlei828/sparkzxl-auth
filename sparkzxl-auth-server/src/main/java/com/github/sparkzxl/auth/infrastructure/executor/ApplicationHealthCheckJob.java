@@ -1,3 +1,4 @@
+/*
 package com.github.sparkzxl.auth.infrastructure.executor;
 
 import cn.hutool.http.HttpRequest;
@@ -13,12 +14,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+*/
 /**
  * description:
  *
  * @author charles.zhou
  * @date 2021-03-17 10:48:18
- */
+ *//*
+
 @Slf4j
 @Component
 public class ApplicationHealthCheckJob {
@@ -48,3 +51,4 @@ public class ApplicationHealthCheckJob {
         return ReturnT.SUCCESS;
     }
 }
+*/

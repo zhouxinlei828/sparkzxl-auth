@@ -25,10 +25,11 @@ public class JwtTokenEnhancer implements TokenEnhancer {
         additionalInfo.put("id", userDetails.getId());
         additionalInfo.put("username", userDetails.getUsername());
         additionalInfo.put("name", userDetails.getName());
-        String tenant = userDetails.getTenant();
-        if (StringUtils.isNotEmpty(tenant)) {
-            additionalInfo.put("tenant", tenant);
+        String realm = userDetails.getRealm();
+        if (StringUtils.isNotEmpty(realm)) {
+            additionalInfo.put("realm", realm);
         }
+        additionalInfo.put("realmStatus", userDetails.isRealmStatus());
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(additionalInfo);
         return oAuth2AccessToken;
     }

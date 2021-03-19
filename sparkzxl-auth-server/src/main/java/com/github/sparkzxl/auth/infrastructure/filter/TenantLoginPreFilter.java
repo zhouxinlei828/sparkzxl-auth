@@ -27,7 +27,7 @@ public class TenantLoginPreFilter extends OncePerRequestFilter {
         String authenticationFormUrl = "/authentication/form";
         if (StringUtils.equals(request.getRequestURI(), authenticationFormUrl)) {
             String tenantCode = request.getParameter("tenantCode");
-            BaseContextHandler.setTenant(tenantCode);
+            BaseContextHandler.setRealm(tenantCode);
         }
         chain.doFilter(request, response);
     }

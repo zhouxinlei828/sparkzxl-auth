@@ -28,7 +28,6 @@ import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.database.entity.RemoteData;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
-import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +40,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * description: 用户查询 服务实现类
@@ -75,19 +73,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     public AuthUserInfo<Long> getAuthUserInfo(String username) {
         AuthUser authUser = authUserRepository.selectByAccount(username);
         if (ObjectUtils.isNotEmpty(authUser)) {
-            AuthUserInfo<Long> authUserInfo = AuthUserConvert.INSTANCE.convertAuthUserInfo(authUser);
-            List<String> userRoles = authUserRepository.getAuthUserRoles(authUser.getId());
-            authUserInfo.setAuthorityList(userRoles);
-            Map<String, Object> extraInfo = Maps.newHashMap();
-            extraInfo.put("org", authUser.getOrg().getData());
-            extraInfo.put("station", authUser.getStation());
-            extraInfo.put("mobile", authUser.getMobile());
-            extraInfo.put("email", authUser.getEmail());
-            extraInfo.put("education", authUser.getEducation());
-            extraInfo.put("positionStatus", authUser.getPositionStatus());
-            extraInfo.put("realmStatus", authUser.getRealmStatus() != null && authUser.getRealmStatus());
-            authUserInfo.setExtraInfo(extraInfo);
-            return authUserInfo;
+            return UserDetailsServiceImpl.buildAuthUserInfo(authUser, authUserRepository.getAuthUserRoles(authUser.getId()));
         }
         return null;
     }
@@ -210,5 +196,10 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     @Override
     public boolean deleteAuthUser(List<Long> ids) {
         return authUserRepository.deleteAuthUser(ids);
+    }
+
+    @Override
+    public List<String> getAuthUserRoles(Long id) {
+        return authUserRepository.getAuthUserRoles(id);
     }
 }

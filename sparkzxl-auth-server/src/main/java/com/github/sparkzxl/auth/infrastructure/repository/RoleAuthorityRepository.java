@@ -54,7 +54,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
 
     @Override
     public boolean saveRoleAuthorityBatch(Long roleId, Set<Long> resourceIds, Set<Long> menuIds) {
-        String tenantCode = BaseContextHandler.getTenant();
+        String tenantCode = BaseContextHandler.getRealm();
         List<RoleAuthority> roleAuthorities = Lists.newLinkedList();
         roleAuthorityMapper.delete(new LambdaUpdateWrapper<RoleAuthority>()
                 .eq(RoleAuthority::getRoleId, roleId));

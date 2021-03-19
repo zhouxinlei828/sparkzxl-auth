@@ -94,7 +94,7 @@ public class RealmPoolRepository implements IRealmPoolRepository {
     }
 
     public void initTenantData(String tenantCode) {
-        BaseContextHandler.setTenant(tenantCode);
+        BaseContextHandler.setRealm(tenantCode);
         // 初始化管理员账户
         AuthUser authUser = new AuthUser();
         authUser.setAccount("admin");

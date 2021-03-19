@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper">
+
+    <select id="getRoleResourceList" resultType="com.github.sparkzxl.auth.infrastructure.entity.RoleResource">
+        SELECT DISTINCT arr.`code`     roleCode,
+               ar.request_url path
+        FROM auth_user_role aur
+                 INNER JOIN auth_role arr ON aur.role_id = arr.id
+                 INNER JOIN auth_role_authority aua ON aua.role_id = aur.role_id
+                 INNER JOIN auth_resource ar ON ar.id = aua.authority_id
+        WHERE ar.request_url IS NOT NULL
+        GROUP BY ar.request_url
+        ORDER BY ar.id asc
+    </select>
+
+    <select id="getRoleResource"
+            resultType="com.github.sparkzxl.auth.infrastructure.entity.RoleResource">
+        SELECT DISTINCT arr.`code`     roleCode,
+               ar.request_url path
+        FROM auth_user_role aur
+                 INNER JOIN auth_role arr ON aur.role_id = arr.id
+                 INNER JOIN auth_role_authority aua ON aua.role_id = aur.role_id
+                 INNER JOIN auth_resource ar ON ar.id = aua.authority_id
+        WHERE ar.request_url = #{requestUrl}
+    </select>
+    <select id="getById" resultType="com.github.sparkzxl.auth.infrastructure.entity.AuthUser">
+        select id,
+               account,
+               password,
+               `name`,
+               org_id     AS org,
+               station_id AS station,
+               email,
+               mobile,
+               sex,
+               status,
+               realm_status,
+               avatar,
+               nation,
+               education,
+               position_status,
+               work_describe,
+               password_error_num,
+               last_login_time,
+               update_user,
+               update_time,
+               create_user,
+               create_time
+        from auth_user
+        where id = #{id}
+    </select>
+
+    <select id="getAuthUserRoles" resultType="java.lang.String">
+        SELECT DISTINCT arr.`code`
+        FROM auth_user_role aur
+                 INNER JOIN auth_role arr ON aur.role_id = arr.id
+        WHERE aur.user_id = #{id}
+    </select>
+
+    <select id="getAuthUserPermissions" resultType="java.lang.String">
+        SELECT DISTINCT ar.request_url
+        FROM auth_user_role aur
+                 INNER JOIN auth_role_authority aua ON aua.role_id = aur.role_id
+                 INNER JOIN auth_resource ar ON ar.id = aua.authority_id
+        WHERE aur.user_id = #{id}
+          and ar.request_url IS NOT NULL
+    </select>
+</mapper>

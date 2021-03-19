@@ -1,0 +1,50 @@
+server:
+  shutdown: graceful
+  port: 8801
+  undertow:
+    buffer-size: 1024
+    direct-buffers: on
+    always-set-keep-alive: true
+spring:
+  application:
+    name: sparkzxl-auth-server
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  thymeleaf:
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.114.40.129:8848
+        namespace: 65c07321-73fa-43f5-bbea-30ac6a4e6021
+      config:
+        server-addr: 47.114.40.129:8848
+        namespace: 65c07321-73fa-43f5-bbea-30ac6a4e6021
+        file-extension: yaml
+        prefix: ${spring.application.name}
+        shared-configs:
+          - dataId: redis.yaml
+            group: DEFAULT_GROUP
+            refresh: false
+          - dataId: common.yaml
+            group: DEFAULT_GROUP
+            refresh: false
+        enable-remote-sync-config: true
+        refresh-enabled: true
+authorization:
+  logout: http://172.34.67.112:8801/logout
+logging:
+  level:
+    com.github.sparkzxl.auth.infrastructure.client: debug
+    com.github.sparkzxl.auth.infrastructure.mapper: debug
+open:
+  sso-server-uri: http://127.0.0.1:8801
+sparkzxl:
+  xxl-job:
+    ip: 127.0.0.1
+    port: 8999
+    admin-addresses: http://127.0.0.1:8080
+    app-name: ${spring.application.name}
+    log-path: /Users/fin-9062/xxl-logs

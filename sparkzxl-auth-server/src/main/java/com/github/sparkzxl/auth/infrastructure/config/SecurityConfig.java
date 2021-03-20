@@ -37,7 +37,7 @@ import java.util.List;
  * description: 安全认证
  *
  * @author charles.zhou
- * @date   2021-02-23 14:19:05
+ * @date 2021-02-23 14:19:05
  */
 @Configuration
 @EnableWebSecurity
@@ -109,7 +109,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if (!securityProperties.isCsrf()) {
             http.csrf().disable();
         }
-        http.logout().logoutUrl("/customLogout")
+        http.logout().logoutUrl("/logout")
                 .logoutSuccessHandler(logoutSuccessHandler())
                 .clearAuthentication(true)
                 .invalidateHttpSession(true)
@@ -146,8 +146,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         List<String> ignoreStaticPatterns = Lists.newArrayList();
         ignoreStaticPatterns.addAll(SwaggerStaticResource.EXCLUDE_STATIC_PATTERNS);
-        if (CollectionUtils.isNotEmpty(securityProperties.getIgnoreStaticPatterns())) {
-            ignoreStaticPatterns.addAll(securityProperties.getIgnoreStaticPatterns());
+        List<String> staticPatterns = securityProperties.getIgnoreStaticPatterns();
+        if (CollectionUtils.isNotEmpty(staticPatterns)) {
+            ignoreStaticPatterns.addAll(staticPatterns);
         }
         web.ignoring().antMatchers(ArrayUtil.toArray(ignoreStaticPatterns, String.class));
         StrictHttpFirewall firewall = new StrictHttpFirewall();

@@ -1,6 +1,7 @@
 package com.github.sparkzxl.auth.infrastructure.repository;
 
 import cn.hutool.core.io.resource.ResourceUtil;
+import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
@@ -102,7 +103,7 @@ public class RealmPoolRepository implements IRealmPoolRepository {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean saveRealmPool(RealmPool realmPool) {
-        String realmCode = segmentRepository.getIdSegment("realm_code").toString();
+        String realmCode = IdUtil.objectId();
         realmPool.setCode(realmCode);
         realmPoolMapper.insert(realmPool);
         initTenantData(realmCode);

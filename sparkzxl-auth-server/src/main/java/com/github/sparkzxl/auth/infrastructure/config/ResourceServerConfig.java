@@ -20,7 +20,7 @@ import java.util.List;
  * description: 资源服务器
  *
  * @author charles.zhou
- * @date   2021-02-01 11:30:00
+ * @date 2021-02-01 11:30:00
  */
 @Configuration
 @EnableResourceServer
@@ -38,11 +38,16 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         RestAuthenticationEntryPoint restAuthenticationEntryPoint = new RestAuthenticationEntryPoint();
         RestfulAccessDeniedHandler restfulAccessDeniedHandler = new RestfulAccessDeniedHandler();
-        List<String> excludeStaticPatterns = securityProperties.getIgnorePatterns();
-        if (CollectionUtils.isEmpty(excludeStaticPatterns)) {
-            excludeStaticPatterns = Lists.newArrayList();
-        }
+        List<String> excludeStaticPatterns = Lists.newArrayList();
         excludeStaticPatterns.addAll(SwaggerStaticResource.EXCLUDE_STATIC_PATTERNS);
+        List<String> ignorePatterns = securityProperties.getIgnorePatterns();
+        if (CollectionUtils.isNotEmpty(ignorePatterns)) {
+            excludeStaticPatterns.addAll(ignorePatterns);
+        }
+        List<String> ignoreStaticPatterns = securityProperties.getIgnoreStaticPatterns();
+        if (CollectionUtils.isNotEmpty(ignoreStaticPatterns)) {
+            excludeStaticPatterns.addAll(ignoreStaticPatterns);
+        }
         http.authorizeRequests()
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                 .antMatchers(ListUtils.listToArray(excludeStaticPatterns)).permitAll()

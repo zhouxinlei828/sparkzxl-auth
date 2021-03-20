@@ -101,7 +101,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        jwtAccessTokenConverter.setSigningKey("sparkzxl");
+        jwtAccessTokenConverter.setSigningKey("SparkAuth");
         if (ObjectUtils.isNotEmpty(keyStoreProperties) && keyStoreProperties.isEnable()) {
             KeyPair keyPair = HuSecretUtils.keyPair(keyStoreProperties.getPath(),
                     keyStoreProperties.getAlias(), keyStoreProperties.getPassword());

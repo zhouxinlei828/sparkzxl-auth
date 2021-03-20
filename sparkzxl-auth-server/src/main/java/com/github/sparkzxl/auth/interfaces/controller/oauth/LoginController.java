@@ -1,7 +1,16 @@
 package com.github.sparkzxl.auth.interfaces.controller.oauth;
 
+import com.github.sparkzxl.auth.application.service.IOauthService;
+import com.github.sparkzxl.auth.application.service.IRealmPoolService;
+import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
+import com.github.sparkzxl.auth.infrastructure.oauth2.AuthorizationRequest;
+import com.github.sparkzxl.core.annotation.ResponseResult;
+import com.github.sparkzxl.core.entity.CaptchaInfo;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * description: 登录管理
@@ -12,6 +21,66 @@ import org.springframework.stereotype.Controller;
 @Controller
 @Api(tags = "登录管理")
 public class LoginController {
+
+    private IOauthService oauthService;
+    private IRealmPoolService realmPoolService;
+
+    @Autowired
+    public void setOauthService(IOauthService oauthService) {
+        this.oauthService = oauthService;
+    }
+
+    @Autowired
+    public void setRealmPoolService(IRealmPoolService realmPoolService) {
+        this.realmPoolService = realmPoolService;
+    }
+
+    @ApiOperation(value = "登录页面", notes = "登录页面")
+    @RequestMapping(value = "/authentication/require", produces = "text/html;charset=UTF-8", method = RequestMethod.GET)
+    @CrossOrigin(origins = "*", allowCredentials = "true")
+    public String require() {
+        return "login";
+    }
+
+    @ApiOperation(value = "GET授权登录端口", notes = "GET授权登录端口")
+    @GetMapping("/authentication/token")
+    @ResponseResult
+    @ResponseBody
+    public AccessTokenInfo getAccessToken(AuthorizationRequest authorizationRequest) {
+        return oauthService.getAccessToken(authorizationRequest);
+    }
+
+    @ApiOperation(value = "POST授权登录端口", notes = "POST授权登录端口")
+    @PostMapping("/authentication/token")
+    @ResponseResult
+    @ResponseBody
+    public AccessTokenInfo postAccessToken(@RequestBody AuthorizationRequest authorizationRequest) {
+        return oauthService.postAccessToken(authorizationRequest);
+    }
+
+    @ApiOperation(value = "验证码", notes = "验证码")
+    @GetMapping(value = "/authentication/captcha")
+    @ResponseResult
+    @ResponseBody
+    public CaptchaInfo captcha(@RequestParam(value = "type") String type) {
+        return oauthService.createCaptcha(type);
+    }
+
+    @ApiOperation(value = "验证验证码", notes = "验证验证码")
+    @GetMapping(value = "/authentication/checkCaptcha")
+    @ResponseResult
+    @ResponseBody
+    public boolean checkCaptcha(@RequestParam(value = "key") String key, @RequestParam(value = "code") String code) {
+        return oauthService.checkCaptcha(key, code);
+    }
+
+    @ApiOperation(value = "校验领域池信息", notes = "校验领域池信息")
+    @GetMapping(value = "/authentication/checkTenant")
+    @ResponseResult
+    @ResponseBody
+    public boolean checkRealmCode(@RequestParam(value = "realmCode") String realmCode) {
+        return realmPoolService.checkRealmCode(realmCode);
+    }
 
 
 }

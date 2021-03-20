@@ -35,24 +35,10 @@ import java.security.Principal;
 public class OauthController {
 
     private IOauthService oauthService;
-    private IRealmPoolService tenantInfoService;
 
     @Autowired
     public void setOauthService(IOauthService oauthService) {
         this.oauthService = oauthService;
-    }
-
-    @Autowired
-    public void setTenantInfoService(IRealmPoolService tenantInfoService) {
-        this.tenantInfoService = tenantInfoService;
-    }
-
-    @ApiOperation(value = "登录页面", notes = "登录页面")
-    @RequestMapping(value = "/authentication/require", produces = "text/html;charset=UTF-8", method = RequestMethod.GET)
-    @CrossOrigin(origins = "*", allowCredentials = "true")
-    public String require(HttpServletResponse httpServletResponse) {
-        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
-        return "login";
     }
 
     @ApiOperation(value = "获取授权登录地址", notes = "获取授权登录地址")
@@ -62,46 +48,6 @@ public class OauthController {
     public String getAuthorizeUrl(@RequestParam(value = "clientId", required = false) String clientId,
                                   @RequestParam(value = "frontUrl", required = false) String frontUrl) {
         return oauthService.getAuthorizeUrl(clientId, frontUrl);
-    }
-
-    @ApiOperation(value = "GET授权登录端口", notes = "GET授权登录端口")
-    @GetMapping("/sso/token")
-    @ResponseResult
-    @ResponseBody
-    public AccessTokenInfo getAccessToken(AuthorizationRequest authorizationRequest){
-        return oauthService.getAccessToken(authorizationRequest);
-    }
-
-    @ApiOperation(value = "POST授权登录端口", notes = "POST授权登录端口")
-    @PostMapping("/sso/token")
-    @ResponseResult
-    @ResponseBody
-    public AccessTokenInfo postAccessToken(@RequestBody AuthorizationRequest authorizationRequest){
-        return oauthService.postAccessToken(authorizationRequest);
-    }
-
-    @ApiOperation(value = "验证码", notes = "验证码")
-    @GetMapping(value = "/oauth/captcha")
-    @ResponseResult
-    @ResponseBody
-    public CaptchaInfo captcha(@RequestParam(value = "type") String type) {
-        return oauthService.createCaptcha(type);
-    }
-
-    @ApiOperation(value = "验证验证码", notes = "验证验证码")
-    @GetMapping(value = "/oauth/checkCaptcha")
-    @ResponseResult
-    @ResponseBody
-    public boolean checkCaptcha(@RequestParam(value = "key") String key, @RequestParam(value = "code") String code) {
-        return oauthService.checkCaptcha(key, code);
-    }
-
-    @ApiOperation(value = "校验领域池信息", notes = "校验领域池信息")
-    @GetMapping(value = "/oauth/checkTenant")
-    @ResponseResult
-    @ResponseBody
-    public boolean checkRealmCode(@RequestParam(value = "realmCode") String realmCode) {
-        return tenantInfoService.checkRealmCode(realmCode);
     }
 
     @ApiOperation(value = "授权成功回调接口", notes = "授权成功回调接口")

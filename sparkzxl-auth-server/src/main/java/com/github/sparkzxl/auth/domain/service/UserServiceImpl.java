@@ -13,6 +13,7 @@ import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
 import com.github.sparkzxl.auth.domain.model.vo.AuthUserBasicVO;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
+import com.github.sparkzxl.auth.domain.repository.IRealmManagerRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
@@ -40,6 +41,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * description: 用户查询 服务实现类
@@ -53,6 +55,8 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
 
     @Autowired
     private IAuthUserRepository authUserRepository;
+    @Autowired
+    private IRealmManagerRepository realmManagerRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -157,14 +161,21 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     }
 
     @Override
-    public AuthUserBasicVO getAuthUserBasicInfo(Long userId) {
-        AuthUserBasicInfo authUserBasicInfo = authUserRepository.getAuthUserBasicInfo(userId);
+    public AuthUserBasicVO getAuthUserBasicInfo(AuthUserInfo<Long> authUserInfo) {
+        Map<String, Object> extraInfo = authUserInfo.getExtraInfo();
+        boolean realmStatus = (boolean) extraInfo.get("realmStatus");
+        AuthUserBasicInfo authUserBasicInfo;
+        if (realmStatus) {
+            authUserBasicInfo = realmManagerRepository.getAuthUserBasicInfo(authUserInfo.getId());
+        } else {
+            authUserBasicInfo = authUserRepository.getAuthUserBasicInfo(authUserInfo.getId());
+        }
         return AuthUserConvert.INSTANCE.convertAuthUserBasicVO(authUserBasicInfo);
     }
 
     @Override
-    public List<MenuBasicInfo> routers(Long userId) {
-        return authMenuService.routers(userId);
+    public List<MenuBasicInfo> routers(Long userId, String realmCode) {
+        return authMenuService.routers(userId,realmCode);
     }
 
     @Override

@@ -48,9 +48,9 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
             application.setClientId(oauthClientDetails.getClientId());
             oauthClientDetailsRepository.saveOauthClientDetails(oauthClientDetails);
         }
-        String tenant = BaseContextHandler.getRealm();
-        if (StringUtils.isNotEmpty(tenant)) {
-            application.setTenantCode(tenant);
+        String realmCode = BaseContextHandler.getRealm();
+        if (StringUtils.isNotEmpty(realmCode)) {
+            application.setRealmCode(realmCode);
         }
         authApplicationMapper.insert(application);
         return true;
@@ -58,12 +58,12 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
 
     @Override
     public PageInfo<AuthApplication> listPage(int pageNum, int pageSize, String clientId, String appName) {
-        String tenantCode = BaseContextHandler.getRealm();
-        if (StringUtils.isEmpty(tenantCode)) {
+        String realmCode = BaseContextHandler.getRealm();
+        if (StringUtils.isEmpty(realmCode)) {
             SparkZxlExceptionAssert.businessFail("领域池信息为空");
         }
         PageHelper.startPage(pageNum, pageSize);
-        List<AuthApplication> authApplications = authApplicationMapper.listPage(tenantCode, clientId, appName);
+        List<AuthApplication> authApplications = authApplicationMapper.listPage(realmCode, clientId, appName);
         PageInfo<AuthApplication> authApplicationPageInfo = PageInfoUtils.pageInfo(authApplications);
         List<AuthApplication> applicationList = authApplicationPageInfo.getList();
         if (CollectionUtils.isNotEmpty(applicationList)) {
@@ -103,9 +103,9 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
             application.setClientId(oauthClientDetails.getClientId());
             oauthClientDetailsRepository.updateOauthClientDetails(oauthClientDetails);
         }
-        String tenant = BaseContextHandler.getRealm();
-        if (StringUtils.isNotEmpty(tenant)) {
-            application.setTenantCode(tenant);
+        String realmCode = BaseContextHandler.getRealm();
+        if (StringUtils.isNotEmpty(realmCode)) {
+            application.setRealmCode(realmCode);
         }
         authApplicationMapper.updateById(application);
         return true;

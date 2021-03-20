@@ -35,10 +35,11 @@ public interface IMenuService extends SuperCacheService<AuthMenu> {
     /**
      * 查询用户路由菜单
      *
-     * @param 用户id
+     * @param userId 用户id
+     * @param realmCode 领域code
      * @return List<MenuBasicInfo>
      */
-    List<MenuBasicInfo> routers(Long userId);
+    List<MenuBasicInfo> routers(Long userId, String realmCode);
 
     /**
      * 保存菜单信息

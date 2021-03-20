@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.domain.repository;
 
+import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
 import com.github.sparkzxl.auth.infrastructure.entity.RealmManager;
-import com.github.sparkzxl.core.entity.AuthUserInfo;
 
 /**
  * description: 领域管理员仓储层
@@ -19,4 +19,11 @@ public interface IRealmManagerRepository {
      */
     RealmManager selectByAccount(String account);
 
+    /**
+     * 获取用户基本信息
+     *
+     * @param id 用户id
+     * @return AuthUserBasicInfo
+     */
+    AuthUserBasicInfo getAuthUserBasicInfo(Long id);
 }

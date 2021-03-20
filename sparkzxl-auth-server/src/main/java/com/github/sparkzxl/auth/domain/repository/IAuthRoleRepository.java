@@ -29,7 +29,7 @@ public interface IAuthRoleRepository {
 
     /**
      * 根据领域池code删除角色信息
-     * @param tenantCode 领域池code
+     * @param realmCode 领域池code
      */
-    void deleteAuthRole(String tenantCode);
+    void deleteAuthRole(String realmCode);
 }

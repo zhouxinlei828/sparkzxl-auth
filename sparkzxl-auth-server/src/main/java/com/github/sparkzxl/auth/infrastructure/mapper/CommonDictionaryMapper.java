@@ -18,9 +18,9 @@ public interface CommonDictionaryMapper extends SuperMapper<CommonDictionary> {
     /**
      * 根据领域池code删除字典类型
      *
-     * @param tenantCode 领域池code
+     * @param realmCode 领域池code
      */
-    @Delete("delete from common_dictionary where tenant_code = #{tenantCode}")
+    @Delete("delete from common_dictionary where realm_code = #{realmCode}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteTenantDictionary(String tenantCode);
+    void deleteTenantDictionary(String realmCode);
 }

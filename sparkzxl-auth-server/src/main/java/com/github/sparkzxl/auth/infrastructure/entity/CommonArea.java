@@ -31,6 +31,6 @@ public class CommonArea extends TreeEntity<CommonArea, Long> {
     private String level;
 
     @ApiModelProperty(value = "领域池code")
-    @TableField("tenant_code")
-    private String tenantCode;
+    @TableField("realm_code")
+    private String RealmCode;
 }

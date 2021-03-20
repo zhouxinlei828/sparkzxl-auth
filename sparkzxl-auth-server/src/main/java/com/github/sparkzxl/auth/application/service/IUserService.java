@@ -79,18 +79,19 @@ public interface IUserService extends SuperCacheService<AuthUser> {
     /**
      * 获取登录用户全量信息
      *
-     * @param userId 用户id
+     * @param authUserInfo 全局用户
      * @return AuthUserBasicVO
      */
-    AuthUserBasicVO getAuthUserBasicInfo(Long userId);
+    AuthUserBasicVO getAuthUserBasicInfo(AuthUserInfo<Long> authUserInfo);
 
     /**
      * 用户菜单
      *
-     * @param userId 用户id
+     * @param userId    用户id
+     * @param realmCode 领域code
      * @return List<MenuBasicInfo>
      */
-    List<MenuBasicInfo> routers(Long userId);
+    List<MenuBasicInfo> routers(Long userId, String realmCode);
 
     /**
      * Excel导入用户数据

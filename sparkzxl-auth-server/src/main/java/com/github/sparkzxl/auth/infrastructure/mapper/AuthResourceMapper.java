@@ -36,9 +36,9 @@ public interface AuthResourceMapper extends SuperMapper<AuthResource> {
     /**
      * 根据领域池code删除资源
      *
-     * @param tenantCode 领域池code
+     * @param RealmCode 领域池code
      */
-    @Delete("delete from auth_resource where tenant_code = #{tenantCode}")
+    @Delete("delete from auth_resource where realm_code = #{RealmCode}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteTenantResource(String tenantCode);
+    void deleteTenantResource(String RealmCode);
 }

@@ -18,9 +18,9 @@ public interface CoreStationMapper extends SuperMapper<CoreStation> {
     /**
      * 根据领域池code删除岗位
      *
-     * @param tenantCode 领域池code
+     * @param realmCode 领域池code
      */
-    @Delete("delete from core_station where tenant_code = #{tenantCode}")
+    @Delete("delete from core_station where realm_code = #{realmCode}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteTenantStation(String tenantCode);
+    void deleteTenantStation(String realmCode);
 }

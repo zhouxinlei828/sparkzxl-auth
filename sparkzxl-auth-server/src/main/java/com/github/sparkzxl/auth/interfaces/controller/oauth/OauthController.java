@@ -100,8 +100,8 @@ public class OauthController {
     @GetMapping(value = "/oauth/checkTenant")
     @ResponseResult
     @ResponseBody
-    public boolean checkTenantCode(@RequestParam(value = "tenantCode") String tenantCode) {
-        return tenantInfoService.checkTenantCode(tenantCode);
+    public boolean checkRealmCode(@RequestParam(value = "realmCode") String realmCode) {
+        return tenantInfoService.checkRealmCode(realmCode);
     }
 
     @ApiOperation(value = "授权成功回调接口", notes = "授权成功回调接口")

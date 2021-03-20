@@ -56,9 +56,9 @@ public interface IAuthResourceRepository {
     /**
      * 根据领域池code删除资源
      *
-     * @param tenantCode 领域池code
+     * @param RealmCode 领域池code
      */
-    void deleteTenantResource(String tenantCode);
+    void deleteTenantResource(String RealmCode);
 
     /**
      * 更新资源

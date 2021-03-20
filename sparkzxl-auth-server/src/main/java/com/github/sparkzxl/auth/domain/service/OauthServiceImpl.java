@@ -87,7 +87,7 @@ public class OauthServiceImpl implements IOauthService {
     @SneakyThrows
     @Override
     public OAuth2AccessToken getAccessToken(Principal principal, Map<String, String> parameters) {
-        checkTenantCode();
+        checkRealmCode();
         String captcha = parameters.get("captchaCode");
         if (StringUtils.isNotEmpty(captcha)) {
             String captchaKey = parameters.get("captchaKey");
@@ -113,7 +113,7 @@ public class OauthServiceImpl implements IOauthService {
     @SneakyThrows
     @Override
     public OAuth2AccessToken postAccessToken(Principal principal, Map<String, String> parameters) {
-        checkTenantCode();
+        checkRealmCode();
         String captcha = parameters.get("captchaCode");
         if (StringUtils.isNotEmpty(captcha)) {
             String captchaKey = parameters.get("captchaKey");
@@ -175,11 +175,11 @@ public class OauthServiceImpl implements IOauthService {
         redisTemplate.expire(authUserInfoKey, oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);
     }
 
-    private void checkTenantCode() {
+    private void checkRealmCode() {
         boolean success = true;
-        String tenantCode = RequestContextHolderUtils.getHeader(BaseContextConstants.JWT_KEY_REALM);
-        if (StringUtils.isNotEmpty(tenantCode)) {
-            int count = tenantService.count(new LambdaQueryWrapper<RealmPool>().eq(RealmPool::getCode, tenantCode));
+        String realmCode = RequestContextHolderUtils.getHeader(BaseContextConstants.JWT_KEY_REALM);
+        if (StringUtils.isNotEmpty(realmCode)) {
+            int count = tenantService.count(new LambdaQueryWrapper<RealmPool>().eq(RealmPool::getCode, realmCode));
             success = count > 0;
         }
         if (!success) {
@@ -200,7 +200,7 @@ public class OauthServiceImpl implements IOauthService {
         Option.of(authorizationRequest.getRefreshToken()).peek(value -> parameters.put("refresh_token", value));
         Option.of(authorizationRequest.getUsername()).peek(value -> parameters.put("username", value));
         Option.of(authorizationRequest.getPassword()).peek(value -> parameters.put("password", value));
-        ClientDetails clientDetails = clientDetailsService.loadClientByClientId(openProperties.getAppId());
+        ClientDetails clientDetails = clientDetailsService.loadClientByClientId(authorizationRequest.getClientId());
         parameters.put("client_id", clientDetails.getClientId());
         parameters.put("client_secret", clientDetails.getClientSecret());
         Set<String> detailsScope = clientDetails.getScope();

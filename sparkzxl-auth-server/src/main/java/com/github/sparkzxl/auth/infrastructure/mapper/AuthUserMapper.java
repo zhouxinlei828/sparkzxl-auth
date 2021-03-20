@@ -1,8 +1,9 @@
 package com.github.sparkzxl.auth.infrastructure.mapper;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
+import com.github.sparkzxl.auth.domain.model.aggregates.UserCount;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
-import com.github.sparkzxl.auth.infrastructure.entity.RoleResource;
+import com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo;
 import com.github.sparkzxl.database.annonation.InjectionResult;
 import com.github.sparkzxl.database.base.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Delete;
@@ -44,7 +45,7 @@ public interface AuthUserMapper extends SuperMapper<AuthUser> {
      * @return List<RoleResource>
      */
     @InterceptorIgnore(tenantLine = "true")
-    List<RoleResource> getRoleResourceList();
+    List<RoleResourceInfo> getRoleResourceList();
 
     /**
      * 根据请求路径查询角色
@@ -52,8 +53,7 @@ public interface AuthUserMapper extends SuperMapper<AuthUser> {
      * @param requestUrl 请求路径
      * @return RoleResource
      */
-    @InterceptorIgnore(tenantLine = "true")
-    RoleResource getRoleResource(@Param("requestUrl") String requestUrl);
+    RoleResourceInfo getRoleResource(@Param("requestUrl") String requestUrl);
 
     /**
      * 根据id查询用户信息
@@ -67,9 +67,17 @@ public interface AuthUserMapper extends SuperMapper<AuthUser> {
     /**
      * 根据领域池code删除用户
      *
-     * @param tenantCode 领域池code
+     * @param RealmCode 领域池code
      */
-    @Delete("delete from auth_user where tenant_code = #{tenantCode}")
+    @Delete("delete from auth_user where realm_code = #{RealmCode}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteTenantUser(String tenantCode);
+    void deleteTenantUser(String RealmCode);
+
+    /**
+     * 根据领域统计用户数量
+     *
+     * @param realmCodeList 领域池codeList
+     * @return
+     */
+    List<UserCount> userCount(@Param("realmCodeList") List<String> realmCodeList);
 }

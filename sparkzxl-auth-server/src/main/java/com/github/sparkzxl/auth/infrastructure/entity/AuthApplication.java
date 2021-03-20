@@ -63,8 +63,8 @@ public class AuthApplication extends Entity<Long> {
     private String originalClientSecret;
 
     @ApiModelProperty(value = "领域池code")
-    @TableField("tenant_code")
-    private String tenantCode;
+    @TableField("realm_code")
+    private String realmCode;
 
     @ApiModelProperty(value = "应用客户端")
     @TableField(exist = false)

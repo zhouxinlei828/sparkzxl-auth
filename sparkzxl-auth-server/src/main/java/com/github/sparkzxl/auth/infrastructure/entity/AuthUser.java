@@ -107,8 +107,8 @@ public class AuthUser extends Entity<Long> {
     private LocalDateTime lastLoginTime;
 
     @ApiModelProperty(value = "领域池code")
-    @TableField("tenant_code")
-    private String tenantCode;
+    @TableField("realm_code")
+    private String realmCode;
 
     @ApiModelProperty(value = "密码")
     @TableField(exist = false)
@@ -117,9 +117,5 @@ public class AuthUser extends Entity<Long> {
     @ApiModelProperty(value = "状态 1启用 0禁用")
     @TableField("status")
     private Boolean status;
-
-    @ApiModelProperty(value = "是否领域用户 0否 1是")
-    @TableField("realm_status")
-    private Boolean realmStatus;
 
 }

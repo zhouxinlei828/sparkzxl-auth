@@ -41,7 +41,7 @@ public class CoreOrg extends TreeEntity<CoreOrg, Long> {
     private String describe;
 
     @ApiModelProperty(value = "领域池code")
-    @TableField("tenant_code")
-    private String tenantCode;
+    @TableField("realm_code")
+    private String realmCode;
 
 }

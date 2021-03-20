@@ -18,9 +18,9 @@ public interface CoreOrgMapper extends SuperMapper<CoreOrg> {
     /**
      * 根据领域池code删除组织信息
      *
-     * @param tenantCode 领域池code
+     * @param realmCode 领域池code
      */
-    @Delete("delete from core_org where tenant_code = #{tenantCode}")
+    @Delete("delete from core_org where realm_code = #{realmCode}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteTenantOrg(String tenantCode);
+    void deleteTenantOrg(String realmCode);
 }

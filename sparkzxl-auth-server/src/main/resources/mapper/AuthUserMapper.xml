@@ -2,22 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper">
 
-    <select id="getRoleResourceList" resultType="com.github.sparkzxl.auth.infrastructure.entity.RoleResource">
+    <select id="getRoleResourceList" resultType="com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo">
         SELECT DISTINCT arr.`code`     roleCode,
-               ar.request_url path
+                        arr.realm_code realmCode,
+                        ar.request_url path
         FROM auth_user_role aur
                  INNER JOIN auth_role arr ON aur.role_id = arr.id
                  INNER JOIN auth_role_authority aua ON aua.role_id = aur.role_id
                  INNER JOIN auth_resource ar ON ar.id = aua.authority_id
         WHERE ar.request_url IS NOT NULL
-        GROUP BY ar.request_url
-        ORDER BY ar.id asc
+        GROUP BY arr.realm_code,
+                 ar.request_url
+        ORDER BY ar.id ASC
     </select>
 
     <select id="getRoleResource"
-            resultType="com.github.sparkzxl.auth.infrastructure.entity.RoleResource">
+            resultType="com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo">
         SELECT DISTINCT arr.`code`     roleCode,
-               ar.request_url path
+                        arr.realm_code realmCode,
+                        ar.request_url path
         FROM auth_user_role aur
                  INNER JOIN auth_role arr ON aur.role_id = arr.id
                  INNER JOIN auth_role_authority aua ON aua.role_id = aur.role_id
@@ -35,7 +38,6 @@
                mobile,
                sex,
                status,
-               realm_status,
                avatar,
                nation,
                education,
@@ -65,5 +67,16 @@
                  INNER JOIN auth_resource ar ON ar.id = aua.authority_id
         WHERE aur.user_id = #{id}
           and ar.request_url IS NOT NULL
+    </select>
+    <select id="userCount" resultType="com.github.sparkzxl.auth.domain.model.aggregates.UserCount">
+        SELECT COUNT( realm_code ) count,
+        realm_code realmCode
+        FROM auth_user WHERE realm_code
+        in
+        <foreach item="realmCode" index="index" collection="realmCodeList" open="(" separator="," close=")">
+            #{realmCode}
+        </foreach>
+        GROUP BY
+        realm_code
     </select>
 </mapper>

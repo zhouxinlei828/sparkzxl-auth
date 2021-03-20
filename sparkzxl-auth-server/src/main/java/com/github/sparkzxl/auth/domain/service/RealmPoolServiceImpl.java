@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.application.service.IRealmPoolService;
 import com.github.sparkzxl.auth.domain.repository.IRealmPoolRepository;
-import com.github.sparkzxl.auth.infrastructure.convert.TenantConvert;
+import com.github.sparkzxl.auth.infrastructure.convert.RealmPoolConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.RealmPool;
 import com.github.sparkzxl.auth.infrastructure.mapper.RealmPoolMapper;
 import com.github.sparkzxl.auth.interfaces.dto.realm.RealmPoolQueryDTO;
@@ -37,13 +37,13 @@ public class RealmPoolServiceImpl extends SuperCacheServiceImpl<RealmPoolMapper,
 
     @Override
     public boolean saveRealmPool(RealmPoolSaveDTO realmPoolSaveDTO) {
-        RealmPool tenant = TenantConvert.INSTANCE.convertRealmPool(realmPoolSaveDTO);
+        RealmPool tenant = RealmPoolConvert.INSTANCE.convertRealmPool(realmPoolSaveDTO);
         return tenantRepository.saveRealmPool(tenant);
     }
 
     @Override
     public boolean updateRealmPool(RealmPoolUpdateDTO realmPoolUpdateDTO) {
-        RealmPool tenant = TenantConvert.INSTANCE.convertRealmPool(realmPoolUpdateDTO);
+        RealmPool tenant = RealmPoolConvert.INSTANCE.convertRealmPool(realmPoolUpdateDTO);
         return tenantRepository.updateRealmPool(tenant);
     }
 
@@ -58,8 +58,8 @@ public class RealmPoolServiceImpl extends SuperCacheServiceImpl<RealmPoolMapper,
     }
 
     @Override
-    public boolean checkTenantCode(String tenantCode) {
-        return count(new LambdaQueryWrapper<RealmPool>().eq(RealmPool::getCode, tenantCode)) == 1;
+    public boolean checkRealmCode(String RealmCode) {
+        return count(new LambdaQueryWrapper<RealmPool>().eq(RealmPool::getCode, RealmCode)) == 1;
     }
 
     @Override

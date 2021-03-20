@@ -54,9 +54,9 @@ public class AuthRoleRepository implements IAuthRoleRepository {
     }
 
     @Override
-    public void deleteAuthRole(String tenantCode) {
-        userRoleMapper.deleteUserRole(tenantCode);
-        roleAuthorityMapper.deleteRoleAuthority(tenantCode);
-        authRoleMapper.deleteAuthRole(tenantCode);
+    public void deleteAuthRole(String realmCode) {
+        userRoleMapper.deleteUserRole(realmCode);
+        roleAuthorityMapper.deleteRoleAuthority(realmCode);
+        authRoleMapper.deleteAuthRole(realmCode);
     }
 }

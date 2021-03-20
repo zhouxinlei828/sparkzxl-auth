@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -71,14 +72,15 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
 
     @ApiOperation(value = "用户路由菜单", notes = "用户路由菜单")
     @GetMapping("/routers")
-    public List<MenuBasicInfo> routers(@ApiIgnore AuthUserInfo<Long> authUserInfo) {
-        return baseService.routers(authUserInfo.getId());
+    public List<MenuBasicInfo> routers(@ApiIgnore AuthUserInfo<Long> authUserInfo,
+                                       @RequestParam(value = "realmCode", required = false) String realmCode) {
+        return baseService.routers(authUserInfo.getId(),realmCode);
     }
 
     @ApiOperation("获取用户基本信息")
     @GetMapping("/userinfo")
     public AuthUserBasicVO getAuthUserBasicInfo(@ApiIgnore AuthUserInfo<Long> authUserInfo) {
-        return baseService.getAuthUserBasicInfo(authUserInfo.getId());
+        return baseService.getAuthUserBasicInfo(authUserInfo);
     }
 
     @ApiOperation("生成用户测试数据")

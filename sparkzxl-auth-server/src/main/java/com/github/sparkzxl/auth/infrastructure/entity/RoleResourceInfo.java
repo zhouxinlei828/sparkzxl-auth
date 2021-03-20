@@ -11,11 +11,13 @@ import java.io.Serializable;
  * @date   2020-08-02 22:02:47
  */
 @Data
-public class RoleResource implements Serializable {
+public class RoleResourceInfo implements Serializable {
 
     private static final long serialVersionUID = -7571401319154555650L;
 
     private String roleCode;
+
+    private String realmCode;
 
     private String path;
 

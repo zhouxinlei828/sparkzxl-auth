@@ -60,8 +60,8 @@ public interface IRealmPoolService extends SuperCacheService<RealmPool> {
     /**
      * check 领域池信息
      *
-     * @param tenantCode 领域池code
+     * @param realmCode 领域池code
      * @return boolean
      */
-    boolean checkTenantCode(String tenantCode);
+    boolean checkRealmCode(String realmCode);
 }

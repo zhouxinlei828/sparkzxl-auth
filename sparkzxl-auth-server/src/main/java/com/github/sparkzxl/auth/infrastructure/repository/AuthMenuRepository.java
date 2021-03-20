@@ -49,59 +49,67 @@ public class AuthMenuRepository implements IAuthMenuRepository {
 
 
     @Override
-    public List<MenuBasicInfo> getAuthMenuList(Long userId) {
-        List<Long> roleIds =
-                userRoleMapper.selectList(new LambdaUpdateWrapper<UserRole>().eq(UserRole::getUserId, userId)).stream().map(UserRole::getRoleId)
-                        .collect(Collectors.toList());
-        if (CollectionUtils.isNotEmpty(roleIds)) {
-            List<RoleAuthority> roleAuthorities =
-                    roleAuthorityMapper.selectList(new LambdaQueryWrapper<RoleAuthority>().in(RoleAuthority::getRoleId, roleIds)
-                            .groupBy(RoleAuthority::getAuthorityId, RoleAuthority::getAuthorityType, RoleAuthority::getRoleId));
-            List<Long> menuIds = roleAuthorities.stream().filter(x -> "MENU".equals(x.getAuthorityType()))
-                    .map(RoleAuthority::getAuthorityId).collect(Collectors.toList());
+    public List<MenuBasicInfo> getAuthMenuList(Long userId, String realmCode) {
+        List<MenuBasicInfo> menuBasicInfoList = Lists.newArrayList();
+        if (StringUtils.isNotEmpty(realmCode)) {
+            List<AuthMenu> menuList = authMenuMapper.selectListByRealm(realmCode);
+            buildMenuBasicInfo(menuBasicInfoList, menuList);
+        } else {
+            List<Long> roleIds =
+                    userRoleMapper.selectList(new LambdaUpdateWrapper<UserRole>().eq(UserRole::getUserId, userId)).stream().map(UserRole::getRoleId)
+                            .collect(Collectors.toList());
+            if (CollectionUtils.isNotEmpty(roleIds)) {
+                List<RoleAuthority> roleAuthorities =
+                        roleAuthorityMapper.selectList(new LambdaQueryWrapper<RoleAuthority>().in(RoleAuthority::getRoleId, roleIds)
+                                .groupBy(RoleAuthority::getAuthorityId, RoleAuthority::getAuthorityType, RoleAuthority::getRoleId));
+                List<Long> menuIds = roleAuthorities.stream().filter(x -> "MENU".equals(x.getAuthorityType()))
+                        .map(RoleAuthority::getAuthorityId).collect(Collectors.toList());
 
-            if (CollectionUtils.isNotEmpty(menuIds)) {
-                List<AuthMenu> menuList = authMenuMapper.selectBatchIds(menuIds);
-                menuList = menuList.stream().sorted(Comparator.comparing(AuthMenu::getSortValue)).collect(Collectors.toList());
-                List<MenuBasicInfo> menuBasicInfos = Lists.newArrayList();
-                if (CollectionUtils.isNotEmpty(menuList)) {
-                    menuList.forEach(menu -> {
-                        MenuBasicInfo menuBasicInfo = new MenuBasicInfo();
-                        menuBasicInfo.setId(menu.getId());
-                        menuBasicInfo.setLabel(menu.getLabel());
-                        menuBasicInfo.setIcon(menu.getIcon());
-                        menuBasicInfo.setPath(menu.getPath());
-                        menuBasicInfo.setRedirect(menu.getRedirect());
-                        menuBasicInfo.setComponent(menu.getComponent());
-                        menuBasicInfo.setComponentName(menu.getComponentName());
-                        menuBasicInfo.setHidden(menu.isHidden());
-                        menuBasicInfo.setNoKeepAlive(menu.isNoKeepAlive());
-                        menuBasicInfo.setParentId(menu.getParentId());
-                        menuBasicInfo.setSortValue(menu.getSortValue());
-                        menuBasicInfos.add(menuBasicInfo);
-                    });
-                    return TreeUtils.buildTree(menuBasicInfos);
+                if (CollectionUtils.isNotEmpty(menuIds)) {
+                    List<AuthMenu> menuList = authMenuMapper.selectBatchIds(menuIds);
+                    buildMenuBasicInfo(menuBasicInfoList, menuList);
                 }
             }
         }
-        return Lists.newArrayList();
+        return TreeUtils.buildTree(menuBasicInfoList);
+    }
+
+    private void buildMenuBasicInfo(List<MenuBasicInfo> menuBasicInfoList, List<AuthMenu> menuList) {
+        menuList = menuList.stream().sorted(Comparator.comparing(AuthMenu::getSortValue)).collect(Collectors.toList());
+        if (CollectionUtils.isNotEmpty(menuList)) {
+            menuList.forEach(menu -> {
+                MenuBasicInfo menuBasicInfo = new MenuBasicInfo();
+                menuBasicInfo.setId(menu.getId());
+                menuBasicInfo.setLabel(menu.getLabel());
+                menuBasicInfo.setIcon(menu.getIcon());
+                menuBasicInfo.setPath(menu.getPath());
+                menuBasicInfo.setRedirect(menu.getRedirect());
+                menuBasicInfo.setComponent(menu.getComponent());
+                menuBasicInfo.setComponentName(menu.getComponentName());
+                menuBasicInfo.setHidden(menu.isHidden());
+                menuBasicInfo.setNoKeepAlive(menu.isNoKeepAlive());
+                menuBasicInfo.setParentId(menu.getParentId());
+                menuBasicInfo.setSortValue(menu.getSortValue());
+                menuBasicInfoList.add(menuBasicInfo);
+            });
+        }
     }
 
 
     @Override
-    public void saveAuthMenus(List<AuthMenu> authMenus, String tenantCode) {
+    public void saveAuthMenus(List<AuthMenu> authMenus, String realmCode) {
         authMenus.forEach(authMenu -> {
             if (authMenu.getParentId().equals(0L)) {
                 long id = segmentRepository.getIdSegment("auth_menu").longValue();
                 authMenu.setId(id);
                 authMenu.setIsEnable(true);
                 authMenuMapper.insert(authMenu);
-                saveNodeMenu(id, authMenu.getChildren(), tenantCode);
+                saveNodeMenu(id, authMenu.getChildren(), realmCode);
             }
         });
     }
 
-    private void saveNodeMenu(Long parentId, List<AuthMenu> authMenus, String tenantCode) {
+    private void saveNodeMenu(Long parentId, List<AuthMenu> authMenus, String realmCode) {
         if (CollectionUtils.isNotEmpty(authMenus)) {
             for (AuthMenu authMenu : authMenus) {
                 authMenu.setParentId(parentId);
@@ -113,12 +121,12 @@ public class AuthMenuRepository implements IAuthMenuRepository {
                 if (CollectionUtils.isNotEmpty(resourceList)) {
                     resourceList.forEach(resource -> {
                         resource.setMenuId(id);
-                        resource.setTenantCode(tenantCode);
+                        resource.setRealmCode(realmCode);
                     });
                     authResourceRepository.saveResourceList(resourceList);
                 }
                 Long nodeParentId = authMenu.getId();
-                saveNodeMenu(nodeParentId, authMenu.getChildren(), tenantCode);
+                saveNodeMenu(nodeParentId, authMenu.getChildren(), realmCode);
             }
         }
     }
@@ -136,8 +144,8 @@ public class AuthMenuRepository implements IAuthMenuRepository {
     }
 
     @Override
-    public void deleteTenantMenu(String tenantCode) {
-        authMenuMapper.deleteTenantMenu(tenantCode);
+    public void deleteTenantMenu(String realmCode) {
+        authMenuMapper.deleteTenantMenu(realmCode);
     }
 
     @Override

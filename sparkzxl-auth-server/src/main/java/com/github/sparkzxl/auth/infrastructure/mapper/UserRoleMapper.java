@@ -19,9 +19,9 @@ public interface UserRoleMapper extends SuperMapper<UserRole> {
     /**
      * 根据领域池code删除用户角色关系
      *
-     * @param tenantCode 领域池code
+     * @param realmCode 领域池code
      */
-    @Delete("delete from auth_user_role where tenant_code = #{tenantCode}")
+    @Delete("delete from auth_user_role where realm_code = #{realmCode}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteUserRole(@Param("tenantCode") String tenantCode);
+    void deleteUserRole(@Param("realmCode") String RealmCode);
 }

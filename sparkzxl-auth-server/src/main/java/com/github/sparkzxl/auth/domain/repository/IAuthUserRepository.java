@@ -1,10 +1,12 @@
 package com.github.sparkzxl.auth.domain.repository;
 
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
+import com.github.sparkzxl.auth.domain.model.aggregates.UserCount;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
-import com.github.sparkzxl.auth.infrastructure.entity.RoleResource;
+import com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * description: 用户仓储层
@@ -52,7 +54,7 @@ public interface IAuthUserRepository {
      *
      * @return List<RoleResource>
      */
-    List<RoleResource> getRoleResourceList();
+    List<RoleResourceInfo> getRoleResourceList();
 
 
     /**
@@ -89,14 +91,23 @@ public interface IAuthUserRepository {
     /**
      * 根据领域池code删除用户
      *
-     * @param tenantCode 领域池code
+     * @param RealmCode 领域池code
      */
-    void deleteTenantUser(String tenantCode);
+    void deleteTenantUser(String RealmCode);
 
     /**
      * 删除用户信息
+     *
      * @param ids 用户ids
      * @return boolean
      */
     boolean deleteAuthUser(List<Long> ids);
+
+    /**
+     * 获取用户数量
+     *
+     * @param realmCodeList 领域code
+     * @return List<UserCount>
+     */
+    List<UserCount> userCount(List<String> realmCodeList);
 }

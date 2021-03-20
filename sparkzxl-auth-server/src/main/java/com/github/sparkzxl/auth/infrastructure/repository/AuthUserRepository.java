@@ -5,10 +5,7 @@ import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
-import com.github.sparkzxl.auth.domain.model.aggregates.OrgBasicInfo;
-import com.github.sparkzxl.auth.domain.model.aggregates.ResourceBasicInfo;
-import com.github.sparkzxl.auth.domain.model.aggregates.RoleBasicInfo;
+import com.github.sparkzxl.auth.domain.model.aggregates.*;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
@@ -79,7 +76,7 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    public List<RoleResource> getRoleResourceList() {
+    public List<RoleResourceInfo> getRoleResourceList() {
         return authUserMapper.getRoleResourceList();
     }
 
@@ -117,6 +114,7 @@ public class AuthUserRepository implements IAuthUserRepository {
     public AuthUserBasicInfo getAuthUserBasicInfo(Long userId) {
         AuthUser authUser = authUserMapper.getById(userId);
         AuthUserBasicInfo authUserBasicInfo = AuthUserConvert.INSTANCE.convertAuthUserBasicInfo(authUser);
+        authUserBasicInfo.setRealmStatus(false);
         RemoteData<Long, CoreOrg> org = authUser.getOrg();
         List<OrgBasicInfo> orgTreeList = CollUtil.newArrayList();
         if (ObjectUtils.isNotEmpty(org)) {
@@ -184,8 +182,8 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    public void deleteTenantUser(String tenantCode) {
-        authUserMapper.deleteTenantUser(tenantCode);
+    public void deleteTenantUser(String realmCode) {
+        authUserMapper.deleteTenantUser(realmCode);
     }
 
     @Override
@@ -193,5 +191,10 @@ public class AuthUserRepository implements IAuthUserRepository {
         authUserMapper.deleteBatchIds(ids);
         deleteUserRelation(ids);
         return true;
+    }
+
+    @Override
+    public List<UserCount> userCount(List<String> realmCodeList) {
+        return authUserMapper.userCount(realmCodeList);
     }
 }

@@ -7,29 +7,29 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 /**
- * description: SpTenant 对象Convert
+ * description: RealmPoolConvert 对象Convert
  *
  * @author charles.zhou
  * @date 2020-06-05 21:28:06
  */
 @Mapper
-public interface TenantConvert {
+public interface RealmPoolConvert {
 
-    TenantConvert INSTANCE = Mappers.getMapper(TenantConvert.class);
+    RealmPoolConvert INSTANCE = Mappers.getMapper(RealmPoolConvert.class);
 
     /**
-     * tenantSaveDTO转换为SpTenant
+     * tenantSaveDTO转换为RealmPool
      *
      * @param realmPoolSaveDTO 领域池保存对象
-     * @return SpTenant
+     * @return RealmPool
      */
     RealmPool convertRealmPool(RealmPoolSaveDTO realmPoolSaveDTO);
 
     /**
-     * tenantUpdateDTO转换为SpTenant
+     * tenantUpdateDTO转换为RealmPool
      *
      * @param realmPoolUpdateDTO 领域池更新对象
-     * @return SpTenant
+     * @return RealmPool
      */
     RealmPool convertRealmPool(RealmPoolUpdateDTO realmPoolUpdateDTO);
 }

@@ -54,7 +54,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public AuthUserDetail<Long> getAuthUserDetail(String username) {
         RealmManager realmManager = realmManagerService.getByAccount(username);
         if (ObjectUtils.isNotEmpty(realmManager)) {
-            AuthUserInfo<Long> authUserInfo = buildAuthUserInfo(realmManager, Lists.newArrayList("role_realm"));
+            AuthUserInfo<Long> authUserInfo = buildAuthUserInfo(realmManager, Lists.newArrayList("REALM_MANAGER"));
             AuthUserDetail<Long> authUserDetail = new AuthUserDetail<>(realmManager.getAccount(),
                     realmManager.getPassword(),
                     AuthorityUtils.createAuthorityList(ListUtils.listToArray(authUserInfo.getAuthorityList())));
@@ -71,9 +71,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         AuthorityUtils.createAuthorityList(ListUtils.listToArray(authUserInfo.getAuthorityList())));
                 authUserDetail.setId(authUser.getId());
                 authUserDetail.setName(authUser.getName());
-                authUserDetail.setRealm(authUser.getTenantCode());
-                authUserDetail.setRealmStatus(authUser.getRealmStatus());
-                BaseContextHandler.setRealm(authUser.getTenantCode());
+                authUserDetail.setRealm(authUser.getRealmCode());
+                authUserDetail.setRealmStatus(false);
+                BaseContextHandler.setRealm(authUser.getRealmCode());
                 return authUserDetail;
             }
         }
@@ -90,7 +90,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         extraInfo.put("email", authUser.getEmail());
         extraInfo.put("education", authUser.getEducation());
         extraInfo.put("positionStatus", authUser.getPositionStatus());
-        extraInfo.put("realmStatus", authUser.getRealmStatus() != null && authUser.getRealmStatus());
+        extraInfo.put("realmStatus", false);
         authUserInfo.setExtraInfo(extraInfo);
         return authUserInfo;
     }

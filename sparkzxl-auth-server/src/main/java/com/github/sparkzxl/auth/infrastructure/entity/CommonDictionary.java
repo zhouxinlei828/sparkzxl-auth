@@ -41,6 +41,6 @@ public class CommonDictionary extends Entity<Long> {
     private Boolean status;
 
     @ApiModelProperty(value = "领域池code")
-    @TableField("tenant_code")
-    private String tenantCode;
+    @TableField("realm_code")
+    private String RealmCode;
 }

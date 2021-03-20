@@ -22,17 +22,17 @@ public interface AuthApplicationMapper extends SuperMapper<AuthApplication> {
     /**
      * 根据领域池code删除领域池客户端
      *
-     * @param tenantCode 领域池code
+     * @param realmCode 领域池code
      */
     @InterceptorIgnore(tenantLine = "true")
-    @Delete("delete from auth_application where tenant_code = #{tenantCode}")
-    void deleteTenantClient(String tenantCode);
+    @Delete("delete from auth_application where realm_code = #{realmCode}")
+    void deleteTenantClient(String realmCode);
 
 
     /**
      * 获取客户端分页信息
      *
-     * @param tenantCode 领域池code
+     * @param realmCode 领域池code
      * @param clientId   客户端id
      * @param appName    应用名称
      * @return List<OauthClientDetails>
@@ -42,10 +42,10 @@ public interface AuthApplicationMapper extends SuperMapper<AuthApplication> {
             "app.*, " +
             "ti.NAME realmName " +
             "FROM auth_application app " +
-            "LEFT JOIN realm_pool ti ON ti.CODE = app.tenant_code" +
+            "LEFT JOIN realm_pool ti ON ti.CODE = app.realm_code" +
             "<where>" +
-            " <if test=\"tenantCode != null and tenantCode != ''\">" +
-            "    and ti.code = #{tenantCode}" +
+            " <if test=\"realmCode != null and realmCode != ''\">" +
+            "    and ti.code = #{realmCode}" +
             " </if>" +
             " <if test=\"clientId != null and clientId != ''\">" +
             "    and app.client_id = #{clientId}" +
@@ -56,7 +56,7 @@ public interface AuthApplicationMapper extends SuperMapper<AuthApplication> {
             "</where>" +
             "</script>")
     @InterceptorIgnore(tenantLine = "true")
-    List<AuthApplication> listPage(@Param("tenantCode") String tenantCode, @Param("clientId") String clientId,
+    List<AuthApplication> listPage(@Param("realmCode") String realmCode, @Param("clientId") String clientId,
                                    @Param("appName") String appName);
 
     /**

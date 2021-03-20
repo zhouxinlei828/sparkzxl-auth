@@ -17,9 +17,9 @@ public interface RoleAuthorityMapper extends SuperMapper<RoleAuthority> {
 
     /**
      * 根据领域池code删除角色资源
-     * @param tenantCode 领域池code
+     * @param realmCode 领域池code
      */
-    @Delete("delete from auth_role_authority where tenant_code = #{tenantCode}")
+    @Delete("delete from auth_role_authority where realm_code = #{realmCode}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteRoleAuthority(String tenantCode);
+    void deleteRoleAuthority(String realmCode);
 }

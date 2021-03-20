@@ -41,7 +41,7 @@ public class UserRoleRepository implements IUserRoleRepository {
                 UserRole userRole = new UserRole();
                 userRole.setRoleId(roleId);
                 userRole.setUserId(userId);
-                userRole.setTenantCode(BaseContextHandler.getRealm());
+                userRole.setRealmCode(BaseContextHandler.getRealm());
                 userRoles.add(userRole);
             });
             userRoleMapper.insertBatchSomeColumn(userRoles);

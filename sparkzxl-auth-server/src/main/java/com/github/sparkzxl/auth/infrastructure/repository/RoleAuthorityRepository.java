@@ -8,13 +8,17 @@ import com.github.sparkzxl.auth.domain.model.aggregates.RoleResource;
 import com.github.sparkzxl.auth.domain.repository.IRoleAuthorityRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
+import com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo;
 import com.github.sparkzxl.auth.infrastructure.enums.OperationEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.core.context.BaseContextHandler;
 import com.github.sparkzxl.core.spring.SpringContextUtils;
+import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -28,7 +32,7 @@ import java.util.stream.Collectors;
  * description: 角色资源绑定 仓储实现类
  *
  * @author charles.zhou
- * @date   2020-08-15 11:14:18
+ * @date 2020-08-15 11:14:18
  */
 @Repository
 public class RoleAuthorityRepository implements IRoleAuthorityRepository {
@@ -54,7 +58,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
 
     @Override
     public boolean saveRoleAuthorityBatch(Long roleId, Set<Long> resourceIds, Set<Long> menuIds) {
-        String tenantCode = BaseContextHandler.getRealm();
+        String realmCode = BaseContextHandler.getRealm();
         List<RoleAuthority> roleAuthorities = Lists.newLinkedList();
         roleAuthorityMapper.delete(new LambdaUpdateWrapper<RoleAuthority>()
                 .eq(RoleAuthority::getRoleId, roleId));
@@ -64,7 +68,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
                 roleAuthority.setRoleId(roleId);
                 roleAuthority.setAuthorityId(authorityId);
                 roleAuthority.setAuthorityType("RESOURCE");
-                roleAuthority.setTenantCode(tenantCode);
+                roleAuthority.setRealmCode(realmCode);
                 roleAuthorities.add(roleAuthority);
             });
         }
@@ -74,7 +78,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
                 roleAuthority.setRoleId(roleId);
                 roleAuthority.setAuthorityId(menuId);
                 roleAuthority.setAuthorityType("MENU");
-                roleAuthority.setTenantCode(tenantCode);
+                roleAuthority.setRealmCode(realmCode);
                 roleAuthorities.add(roleAuthority);
             });
         }
@@ -110,9 +114,36 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
     @Override
     public boolean refreshAuthority() {
         redisTemplate.delete(CacheConstant.RESOURCE_ROLES_MAP);
-        List<com.github.sparkzxl.auth.infrastructure.entity.RoleResource> roleResources = authUserMapper.getRoleResourceList();
-        Map<String, Object> roleResourceMap = roleResources.stream().collect(Collectors.toMap(com.github.sparkzxl.auth.infrastructure.entity.RoleResource::getPath, com.github.sparkzxl.auth.infrastructure.entity.RoleResource::getRoleCode));
-        redisTemplate.opsForHash().putAll(CacheConstant.RESOURCE_ROLES_MAP, roleResourceMap);
+        List<RoleResourceInfo> roleResources = authUserMapper.getRoleResourceList();
+        Map<String, List<RoleResourceInfo>> roleResourceInfoMap =
+                roleResources.stream().collect(Collectors.groupingBy(RoleResourceInfo::getRealmCode));
+        if (MapUtils.isNotEmpty(roleResourceInfoMap)) {
+            for (String realmCode : roleResourceInfoMap.keySet()) {
+                List<RoleResourceInfo> roleResourceInfos = roleResourceInfoMap.get(realmCode);
+                if (CollectionUtils.isNotEmpty(roleResourceInfos)) {
+                    Map<String, Object> roleResourceMap = Maps.newHashMap();
+                    roleResourceInfos.forEach(roleResourceInfo -> roleResourceMap.put(roleResourceInfo.getPath(),
+                            roleResourceInfo.getRoleCode().concat(",").concat("REALM_MANAGER")));
+                    redisTemplate.opsForHash().putAll(BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, realmCode), roleResourceMap);
+                }
+            }
+        }
         return true;
+    }
+
+    @Override
+    public void refreshAuthority(String oldVal, String newVal) {
+        String realmCode = BaseContextHandler.getRealm();
+        String cacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, realmCode);
+        redisTemplate.opsForHash().delete(cacheKey, oldVal);
+        RoleResourceInfo roleResource = authUserMapper.getRoleResource(newVal);
+        redisTemplate.opsForHash().put(cacheKey, roleResource.getPath(), roleResource.getRoleCode());
+    }
+
+    @Override
+    public void refreshAuthority(String oldVal) {
+        String realmCode = BaseContextHandler.getRealm();
+        String cacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, realmCode);
+        redisTemplate.opsForHash().delete(cacheKey, oldVal);
     }
 }

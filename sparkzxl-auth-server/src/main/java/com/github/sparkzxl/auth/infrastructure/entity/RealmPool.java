@@ -8,13 +8,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
-
 /**
  * description: 领域池信息
  *
  * @author charles.zhou
- * @date   2021-02-02 16:08:05
+ * @date 2021-02-02 16:08:05
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -40,14 +38,6 @@ public class RealmPool extends Entity<Long> {
     @TableField("status")
     private Boolean status;
 
-    @ApiModelProperty(value = "是否内置")
-    @TableField("readonly")
-    private Boolean readonly;
-
-    @ApiModelProperty(value = "有效期为空表示永久")
-    @TableField("expiration_time")
-    private LocalDateTime expirationTime;
-
     @ApiModelProperty(value = "logo地址")
     @TableField("logo")
     private String logo;
@@ -56,20 +46,8 @@ public class RealmPool extends Entity<Long> {
     @TableField("describe_")
     private String describe;
 
-    @ApiModelProperty(value = "用户密码有效期 单位：天 0表示永久有效")
-    @TableField("password_expire")
-    private Integer passwordExpire;
-
-    @ApiModelProperty(value = "密码输错次数密码输错锁定账号的次数 单位：次")
-    @TableField("password_error_num")
-    private Integer passwordErrorNum;
-
-    @ApiModelProperty(value = "账号锁定时间密码输错${passwordErrorNum}次后，锁定账号的时间单位")
-    @TableField("password_error_lock_time")
-    private String passwordErrorLockTime;
-
-    @ApiModelProperty(value = "管理员账户")
+    @ApiModelProperty(value = "用户数")
     @TableField(exist = false)
-    private AuthUser adminUser;
+    private int userCount;
 
 }

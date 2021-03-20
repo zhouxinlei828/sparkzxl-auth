@@ -17,18 +17,19 @@ public interface IAuthMenuRepository {
     /**
      * 获取菜单列表
      *
-     * @param userId 用户id
+     * @param userId    用户id
+     * @param realmCode 领域code
      * @return List<MenuBasicInfo>
      */
-    List<MenuBasicInfo> getAuthMenuList(Long userId);
+    List<MenuBasicInfo> getAuthMenuList(Long userId, String realmCode);
 
     /**
      * 保存菜单信息
      *
-     * @param authMenus  菜单集合
-     * @param tenantCode 领域池code
+     * @param authMenus 菜单集合
+     * @param realmCode 领域池code
      */
-    void saveAuthMenus(List<AuthMenu> authMenus, String tenantCode);
+    void saveAuthMenus(List<AuthMenu> authMenus, String realmCode);
 
     /**
      * 查询菜单列表
@@ -40,9 +41,9 @@ public interface IAuthMenuRepository {
     /**
      * 根据领域池code删除菜单
      *
-     * @param tenantCode 领域池code
+     * @param realmCode 领域池code
      */
-    void deleteTenantMenu(String tenantCode);
+    void deleteTenantMenu(String realmCode);
 
     /**
      * 保存菜单信息

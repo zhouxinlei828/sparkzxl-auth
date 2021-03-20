@@ -18,11 +18,11 @@
 <div class="dowebok" id="dowebok">
     <div class="form-container sign-up-container">
         <form action="#">
-            <div>
-                <img style="width: 40px;height: 40px" th:src="@{/images/logo.png}">
-                <span style="font-size: 20px;font-weight: bold;">欢迎加入Spark Auth</span>
+            <div style="line-height: 40px">
+                <img style="height: 40px" th:src="@{/images/login-welcome.png}" />
+                <br />
+                <span>填写注册人信息</span>
             </div>
-            <span>填写个人信息</span>
             <input type="text" id="tenant" name="tenant" placeholder="领域池编码">
             <input type="text" id="account" name="account" placeholder="账号">
             <input type="email" placeholder="电子邮箱">
@@ -32,16 +32,11 @@
     </div>
     <div class="form-container sign-in-container">
         <form action="/authentication/form" method="post">
-            <div>
-                <img style="width: 40px;height: 40px" th:src="@{/images/logo.png}">
-                <span style="font-size: 20px;font-weight: bold;">Spark Auth</span>
+            <div style="line-height: 40px">
+                <img style="height: 40px" th:src="@{/images/logo-auth.png}" />
+                <br />
+                <span>使用帐号登录</span>
             </div>
-            <div class="social-container">
-                <a href="#" class="social"><span class="iconfont">&#xe64c;</span></a>
-                <a href="#" class="social"><span class="iconfont">&#xe709;</span></a>
-                <a href="#" class="social"><span class="iconfont">&#xe61a;</span></a>
-            </div>
-            <span>或使用您的帐号</span>
             <input type="text" id="realmCode" name="realmCode" placeholder="领域池编码">
             <input type="text" id="username" name="username" placeholder="账户">
             <input type="password" id="password" name="password" placeholder="密码">

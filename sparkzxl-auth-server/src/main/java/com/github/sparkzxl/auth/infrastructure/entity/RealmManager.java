@@ -44,6 +44,10 @@ public class RealmManager extends Entity<Long> {
     @TableField("mobile")
     private String mobile;
 
+    @ApiModelProperty(value = "头像")
+    @TableField("avatar")
+    private String avatar;
+
     @ApiModelProperty(value = "状态 1启用 0禁用")
     @TableField("status")
     private Boolean status;

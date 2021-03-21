@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessStatusMapper">
+
+    <select id="getProcessInstanceList"
+            resultType="com.github.sparkzxl.workflow.infrastructure.entity.ProcessInstance">
+        SELECT
+        t.*,
+        arm.Name_ processName
+        FROM
+        (
+        SELECT
+        DISTINCT(pts.process_instance_id) processInstanceId,
+        ahp.BUSINESS_KEY_ businessKey,
+        SUBSTRING_INDEX( ahp.PROC_DEF_ID_, ':', 1 ) processKey,
+        IFNULL( aru.SUSPENSION_STATE_, 1 ) suspensionState,
+        pts.`status`,
+        ahp.START_TIME_ startTime,
+        ahp.START_USER_ID_ originator,
+        ahp.END_TIME_ finishTime,
+        ahp.DURATION_ duration,
+        pts.create_time createTime
+        FROM
+        ext_process_status pts
+        LEFT JOIN ACT_HI_PROCINST ahp ON ahp.PROC_INST_ID_ = pts.process_instance_id
+        LEFT JOIN ACT_RU_EXECUTION aru ON aru.PROC_INST_ID_ = pts.process_instance_id
+        AND aru.suspension_state_ = 2
+        ) t
+        LEFT JOIN ACT_RE_MODEL arm ON t.processKey = arm.KEY_
+        <if test="name != null and name != '' ">
+            where arm.NAME_ like CONCAT(#{name},'%')
+        </if>
+        order by t.processInstanceId DESC
+    </select>
+</mapper>

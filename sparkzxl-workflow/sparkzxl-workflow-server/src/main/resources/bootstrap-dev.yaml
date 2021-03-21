@@ -1,0 +1,42 @@
+server:
+  shutdown: graceful
+  port: 8802
+spring:
+  application:
+    name: sparkzxl-workflow-server
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  freemarker:
+    enabled: true
+    content-type: text/html
+    charset: utf-8
+    template-loader-path: classpath:/templates/
+    suffix: .ftl
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.114.40.129:8848
+        namespace: 65c07321-73fa-43f5-bbea-30ac6a4e6021
+      config:
+        server-addr: 47.114.40.129:8848
+        namespace: 65c07321-73fa-43f5-bbea-30ac6a4e6021
+        file-extension: yaml
+        prefix: ${spring.application.name}
+        shared-configs:
+          - dataId: redis.yaml
+            group: DEFAULT_GROUP
+            refresh: false
+          - dataId: common.yaml
+            group: DEFAULT_GROUP
+            refresh: false
+        enable-remote-sync-config: true
+        refresh-enabled: true
+  redis:
+    redisson: redisson.yaml
+logging:
+  level:
+    com.github.sparkzxl.workflow.infrastructure.mapper: debug
+management:
+  metrics:
+    tags:
+      application: ${spring.application.name}

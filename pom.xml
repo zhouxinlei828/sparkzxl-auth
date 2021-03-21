@@ -33,6 +33,7 @@
         <module>sparkzxl-auth-server</module>
         <module>sparkzxl-gateway</module>
         <module>sparkzxl-code-generator</module>
+        <module>sparkzxl-workflow</module>
     </modules>
 
     <repositories>
@@ -79,6 +80,11 @@
                 <groupId>com.github.javafaker</groupId>
                 <artifactId>javafaker</artifactId>
                 <version>${javafaker.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.sparkzxl</groupId>
+                <artifactId>sparkzxl-workflow-api</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

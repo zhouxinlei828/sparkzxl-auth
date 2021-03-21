@@ -144,8 +144,8 @@ public class AuthMenuRepository implements IAuthMenuRepository {
     }
 
     @Override
-    public void deleteTenantMenu(String realmCode) {
-        authMenuMapper.deleteTenantMenu(realmCode);
+    public void deleteRealmPoolMenu(String realmCode) {
+        authMenuMapper.deleteRealmPoolMenu(realmCode);
     }
 
     @Override

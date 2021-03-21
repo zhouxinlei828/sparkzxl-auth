@@ -67,11 +67,11 @@ public interface AuthUserMapper extends SuperMapper<AuthUser> {
     /**
      * 根据领域池code删除用户
      *
-     * @param RealmCode 领域池code
+     * @param realmCode 领域池code
      */
-    @Delete("delete from auth_user where realm_code = #{RealmCode}")
+    @Delete("delete from auth_user where realm_code = #{realmCode}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteTenantUser(String RealmCode);
+    void deleteRealmPoolUser(String realmCode);
 
     /**
      * 根据领域统计用户数量

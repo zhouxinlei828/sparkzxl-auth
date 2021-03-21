@@ -32,7 +32,7 @@ public interface ProcessApi {
                             @RequestParam("procDefKey") String procDefKey);
 
     /**
-     * 查询业务任务数据
+     * 查询业务批量任务数据
      *
      * @param businessIds 业务主键
      * @param procDefKey  流程定义key
@@ -50,7 +50,7 @@ public interface ProcessApi {
      * @param processHistoryParam 流程历史查询入参
      * @return List<ProcessHistory>
      */
-    @ApiOperation("查询业务批量任务数据")
+    @ApiOperation("获取流程历史")
     @RequestMapping(method = RequestMethod.GET, value = "/historyList")
     List<ProcessHistory> processHistoryList(@SpringQueryMap ProcessHistoryParam processHistoryParam);
 }

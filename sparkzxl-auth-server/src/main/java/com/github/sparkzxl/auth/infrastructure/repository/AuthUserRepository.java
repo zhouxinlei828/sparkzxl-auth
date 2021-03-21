@@ -182,8 +182,8 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    public void deleteTenantUser(String realmCode) {
-        authUserMapper.deleteTenantUser(realmCode);
+    public void deleteRealmPoolUser(String realmCode) {
+        authUserMapper.deleteRealmPoolUser(realmCode);
     }
 
     @Override

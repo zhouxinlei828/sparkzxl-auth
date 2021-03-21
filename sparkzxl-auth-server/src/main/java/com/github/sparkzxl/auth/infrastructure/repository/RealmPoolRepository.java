@@ -8,13 +8,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.UserCount;
 import com.github.sparkzxl.auth.domain.repository.*;
-import com.github.sparkzxl.auth.infrastructure.entity.*;
-import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
+import com.github.sparkzxl.auth.infrastructure.entity.AuthApplication;
+import com.github.sparkzxl.auth.infrastructure.entity.AuthMenu;
+import com.github.sparkzxl.auth.infrastructure.entity.RealmPool;
 import com.github.sparkzxl.auth.infrastructure.mapper.*;
 import com.github.sparkzxl.core.context.BaseContextHandler;
-import com.github.sparkzxl.database.entity.SuperEntity;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
-import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -40,8 +38,6 @@ public class RealmPoolRepository implements IRealmPoolRepository {
     @Autowired
     private RealmPoolMapper realmPoolMapper;
     @Autowired
-    private IIdSegmentRepository segmentRepository;
-    @Autowired
     private IAuthUserRepository authUserRepository;
     @Autowired
     private IAuthRoleRepository authRoleRepository;
@@ -50,11 +46,7 @@ public class RealmPoolRepository implements IRealmPoolRepository {
     @Autowired
     private IAuthResourceRepository resourceRepository;
     @Autowired
-    private IUserRoleRepository userRoleRepository;
-    @Autowired
-    private IRoleAuthorityRepository roleAuthorityRepository;
-    @Autowired
-    private AuthApplicationMapper tenantClientMapper;
+    private AuthApplicationMapper applicationMapper;
     @Autowired
     private OauthClientDetailsMapper oauthClientDetailsMapper;
     @Autowired
@@ -75,7 +67,7 @@ public class RealmPoolRepository implements IRealmPoolRepository {
         if (StringUtils.isNotEmpty(name)) {
             tenantLambdaQueryWrapper.likeLeft(RealmPool::getName, name);
         }
-        tenantLambdaQueryWrapper.eq(RealmPool::getRealmUserId,realmUserId);
+        tenantLambdaQueryWrapper.eq(RealmPool::getRealmUserId, realmUserId);
         tenantLambdaQueryWrapper.orderByAsc(RealmPool::getCode);
         PageHelper.startPage(pageNum, pageSize);
         List<RealmPool> tenantList = realmPoolMapper.selectList(tenantLambdaQueryWrapper);
@@ -105,42 +97,17 @@ public class RealmPoolRepository implements IRealmPoolRepository {
     @Transactional(rollbackFor = Exception.class)
     public boolean saveRealmPool(RealmPool realmPool) {
         String realmCode = IdUtil.objectId();
+        Long userId = BaseContextHandler.getUserId(Long.TYPE);
+        realmPool.setRealmUserId(userId);
         realmPool.setCode(realmCode);
         realmPoolMapper.insert(realmPool);
-        initTenantData(realmCode);
+        initRealmPoolData(realmCode);
         return true;
     }
 
-    public void initTenantData(String realmCode) {
+    public void initRealmPoolData(String realmCode) {
         BaseContextHandler.setRealm(realmCode);
-        // 初始化管理员账户
-        AuthUser authUser = new AuthUser();
-        authUser.setAccount("admin");
-        authUser.setPassword("123456");
-        authUser.setName("管理员");
-        authUser.setRealmCode(realmCode);
-        authUser.setSex(SexEnum.MAN);
-        authUser.setStatus(true);
-        authUserRepository.saveAuthUserInfo(authUser);
-        Long userId = authUser.getId();
-        // 初始化管理员角色
-        AuthRole authRole = new AuthRole();
-        authRole.setCode("ADMIN");
-        authRole.setName("管理员");
-        authRole.setDescribe("内置管理员");
-        authRole.setReadonly(true);
-        authRole.setDsType("ALL");
-        authRole.setStatus(true);
-        authRoleRepository.saveRole(authRole);
-        Long roleId = authRole.getId();
-        userRoleRepository.saveAuthRoleUser(roleId, Lists.newArrayList(userId));
-        // 初始化菜单资源
         initMenuData(realmCode);
-        List<AuthMenu> authMenuList = authMenuRepository.findAuthMenuList();
-        Set<Long> menuIds = authMenuList.stream().map(SuperEntity::getId).collect(Collectors.toSet());
-        List<AuthResource> authResources = resourceRepository.authResourceList();
-        Set<Long> resourceIds = authResources.stream().map(SuperEntity::getId).collect(Collectors.toSet());
-        roleAuthorityRepository.saveRoleAuthorityBatch(roleId, resourceIds, menuIds);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
@@ -159,17 +126,17 @@ public class RealmPoolRepository implements IRealmPoolRepository {
     public boolean deleteRealmPool(Long realmPoolId) {
         RealmPool realmPool = realmPoolMapper.selectById(realmPoolId);
         String realmCode = realmPool.getCode();
-        authUserRepository.deleteTenantUser(realmCode);
+        authUserRepository.deleteRealmPoolUser(realmCode);
         authRoleRepository.deleteAuthRole(realmCode);
-        resourceRepository.deleteTenantResource(realmCode);
-        authMenuRepository.deleteTenantMenu(realmCode);
-        List<AuthApplication> tenantClientList = tenantClientMapper.selectList(new LambdaQueryWrapper<AuthApplication>()
+        resourceRepository.deleteRealmPoolResource(realmCode);
+        authMenuRepository.deleteRealmPoolMenu(realmCode);
+        List<AuthApplication> applicationList = applicationMapper.selectList(new LambdaQueryWrapper<AuthApplication>()
                 .eq(AuthApplication::getRealmCode, realmCode));
-        if (CollectionUtils.isNotEmpty(tenantClientList)) {
-            List<String> clientIdList = tenantClientList.stream().map(AuthApplication::getClientId).collect(Collectors.toList());
+        if (CollectionUtils.isNotEmpty(applicationList)) {
+            List<String> clientIdList = applicationList.stream().map(AuthApplication::getClientId).collect(Collectors.toList());
             oauthClientDetailsMapper.deleteBatchIds(clientIdList);
         }
-        tenantClientMapper.deleteTenantClient(realmCode);
+        applicationMapper.deleteApplicationByCode(realmCode);
         stationMapper.deleteTenantStation(realmCode);
         orgMapper.deleteTenantOrg(realmCode);
         dictionaryMapper.deleteTenantDictionary(realmCode);

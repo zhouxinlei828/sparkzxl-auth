@@ -25,7 +25,7 @@ public interface AuthMenuMapper extends SuperMapper<AuthMenu> {
      */
     @Delete("delete from auth_menu where realm_code = #{realmCode}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteTenantMenu(String realmCode);
+    void deleteRealmPoolMenu(String realmCode);
 
     /**
      * 根据领域池code菜单列表

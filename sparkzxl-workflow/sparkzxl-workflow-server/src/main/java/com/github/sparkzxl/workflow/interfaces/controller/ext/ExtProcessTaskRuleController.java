@@ -24,7 +24,7 @@ import java.util.List;
 @ResponseResult
 @WebLog
 @RequestMapping("/process/rule")
-@Api(tags = "流程流向管理")
+@Api(tags = "流程规则管理")
 public class ExtProcessTaskRuleController {
 
     private final IExtProcessTaskRuleService processTaskRuleService;

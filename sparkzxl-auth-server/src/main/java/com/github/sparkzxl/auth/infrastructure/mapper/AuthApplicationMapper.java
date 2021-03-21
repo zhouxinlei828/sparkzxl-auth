@@ -26,7 +26,7 @@ public interface AuthApplicationMapper extends SuperMapper<AuthApplication> {
      */
     @InterceptorIgnore(tenantLine = "true")
     @Delete("delete from auth_application where realm_code = #{realmCode}")
-    void deleteTenantClient(String realmCode);
+    void deleteApplicationByCode(String realmCode);
 
 
     /**

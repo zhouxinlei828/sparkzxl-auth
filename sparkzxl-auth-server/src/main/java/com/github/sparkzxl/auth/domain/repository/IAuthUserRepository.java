@@ -91,9 +91,9 @@ public interface IAuthUserRepository {
     /**
      * 根据领域池code删除用户
      *
-     * @param RealmCode 领域池code
+     * @param realmCode 领域池code
      */
-    void deleteTenantUser(String RealmCode);
+    void deleteRealmPoolUser(String realmCode);
 
     /**
      * 删除用户信息

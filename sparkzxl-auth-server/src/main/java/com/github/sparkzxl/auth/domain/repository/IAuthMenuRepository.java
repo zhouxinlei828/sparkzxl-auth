@@ -43,7 +43,7 @@ public interface IAuthMenuRepository {
      *
      * @param realmCode 领域池code
      */
-    void deleteTenantMenu(String realmCode);
+    void deleteRealmPoolMenu(String realmCode);
 
     /**
      * 保存菜单信息

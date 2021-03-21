@@ -68,8 +68,8 @@ public class AuthResourceRepository implements IAuthResourceRepository {
     }
 
     @Override
-    public void deleteTenantResource(String realmCode) {
-        authResourceMapper.deleteTenantResource(realmCode);
+    public void deleteRealmPoolResource(String realmCode) {
+        authResourceMapper.deleteRealmPoolResource(realmCode);
     }
 
     @Override

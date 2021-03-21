@@ -1,21 +1,21 @@
 package com.github.sparkzxl.auth.infrastructure.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
-
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.sparkzxl.database.entity.Entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
+
 /**
  * description: 领域管理员
  *
  * @author zhouxinlei
  * @date 2021-03-19 20:52:53
-*/
+ */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("realm_manager")

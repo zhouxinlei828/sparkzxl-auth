@@ -1,8 +1,8 @@
 package com.github.sparkzxl.auth.domain.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.application.service.ICoreOrgService;
+import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.domain.repository.IIdSegmentRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.CoreOrgConvert;

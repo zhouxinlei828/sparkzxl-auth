@@ -1,25 +1,17 @@
 package com.github.sparkzxl.auth.interfaces.controller.oauth;
 
 import com.github.sparkzxl.auth.application.service.IOauthService;
-import com.github.sparkzxl.auth.application.service.IRealmPoolService;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
-import com.github.sparkzxl.auth.infrastructure.oauth2.AuthorizationRequest;
 import com.github.sparkzxl.core.annotation.ResponseResult;
-import com.github.sparkzxl.core.entity.CaptchaInfo;
 import com.github.sparkzxl.log.annotation.WebLog;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
-
-import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**

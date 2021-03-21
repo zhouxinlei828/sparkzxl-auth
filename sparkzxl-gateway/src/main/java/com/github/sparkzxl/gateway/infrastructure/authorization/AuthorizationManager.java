@@ -1,6 +1,5 @@
 package com.github.sparkzxl.gateway.infrastructure.authorization;
 
-import cn.hutool.core.convert.Convert;
 import com.github.sparkzxl.core.context.BaseContextConstants;
 import com.github.sparkzxl.core.entity.JwtUserInfo;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
@@ -9,7 +8,6 @@ import com.github.sparkzxl.gateway.utils.WebFluxUtils;
 import com.github.sparkzxl.jwt.service.JwtTokenService;
 import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +34,6 @@ import java.util.stream.Collectors;
  * @date 2020-08-02 18:00:02
  */
 @Component
-@Slf4j
 public class AuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
 
     public static final String RESOURCE_ROLES_MAP = "auth:resource_roles_map";
@@ -65,7 +62,6 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             path[0] = path[0].replace(prefix, "");
         });
         String routePath = path[0];
-        log.info("认证请求路径：{}", routePath);
         String token = WebFluxUtils.getHeader(BaseContextConstants.JWT_TOKEN_HEADER, request);
         token = StringUtils.removeStartIgnoreCase(token, BaseContextConstants.BEARER_TOKEN);
         JwtUserInfo<Long> authJwtInfo = jwtTokenService.getAuthJwtInfo(token);

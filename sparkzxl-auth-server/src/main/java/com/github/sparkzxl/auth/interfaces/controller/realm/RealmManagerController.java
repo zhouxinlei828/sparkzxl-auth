@@ -2,15 +2,10 @@ package com.github.sparkzxl.auth.interfaces.controller.realm;
 
 
 import com.github.sparkzxl.auth.application.service.IRealmManagerService;
-import com.github.sparkzxl.auth.application.service.IRealmPoolService;
 import com.github.sparkzxl.auth.infrastructure.entity.RealmManager;
-import com.github.sparkzxl.auth.infrastructure.entity.RealmPool;
 import com.github.sparkzxl.auth.interfaces.dto.manager.RealmManagerQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.manager.RealmManagerSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.manager.RealmManagerUpdateDTO;
-import com.github.sparkzxl.auth.interfaces.dto.realm.RealmPoolQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.realm.RealmPoolSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.realm.RealmPoolUpdateDTO;
 import com.github.sparkzxl.core.annotation.ResponseResult;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import io.swagger.annotations.Api;

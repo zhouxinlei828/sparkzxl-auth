@@ -26,4 +26,12 @@ public interface IRealmManagerRepository {
      * @return AuthUserBasicInfo
      */
     AuthUserBasicInfo getAuthUserBasicInfo(Long id);
+
+    /**
+     * 保存领域管理员
+     *
+     * @param realmManager 领域管理员
+     * @return boolean
+     */
+    boolean saveRealmManager(RealmManager realmManager);
 }

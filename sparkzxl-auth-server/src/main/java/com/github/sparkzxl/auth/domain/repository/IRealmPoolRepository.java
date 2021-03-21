@@ -9,20 +9,21 @@ import java.util.List;
  * description: 领域池仓储类
  *
  * @author charles.zhou
- * @date   2021-02-14 10:11:05
+ * @date 2021-02-14 10:11:05
  */
 public interface IRealmPoolRepository {
 
     /**
      * 查询领域池列表
      *
-     * @param pageNum  当前页
-     * @param pageSize 分页大小
-     * @param code     领域池编码
-     * @param name     领域池名称
+     * @param pageNum     当前页
+     * @param pageSize    分页大小
+     * @param realmUserId 领域用户id
+     * @param code        领域池编码
+     * @param name        领域池名称
      * @return PageInfo<RealmPool>
      */
-    PageInfo<RealmPool> getRealmPoolPageList(int pageNum, int pageSize, String code, String name);
+    PageInfo<RealmPool> getRealmPoolPageList(int pageNum, int pageSize, Long realmUserId, String code, String name);
 
     /**
      * 保存领域池信息

@@ -31,7 +31,8 @@ public class RealmPoolServiceImpl extends SuperCacheServiceImpl<RealmPoolMapper,
 
     @Override
     public PageInfo<RealmPool> getRealmPoolPageList(PageParams<RealmPoolQueryDTO> params) {
-        return tenantRepository.getRealmPoolPageList(params.getPageNum(), params.getPageSize(), params.getModel().getCode(),
+        return tenantRepository.getRealmPoolPageList(params.getPageNum(), params.getPageSize(),
+                params.getModel().getRealmUserId(), params.getModel().getCode(),
                 params.getModel().getName());
     }
 

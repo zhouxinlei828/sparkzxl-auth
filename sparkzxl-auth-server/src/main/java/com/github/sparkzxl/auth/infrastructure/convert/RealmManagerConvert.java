@@ -2,6 +2,7 @@ package com.github.sparkzxl.auth.infrastructure.convert;
 
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
 import com.github.sparkzxl.auth.infrastructure.entity.RealmManager;
+import com.github.sparkzxl.auth.interfaces.dto.manager.RealmManagerSaveDTO;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -24,6 +25,15 @@ public interface RealmManagerConvert {
      * @return AuthUserInfo
      */
     AuthUserInfo<Long> convertAuthUserInfo(RealmManager realmManager);
+
+
+    /**
+     * realmManagerSaveDTO转换 RealmManager
+     *
+     * @param realmManagerSaveDTO 领域管理员保存对象
+     * @return RealmManager
+     */
+    RealmManager convertRealmManager(RealmManagerSaveDTO realmManagerSaveDTO);
 
 
     /**

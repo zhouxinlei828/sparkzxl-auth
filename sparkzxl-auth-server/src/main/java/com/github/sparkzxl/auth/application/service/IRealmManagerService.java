@@ -1,6 +1,7 @@
 package com.github.sparkzxl.auth.application.service;
 
 import com.github.sparkzxl.auth.infrastructure.entity.RealmManager;
+import com.github.sparkzxl.auth.interfaces.dto.manager.RealmManagerSaveDTO;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
 
@@ -28,4 +29,11 @@ public interface IRealmManagerService extends SuperCacheService<RealmManager> {
      */
     AuthUserInfo<Long> getAuthUserInfo(String username);
 
+    /**
+     * 领域管理员注册
+     *
+     * @param realmManagerSaveDTO 领域管理员保存对象
+     * @return boolean
+     */
+    boolean realmManagerRegister(RealmManagerSaveDTO realmManagerSaveDTO);
 }

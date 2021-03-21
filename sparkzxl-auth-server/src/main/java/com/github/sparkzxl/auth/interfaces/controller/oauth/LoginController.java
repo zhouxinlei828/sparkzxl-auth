@@ -1,9 +1,11 @@
 package com.github.sparkzxl.auth.interfaces.controller.oauth;
 
 import com.github.sparkzxl.auth.application.service.IOauthService;
+import com.github.sparkzxl.auth.application.service.IRealmManagerService;
 import com.github.sparkzxl.auth.application.service.IRealmPoolService;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AuthorizationRequest;
+import com.github.sparkzxl.auth.interfaces.dto.manager.RealmManagerSaveDTO;
 import com.github.sparkzxl.core.annotation.ResponseResult;
 import com.github.sparkzxl.core.entity.CaptchaInfo;
 import io.swagger.annotations.Api;
@@ -24,6 +26,7 @@ public class LoginController {
 
     private IOauthService oauthService;
     private IRealmPoolService realmPoolService;
+    private IRealmManagerService realmManagerService;
 
     @Autowired
     public void setOauthService(IOauthService oauthService) {
@@ -33,6 +36,11 @@ public class LoginController {
     @Autowired
     public void setRealmPoolService(IRealmPoolService realmPoolService) {
         this.realmPoolService = realmPoolService;
+    }
+
+    @Autowired
+    public void setRealmManagerService(IRealmManagerService realmManagerService) {
+        this.realmManagerService = realmManagerService;
     }
 
     @ApiOperation(value = "登录页面", notes = "登录页面")
@@ -56,6 +64,14 @@ public class LoginController {
     @ResponseBody
     public AccessTokenInfo postAccessToken(@RequestBody AuthorizationRequest authorizationRequest) {
         return oauthService.postAccessToken(authorizationRequest);
+    }
+
+    @ApiOperation(value = "用户注册", notes = "用户注册")
+    @PostMapping(value = "/authentication/register")
+    @ResponseResult
+    @ResponseBody
+    public boolean realmManagerRegister(@RequestBody RealmManagerSaveDTO realmManagerSaveDTO) {
+        return realmManagerService.realmManagerRegister(realmManagerSaveDTO);
     }
 
     @ApiOperation(value = "验证码", notes = "验证码")

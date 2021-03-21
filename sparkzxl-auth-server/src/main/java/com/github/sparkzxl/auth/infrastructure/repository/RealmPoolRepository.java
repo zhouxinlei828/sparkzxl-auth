@@ -67,7 +67,7 @@ public class RealmPoolRepository implements IRealmPoolRepository {
     private CommonDictionaryItemMapper dictionaryItemMapper;
 
     @Override
-    public PageInfo<RealmPool> getRealmPoolPageList(int pageNum, int pageSize, String code, String name) {
+    public PageInfo<RealmPool> getRealmPoolPageList(int pageNum, int pageSize, Long realmUserId, String code, String name) {
         LambdaQueryWrapper<RealmPool> tenantLambdaQueryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotEmpty(code)) {
             tenantLambdaQueryWrapper.eq(RealmPool::getCode, code);
@@ -75,6 +75,7 @@ public class RealmPoolRepository implements IRealmPoolRepository {
         if (StringUtils.isNotEmpty(name)) {
             tenantLambdaQueryWrapper.likeLeft(RealmPool::getName, name);
         }
+        tenantLambdaQueryWrapper.eq(RealmPool::getRealmUserId,realmUserId);
         tenantLambdaQueryWrapper.orderByAsc(RealmPool::getCode);
         PageHelper.startPage(pageNum, pageSize);
         List<RealmPool> tenantList = realmPoolMapper.selectList(tenantLambdaQueryWrapper);

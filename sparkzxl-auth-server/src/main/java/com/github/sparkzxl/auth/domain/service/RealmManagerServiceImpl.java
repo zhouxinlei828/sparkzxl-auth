@@ -2,8 +2,10 @@ package com.github.sparkzxl.auth.domain.service;
 
 import com.github.sparkzxl.auth.application.service.IRealmManagerService;
 import com.github.sparkzxl.auth.domain.repository.IRealmManagerRepository;
+import com.github.sparkzxl.auth.infrastructure.convert.RealmManagerConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.RealmManager;
 import com.github.sparkzxl.auth.infrastructure.mapper.RealmManagerMapper;
+import com.github.sparkzxl.auth.interfaces.dto.manager.RealmManagerSaveDTO;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.google.common.collect.Lists;
@@ -36,9 +38,14 @@ public class RealmManagerServiceImpl extends SuperCacheServiceImpl<RealmManagerM
     public AuthUserInfo<Long> getAuthUserInfo(String username) {
         RealmManager realmManager = realmManagerRepository.selectByAccount(username);
         if (ObjectUtils.isNotEmpty(realmManager)) {
-            return UserDetailsServiceImpl.buildAuthUserInfo(realmManager,Lists.newArrayList("role_realm"));
+            return UserDetailsServiceImpl.buildAuthUserInfo(realmManager, Lists.newArrayList("REALM_MANAGER"));
         }
         return null;
+    }
+
+    @Override
+    public boolean realmManagerRegister(RealmManagerSaveDTO realmManagerSaveDTO) {
+        return realmManagerRepository.saveRealmManager(RealmManagerConvert.INSTANCE.convertRealmManager(realmManagerSaveDTO));
     }
 
     @Override

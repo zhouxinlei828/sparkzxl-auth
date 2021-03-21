@@ -32,7 +32,6 @@ public interface AuthApplicationMapper extends SuperMapper<AuthApplication> {
     /**
      * 获取客户端分页信息
      *
-     * @param realmCode 领域池code
      * @param clientId   客户端id
      * @param appName    应用名称
      * @return List<OauthClientDetails>
@@ -44,9 +43,6 @@ public interface AuthApplicationMapper extends SuperMapper<AuthApplication> {
             "FROM auth_application app " +
             "LEFT JOIN realm_pool ti ON ti.CODE = app.realm_code" +
             "<where>" +
-            " <if test=\"realmCode != null and realmCode != ''\">" +
-            "    and ti.code = #{realmCode}" +
-            " </if>" +
             " <if test=\"clientId != null and clientId != ''\">" +
             "    and app.client_id = #{clientId}" +
             " </if>" +
@@ -55,8 +51,7 @@ public interface AuthApplicationMapper extends SuperMapper<AuthApplication> {
             " </if>" +
             "</where>" +
             "</script>")
-    @InterceptorIgnore(tenantLine = "true")
-    List<AuthApplication> listPage(@Param("realmCode") String realmCode, @Param("clientId") String clientId,
+    List<AuthApplication> listPage(@Param("clientId") String clientId,
                                    @Param("appName") String appName);
 
     /**

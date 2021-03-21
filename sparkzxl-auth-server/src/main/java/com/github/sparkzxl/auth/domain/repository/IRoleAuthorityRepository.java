@@ -2,6 +2,7 @@ package com.github.sparkzxl.auth.domain.repository;
 
 
 import com.github.sparkzxl.auth.domain.model.aggregates.RoleResource;
+import com.github.sparkzxl.core.entity.AuthUserInfo;
 
 import java.util.Set;
 
@@ -32,11 +33,19 @@ public interface IRoleAuthorityRepository {
     RoleResource getRoleResource(Long roleId);
 
     /**
+     * 根据领域池code刷新角色权限
+     *
+     * @param realmCode 角色id
+     */
+    void refreshAuthorityByRealmCode(String realmCode);
+
+
+    /**
      * 刷新角色权限
      *
-     * @return boolean
+     * @param realmUserId 领域用户id
      */
-    boolean refreshAuthority();
+    void refreshAuthorityList(Long realmUserId);
 
     /**
      * 刷新角色权限
@@ -52,4 +61,13 @@ public interface IRoleAuthorityRepository {
      * @param oldVal 旧值
      */
     void refreshAuthority(String oldVal);
+
+    /**
+     * 刷新领域资源池权限
+     *
+     * @param authUserInfo 全局用户
+     * @return boolean
+     */
+    boolean refreshRealmPoolAuthority(AuthUserInfo<Long> authUserInfo);
+
 }

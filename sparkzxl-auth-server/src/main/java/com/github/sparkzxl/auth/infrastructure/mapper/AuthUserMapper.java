@@ -42,10 +42,11 @@ public interface AuthUserMapper extends SuperMapper<AuthUser> {
     /**
      * 查询角色路径
      *
-     * @return List<RoleResource>
+     * @param realmCode 领域池code
+     * @return List<RoleResourceInfo>
      */
     @InterceptorIgnore(tenantLine = "true")
-    List<RoleResourceInfo> getRoleResourceList();
+    List<RoleResourceInfo> getRoleResourceList(@Param("realmCode") String realmCode);
 
     /**
      * 根据请求路径查询角色

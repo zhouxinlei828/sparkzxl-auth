@@ -26,6 +26,14 @@ public interface IRealmPoolRepository {
     PageInfo<RealmPool> getRealmPoolPageList(int pageNum, int pageSize, Long realmUserId, String code, String name);
 
     /**
+     * 查询领域池列表
+     *
+     * @param realmUserId 领域用户id
+     * @return List<RealmPool>
+     */
+    List<RealmPool> getRealmPoolList(Long realmUserId);
+
+    /**
      * 保存领域池信息
      *
      * @param realmPool 领域池信息

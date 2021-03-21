@@ -6,6 +6,7 @@ import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthoritySaveDTO;
+import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,12 @@ public class RoleAuthorityServiceImpl extends SuperCacheServiceImpl<RoleAuthorit
     }
 
     @Override
-    public boolean refreshAuthority() {
-        return authorityRepository.refreshAuthority();
+    public void refreshAuthorityList(Long realmUserId) {
+        authorityRepository.refreshAuthorityList(realmUserId);
+    }
+
+    @Override
+    public boolean refreshRealmPoolAuthority(AuthUserInfo<Long> authUserInfo) {
+        return authorityRepository.refreshRealmPoolAuthority(authUserInfo);
     }
 }

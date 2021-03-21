@@ -29,4 +29,9 @@ public class ResourceSource {
      */
     private String oldVal;
 
+    /**
+     * 领域池code
+     */
+    private String realmCode;
+
 }

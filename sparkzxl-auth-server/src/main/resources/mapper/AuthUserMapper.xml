@@ -3,29 +3,26 @@
 <mapper namespace="com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper">
 
     <select id="getRoleResourceList" resultType="com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo">
-        SELECT DISTINCT arr.`code`     roleCode,
-                        arr.realm_code realmCode,
-                        ar.request_url path
-        FROM auth_user_role aur
-                 INNER JOIN auth_role arr ON aur.role_id = arr.id
-                 INNER JOIN auth_role_authority aua ON aua.role_id = aur.role_id
+        SELECT GROUP_CONCAT(arr.`code`) roleCode,
+               ar.request_url           path
+        FROM auth_role arr
+                 INNER JOIN auth_role_authority aua ON aua.role_id = arr.id
                  INNER JOIN auth_resource ar ON ar.id = aua.authority_id
         WHERE ar.request_url IS NOT NULL
-        GROUP BY arr.realm_code,
-                 ar.request_url
-        ORDER BY ar.id ASC
+          and arr.realm_code = #{realmCode}
+        GROUP BY ar.request_url
+        ORDER BY ar.id asc
     </select>
 
     <select id="getRoleResource"
             resultType="com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo">
-        SELECT DISTINCT arr.`code`     roleCode,
-                        arr.realm_code realmCode,
-                        ar.request_url path
-        FROM auth_user_role aur
-                 INNER JOIN auth_role arr ON aur.role_id = arr.id
-                 INNER JOIN auth_role_authority aua ON aua.role_id = aur.role_id
+        SELECT GROUP_CONCAT(arr.`code`) roleCode,
+               ar.request_url           path
+        FROM auth_role arr
+                 INNER JOIN auth_role_authority aua ON aua.role_id = arr.id
                  INNER JOIN auth_resource ar ON ar.id = aua.authority_id
         WHERE ar.request_url = #{requestUrl}
+          and arr.realm_code = #{realmCode}
     </select>
     <select id="getById" resultType="com.github.sparkzxl.auth.infrastructure.entity.AuthUser">
         select id,

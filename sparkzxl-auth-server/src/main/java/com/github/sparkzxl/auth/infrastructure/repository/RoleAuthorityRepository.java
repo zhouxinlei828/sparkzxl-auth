@@ -5,14 +5,19 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.sparkzxl.auth.application.event.RoleResourceEvent;
 import com.github.sparkzxl.auth.domain.model.aggregates.ResourceSource;
 import com.github.sparkzxl.auth.domain.model.aggregates.RoleResource;
+import com.github.sparkzxl.auth.domain.repository.IAuthResourceRepository;
+import com.github.sparkzxl.auth.domain.repository.IRealmPoolRepository;
 import com.github.sparkzxl.auth.domain.repository.IRoleAuthorityRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
+import com.github.sparkzxl.auth.infrastructure.entity.RealmPool;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo;
 import com.github.sparkzxl.auth.infrastructure.enums.OperationEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.core.context.BaseContextHandler;
+import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.core.spring.SpringContextUtils;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.google.common.collect.Lists;
@@ -40,6 +45,8 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
     private RoleAuthorityMapper roleAuthorityMapper;
     private AuthUserMapper authUserMapper;
     private RedisTemplate<String, Object> redisTemplate;
+    private IAuthResourceRepository resourceRepository;
+    private IRealmPoolRepository realmPoolRepository;
 
     @Autowired
     public void setRoleAuthorityMapper(RoleAuthorityMapper roleAuthorityMapper) {
@@ -54,6 +61,16 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
     @Autowired
     public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
+    }
+
+    @Autowired
+    public void setResourceRepository(IAuthResourceRepository resourceRepository) {
+        this.resourceRepository = resourceRepository;
+    }
+
+    @Autowired
+    public void setRealmPoolRepository(IRealmPoolRepository realmPoolRepository) {
+        this.realmPoolRepository = realmPoolRepository;
     }
 
     @Override
@@ -85,7 +102,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
         if (CollectionUtils.isNotEmpty(roleAuthorities)) {
             roleAuthorityMapper.insertBatchSomeColumn(roleAuthorities);
         }
-        SpringContextUtils.publishEvent(new RoleResourceEvent(new ResourceSource(OperationEnum.SAVE, null, null)));
+        SpringContextUtils.publishEvent(new RoleResourceEvent(new ResourceSource(OperationEnum.SAVE, null, null, realmCode)));
         return true;
     }
 
@@ -112,23 +129,36 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
     }
 
     @Override
-    public boolean refreshAuthority() {
-        redisTemplate.delete(CacheConstant.RESOURCE_ROLES_MAP);
-        List<RoleResourceInfo> roleResources = authUserMapper.getRoleResourceList();
-        Map<String, List<RoleResourceInfo>> roleResourceInfoMap =
-                roleResources.stream().collect(Collectors.groupingBy(RoleResourceInfo::getRealmCode));
-        if (MapUtils.isNotEmpty(roleResourceInfoMap)) {
-            for (String realmCode : roleResourceInfoMap.keySet()) {
-                List<RoleResourceInfo> roleResourceInfos = roleResourceInfoMap.get(realmCode);
-                if (CollectionUtils.isNotEmpty(roleResourceInfos)) {
-                    Map<String, Object> roleResourceMap = Maps.newHashMap();
-                    roleResourceInfos.forEach(roleResourceInfo -> roleResourceMap.put(roleResourceInfo.getPath(),
-                            roleResourceInfo.getRoleCode().concat(",").concat("REALM_MANAGER")));
-                    redisTemplate.opsForHash().putAll(BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, realmCode), roleResourceMap);
+    public void refreshAuthorityByRealmCode(String realmCode) {
+        List<AuthResource> authResourceList = resourceRepository.getResourceListByRealmCode(realmCode);
+        if (CollectionUtils.isNotEmpty(authResourceList)) {
+            String generateCacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, realmCode);
+            Map<String, String> resourceMap = Maps.newHashMap();
+            authResourceList.forEach(authResource -> resourceMap.put(authResource.getRequestUrl(), "REALM_MANAGER"));
+            redisTemplate.delete(generateCacheKey);
+            List<RoleResourceInfo> roleResources = authUserMapper.getRoleResourceList(realmCode);
+            Map<String, String> roleResourceMap = roleResources.stream().collect(Collectors.toMap(RoleResourceInfo::getPath,
+                    RoleResourceInfo::getRoleCode));
+            if (MapUtils.isNotEmpty(roleResourceMap)) {
+                for (String path : resourceMap.keySet()) {
+                    String code = resourceMap.get(path);
+                    String roleCode = roleResourceMap.get(path);
+                    resourceMap.replace(path, code.concat(",").concat(roleCode));
                 }
             }
+            redisTemplate.opsForHash().putAll(generateCacheKey, resourceMap);
         }
-        return true;
+    }
+
+
+    @Override
+    public void refreshAuthorityList(Long realmUserId) {
+        List<RealmPool> realmPoolList = realmPoolRepository.getRealmPoolList(null);
+        if (CollectionUtils.isNotEmpty(realmPoolList)) {
+            for (RealmPool realmPool : realmPoolList) {
+                refreshAuthorityByRealmCode(realmPool.getCode());
+            }
+        }
     }
 
     @Override
@@ -145,5 +175,19 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
         String realmCode = BaseContextHandler.getRealm();
         String cacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, realmCode);
         redisTemplate.opsForHash().delete(cacheKey, oldVal);
+    }
+
+    @Override
+    public boolean refreshRealmPoolAuthority(AuthUserInfo<Long> authUserInfo) {
+        Map<String, Object> extraInfo = authUserInfo.getExtraInfo();
+        boolean realmStatus = (boolean) extraInfo.get("realmStatus");
+        String realmCode = BaseContextHandler.getRealm();
+        Long userId = BaseContextHandler.getUserId(Long.TYPE);
+        if (realmStatus) {
+            refreshAuthorityList(userId);
+        } else {
+            refreshAuthorityByRealmCode(realmCode);
+        }
+        return true;
     }
 }

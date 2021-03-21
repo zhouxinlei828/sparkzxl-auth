@@ -8,12 +8,14 @@ import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthorityQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthoritySaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthorityUpdateDTO;
 import com.github.sparkzxl.core.annotation.ResponseResult;
+import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.log.annotation.WebLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class RoleAuthorityController extends SuperCacheController<IRoleAuthority
 
     @ApiOperation("刷新角色权限")
     @GetMapping("/refresh")
-    public boolean refreshAuthority() {
-        return baseService.refreshAuthority();
+    public boolean refreshAuthority(@ApiIgnore AuthUserInfo<Long> authUserInfo) {
+        return baseService.refreshRealmPoolAuthority(authUserInfo);
     }
 }

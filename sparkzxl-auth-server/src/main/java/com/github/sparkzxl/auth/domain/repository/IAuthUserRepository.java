@@ -3,10 +3,8 @@ package com.github.sparkzxl.auth.domain.repository;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.UserCount;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
-import com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * description: 用户仓储层
@@ -48,14 +46,6 @@ public interface IAuthUserRepository {
      * @return
      */
     List<String> getAuthUserRoles(Long id);
-
-    /**
-     * 查询角色路径
-     *
-     * @return List<RoleResource>
-     */
-    List<RoleResourceInfo> getRoleResourceList();
-
 
     /**
      * 删除用户关联信息

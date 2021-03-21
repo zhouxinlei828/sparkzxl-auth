@@ -1,16 +1,17 @@
 package com.github.sparkzxl.auth.application.event;
 
 import com.alibaba.excel.context.AnalysisContext;
-import com.github.sparkzxl.auth.application.service.IUserService;
-import com.github.sparkzxl.auth.application.service.IDictionaryItemService;
 import com.github.sparkzxl.auth.application.service.ICoreOrgService;
 import com.github.sparkzxl.auth.application.service.ICoreStationService;
+import com.github.sparkzxl.auth.application.service.IDictionaryItemService;
+import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.CommonDictionaryItem;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
+import com.github.sparkzxl.core.context.BaseContextHandler;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
 import com.github.sparkzxl.database.entity.RemoteData;
 import com.google.common.collect.Lists;
@@ -70,6 +71,7 @@ public class ImportUserDataListener extends ImportDataListener<UserExcel> {
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
         log.info("所有数据解析完成！size：{}", list.size());
+        String realmCode = BaseContextHandler.getRealm();
         List<AuthUser> authUserList = Lists.newArrayList();
         list.forEach(item -> {
             AuthUser authUser = new AuthUser();
@@ -87,6 +89,7 @@ public class ImportUserDataListener extends ImportDataListener<UserExcel> {
                     authUser.setStation(new RemoteData<>(station.getId()));
                 }
             }
+            authUser.setRealmCode(realmCode);
             authUser.setEmail(item.getEmail());
             authUser.setMobile(item.getMobile());
             authUser.setSex(SexEnum.getEnum(item.getSex()));

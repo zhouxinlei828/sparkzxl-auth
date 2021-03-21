@@ -9,8 +9,6 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthApplication;
 import com.github.sparkzxl.auth.infrastructure.entity.CommonDictionaryItem;
 import com.github.sparkzxl.auth.infrastructure.entity.OauthClientDetails;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthApplicationMapper;
-import com.github.sparkzxl.core.context.BaseContextHandler;
-import com.github.sparkzxl.core.support.SparkZxlExceptionAssert;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -48,22 +46,13 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
             application.setClientId(oauthClientDetails.getClientId());
             oauthClientDetailsRepository.saveOauthClientDetails(oauthClientDetails);
         }
-        String realmCode = BaseContextHandler.getRealm();
-        if (StringUtils.isNotEmpty(realmCode)) {
-            application.setRealmCode(realmCode);
-        }
-        authApplicationMapper.insert(application);
-        return true;
+        return authApplicationMapper.insert(application) == 1;
     }
 
     @Override
     public PageInfo<AuthApplication> listPage(int pageNum, int pageSize, String clientId, String appName) {
-        String realmCode = BaseContextHandler.getRealm();
-        if (StringUtils.isEmpty(realmCode)) {
-            SparkZxlExceptionAssert.businessFail("领域池信息为空");
-        }
         PageHelper.startPage(pageNum, pageSize);
-        List<AuthApplication> authApplications = authApplicationMapper.listPage(realmCode, clientId, appName);
+        List<AuthApplication> authApplications = authApplicationMapper.listPage(clientId, appName);
         PageInfo<AuthApplication> authApplicationPageInfo = PageInfoUtils.pageInfo(authApplications);
         List<AuthApplication> applicationList = authApplicationPageInfo.getList();
         if (CollectionUtils.isNotEmpty(applicationList)) {
@@ -102,10 +91,6 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
             application.setOriginalClientSecret(oauthClientDetails.getClientSecret());
             application.setClientId(oauthClientDetails.getClientId());
             oauthClientDetailsRepository.updateOauthClientDetails(oauthClientDetails);
-        }
-        String realmCode = BaseContextHandler.getRealm();
-        if (StringUtils.isNotEmpty(realmCode)) {
-            application.setRealmCode(realmCode);
         }
         authApplicationMapper.updateById(application);
         return true;

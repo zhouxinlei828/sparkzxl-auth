@@ -94,6 +94,15 @@ public class RealmPoolRepository implements IRealmPoolRepository {
     }
 
     @Override
+    public List<RealmPool> getRealmPoolList(Long realmUserId) {
+        LambdaQueryWrapper<RealmPool> realmPoolLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        if (ObjectUtils.isNotEmpty(realmUserId)) {
+            realmPoolLambdaQueryWrapper.eq(RealmPool::getRealmUserId, realmUserId);
+        }
+        return realmPoolMapper.selectList(realmPoolLambdaQueryWrapper);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean saveRealmPool(RealmPool realmPool) {
         String realmCode = IdUtil.objectId();

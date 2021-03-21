@@ -24,6 +24,7 @@ import com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
+import com.github.sparkzxl.core.context.BaseContextHandler;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
@@ -69,11 +70,6 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     private IDictionaryItemService dictionaryItemService;
 
     @Override
-    protected String getRegion() {
-        return CacheConstant.USER;
-    }
-
-    @Override
     public AuthUserInfo<Long> getAuthUserInfo(String username) {
         AuthUser authUser = authUserRepository.selectByAccount(username);
         if (ObjectUtils.isNotEmpty(authUser)) {
@@ -100,6 +96,8 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         AuthUser authUser = AuthUserConvert.INSTANCE.convertAuthUser(authUserSaveDTO);
         String password = passwordEncoder.encode(authUser.getPassword());
         authUser.setPassword(password);
+        String realmCode = BaseContextHandler.getRealm();
+        authUser.setRealmCode(realmCode);
         return save(authUser);
     }
 
@@ -128,10 +126,10 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
             userInfo.setName(name);
             userInfo.setMobile(fakerWithCN.phoneNumber().cellPhone());
             RemoteData<Long, CoreOrg> orgRemoteData = new RemoteData<>();
-            orgRemoteData.setKey(643776594376135105L);
+            orgRemoteData.setKey(112L);
             userInfo.setOrg(orgRemoteData);
             RemoteData<Long, CoreStation> stationRemoteData = new RemoteData<>();
-            stationRemoteData.setKey(643776594376135105L);
+            stationRemoteData.setKey(106L);
             userInfo.setStation(stationRemoteData);
             String pinyin = StringUtils.deleteWhitespace(PinyinUtil.getPinyin(name));
             userInfo.setAccount(pinyin);
@@ -213,4 +211,10 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     public List<String> getAuthUserRoles(Long id) {
         return authUserRepository.getAuthUserRoles(id);
     }
+
+    @Override
+    protected String getRegion() {
+        return CacheConstant.USER;
+    }
+
 }

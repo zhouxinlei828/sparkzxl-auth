@@ -2,6 +2,7 @@ package com.github.sparkzxl.auth.application.service;
 
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthoritySaveDTO;
+import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
 
 /**
@@ -25,8 +26,16 @@ public interface IRoleAuthorityService extends SuperCacheService<RoleAuthority> 
     /**
      * 刷新角色权限
      *
+     * @param realmUserId 领域用户id
+     */
+    void refreshAuthorityList(Long realmUserId);
+
+    /**
+     * 刷新角色权限
+     *
+     * @param authUserInfo 全局用户
      * @return boolean
      */
-    boolean refreshAuthority();
+    boolean refreshRealmPoolAuthority(AuthUserInfo<Long> authUserInfo);
 
 }

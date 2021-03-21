@@ -16,9 +16,10 @@ public interface IAuthResourceRepository {
     /**
      * 加载所有资源
      *
+     * @param realmCode 领域池code
      * @return List<AuthResource>
      */
-    List<AuthResource> authResourceList();
+    List<AuthResource> getResourceListByRealmCode(String realmCode);
 
 
     /**

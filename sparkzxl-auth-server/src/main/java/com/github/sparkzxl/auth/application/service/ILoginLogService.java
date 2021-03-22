@@ -1,9 +1,9 @@
 package com.github.sparkzxl.auth.application.service;
 
 
+import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
-import com.github.sparkzxl.core.entity.UserAgentEntity;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
 
 import java.time.LocalDateTime;
@@ -20,12 +20,9 @@ public interface ILoginLogService extends SuperCacheService<LoginLog> {
     /**
      * 记录登录日志
      *
-     * @param userId          用户id
-     * @param account         账号
-     * @param userAgentEntity 用户代理
-     * @param description     登陆描述消息
+     * @param loginStatus 登录态
      */
-    void save(Long userId, String account, UserAgentEntity userAgentEntity, String description);
+    void save(LoginStatus<Long> loginStatus);
 
     /**
      * 获取系统总访问次数

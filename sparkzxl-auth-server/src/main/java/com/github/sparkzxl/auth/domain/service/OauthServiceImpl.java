@@ -3,13 +3,12 @@ package com.github.sparkzxl.auth.domain.service;
 import cn.hutool.core.net.url.UrlBuilder;
 import cn.hutool.core.net.url.UrlPath;
 import cn.hutool.core.util.*;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.github.sparkzxl.auth.application.event.LoginEvent;
 import com.github.sparkzxl.auth.application.service.IOauthService;
 import com.github.sparkzxl.auth.application.service.IRealmManagerService;
-import com.github.sparkzxl.auth.application.service.IRealmPoolService;
 import com.github.sparkzxl.auth.application.service.IUserService;
+import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
-import com.github.sparkzxl.auth.infrastructure.entity.RealmPool;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AuthorizationRequest;
 import com.github.sparkzxl.auth.infrastructure.oauth2.OpenProperties;
@@ -17,6 +16,7 @@ import com.github.sparkzxl.cache.template.CacheTemplate;
 import com.github.sparkzxl.core.context.BaseContextConstants;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.core.entity.CaptchaInfo;
+import com.github.sparkzxl.core.spring.SpringContextUtils;
 import com.github.sparkzxl.core.support.ResponseResultStatus;
 import com.github.sparkzxl.core.support.SparkZxlExceptionAssert;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
@@ -65,34 +65,58 @@ import static io.vavr.API.Case;
 @Slf4j
 public class OauthServiceImpl implements IOauthService {
 
-    @Autowired
     private TokenEndpoint tokenEndpoint;
-    @Autowired
     private CacheTemplate cacheTemplate;
-    @Autowired
     private IUserService userService;
-    @Autowired
     private IRealmManagerService realmManagerService;
-    @Autowired
-    private IRealmPoolService tenantService;
-    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
-    @Autowired
     private ClientDetailsService clientDetailsService;
-    @Autowired
     private OpenProperties openProperties;
-    @Autowired
     private CustomTokenGrantService customTokenGrantService;
+
+    @Autowired
+    public void setTokenEndpoint(TokenEndpoint tokenEndpoint) {
+        this.tokenEndpoint = tokenEndpoint;
+    }
+
+    @Autowired
+    public void setCacheTemplate(CacheTemplate cacheTemplate) {
+        this.cacheTemplate = cacheTemplate;
+    }
+
+    @Autowired
+    public void setUserService(IUserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setRealmManagerService(IRealmManagerService realmManagerService) {
+        this.realmManagerService = realmManagerService;
+    }
+
+    @Autowired
+    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    @Autowired
+    public void setClientDetailsService(ClientDetailsService clientDetailsService) {
+        this.clientDetailsService = clientDetailsService;
+    }
+
+    @Autowired
+    public void setOpenProperties(OpenProperties openProperties) {
+        this.openProperties = openProperties;
+    }
+
+    @Autowired
+    public void setCustomTokenGrantService(CustomTokenGrantService customTokenGrantService) {
+        this.customTokenGrantService = customTokenGrantService;
+    }
 
     @SneakyThrows
     @Override
     public OAuth2AccessToken getAccessToken(Principal principal, Map<String, String> parameters) {
-        checkRealmCode();
-        String captcha = parameters.get("captchaCode");
-        if (StringUtils.isNotEmpty(captcha)) {
-            String captchaKey = parameters.get("captchaKey");
-            checkCaptcha(captchaKey, captcha);
-        }
         ResponseEntity<OAuth2AccessToken> oAuth2AccessTokenResponseEntity = tokenEndpoint.getAccessToken(principal, parameters);
         return loginEventAndBack(oAuth2AccessTokenResponseEntity);
     }
@@ -103,7 +127,9 @@ public class OauthServiceImpl implements IOauthService {
             assert oAuth2AccessToken != null;
             Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
             boolean realmStatus = (boolean) additionalInformation.get("realmStatus");
-            buildGlobalUserInfo(oAuth2AccessToken, realmStatus);
+            AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken, realmStatus);
+            SpringContextUtils.publishEvent(new LoginEvent(LoginStatus.success(authUserInfo.getId(), authUserInfo.getAccount(),
+                    authUserInfo.getName())));
             return oAuth2AccessToken;
         }
         SparkZxlExceptionAssert.businessFail(ResponseResultStatus.AUTHORIZED_FAIL);
@@ -113,12 +139,6 @@ public class OauthServiceImpl implements IOauthService {
     @SneakyThrows
     @Override
     public OAuth2AccessToken postAccessToken(Principal principal, Map<String, String> parameters) {
-        checkRealmCode();
-        String captcha = parameters.get("captchaCode");
-        if (StringUtils.isNotEmpty(captcha)) {
-            String captchaKey = parameters.get("captchaKey");
-            checkCaptcha(captchaKey, captcha);
-        }
         ResponseEntity<OAuth2AccessToken> oAuth2AccessTokenResponseEntity = tokenEndpoint.postAccessToken(principal, parameters);
         return loginEventAndBack(oAuth2AccessTokenResponseEntity);
     }
@@ -126,8 +146,7 @@ public class OauthServiceImpl implements IOauthService {
     @Override
     public AccessTokenInfo getAccessToken(AuthorizationRequest authorizationRequest) {
         Map<String, String> parameters = builderAccessTokenParameters(authorizationRequest);
-        OAuth2AccessToken oAuth2AccessToken = customTokenGrantService.getAccessToken(parameters);
-        return loginEventAndBack(oAuth2AccessToken);
+        return buildAccessToken(customTokenGrantService.getAccessToken(parameters));
     }
 
     @Override
@@ -135,14 +154,10 @@ public class OauthServiceImpl implements IOauthService {
         return getAccessToken(authorizationRequest);
     }
 
-    private AccessTokenInfo loginEventAndBack(OAuth2AccessToken oAuth2AccessToken) {
-        return buildAccessToken(oAuth2AccessToken);
-    }
-
     private AccessTokenInfo buildAccessToken(OAuth2AccessToken oAuth2AccessToken) {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
         boolean realmStatus = (boolean) additionalInformation.get("realmStatus");
-        buildGlobalUserInfo(oAuth2AccessToken, realmStatus);
+        AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken, realmStatus);
         AccessTokenInfo accessTokenInfo = new AccessTokenInfo();
         accessTokenInfo.setAccessToken(oAuth2AccessToken.getValue());
         accessTokenInfo.setTokenType(oAuth2AccessToken.getTokenType());
@@ -153,6 +168,8 @@ public class OauthServiceImpl implements IOauthService {
         if (StringUtils.isNotEmpty(realm)) {
             accessTokenInfo.setRealm(realm);
         }
+        SpringContextUtils.publishEvent(new LoginEvent(LoginStatus.success(authUserInfo.getId(), authUserInfo.getAccount(),
+                authUserInfo.getName())));
         return accessTokenInfo;
     }
 
@@ -161,7 +178,7 @@ public class OauthServiceImpl implements IOauthService {
      *
      * @param oAuth2AccessToken 认证token
      */
-    private void buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken, boolean realmStatus) {
+    private AuthUserInfo<Long> buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken, boolean realmStatus) {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
         String username = (String) additionalInformation.get("username");
         AuthUserInfo<Long> authUserInfo;
@@ -173,18 +190,7 @@ public class OauthServiceImpl implements IOauthService {
         String authUserInfoKey = BuildKeyUtils.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
         redisTemplate.opsForHash().put(authUserInfoKey, oAuth2AccessToken.getValue(), authUserInfo);
         redisTemplate.expire(authUserInfoKey, oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);
-    }
-
-    private void checkRealmCode() {
-        boolean success = true;
-        String realmCode = RequestContextHolderUtils.getHeader(BaseContextConstants.JWT_KEY_REALM);
-        if (StringUtils.isNotEmpty(realmCode)) {
-            int count = tenantService.count(new LambdaQueryWrapper<RealmPool>().eq(RealmPool::getCode, realmCode));
-            success = count > 0;
-        }
-        if (!success) {
-            SparkZxlExceptionAssert.businessFail("该领域池不存在");
-        }
+        return authUserInfo;
     }
 
     /**

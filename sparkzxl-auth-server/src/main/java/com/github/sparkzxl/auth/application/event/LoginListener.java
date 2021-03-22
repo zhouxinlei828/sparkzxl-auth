@@ -1,17 +1,13 @@
 package com.github.sparkzxl.auth.application.event;
 
+import com.github.sparkzxl.auth.application.service.ILoginLogService;
 import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
-import com.github.sparkzxl.auth.domain.repository.ILoginLogRepository;
-import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
-import com.github.sparkzxl.core.entity.UserAgentEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 /**
  * description: 权限资源变更事件监听，用于调整具体的业务
@@ -24,11 +20,11 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class LoginListener {
 
-    private ILoginLogRepository loginLogRepository;
+    private ILoginLogService loginLogService;
 
     @Autowired
-    public void setLoginLogRepository(ILoginLogRepository loginLogRepository) {
-        this.loginLogRepository = loginLogRepository;
+    public void setLoginLogService(ILoginLogService loginLogService) {
+        this.loginLogService = loginLogService;
     }
 
 
@@ -36,21 +32,6 @@ public class LoginListener {
     @EventListener({LoginEvent.class})
     public void loginListenerEvent(LoginEvent event) {
         LoginStatus<Long> source = (LoginStatus<Long>) event.getSource();
-        UserAgentEntity userAgentEntity = source.getUserAgentEntity();
-        LoginLog loginLog = LoginLog.builder()
-                .requestIp(userAgentEntity.getRequestIp())
-                .userId(source.getId())
-                .userName(source.getName())
-                .account(source.getAccount())
-                .description(source.getDescription())
-                .loginDate(LocalDateTime.now())
-                .ua(userAgentEntity.getUa())
-                .browser(userAgentEntity.getBrowser())
-                .browserVersion(userAgentEntity.getBrowserVersion())
-                .operatingSystem(userAgentEntity.getOperatingSystem())
-                .location(userAgentEntity.getLocation())
-                .realmCode(source.getRealmCode())
-                .build();
-        loginLogRepository.saveLoginLog(loginLog);
+        loginLogService.save(source);
     }
 }

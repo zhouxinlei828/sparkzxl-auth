@@ -5,13 +5,19 @@ import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.core.annotation.ResponseResult;
 import com.github.sparkzxl.log.annotation.WebLog;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+
+import java.security.Principal;
+import java.util.Map;
 
 
 /**
@@ -31,6 +37,35 @@ public class OauthController {
     @Autowired
     public void setOauthService(IOauthService oauthService) {
         this.oauthService = oauthService;
+    }
+
+
+    @ApiOperation(value = "GET授权登录端口", notes = "GET授权登录端口")
+    @GetMapping("/oauth/token")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "Authorization", value = "Basic Auth", paramType = "header", defaultValue = "Basic c3Bhcmt6eGw6MTIzNDU2")
+    )
+    @ResponseBody
+    public OAuth2AccessToken getAccessToken(@RequestHeader(value = "Authorization") String authorization,
+                                            @ApiIgnore Principal principal,
+                                            @RequestParam Map<String, String> parameters)
+            throws HttpRequestMethodNotSupportedException {
+        log.info("Authorization = {}", authorization);
+        return oauthService.getAccessToken(principal, parameters);
+    }
+
+    @ApiOperation(value = "POST授权登录端口", notes = "POST授权登录端口")
+    @PostMapping("/oauth/token")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "Authorization", value = "Basic Auth", paramType = "header", defaultValue = "Basic c3Bhcmt6eGw6MTIzNDU2")
+    )
+    @ResponseBody
+    public OAuth2AccessToken postAccessToken(@RequestHeader(value = "Authorization") String authorization,
+                                             @ApiIgnore Principal principal,
+                                             @RequestParam Map<String, String> parameters)
+            throws HttpRequestMethodNotSupportedException {
+        log.info("Authorization = {}", authorization);
+        return oauthService.postAccessToken(principal, parameters);
     }
 
     @ApiOperation(value = "获取授权登录地址", notes = "获取授权登录地址")

@@ -1,7 +1,9 @@
 package com.github.sparkzxl.auth.domain.service;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.github.sparkzxl.auth.application.service.ILoginLogService;
+import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.domain.repository.ILoginLogRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
@@ -12,6 +14,7 @@ import com.github.sparkzxl.auth.infrastructure.mapper.LoginLogMapper;
 import com.github.sparkzxl.core.entity.UserAgentEntity;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,25 +63,38 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
     }
 
     @Override
-    public void save(Long userId, String account, UserAgentEntity userAgentEntity, String description) {
+    public void save(LoginStatus<Long> loginStatus) {
         AuthUser authUser;
-        if (userId != null) {
-            authUser = authUserRepository.selectById(userId);
+        if (loginStatus.getId() != null) {
+            authUser = authUserRepository.selectById(loginStatus.getId());
         } else {
-            authUser = authUserRepository.selectByAccount(account);
+            authUser = authUserRepository.selectByAccount(loginStatus.getAccount());
         }
+        UserAgentEntity userAgentEntity = loginStatus.getUserAgentEntity();
+        String region = null;
+        if (StringUtils.isNotEmpty(userAgentEntity.getLocation())) {
+            JSONObject locationJsonObj = JSONObject.parseObject(userAgentEntity.getLocation());
+            region = locationJsonObj.getString("region");
+        }
+        System.out.println(userAgentEntity);
         LoginLog loginLog = LoginLog.builder()
-                .location(userAgentEntity.getLocation())
-                .loginDate(LocalDate.now())
-                .description(description)
-                .requestIp(userAgentEntity.getRequestIp()).ua(userAgentEntity.getUa())
+                .requestIp(userAgentEntity.getRequestIp())
+                .userId(loginStatus.getId())
+                .userName(loginStatus.getName())
+                .account(loginStatus.getAccount())
+                .description(loginStatus.getDescription())
+                .loginDate(LocalDateTime.now())
+                .ua(userAgentEntity.getUa())
                 .browser(userAgentEntity.getBrowser())
                 .browserVersion(userAgentEntity.getBrowserVersion())
                 .operatingSystem(userAgentEntity.getOperatingSystem())
+                .location(region)
+
                 .build();
         if (authUser != null) {
             loginLog.setAccount(authUser.getAccount()).setUserId(authUser.getId()).setUserName(authUser.getName())
                     .setCreateUser(authUser.getId());
+            loginLog.setRealmCode(authUser.getRealmCode());
         }
         loginLogRepository.saveLoginLog(loginLog);
         LocalDate now = LocalDate.now();
@@ -89,7 +105,7 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
         cacheTemplate.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_BROWSER));
         cacheTemplate.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_SYSTEM));
         if (authUser != null) {
-            cacheTemplate.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TEN_DAY, tenDays, account));
+            cacheTemplate.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TEN_DAY, tenDays, loginStatus.getAccount()));
         }
     }
 

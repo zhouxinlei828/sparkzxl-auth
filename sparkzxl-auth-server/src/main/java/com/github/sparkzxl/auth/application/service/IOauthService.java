@@ -30,6 +30,7 @@ public interface IOauthService {
     /**
      * POST请求授权登录
      *
+     * @param principal  认证主体
      * @param parameters 认证请求
      * @return OAuth2AccessToken
      * @throws HttpRequestMethodNotSupportedException 请求方法异常

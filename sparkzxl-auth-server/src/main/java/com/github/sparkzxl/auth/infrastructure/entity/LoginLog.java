@@ -1,5 +1,6 @@
 package com.github.sparkzxl.auth.infrastructure.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.github.sparkzxl.database.entity.SuperEntity;
@@ -26,7 +27,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("common_login_log")
+@TableName("auth_login_log")
 @ApiModel(value = "LoginLog", description = "登录日志")
 public class LoginLog extends SuperEntity<Long> {
 
@@ -57,8 +58,8 @@ public class LoginLog extends SuperEntity<Long> {
     private String description;
 
     @ApiModelProperty(value = "登录时间")
-    @TableField("login_date")
-    private LocalDate loginDate;
+    @TableField(value = "login_date",fill = FieldFill.INSERT)
+    private LocalDateTime loginDate;
 
     @ApiModelProperty(value = "浏览器请求头")
     @Length(max = 500, message = "浏览器请求头长度不能超过500")
@@ -92,7 +93,8 @@ public class LoginLog extends SuperEntity<Long> {
     @Builder
     public LoginLog(Long id, LocalDateTime createTime, Long createUser,
                     String requestIp, Long userId, String userName, String account, String description,
-                    LocalDate loginDate, String ua, String browser, String browserVersion, String operatingSystem, String location) {
+                    LocalDateTime loginDate, String ua, String browser, String browserVersion, String operatingSystem,
+                    String location, String realmCode) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
@@ -107,6 +109,7 @@ public class LoginLog extends SuperEntity<Long> {
         this.browserVersion = browserVersion;
         this.operatingSystem = operatingSystem;
         this.location = location;
+        this.realmCode = realmCode;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.domain.service;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.application.service.ILoginLogService;
 import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
@@ -11,16 +11,19 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
 import com.github.sparkzxl.auth.infrastructure.mapper.LoginLogMapper;
+import com.github.sparkzxl.auth.interfaces.dto.log.LoginLogQueryDTO;
+import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.core.entity.UserAgentEntity;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
-import org.apache.commons.lang3.StringUtils;
+import com.github.sparkzxl.database.dto.PageParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * description：系统日志 服务实现类
@@ -71,11 +74,6 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
             authUser = authUserRepository.selectByAccount(loginStatus.getAccount());
         }
         UserAgentEntity userAgentEntity = loginStatus.getUserAgentEntity();
-        String region = null;
-        if (StringUtils.isNotEmpty(userAgentEntity.getLocation())) {
-            JSONObject locationJsonObj = JSONObject.parseObject(userAgentEntity.getLocation());
-            region = locationJsonObj.getString("region");
-        }
         System.out.println(userAgentEntity);
         LoginLog loginLog = LoginLog.builder()
                 .requestIp(userAgentEntity.getRequestIp())
@@ -88,8 +86,7 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
                 .browser(userAgentEntity.getBrowser())
                 .browserVersion(userAgentEntity.getBrowserVersion())
                 .operatingSystem(userAgentEntity.getOperatingSystem())
-                .location(region)
-
+                .location(userAgentEntity.getLocation())
                 .build();
         if (authUser != null) {
             loginLog.setAccount(authUser.getAccount()).setUserId(authUser.getId()).setUserName(authUser.getName())
@@ -148,6 +145,20 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
     @Override
     public boolean clearLog(LocalDateTime clearBeforeTime, Integer clearBeforeNum) {
         return loginLogRepository.clearLog(clearBeforeTime, clearBeforeNum);
+    }
+
+    @Override
+    public PageInfo<LoginLog> getLoginLogPage(AuthUserInfo<Long> authUserInfo, PageParams<LoginLogQueryDTO> pageParams) {
+        Map<String, Object> extraInfo = authUserInfo.getExtraInfo();
+        boolean realmStatus = (boolean) extraInfo.get("realmStatus");
+        return loginLogRepository.getLoginLogPage(pageParams.getPageNum(), pageParams.getPageSize(),
+                realmStatus, authUserInfo.getId(), pageParams.getModel().getAccount(), pageParams.getModel().getStartTime(),
+                pageParams.getModel().getEndTime());
+    }
+
+    @Override
+    public boolean deleteLoginLog(List<Long> ids) {
+        return loginLogRepository.deleteLoginLog(ids);
     }
 
     @Override

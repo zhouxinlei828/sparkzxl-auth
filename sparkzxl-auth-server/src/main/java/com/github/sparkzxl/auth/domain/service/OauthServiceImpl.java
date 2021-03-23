@@ -129,7 +129,7 @@ public class OauthServiceImpl implements IOauthService {
             boolean realmStatus = (boolean) additionalInformation.get("realmStatus");
             AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken, realmStatus);
             SpringContextUtils.publishEvent(new LoginEvent(LoginStatus.success(authUserInfo.getId(), authUserInfo.getAccount(),
-                    authUserInfo.getName())));
+                    authUserInfo.getName()).setRealmCode(authUserInfo.getRealm())));
             return oAuth2AccessToken;
         }
         SparkZxlExceptionAssert.businessFail(ResponseResultStatus.AUTHORIZED_FAIL);
@@ -169,7 +169,7 @@ public class OauthServiceImpl implements IOauthService {
             accessTokenInfo.setRealm(realm);
         }
         SpringContextUtils.publishEvent(new LoginEvent(LoginStatus.success(authUserInfo.getId(), authUserInfo.getAccount(),
-                authUserInfo.getName())));
+                authUserInfo.getName()).setRealmCode(authUserInfo.getRealm())));
         return accessTokenInfo;
     }
 

@@ -67,6 +67,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/org/**",
                         "/station/**",
                         "/application/**",
+                        "/login/log/**",
                         "/realm/**");
     }
 }

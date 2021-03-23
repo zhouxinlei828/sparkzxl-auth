@@ -1,13 +1,18 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
+import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.application.service.ILoginLogService;
+import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
+import com.github.sparkzxl.auth.interfaces.dto.log.LoginLogQueryDTO;
 import com.github.sparkzxl.core.annotation.ResponseResult;
+import com.github.sparkzxl.core.entity.AuthUserInfo;
+import com.github.sparkzxl.database.dto.DeleteDTO;
+import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.log.annotation.WebLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +24,7 @@ import java.time.LocalDateTime;
  */
 @RestController
 @ResponseResult
+@RequestMapping("/login/log")
 @WebLog
 @Api(value = "LoginLog", tags = "登录日志")
 public class LoginLogController {
@@ -29,6 +35,18 @@ public class LoginLogController {
         this.loginLogService = loginLogService;
     }
 
+    @ApiOperation("登录日志分页")
+    @PostMapping("/page")
+    public PageInfo<LoginLog> getLoginLogPage(@ApiIgnore AuthUserInfo<Long> authUserInfo,
+                                              @RequestBody PageParams<LoginLogQueryDTO> pageParams) {
+        return loginLogService.getLoginLogPage(authUserInfo, pageParams);
+    }
+
+    @ApiOperation("删除登录日志")
+    @DeleteMapping("/delete")
+    public boolean deleteLoginLog(@RequestBody DeleteDTO<Long> deleteDTO) {
+        return loginLogService.deleteLoginLog(deleteDTO.getIds());
+    }
 
     @ApiOperation("清空日志")
     @DeleteMapping("/clear")

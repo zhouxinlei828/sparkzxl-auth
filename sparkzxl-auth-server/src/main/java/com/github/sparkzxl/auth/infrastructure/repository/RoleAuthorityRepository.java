@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -150,8 +151,10 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
                 for (String path : resourceMap.keySet()) {
                     String code = resourceMap.get(path);
                     String roleCode = roleResourceMap.get(path);
-                    final String finalRoleCode = code.concat(",").concat(roleCode);
-                    resourceMap.replace(path, finalRoleCode);
+                    if (StringUtils.isNotEmpty(roleCode)){
+                        final String finalRoleCode = code.concat(",").concat(roleCode);
+                        resourceMap.replace(path, finalRoleCode);
+                    }
                 }
             }
             redisTemplate.opsForHash().putAll(generateCacheKey, resourceMap);

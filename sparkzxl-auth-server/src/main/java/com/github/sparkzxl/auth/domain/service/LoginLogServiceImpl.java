@@ -1,6 +1,5 @@
 package com.github.sparkzxl.auth.domain.service;
 
-import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.application.service.ILoginLogService;
 import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
@@ -34,11 +33,18 @@ import java.util.Map;
 @Service
 public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, LoginLog> implements ILoginLogService {
 
-    @Autowired
     private IAuthUserRepository authUserRepository;
+    private ILoginLogRepository loginLogRepository;
 
     @Autowired
-    private ILoginLogRepository loginLogRepository;
+    public void setAuthUserRepository(IAuthUserRepository authUserRepository) {
+        this.authUserRepository = authUserRepository;
+    }
+
+    @Autowired
+    public void setLoginLogRepository(ILoginLogRepository loginLogRepository) {
+        this.loginLogRepository = loginLogRepository;
+    }
 
     @Override
     public void save(LoginStatus<Long> loginStatus) {

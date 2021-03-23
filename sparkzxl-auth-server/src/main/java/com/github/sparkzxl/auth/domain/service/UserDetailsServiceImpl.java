@@ -2,6 +2,7 @@ package com.github.sparkzxl.auth.domain.service;
 
 import com.github.sparkzxl.auth.application.service.IRealmManagerService;
 import com.github.sparkzxl.auth.application.service.IUserService;
+import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.convert.RealmManagerConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
@@ -54,7 +55,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public AuthUserDetail<Long> getAuthUserDetail(String username) {
         RealmManager realmManager = realmManagerService.getByAccount(username);
         if (ObjectUtils.isNotEmpty(realmManager)) {
-            AuthUserInfo<Long> authUserInfo = buildAuthUserInfo(realmManager, Lists.newArrayList("REALM_MANAGER"));
+            AuthUserInfo<Long> authUserInfo = buildAuthUserInfo(realmManager, Lists.newArrayList(RoleConstant.REALM_MANAGER_CODE, RoleConstant.USER_CODE));
             AuthUserDetail<Long> authUserDetail = new AuthUserDetail<>(realmManager.getAccount(),
                     realmManager.getPassword(),
                     AuthorityUtils.createAuthorityList(ListUtils.listToArray(authUserInfo.getAuthorityList())));
@@ -66,9 +67,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             AuthUser authUser = authUserService.getByAccount(username);
             if (ObjectUtils.isNotEmpty(authUser)) {
                 AuthUserInfo<Long> authUserInfo = buildAuthUserInfo(authUser, authUserService.getAuthUserRoles(authUser.getId()));
+                List<String> authorityList = authUserInfo.getAuthorityList();
+                authorityList.add(RoleConstant.USER_CODE);
                 AuthUserDetail<Long> authUserDetail = new AuthUserDetail<>(authUser.getAccount(),
                         authUser.getPassword(),
-                        AuthorityUtils.createAuthorityList(ListUtils.listToArray(authUserInfo.getAuthorityList())));
+                        AuthorityUtils.createAuthorityList(ListUtils.listToArray(authorityList)));
                 authUserDetail.setId(authUser.getId());
                 authUserDetail.setName(authUser.getName());
                 authUserDetail.setRealm(authUser.getRealmCode());

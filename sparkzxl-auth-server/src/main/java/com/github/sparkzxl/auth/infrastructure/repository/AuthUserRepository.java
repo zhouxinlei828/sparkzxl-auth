@@ -1,12 +1,14 @@
 package com.github.sparkzxl.auth.infrastructure.repository;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.sparkzxl.auth.domain.model.aggregates.*;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
+import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.*;
@@ -21,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -39,13 +42,54 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AuthUserRepository implements IAuthUserRepository {
 
-    public final AuthUserMapper authUserMapper;
-    private final UserRoleMapper userRoleMapper;
-    private final AuthRoleMapper authRoleMapper;
-    private final RoleAuthorityMapper roleAuthorityMapper;
-    private final AuthResourceMapper authResourceMapper;
-    private final CoreOrgMapper coreOrgMapper;
-    private final PasswordEncoder passwordEncoder;
+    public AuthUserMapper authUserMapper;
+    private UserRoleMapper userRoleMapper;
+    private AuthRoleMapper authRoleMapper;
+    private RoleAuthorityMapper roleAuthorityMapper;
+    private AuthResourceMapper authResourceMapper;
+    private CoreOrgMapper coreOrgMapper;
+    private PasswordEncoder passwordEncoder;
+    private Snowflake snowflake;
+
+    @Autowired
+    public void setAuthUserMapper(AuthUserMapper authUserMapper) {
+        this.authUserMapper = authUserMapper;
+    }
+
+    @Autowired
+    public void setUserRoleMapper(UserRoleMapper userRoleMapper) {
+        this.userRoleMapper = userRoleMapper;
+    }
+
+    @Autowired
+    public void setAuthRoleMapper(AuthRoleMapper authRoleMapper) {
+        this.authRoleMapper = authRoleMapper;
+    }
+
+    @Autowired
+    public void setRoleAuthorityMapper(RoleAuthorityMapper roleAuthorityMapper) {
+        this.roleAuthorityMapper = roleAuthorityMapper;
+    }
+
+    @Autowired
+    public void setAuthResourceMapper(AuthResourceMapper authResourceMapper) {
+        this.authResourceMapper = authResourceMapper;
+    }
+
+    @Autowired
+    public void setCoreOrgMapper(CoreOrgMapper coreOrgMapper) {
+        this.coreOrgMapper = coreOrgMapper;
+    }
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Autowired
+    public void setSnowflake(Snowflake snowflake) {
+        this.snowflake = snowflake;
+    }
 
     @Override
     public AuthUser selectById(Long id) {
@@ -120,20 +164,10 @@ public class AuthUserRepository implements IAuthUserRepository {
         if (ObjectUtils.isNotEmpty(org)) {
             CoreOrg data = org.getData();
             if (ObjectUtils.isNotEmpty(data)) {
-                OrgBasicInfo orgBasicInfo = new OrgBasicInfo();
-                orgBasicInfo.setId(data.getId());
-                orgBasicInfo.setLabel(data.getLabel());
-                orgBasicInfo.setParentId(data.getParentId());
-                orgBasicInfo.setSortValue(data.getSortValue());
-                orgTreeList.add(orgBasicInfo);
+                orgTreeList.add(buildOrgBasicInfo(data));
                 if (data.getParentId() != 0) {
                     CoreOrg coreOrg = coreOrgMapper.selectById(data.getParentId());
-                    OrgBasicInfo parentOrgBasicInfo = new OrgBasicInfo();
-                    parentOrgBasicInfo.setId(coreOrg.getId());
-                    parentOrgBasicInfo.setLabel(coreOrg.getLabel());
-                    parentOrgBasicInfo.setParentId(coreOrg.getParentId());
-                    parentOrgBasicInfo.setSortValue(coreOrg.getSortValue());
-                    orgTreeList.add(parentOrgBasicInfo);
+                    orgTreeList.add(buildOrgBasicInfo(coreOrg));
                     authUserBasicInfo.setOrgName(coreOrg.getLabel().concat("-").concat(data.getLabel()));
                 } else {
                     authUserBasicInfo.setOrgName(data.getLabel());
@@ -148,6 +182,11 @@ public class AuthUserRepository implements IAuthUserRepository {
         if (CollectionUtils.isNotEmpty(roleIds)) {
             List<AuthRole> roleList = authRoleMapper.selectBatchIds(roleIds);
             List<RoleBasicInfo> roleBasicInfos = AuthRoleConvert.INSTANCE.convertRoleBasicInfo(roleList);
+            RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
+            roleBasicInfo.setId(snowflake.nextId());
+            roleBasicInfo.setCode(RoleConstant.USER_CODE);
+            roleBasicInfo.setName("普通用户");
+            roleBasicInfos.add(roleBasicInfo);
             authUserBasicInfo.setRoleBasicInfos(roleBasicInfos);
             List<RoleAuthority> roleAuthorities =
                     roleAuthorityMapper.selectList(new LambdaQueryWrapper<RoleAuthority>().in(RoleAuthority::getRoleId, roleIds)
@@ -171,8 +210,25 @@ public class AuthUserRepository implements IAuthUserRepository {
                 }
             }
             authUserBasicInfo.setResourceBasicInfos(resourceBasicInfos);
+        } else {
+            RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
+            roleBasicInfo.setId(snowflake.nextId());
+            roleBasicInfo.setCode(RoleConstant.USER_CODE);
+            roleBasicInfo.setName("普通用户");
+            List<RoleBasicInfo> roleBasicInfos = Lists.newArrayList(roleBasicInfo);
+            authUserBasicInfo.setRoleBasicInfos(roleBasicInfos);
         }
         return authUserBasicInfo;
+    }
+
+
+    private OrgBasicInfo buildOrgBasicInfo(CoreOrg coreOrg) {
+        OrgBasicInfo orgBasicInfo = new OrgBasicInfo();
+        orgBasicInfo.setId(coreOrg.getId());
+        orgBasicInfo.setLabel(coreOrg.getLabel());
+        orgBasicInfo.setParentId(coreOrg.getParentId());
+        orgBasicInfo.setSortValue(coreOrg.getSortValue());
+        return orgBasicInfo;
     }
 
     @Override

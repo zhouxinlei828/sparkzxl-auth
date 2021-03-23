@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.RoleBasicInfo;
 import com.github.sparkzxl.auth.domain.repository.IRealmManagerRepository;
+import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.RealmManagerConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.RealmManager;
 import com.github.sparkzxl.auth.infrastructure.mapper.RealmManagerMapper;
@@ -68,6 +69,7 @@ public class RealmManagerRepository implements IRealmManagerRepository {
         authUserBasicInfo.setRealmStatus(true);
         RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
         roleBasicInfo.setId(snowflake.nextId());
+        roleBasicInfo.setCode(RoleConstant.REALM_MANAGER_CODE);
         roleBasicInfo.setName("领域管理员");
         List<RoleBasicInfo> roleBasicInfos = Lists.newArrayList(roleBasicInfo);
         authUserBasicInfo.setRoleBasicInfos(roleBasicInfos);

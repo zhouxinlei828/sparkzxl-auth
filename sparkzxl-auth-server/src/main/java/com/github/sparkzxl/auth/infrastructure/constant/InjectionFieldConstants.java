@@ -5,7 +5,7 @@ package com.github.sparkzxl.auth.infrastructure.constant;
  * 切记，该类下的接口和方法，一定要自己手动创建，否则会注入失败
  *
  * @author charles.zhou
- * @date   2020-07-19 09:25:48
+ * @date 2020-07-19 09:25:48
  */
 public class InjectionFieldConstants {
 

@@ -31,12 +31,24 @@ import java.util.stream.Collectors;
 public class AuthApplicationRepository implements IAuthApplicationRepository {
 
     private final String SERVER_TYPE = "SERVER";
-    @Autowired
     private AuthApplicationMapper authApplicationMapper;
-    @Autowired
     private IOauthClientDetailsRepository oauthClientDetailsRepository;
-    @Autowired
     private IDictionaryItemRepository dictionaryItemRepository;
+
+    @Autowired
+    public void setAuthApplicationMapper(AuthApplicationMapper authApplicationMapper) {
+        this.authApplicationMapper = authApplicationMapper;
+    }
+
+    @Autowired
+    public void setOauthClientDetailsRepository(IOauthClientDetailsRepository oauthClientDetailsRepository) {
+        this.oauthClientDetailsRepository = oauthClientDetailsRepository;
+    }
+
+    @Autowired
+    public void setDictionaryItemRepository(IDictionaryItemRepository dictionaryItemRepository) {
+        this.dictionaryItemRepository = dictionaryItemRepository;
+    }
 
     @Override
     public boolean saveAuthApplication(AuthApplication application) {

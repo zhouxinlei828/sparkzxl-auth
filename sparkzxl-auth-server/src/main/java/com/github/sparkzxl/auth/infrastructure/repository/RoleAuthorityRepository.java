@@ -9,6 +9,7 @@ import com.github.sparkzxl.auth.domain.repository.IAuthResourceRepository;
 import com.github.sparkzxl.auth.domain.repository.IRealmPoolRepository;
 import com.github.sparkzxl.auth.domain.repository.IRoleAuthorityRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.infrastructure.entity.RealmPool;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
@@ -134,7 +135,13 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
         if (CollectionUtils.isNotEmpty(authResourceList)) {
             String generateCacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, realmCode);
             Map<String, String> resourceMap = Maps.newHashMap();
-            authResourceList.forEach(authResource -> resourceMap.put(authResource.getRequestUrl(), "REALM_MANAGER"));
+            authResourceList.forEach(authResource -> {
+                String roleCodeStr = RoleConstant.REALM_MANAGER_CODE;
+                if (RoleConstant.USER_PATH.equals(authResource.getRequestUrl()) || RoleConstant.USER_ROUTER_PATH.equals(authResource.getRequestUrl())) {
+                    roleCodeStr = roleCodeStr.concat(",").concat(RoleConstant.USER_CODE);
+                }
+                resourceMap.put(authResource.getRequestUrl(), roleCodeStr);
+            });
             redisTemplate.delete(generateCacheKey);
             List<RoleResourceInfo> roleResources = authUserMapper.getRoleResourceList(realmCode);
             Map<String, String> roleResourceMap = roleResources.stream().collect(Collectors.toMap(RoleResourceInfo::getPath,
@@ -143,7 +150,8 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
                 for (String path : resourceMap.keySet()) {
                     String code = resourceMap.get(path);
                     String roleCode = roleResourceMap.get(path);
-                    resourceMap.replace(path, code.concat(",").concat(roleCode));
+                    final String finalRoleCode = code.concat(",").concat(roleCode);
+                    resourceMap.replace(path, finalRoleCode);
                 }
             }
             redisTemplate.opsForHash().putAll(generateCacheKey, resourceMap);

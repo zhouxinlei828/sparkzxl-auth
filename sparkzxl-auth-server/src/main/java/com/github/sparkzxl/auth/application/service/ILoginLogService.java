@@ -92,7 +92,6 @@ public interface ILoginLogService extends SuperCacheService<LoginLog> {
 
     /**
      * 删除登录日志
-     *
      * @param ids 主键ids
      * @return boolean
      */

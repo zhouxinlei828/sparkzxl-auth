@@ -40,31 +40,6 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
     @Autowired
     private ILoginLogRepository loginLogRepository;
 
-    private final static String[] BROWSER = new String[]{
-            "Chrome", "Firefox", "Microsoft Edge", "Safari", "Opera"
-    };
-    private final static String[] OPERATING_SYSTEM = new String[]{
-            "Android", "Linux", "Mac OS X", "Ubuntu", "Windows 10", "Windows 8", "Windows 7", "Windows XP", "Windows Vista"
-    };
-
-    private static String simplifyOperatingSystem(String operatingSystem) {
-        for (String b : OPERATING_SYSTEM) {
-            if (StrUtil.containsIgnoreCase(operatingSystem, b)) {
-                return b;
-            }
-        }
-        return operatingSystem;
-    }
-
-    private static String simplifyBrowser(String browser) {
-        for (String b : BROWSER) {
-            if (StrUtil.containsIgnoreCase(browser, b)) {
-                return b;
-            }
-        }
-        return browser;
-    }
-
     @Override
     public void save(LoginStatus<Long> loginStatus) {
         AuthUser authUser;

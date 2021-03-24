@@ -33,6 +33,7 @@
         <module>sparkzxl-auth-server</module>
         <module>sparkzxl-gateway</module>
         <module>sparkzxl-code-generator</module>
+        <module>sparkzxl-job-admin</module>
         <module>sparkzxl-workflow</module>
     </modules>
 

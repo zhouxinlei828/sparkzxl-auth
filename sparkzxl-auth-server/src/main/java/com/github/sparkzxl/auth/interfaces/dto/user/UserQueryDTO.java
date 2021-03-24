@@ -1,7 +1,6 @@
 package com.github.sparkzxl.auth.interfaces.dto.user;
 
 import com.github.sparkzxl.database.dto.PageDTO;
-import com.github.sparkzxl.database.entity.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -32,7 +31,7 @@ public class UserQueryDTO extends PageDTO {
     private Boolean status;
 
     @ApiModelProperty(value = "民族")
-    private RemoteData<String, String> nation;
+    private String nation;
 
     @ApiModelProperty(value = "组织id")
     private Long orgId;

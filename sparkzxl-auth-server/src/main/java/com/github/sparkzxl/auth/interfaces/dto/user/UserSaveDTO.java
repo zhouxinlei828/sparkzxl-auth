@@ -1,10 +1,6 @@
 package com.github.sparkzxl.auth.interfaces.dto.user;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUserAttribute;
-import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
-import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
-import com.github.sparkzxl.database.entity.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -42,7 +38,6 @@ public class UserSaveDTO {
     private Long orgId;
 
     @ApiModelProperty(value = "岗位ID")
-    @TableField("station_id")
     private Long stationId;
 
     @ApiModelProperty(value = "邮箱")
@@ -58,13 +53,13 @@ public class UserSaveDTO {
     private String avatar;
 
     @ApiModelProperty(value = "民族")
-    private String nationId;
+    private String nation;
 
     @ApiModelProperty(value = "学历")
-    private String educationId;
+    private String education;
 
     @ApiModelProperty(value = "职位状态")
-    private String positionStatusId;
+    private String positionStatus;
 
     @ApiModelProperty(value = "工作描述比如：市长、管理员、局长等等   用于登陆展示")
     private String workDescribe;

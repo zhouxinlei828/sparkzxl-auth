@@ -1,10 +1,6 @@
 package com.github.sparkzxl.auth.interfaces.dto.user;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUserAttribute;
-import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
-import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
-import com.github.sparkzxl.database.entity.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -37,11 +33,10 @@ public class UserUpdateDTO {
     private String name;
 
     @ApiModelProperty(value = "组织ID")
-    private RemoteData<Long, CoreOrg> org;
+    private Long orgId;
 
     @ApiModelProperty(value = "岗位ID")
-    @TableField("station_id")
-    private RemoteData<Long, CoreStation> station;
+    private Long stationId;
 
     @ApiModelProperty(value = "邮箱")
     private String email;
@@ -56,13 +51,13 @@ public class UserUpdateDTO {
     private String avatar;
 
     @ApiModelProperty(value = "民族")
-    private RemoteData<String, String> nation;
+    private String nation;
 
     @ApiModelProperty(value = "学历")
-    private RemoteData<String, String> education;
+    private String education;
 
     @ApiModelProperty(value = "职位状态")
-    private RemoteData<String, String> positionStatus;
+    private String positionStatus;
 
     @ApiModelProperty(value = "工作描述比如：市长、管理员、局长等等   用于登陆展示")
     private String workDescribe;

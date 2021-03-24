@@ -4,7 +4,6 @@ import com.github.sparkzxl.auth.domain.model.aggregates.OrgBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.ResourceBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.RoleBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.StationBasicInfo;
-import com.github.sparkzxl.auth.infrastructure.entity.AuthRoleAttribute;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUserAttribute;
 import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
 import com.github.sparkzxl.database.entity.RemoteData;

@@ -44,34 +44,47 @@ public interface AuthUserConvert {
     /**
      * AuthUserSaveDTO转化为 AuthUser
      *
-     * @param authUserSaveDTO AuthUserSaveDTO保存对象
+     * @param userSaveDTO AuthUserSaveDTO保存对象
      * @return AuthUser
      */
-    @Mapping(target = "sex", expression = "java(convertSex(authUserSaveDTO.getSex()))")
-    AuthUser convertAuthUser(UserSaveDTO authUserSaveDTO);
+    @Mappings({
+            @Mapping(target = "sex", expression = "java(convertSex(userSaveDTO.getSex()))"),
+            @Mapping(target = "org", expression = "java(convertRemoteData(userSaveDTO.getOrgId()))"),
+            @Mapping(target = "station", expression = "java(convertRemoteData(userSaveDTO.getStationId()))"),
+            @Mapping(target = "nation", expression = "java(convertRemoteData(userSaveDTO.getNation()))"),
+            @Mapping(target = "education", expression = "java(convertRemoteData(userSaveDTO.getEducation()))"),
+            @Mapping(target = "positionStatus", expression = "java(convertRemoteData(userSaveDTO.getPositionStatus()))"),
+    })
+    AuthUser convertAuthUser(UserSaveDTO userSaveDTO);
 
     /**
      * AuthUserUpdateDTO转化为AuthUser
      *
-     * @param authUserUpdateDTO AuthUserUpdateDTO更新对象
+     * @param userUpdateDTO AuthUserUpdateDTO更新对象
      * @return AuthUser
      */
     @Mappings({
-            @Mapping(target = "org", expression = "java(convertOrgRemoteData(authUserPageDTO.getOrgId()))")
+            @Mapping(target = "sex", expression = "java(convertSex(userUpdateDTO.getSex()))"),
+            @Mapping(target = "org", expression = "java(convertRemoteData(userUpdateDTO.getOrgId()))"),
+            @Mapping(target = "station", expression = "java(convertRemoteData(userUpdateDTO.getStationId()))"),
+            @Mapping(target = "nation", expression = "java(convertRemoteData(userUpdateDTO.getNation()))"),
+            @Mapping(target = "education", expression = "java(convertRemoteData(userUpdateDTO.getEducation()))"),
+            @Mapping(target = "positionStatus", expression = "java(convertRemoteData(userUpdateDTO.getPositionStatus()))"),
     })
-    AuthUser convertAuthUser(UserUpdateDTO authUserUpdateDTO);
+    AuthUser convertAuthUser(UserUpdateDTO userUpdateDTO);
 
     /**
      * AuthUserPageDTO转化为AuthUser
      *
-     * @param authUserPageDTO AuthUserDTO分页查询对象
+     * @param userQueryDTO AuthUserDTO分页查询对象
      * @return AuthUser
      */
     @Mappings({
-            @Mapping(target = "sex", expression = "java(convertSex(authUserPageDTO.getSex()))"),
-            @Mapping(target = "org", expression = "java(convertOrgRemoteData(authUserPageDTO.getOrgId()))")
+            @Mapping(target = "sex", expression = "java(convertSex(userQueryDTO.getSex()))"),
+            @Mapping(target = "nation", expression = "java(convertRemoteData(userQueryDTO.getNation()))"),
+            @Mapping(target = "org", expression = "java(convertRemoteData(userQueryDTO.getOrgId()))"),
     })
-    AuthUser convertAuthUser(UserQueryDTO authUserPageDTO);
+    AuthUser convertAuthUser(UserQueryDTO userQueryDTO);
 
     /**
      * 转换sex枚举
@@ -198,9 +211,16 @@ public interface AuthUserConvert {
         return null;
     }
 
-    default RemoteData<Long, CoreOrg> convertOrgRemoteData(Long orgId) {
-        if (ObjectUtils.isNotEmpty(orgId)) {
-            return new RemoteData<>(orgId);
+
+    /**
+     * 转换RemoteData
+     *
+     * @param key 主键
+     * @return RemoteData
+     */
+    default RemoteData convertRemoteData(Object key) {
+        if (ObjectUtils.isNotEmpty(key)) {
+            return new RemoteData<>(key);
         }
         return null;
     }

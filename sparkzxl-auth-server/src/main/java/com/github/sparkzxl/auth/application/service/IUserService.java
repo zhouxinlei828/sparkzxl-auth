@@ -49,18 +49,18 @@ public interface IUserService extends SuperCacheService<AuthUser> {
     /**
      * 保存用户信息
      *
-     * @param authUserSaveDTO AuthUserSaveDTO保存对象
+     * @param userSaveDTO AuthUserSaveDTO保存对象
      * @return boolean
      */
-    boolean saveAuthUser(UserSaveDTO authUserSaveDTO);
+    boolean saveAuthUser(UserSaveDTO userSaveDTO);
 
     /**
      * 修改用户信息
      *
-     * @param authUserUpdateDTO AuthUserSaveDTO修改对象
+     * @param userUpdateDTO AuthUserSaveDTO修改对象
      * @return boolean
      */
-    boolean updateAuthUser(UserUpdateDTO authUserUpdateDTO);
+    boolean updateAuthUser(UserUpdateDTO userUpdateDTO);
 
     /**
      * 批量更新用户组织

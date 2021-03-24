@@ -4,7 +4,6 @@ import cn.hutool.extra.pinyin.PinyinUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.javafaker.Faker;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
@@ -107,8 +106,8 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     }
 
     @Override
-    public boolean saveAuthUser(UserSaveDTO authUserSaveDTO) {
-        AuthUser authUser = AuthUserConvert.INSTANCE.convertAuthUser(authUserSaveDTO);
+    public boolean saveAuthUser(UserSaveDTO userSaveDTO) {
+        AuthUser authUser = AuthUserConvert.INSTANCE.convertAuthUser(userSaveDTO);
         String password = passwordEncoder.encode(authUser.getPassword());
         authUser.setPassword(password);
         String realmCode = BaseContextHandler.getRealm();
@@ -117,8 +116,8 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     }
 
     @Override
-    public boolean updateAuthUser(UserUpdateDTO authUserUpdateDTO) {
-        AuthUser authUser = AuthUserConvert.INSTANCE.convertAuthUser(authUserUpdateDTO);
+    public boolean updateAuthUser(UserUpdateDTO userUpdateDTO) {
+        AuthUser authUser = AuthUserConvert.INSTANCE.convertAuthUser(userUpdateDTO);
         return authUserRepository.updateAuthUser(authUser);
     }
 

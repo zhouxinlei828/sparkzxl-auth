@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.domain.model.aggregates;
 
-import com.github.sparkzxl.auth.infrastructure.entity.AuthRoleAttribute;
+import com.github.sparkzxl.auth.infrastructure.entity.AuthUserAttribute;
 import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
 import com.github.sparkzxl.database.entity.RemoteData;
 import io.swagger.annotations.ApiModelProperty;
@@ -75,8 +75,7 @@ public class AuthUserBasicInfo {
     @ApiModelProperty("是否领域用户")
     private Boolean realmStatus;
 
-    @ApiModelProperty(value = "角色自定义属性")
-    private List<AuthRoleAttribute> roleAttributes;
-
+    @ApiModelProperty(value = "用户自定义属性")
+    private List<AuthUserAttribute> userAttributes;
 
 }

@@ -3,7 +3,6 @@ package com.github.sparkzxl.auth.domain.repository;
 
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUserAttribute;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 

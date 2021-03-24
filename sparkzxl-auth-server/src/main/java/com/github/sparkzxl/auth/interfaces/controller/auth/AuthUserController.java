@@ -56,13 +56,13 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
     }
 
     @Override
-    public boolean save(UserSaveDTO authUserSaveDTO) {
-        return baseService.saveAuthUser(authUserSaveDTO);
+    public boolean save(UserSaveDTO userSaveDTO) {
+        return baseService.saveAuthUser(userSaveDTO);
     }
 
     @Override
-    public boolean update(UserUpdateDTO authUserUpdateDTO) {
-        return baseService.updateAuthUser(authUserUpdateDTO);
+    public boolean update(UserUpdateDTO userUpdateDTO) {
+        return baseService.updateAuthUser(userUpdateDTO);
     }
 
     @Override

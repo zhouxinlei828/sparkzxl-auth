@@ -130,6 +130,8 @@ public class AuthUserRepository implements IAuthUserRepository {
     @Override
     public void deleteUserRelation(List<Long> ids) {
         userRoleMapper.delete(new LambdaUpdateWrapper<UserRole>().in(UserRole::getUserId, ids));
+        userAttributeMapper.delete(new LambdaQueryWrapper<AuthUserAttribute>()
+                .in(AuthUserAttribute::getUserId, ids));
     }
 
     @Override
@@ -164,7 +166,6 @@ public class AuthUserRepository implements IAuthUserRepository {
             List<AuthUserAttribute> authUserAttributes = userAttributeMapper.selectList(new LambdaQueryWrapper<AuthUserAttribute>().in(AuthUserAttribute::getUserId, userIdList));
             Map<Long, List<AuthUserAttribute>> userAttributeMap = authUserAttributes.stream().collect(Collectors.groupingBy(AuthUserAttribute::getUserId));
             authUsers.forEach(user -> user.setUserAttributes(userAttributeMap.get(user.getId())));
-
         }
         return authUsers;
     }
@@ -278,7 +279,10 @@ public class AuthUserRepository implements IAuthUserRepository {
         authUserMapper.insert(authUser);
         List<AuthUserAttribute> userAttributes = authUser.getUserAttributes();
         if (CollectionUtils.isNotEmpty(userAttributes)) {
-            userAttributes.forEach(userAttribute -> userAttributeMapper.insert(userAttribute));
+            userAttributes.forEach(userAttribute -> {
+                userAttribute.setUserId(authUser.getId());
+                userAttributeMapper.insert(userAttribute);
+            });
         }
         return true;
     }
@@ -287,10 +291,13 @@ public class AuthUserRepository implements IAuthUserRepository {
     public boolean updateAuthUser(AuthUser authUser) {
         authUserMapper.updateById(authUser);
         List<AuthUserAttribute> userAttributes = authUser.getUserAttributes();
+        userAttributeMapper.delete(new LambdaQueryWrapper<AuthUserAttribute>()
+                .eq(AuthUserAttribute::getUserId, authUser.getId()));
         if (CollectionUtils.isNotEmpty(userAttributes)) {
-            userAttributeMapper.delete(new LambdaQueryWrapper<AuthUserAttribute>()
-                    .eq(AuthUserAttribute::getUserId, authUser.getId()));
-            userAttributes.forEach(userAttribute -> userAttributeMapper.insert(userAttribute));
+            userAttributes.forEach(userAttribute -> {
+                userAttribute.setUserId(authUser.getId());
+                userAttributeMapper.insert(userAttribute);
+            });
         }
         return true;
     }

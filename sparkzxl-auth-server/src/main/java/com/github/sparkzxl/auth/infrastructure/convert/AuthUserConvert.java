@@ -56,6 +56,9 @@ public interface AuthUserConvert {
      * @param authUserUpdateDTO AuthUserUpdateDTO更新对象
      * @return AuthUser
      */
+    @Mappings({
+            @Mapping(target = "org", expression = "java(convertOrgRemoteData(authUserPageDTO.getOrgId()))")
+    })
     AuthUser convertAuthUser(UserUpdateDTO authUserUpdateDTO);
 
     /**

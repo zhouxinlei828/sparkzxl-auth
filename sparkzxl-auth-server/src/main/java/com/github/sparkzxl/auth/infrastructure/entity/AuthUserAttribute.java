@@ -33,7 +33,7 @@ public class AuthUserAttribute implements Serializable {
     @TableField("user_id")
     private Long userId;
 
-    @ApiModelProperty(value = "字段名称")
+    @ApiModelProperty(value = "属性名称")
     @TableField("name")
     private String name;
 

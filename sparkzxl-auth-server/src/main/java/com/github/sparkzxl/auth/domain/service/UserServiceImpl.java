@@ -3,6 +3,7 @@ package com.github.sparkzxl.auth.domain.service;
 import cn.hutool.extra.pinyin.PinyinUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.excel.EasyExcel;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.javafaker.Faker;
 import com.github.pagehelper.PageInfo;
@@ -14,9 +15,11 @@ import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
 import com.github.sparkzxl.auth.domain.model.vo.AuthUserBasicVO;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.domain.repository.IRealmManagerRepository;
+import com.github.sparkzxl.auth.domain.repository.IUserAttributeRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
+import com.github.sparkzxl.auth.infrastructure.entity.AuthUserAttribute;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
@@ -29,8 +32,10 @@ import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.database.entity.RemoteData;
+import com.github.sparkzxl.database.entity.SuperEntity;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +48,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * description: 用户查询 服务实现类
@@ -68,6 +74,8 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     private ICoreOrgService coreOrgService;
     @Autowired
     private IDictionaryItemService dictionaryItemService;
+    @Autowired
+    private IUserAttributeRepository userAttributeRepository;
 
     @Override
     public AuthUserInfo<Long> getAuthUserInfo(String username) {
@@ -88,7 +96,14 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         AuthUser authUser = AuthUserConvert.INSTANCE.convertAuthUser(params.getModel());
         params.buildPage();
         List<AuthUser> authUserList = authUserRepository.getAuthUserList(authUser);
-        return PageInfoUtils.pageInfo(authUserList);
+        PageInfo<AuthUser> authUserPageInfo = PageInfoUtils.pageInfo(authUserList);
+        List<AuthUser> userList = authUserPageInfo.getList();
+        if (CollectionUtils.isNotEmpty(userList)){
+            List<Long> userIdList = userList.stream().map(SuperEntity::getId).collect(Collectors.toList());
+            Map<Long, List<AuthUserAttribute>> userAttributeMapList = userAttributeRepository.findUserAttributeMapList(userIdList);
+            userList.forEach(user-> user.setUserAttributes(userAttributeMapList.get(user.getId())));
+        }
+        return authUserPageInfo;
     }
 
     @Override
@@ -98,20 +113,20 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         authUser.setPassword(password);
         String realmCode = BaseContextHandler.getRealm();
         authUser.setRealmCode(realmCode);
-        return save(authUser);
+        return authUserRepository.saveAuthUser(authUser);
     }
 
     @Override
     public boolean updateAuthUser(UserUpdateDTO authUserUpdateDTO) {
         AuthUser authUser = AuthUserConvert.INSTANCE.convertAuthUser(authUserUpdateDTO);
-        return updateById(authUser);
+        return authUserRepository.updateAuthUser(authUser);
     }
 
     @Override
     public void deleteOrgIds(List<Long> orgIds) {
-        UpdateWrapper<AuthUser> userUpdateWrapper = new UpdateWrapper<>();
-        userUpdateWrapper.set("org_id", null);
-        userUpdateWrapper.in("org_id", orgIds);
+        LambdaUpdateWrapper<AuthUser> userUpdateWrapper = new LambdaUpdateWrapper<>();
+        userUpdateWrapper.set(AuthUser::getOrg, null);
+        userUpdateWrapper.in(AuthUser::getOrg, orgIds);
         update(userUpdateWrapper);
     }
 
@@ -173,7 +188,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
 
     @Override
     public List<MenuBasicInfo> routers(Long userId, String realmCode) {
-        return authMenuService.routers(userId,realmCode);
+        return authMenuService.routers(userId, realmCode);
     }
 
     @Override

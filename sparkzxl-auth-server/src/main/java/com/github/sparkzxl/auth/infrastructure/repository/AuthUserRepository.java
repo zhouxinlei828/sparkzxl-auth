@@ -17,6 +17,7 @@ import com.github.sparkzxl.core.context.BaseContextHandler;
 import com.github.sparkzxl.core.tree.TreeUtils;
 import com.github.sparkzxl.database.annonation.InjectionResult;
 import com.github.sparkzxl.database.entity.RemoteData;
+import com.github.sparkzxl.database.entity.SuperEntity;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,7 @@ public class AuthUserRepository implements IAuthUserRepository {
     private CoreOrgMapper coreOrgMapper;
     private PasswordEncoder passwordEncoder;
     private Snowflake snowflake;
+    private AuthUserAttributeMapper userAttributeMapper;
 
     @Autowired
     public void setAuthUserMapper(AuthUserMapper authUserMapper) {
@@ -89,6 +91,11 @@ public class AuthUserRepository implements IAuthUserRepository {
     @Autowired
     public void setSnowflake(Snowflake snowflake) {
         this.snowflake = snowflake;
+    }
+
+    @Autowired
+    public void setUserAttributeMapper(AuthUserAttributeMapper userAttributeMapper) {
+        this.userAttributeMapper = userAttributeMapper;
     }
 
     @Override
@@ -151,7 +158,15 @@ public class AuthUserRepository implements IAuthUserRepository {
         if (StringUtils.isNotEmpty(realmCode)) {
             queryWrapper.like(AuthUser::getRealmCode, realmCode);
         }
-        return authUserMapper.selectList(queryWrapper);
+        List<AuthUser> authUsers = authUserMapper.selectList(queryWrapper);
+        if (CollectionUtils.isNotEmpty(authUsers)) {
+            List<Long> userIdList = authUsers.stream().map(SuperEntity::getId).collect(Collectors.toList());
+            List<AuthUserAttribute> authUserAttributes = userAttributeMapper.selectList(new LambdaQueryWrapper<AuthUserAttribute>().in(AuthUserAttribute::getUserId, userIdList));
+            Map<Long, List<AuthUserAttribute>> userAttributeMap = authUserAttributes.stream().collect(Collectors.groupingBy(AuthUserAttribute::getUserId));
+            authUsers.forEach(user -> user.setUserAttributes(userAttributeMap.get(user.getId())));
+
+        }
+        return authUsers;
     }
 
     @Override
@@ -252,5 +267,31 @@ public class AuthUserRepository implements IAuthUserRepository {
     @Override
     public List<UserCount> userCount(List<String> realmCodeList) {
         return authUserMapper.userCount(realmCodeList);
+    }
+
+    @Override
+    public boolean saveAuthUser(AuthUser authUser) {
+        String password = passwordEncoder.encode(authUser.getPassword());
+        authUser.setPassword(password);
+        String realmCode = BaseContextHandler.getRealm();
+        authUser.setRealmCode(realmCode);
+        authUserMapper.insert(authUser);
+        List<AuthUserAttribute> userAttributes = authUser.getUserAttributes();
+        if (CollectionUtils.isNotEmpty(userAttributes)) {
+            userAttributes.forEach(userAttribute -> userAttributeMapper.insert(userAttribute));
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateAuthUser(AuthUser authUser) {
+        authUserMapper.updateById(authUser);
+        List<AuthUserAttribute> userAttributes = authUser.getUserAttributes();
+        if (CollectionUtils.isNotEmpty(userAttributes)) {
+            userAttributeMapper.delete(new LambdaQueryWrapper<AuthUserAttribute>()
+                    .eq(AuthUserAttribute::getUserId, authUser.getId()));
+            userAttributes.forEach(userAttribute -> userAttributeMapper.insert(userAttribute));
+        }
+        return true;
     }
 }

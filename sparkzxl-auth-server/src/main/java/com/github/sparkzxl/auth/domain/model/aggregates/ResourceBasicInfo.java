@@ -12,7 +12,6 @@ import lombok.Data;
 public class ResourceBasicInfo {
 
     private Long roleId;
-
     private String code;
     private String name;
 

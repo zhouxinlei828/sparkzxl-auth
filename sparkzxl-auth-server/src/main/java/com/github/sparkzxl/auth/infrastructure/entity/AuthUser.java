@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE_RIGHT;
 import static com.github.sparkzxl.auth.infrastructure.constant.InjectionFieldConstants.*;
@@ -30,7 +31,7 @@ import static com.github.sparkzxl.auth.infrastructure.constant.InjectionFieldCon
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("auth_user")
+@TableName(value = "auth_user",resultMap = "")
 @ApiModel(value = "AuthUser对象", description = "用户")
 public class AuthUser extends Entity<Long> {
 
@@ -117,5 +118,9 @@ public class AuthUser extends Entity<Long> {
     @ApiModelProperty(value = "状态 1启用 0禁用")
     @TableField("status")
     private Boolean status;
+
+    @ApiModelProperty(value = "用户自定义属性")
+    @TableField(exist = false)
+    private List<AuthUserAttribute> userAttributes;
 
 }

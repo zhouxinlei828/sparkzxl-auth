@@ -100,4 +100,20 @@ public interface IAuthUserRepository {
      * @return List<UserCount>
      */
     List<UserCount> userCount(List<String> realmCodeList);
+
+    /**
+     * 保存用户信息
+     *
+     * @param authUser 用户
+     * @return boolean
+     */
+    boolean saveAuthUser(AuthUser authUser);
+
+    /**
+     * 修改用户信息
+     *
+     * @param authUser 用户
+     * @return boolean
+     */
+    boolean updateAuthUser(AuthUser authUser);
 }

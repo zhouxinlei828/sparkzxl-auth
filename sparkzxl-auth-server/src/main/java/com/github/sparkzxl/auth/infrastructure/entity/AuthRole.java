@@ -11,6 +11,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 /**
  * description: 角色
  *
@@ -56,5 +58,9 @@ public class AuthRole extends Entity<Long> {
     @ApiModelProperty(value = "领域池code")
     @TableField("realm_code")
     private String realmCode;
+
+    @ApiModelProperty(value = "角色自定义属性")
+    @TableField(exist = false)
+    private List<AuthRoleAttribute> roleAttributes;
 
 }

@@ -1,6 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.dto.user;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.github.sparkzxl.auth.infrastructure.entity.AuthUserAttribute;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.database.entity.RemoteData;
@@ -11,6 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * description: 用户信息
@@ -67,5 +69,8 @@ public class UserUpdateDTO {
 
     @ApiModelProperty(value = "状态 1启用 0禁用")
     private Boolean status;
+
+    @ApiModelProperty(value = "用户自定义属性")
+    private List<AuthUserAttribute> userAttributes;
 
 }

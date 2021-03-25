@@ -22,7 +22,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE_RIGHT;
 @ApiModel(value = "dictionary对象", description = "字典类型")
 public class Dictionary extends Entity<Long> {
 
-    private static final long serialVersionUID = -4224343605781132375L;
+    private static final long serialVersionUID = 9181489207158201985L;
 
     @ApiModelProperty(value = "编码一颗树仅仅有一个统一的编码")
     @TableField(value = "type_", condition = LIKE_RIGHT)

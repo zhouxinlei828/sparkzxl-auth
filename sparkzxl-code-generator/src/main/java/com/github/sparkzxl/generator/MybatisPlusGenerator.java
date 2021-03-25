@@ -51,7 +51,7 @@ public class MybatisPlusGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/sparkzxl-auth-server/src/main/java");
+        gc.setOutputDir(projectPath + "/sparkzxl-workflow/sparkzxl-workflow-server/src/main/java");
         gc.setFileOverride(true);
         gc.setBaseResultMap(true);
         gc.setSwagger2(true);
@@ -66,7 +66,7 @@ public class MybatisPlusGenerator {
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setUrl("jdbc:mysql://sparkzxl.mysql.rds.aliyuncs" +
-                ".com/sparkzxl_auth?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8");
+                ".com/sparkzxl_workflow?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("zhouxinlei");
         dsc.setPassword("Zxl298828");
@@ -74,7 +74,7 @@ public class MybatisPlusGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.github.sparkzxl.auth");
+        pc.setParent("com.github.sparkzxl.workflow");
         pc.setController("interfaces.controller");
         pc.setService("application.service");
         pc.setServiceImpl("domain.service");

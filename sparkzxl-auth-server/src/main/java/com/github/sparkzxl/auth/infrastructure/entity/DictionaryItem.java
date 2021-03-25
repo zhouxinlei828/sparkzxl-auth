@@ -18,9 +18,9 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE_RIGHT;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("common_dictionary_item")
-@ApiModel(value = "CCommonDictionaryItem对象", description = "字典项")
-public class CommonDictionaryItem extends Entity<Long> {
+@TableName("dictionary_item")
+@ApiModel(value = "DictionaryItem对象", description = "字典项")
+public class DictionaryItem extends Entity<Long> {
 
     private static final long serialVersionUID = 8505347163173853317L;
 

@@ -47,14 +47,6 @@ public class AuthRole extends Entity<Long> {
     @TableField("status")
     private Boolean status;
 
-    @ApiModelProperty(value = "是否内置角色")
-    @TableField("readonly")
-    private Boolean readonly;
-
-    @ApiModelProperty(value = "数据权限类型 {ALL:1,全部;THIS_LEVEL:2,本级;THIS_LEVEL_CHILDREN:3,本级以及子级;CUSTOMIZE:4,自定义;SELF:5,个人;} ")
-    @TableField("ds_type")
-    private String dsType;
-
     @ApiModelProperty(value = "领域池code")
     @TableField("realm_code")
     private String realmCode;

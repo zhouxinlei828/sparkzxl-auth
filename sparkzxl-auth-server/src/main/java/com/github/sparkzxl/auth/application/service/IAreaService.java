@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.application.service;
 
-import com.github.sparkzxl.auth.infrastructure.entity.CommonArea;
+import com.github.sparkzxl.auth.infrastructure.entity.Area;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +13,7 @@ import java.util.List;
  * @author charles.zhou
  * @date   2020-07-28 19:41:37
  */
-public interface IAreaService extends SuperCacheService<CommonArea> {
+public interface IAreaService extends SuperCacheService<Area> {
 
     /**
      * 查询地区信息
@@ -21,7 +21,7 @@ public interface IAreaService extends SuperCacheService<CommonArea> {
      * @param areaQueryDTO 地区查询入参
      * @return List<CommonArea>
      */
-    List<CommonArea> getAreaList(AreaQueryDTO areaQueryDTO);
+    List<Area> getAreaList(AreaQueryDTO areaQueryDTO);
 
     /**
      * 导入城市数据信息

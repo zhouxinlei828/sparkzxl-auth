@@ -7,7 +7,7 @@ import com.github.sparkzxl.auth.application.service.IDictionaryItemService;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
-import com.github.sparkzxl.auth.infrastructure.entity.CommonDictionaryItem;
+import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
@@ -95,19 +95,19 @@ public class ImportUserDataListener extends ImportDataListener<UserExcel> {
             authUser.setSex(SexEnum.getEnum(item.getSex()));
             authUser.setPassword(passwordEncoder.encode("123456"));
             if (StringUtils.isNotEmpty(item.getNation())) {
-                CommonDictionaryItem dictionaryItem = dictionaryItemService.getDictionaryItemByName(item.getNation());
+                DictionaryItem dictionaryItem = dictionaryItemService.getDictionaryItemByName(item.getNation());
                 if (ObjectUtils.isNotEmpty(dictionaryItem)) {
                     authUser.setNation(new RemoteData<>(dictionaryItem.getCode()));
                 }
             }
             if (StringUtils.isNotEmpty(item.getEducation())) {
-                CommonDictionaryItem dictionaryItem = dictionaryItemService.getDictionaryItemByName(item.getEducation());
+                DictionaryItem dictionaryItem = dictionaryItemService.getDictionaryItemByName(item.getEducation());
                 if (ObjectUtils.isNotEmpty(dictionaryItem)) {
                     authUser.setEducation(new RemoteData<>(dictionaryItem.getCode()));
                 }
             }
             if (StringUtils.isNotEmpty(item.getPositionStatus())) {
-                CommonDictionaryItem dictionaryItem = dictionaryItemService.getDictionaryItemByName(item.getPositionStatus());
+                DictionaryItem dictionaryItem = dictionaryItemService.getDictionaryItemByName(item.getPositionStatus());
                 if (ObjectUtils.isNotEmpty(dictionaryItem)) {
                     authUser.setPositionStatus(new RemoteData<>(dictionaryItem.getCode()));
                 }

@@ -5,8 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.sparkzxl.auth.application.service.IAreaService;
 import com.github.sparkzxl.auth.domain.model.aggregates.City;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
-import com.github.sparkzxl.auth.infrastructure.entity.CommonArea;
-import com.github.sparkzxl.auth.infrastructure.mapper.CommonAreaMapper;
+import com.github.sparkzxl.auth.infrastructure.entity.Area;
+import com.github.sparkzxl.auth.infrastructure.mapper.AreaMapper;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
 import com.github.sparkzxl.core.jackson.JsonUtil;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
@@ -31,19 +31,19 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Slf4j
 @Service
-public class AreaServiceImpl extends SuperCacheServiceImpl<CommonAreaMapper, CommonArea> implements IAreaService {
+public class AreaServiceImpl extends SuperCacheServiceImpl<AreaMapper, Area> implements IAreaService {
 
     @Override
-    public List<CommonArea> getAreaList(AreaQueryDTO areaQueryDTO) {
-        LambdaQueryWrapper<CommonArea> areaLambdaQueryWrapper = new LambdaQueryWrapper<>();
+    public List<Area> getAreaList(AreaQueryDTO areaQueryDTO) {
+        LambdaQueryWrapper<Area> areaLambdaQueryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotEmpty(areaQueryDTO.getCode())) {
-            areaLambdaQueryWrapper.eq(CommonArea::getCode, areaQueryDTO.getCode());
+            areaLambdaQueryWrapper.eq(Area::getCode, areaQueryDTO.getCode());
         }
         if (StringUtils.isNotEmpty(areaQueryDTO.getLabel())) {
-            areaLambdaQueryWrapper.likeRight(CommonArea::getLabel, areaQueryDTO.getLabel());
+            areaLambdaQueryWrapper.likeRight(Area::getLabel, areaQueryDTO.getLabel());
         }
-        List<CommonArea> commonAreaList = list(areaLambdaQueryWrapper);
-        return TreeUtil.buildTree(commonAreaList);
+        List<Area> areaList = list(areaLambdaQueryWrapper);
+        return TreeUtil.buildTree(areaList);
     }
 
     @Override
@@ -68,42 +68,42 @@ public class AreaServiceImpl extends SuperCacheServiceImpl<CommonAreaMapper, Com
         AtomicInteger level1 = new AtomicInteger(0);
         AtomicInteger level2 = new AtomicInteger(0);
         AtomicInteger level3 = new AtomicInteger(0);
-        List<CommonArea> commonAreaList = Lists.newLinkedList();
+        List<Area> areaList = Lists.newLinkedList();
         for (City city : cities) {
-            CommonArea commonArea = new CommonArea();
-            commonArea.setId((long) city.getCode());
-            commonArea.setParentId(0L);
-            commonArea.setLevel("PROVINCE");
-            commonArea.setSortValue(level1.getAndIncrement());
-            commonArea.setLabel(city.getName());
-            commonAreaList.add(commonArea);
+            Area area = new Area();
+            area.setId((long) city.getCode());
+            area.setParentId(0L);
+            area.setLevel("PROVINCE");
+            area.setSortValue(level1.getAndIncrement());
+            area.setLabel(city.getName());
+            areaList.add(area);
             count.getAndIncrement();
             List<City> children = city.getChildren();
             for (City child : children) {
-                CommonArea commonArea1 = new CommonArea();
-                commonArea1.setId((long) child.getCode());
-                commonArea1.setParentId((long) city.getCode());
-                commonArea1.setLevel("CITY");
-                commonArea1.setSortValue(level2.getAndIncrement());
-                commonArea1.setLabel(child.getName());
-                commonAreaList.add(commonArea1);
+                Area area1 = new Area();
+                area1.setId((long) child.getCode());
+                area1.setParentId((long) city.getCode());
+                area1.setLevel("CITY");
+                area1.setSortValue(level2.getAndIncrement());
+                area1.setLabel(child.getName());
+                areaList.add(area1);
                 count.getAndIncrement();
                 List<City> children1 = child.getChildren();
                 for (City city2 : children1) {
-                    CommonArea commonArea2 = new CommonArea();
-                    commonArea2.setId((long) city2.getCode());
-                    commonArea2.setParentId((long) child.getCode());
-                    commonArea2.setLevel("COUNTY");
-                    commonArea2.setSortValue(level3.getAndIncrement());
-                    commonArea2.setLabel(city2.getName());
-                    commonAreaList.add(commonArea2);
+                    Area area2 = new Area();
+                    area2.setId((long) city2.getCode());
+                    area2.setParentId((long) child.getCode());
+                    area2.setLevel("COUNTY");
+                    area2.setSortValue(level3.getAndIncrement());
+                    area2.setLabel(city2.getName());
+                    areaList.add(area2);
                     count.getAndIncrement();
                 }
             }
         }
         int total = count.get();
-        if (commonAreaList.size() == total) {
-            saveBatch(commonAreaList, total);
+        if (areaList.size() == total) {
+            saveBatch(areaList, total);
         }
         log.info("导入地区数据共计：{} 条", total);
 

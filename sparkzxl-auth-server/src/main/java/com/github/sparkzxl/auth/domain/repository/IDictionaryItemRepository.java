@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.domain.repository;
 
-import com.github.sparkzxl.auth.infrastructure.entity.CommonDictionaryItem;
+import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 
 import java.util.Map;
 import java.util.Set;
@@ -18,8 +18,8 @@ public interface IDictionaryItemRepository {
      *
      * @param dictionaryType 字典类型
      * @param codes          字典code
-     * @return Map<String, CommonDictionaryItem>
+     * @return Map<String, DictionaryItem>
      */
-    Map<String, CommonDictionaryItem> findDictionaryItemList(String dictionaryType, Set<String> codes);
+    Map<String, DictionaryItem> findDictionaryItemList(String dictionaryType, Set<String> codes);
 
 }

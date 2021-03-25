@@ -1,8 +1,8 @@
-package com.github.sparkzxl.auth.interfaces.controller.common;
+package com.github.sparkzxl.auth.interfaces.controller.base;
 
 
 import com.github.sparkzxl.auth.application.service.IAreaService;
-import com.github.sparkzxl.auth.infrastructure.entity.CommonArea;
+import com.github.sparkzxl.auth.infrastructure.entity.Area;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaUpdateDTO;
@@ -24,14 +24,14 @@ import java.util.List;
 @RestController
 @ResponseResult
 @Api(tags = "地区管理")
-@RequestMapping("/common/area")
+@RequestMapping("/base/area")
 public class AreaController extends SuperCacheController<IAreaService, Long,
-        CommonArea, AreaSaveDTO, AreaUpdateDTO, AreaQueryDTO, Object> {
+        Area, AreaSaveDTO, AreaUpdateDTO, AreaQueryDTO, Object> {
 
 
     @ApiOperation("查询地区列表")
     @GetMapping("/tree")
-    public List<CommonArea> getAreaList(AreaQueryDTO areaQueryDTO) {
+    public List<Area> getAreaList(AreaQueryDTO areaQueryDTO) {
         return super.baseService.getAreaList(areaQueryDTO);
     }
 

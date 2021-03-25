@@ -6,7 +6,7 @@ import com.github.sparkzxl.auth.domain.repository.IAuthApplicationRepository;
 import com.github.sparkzxl.auth.domain.repository.IDictionaryItemRepository;
 import com.github.sparkzxl.auth.domain.repository.IOauthClientDetailsRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthApplication;
-import com.github.sparkzxl.auth.infrastructure.entity.CommonDictionaryItem;
+import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.infrastructure.entity.OauthClientDetails;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthApplicationMapper;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
@@ -70,7 +70,7 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
         if (CollectionUtils.isNotEmpty(applicationList)) {
             List<String> clientIds = applicationList.stream().map(AuthApplication::getClientId).filter(ObjectUtils::isNotEmpty).collect(Collectors.toList());
             Set<String> appTypeCodes = applicationList.stream().map(AuthApplication::getAppType).filter(ObjectUtils::isNotEmpty).collect(Collectors.toSet());
-            Map<String, CommonDictionaryItem> dictionaryItemMap = dictionaryItemRepository.findDictionaryItemList("APPLICATION_TYPE",
+            Map<String, DictionaryItem> dictionaryItemMap = dictionaryItemRepository.findDictionaryItemList("APPLICATION_TYPE",
                     appTypeCodes);
             List<OauthClientDetails> oauthClientDetails = oauthClientDetailsRepository.findListByIdList(clientIds);
             Map<String, OauthClientDetails> oauthClientDetailsMap = oauthClientDetails.stream().collect(Collectors.toMap(OauthClientDetails::getClientId, key -> key));
@@ -78,9 +78,9 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
                 if (StringUtils.isNotEmpty(application.getClientId())) {
                     application.setOauthClientDetail(oauthClientDetailsMap.get(application.getClientId()));
                 }
-                CommonDictionaryItem commonDictionaryItem = dictionaryItemMap.get(application.getAppType());
-                if (ObjectUtils.isNotEmpty(commonDictionaryItem)) {
-                    application.setAppTypeName(commonDictionaryItem.getName());
+                DictionaryItem dictionaryItem = dictionaryItemMap.get(application.getAppType());
+                if (ObjectUtils.isNotEmpty(dictionaryItem)) {
+                    application.setAppTypeName(dictionaryItem.getName());
                 }
             });
             authApplicationPageInfo.setList(applicationList);

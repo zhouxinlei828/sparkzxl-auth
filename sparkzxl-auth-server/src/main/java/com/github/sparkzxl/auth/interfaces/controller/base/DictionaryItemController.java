@@ -1,8 +1,8 @@
-package com.github.sparkzxl.auth.interfaces.controller.common;
+package com.github.sparkzxl.auth.interfaces.controller.base;
 
 
 import com.github.sparkzxl.auth.application.service.IDictionaryItemService;
-import com.github.sparkzxl.auth.infrastructure.entity.CommonDictionaryItem;
+import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemUpdateDTO;
@@ -30,12 +30,12 @@ import java.util.List;
 @ResponseResult
 @WebLog
 @Api(tags = "字典项管理")
-@RequestMapping("/common/dictionaryItem")
+@RequestMapping("/base/dictionaryItem")
 public class DictionaryItemController extends SuperCacheController<IDictionaryItemService, Long,
-        CommonDictionaryItem, DictionaryItemSaveDTO, DictionaryItemUpdateDTO, DictionaryItemQueryDTO, Object> {
+        DictionaryItem, DictionaryItemSaveDTO, DictionaryItemUpdateDTO, DictionaryItemQueryDTO, Object> {
 
     @Override
-    public List<CommonDictionaryItem> query(DictionaryItemQueryDTO dictionaryItemQueryDTO) {
+    public List<DictionaryItem> query(DictionaryItemQueryDTO dictionaryItemQueryDTO) {
         return baseService.findDictionaryItemList(dictionaryItemQueryDTO);
     }
 

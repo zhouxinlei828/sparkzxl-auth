@@ -54,9 +54,9 @@ public class RealmPoolRepository implements IRealmPoolRepository {
     @Autowired
     private CoreOrgMapper orgMapper;
     @Autowired
-    private CommonDictionaryMapper dictionaryMapper;
+    private DictionaryMapper dictionaryMapper;
     @Autowired
-    private CommonDictionaryItemMapper dictionaryItemMapper;
+    private DictionaryItemMapper dictionaryItemMapper;
 
     @Override
     public PageInfo<RealmPool> getRealmPoolPageList(int pageNum, int pageSize, Long realmUserId, String code, String name) {

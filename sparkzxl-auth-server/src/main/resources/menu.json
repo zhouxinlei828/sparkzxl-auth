@@ -433,25 +433,25 @@
             "code": "area:tree",
             "name": "地区树查询",
             "describe": "",
-            "requestUrl": "/common/area/tree"
+            "requestUrl": "/base/area/tree"
           },
           {
             "code": "area:update",
             "name": "地区更新",
             "describe": "",
-            "requestUrl": "/common/area/update"
+            "requestUrl": "/base/area/update"
           },
           {
             "code": "area:save",
             "name": "地区保存",
             "describe": "",
-            "requestUrl": "/common/area/save"
+            "requestUrl": "/base/area/save"
           },
           {
             "code": "area:delete",
             "name": "地区删除",
             "describe": "",
-            "requestUrl": "/common/area/delete"
+            "requestUrl": "/base/area/delete"
           }
         ]
       },
@@ -473,49 +473,49 @@
             "code": "dictionary:page",
             "name": "字典分页",
             "describe": "",
-            "requestUrl": "/common/dictionary/page"
+            "requestUrl": "/base/dictionary/page"
           },
           {
             "code": "dictionaryItem:list",
             "name": "字典项查询",
             "describe": "",
-            "requestUrl": "/common/dictionaryItem/list"
+            "requestUrl": "/base/dictionaryItem/list"
           },
           {
             "code": "dictionary:save",
             "name": "字典保存",
             "describe": "",
-            "requestUrl": "/common/dictionary/save"
+            "requestUrl": "/base/dictionary/save"
           },
           {
             "code": "dictionary:delete",
             "name": "字典删除",
             "describe": "",
-            "requestUrl": "/common/dictionary/delete"
+            "requestUrl": "/base/dictionary/delete"
           },
           {
             "code": "dictionary:update",
             "name": "字典更新",
             "describe": "",
-            "requestUrl": "/common/dictionary/update"
+            "requestUrl": "/base/dictionary/update"
           },
           {
             "code": "dictionaryItem:delete",
             "name": "字典项删除",
             "describe": "",
-            "requestUrl": "/common/dictionaryItem/delete"
+            "requestUrl": "/base/dictionaryItem/delete"
           },
           {
             "code": "dictionaryItem:save",
             "name": "字典项新增",
             "describe": "",
-            "requestUrl": "/common/dictionaryItem/save"
+            "requestUrl": "/base/dictionaryItem/save"
           },
           {
             "code": "dictionaryItem:update",
             "name": "字典项更新",
             "describe": "",
-            "requestUrl": "/common/dictionaryItem/update"
+            "requestUrl": "/base/dictionaryItem/update"
           }
         ]
       }

@@ -63,7 +63,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/resource/**",
                         "/role/**",
                         "/user/**",
-                        "/common/**",
+                        "/base/**",
                         "/org/**",
                         "/station/**",
                         "/application/**",

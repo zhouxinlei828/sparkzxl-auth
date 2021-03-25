@@ -97,10 +97,18 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         List<AuthUser> authUserList = authUserRepository.getAuthUserList(authUser);
         PageInfo<AuthUser> authUserPageInfo = PageInfoUtils.pageInfo(authUserList);
         List<AuthUser> userList = authUserPageInfo.getList();
-        if (CollectionUtils.isNotEmpty(userList)){
+        if (CollectionUtils.isNotEmpty(userList)) {
             List<Long> userIdList = userList.stream().map(SuperEntity::getId).collect(Collectors.toList());
             Map<Long, List<AuthUserAttribute>> userAttributeMapList = userAttributeRepository.findUserAttributeMapList(userIdList);
-            userList.forEach(user-> user.setUserAttributes(userAttributeMapList.get(user.getId())));
+            userList.forEach(user -> {
+                List<AuthUserAttribute> authUserAttributes = userAttributeMapList.get(user.getId());
+                user.setUserAttributes(authUserAttributes);
+                if (CollectionUtils.isNotEmpty(authUserAttributes)) {
+                    Map<String, String> userAttributeMap = authUserAttributes.stream().collect(Collectors.toMap(AuthUserAttribute::getAttributeKey,
+                            AuthUserAttribute::getAttributeValue, (key1, key2) -> key2));
+                    user.setUserAttribute(userAttributeMap);
+                }
+            });
         }
         return authUserPageInfo;
     }

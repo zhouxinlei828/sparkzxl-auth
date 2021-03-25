@@ -1,10 +1,14 @@
 package com.github.sparkzxl.auth.interfaces.dto.org;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.github.sparkzxl.auth.infrastructure.entity.CoreOrgAttribute;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
 
 /**
  * description: 组织保存实体类
@@ -42,6 +46,9 @@ public class OrgSaveDTO {
     @ApiModelProperty(value = "描述")
     @Length(max = 255, message = "描述长度不能超过255")
     private String describe;
+
+    @ApiModelProperty(value = "组织属性")
+    private List<CoreOrgAttribute> orgAttributes;
 
 
 }

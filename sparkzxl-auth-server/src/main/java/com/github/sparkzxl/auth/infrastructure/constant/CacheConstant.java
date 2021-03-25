@@ -9,21 +9,10 @@ package com.github.sparkzxl.auth.infrastructure.constant;
 public class CacheConstant {
 
     /**
-     * 登录账户 前缀
-     * 完整key: authUser:{key} -> str
-     */
-    public static String AUTH_USER = "login_user";
-
-    /**
      * 验证码 前缀
      * 完整key: captcha:{key} -> str
      */
     public static String CAPTCHA = "captcha";
-    /**
-     * token 前缀
-     * 完整key： token:{token} -> userid
-     */
-    public static String TOKEN = "token";
 
 
     /**
@@ -64,11 +53,6 @@ public class CacheConstant {
      * 完整key: role_resource:{ROLE_ID} -> [RESOURCE_ID, ...]
      */
     public static String ROLE_RESOURCE = "role_resource";
-    /**
-     * 角色拥有那些组织 前缀
-     * 完整key: role_org:{ROLE_ID} -> [ORG_ID, ...]
-     */
-    public static String ROLE_ORG = "role_org";
 
     /**
      * 用户 前缀
@@ -146,12 +130,8 @@ public class CacheConstant {
      */
     public static String DICTIONARY = "dictionary";
 
-    public static String OAUTH_CLIENT_DETAILS = "oauth_client_details";
-
 
     public static String FRONT_STATE = "front_state";
-
-    public static String LOGIN_TOKEN_STATE = "login_token_state";
 
 
     public static final String RESOURCE_ROLES_MAP = "auth:resource_roles_map";

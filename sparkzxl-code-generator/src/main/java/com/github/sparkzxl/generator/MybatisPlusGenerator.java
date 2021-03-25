@@ -51,7 +51,7 @@ public class MybatisPlusGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/sparkzxl/src/main/java");
+        gc.setOutputDir(projectPath + "/sparkzxl-auth-server/src/main/java");
         gc.setFileOverride(true);
         gc.setBaseResultMap(true);
         gc.setSwagger2(true);

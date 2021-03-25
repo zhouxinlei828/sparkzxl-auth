@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * description: 组织 前端控制器
+ * description: 组织管理
  *
  * @author charles.zhou
  * @date 2020-06-07 13:40:59

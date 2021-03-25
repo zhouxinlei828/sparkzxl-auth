@@ -53,7 +53,7 @@ public interface ICoreOrgService extends SuperCacheService<CoreOrg> {
      * 批量删除组织
      *
      * @param ids 组织id列表
-     * @return
+     * @return boolean
      */
     boolean deleteBatchCoreOrg(List<Long> ids);
 }

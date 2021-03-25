@@ -3,6 +3,7 @@ package com.github.sparkzxl.auth.domain.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.auth.application.service.ICoreOrgService;
 import com.github.sparkzxl.auth.application.service.IUserService;
+import com.github.sparkzxl.auth.domain.repository.ICoreOrgRepository;
 import com.github.sparkzxl.auth.domain.repository.IIdSegmentRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.CoreOrgConvert;
@@ -30,16 +31,12 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
 
     @Autowired
     private IUserService authUserService;
-
     @Autowired
-    private IIdSegmentRepository segmentRepository;
+    private ICoreOrgRepository coreOrgRepository;
 
     @Override
     public List<CoreOrg> getCoreOrgTree(String name, Boolean status) {
-        LambdaQueryWrapper<CoreOrg> orgQueryWrapper = new LambdaQueryWrapper<>();
-        Optional.ofNullable(name).ifPresent(value -> orgQueryWrapper.likeRight(TreeEntity::getLabel, value));
-        Optional.ofNullable(status).ifPresent(value -> orgQueryWrapper.eq(CoreOrg::getStatus, value));
-        List<CoreOrg> coreOrgList = list(orgQueryWrapper);
+        List<CoreOrg> coreOrgList = coreOrgRepository.getCoreOrgList(name,status);
         return TreeUtil.buildTree(coreOrgList);
     }
 
@@ -47,28 +44,27 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
     public CoreOrg getCoreOrgByName(String name) {
         LambdaQueryWrapper<CoreOrg> orgQueryWrapper = new LambdaQueryWrapper<>();
         orgQueryWrapper.eq(TreeEntity::getLabel, name);
-        orgQueryWrapper.eq(CoreOrg::getStatus, true).last("limit 1");;
+        orgQueryWrapper.eq(CoreOrg::getStatus, true).last("limit 1");
         return getOne(orgQueryWrapper);
     }
 
     @Override
     public boolean saveCoreOrg(OrgSaveDTO orgSaveDTO) {
         CoreOrg coreOrg = CoreOrgConvert.INSTANCE.convertCoreOrg(orgSaveDTO);
-        long id = segmentRepository.getIdSegment("core_org").longValue();
-        coreOrg.setId(id);
-        return save(coreOrg);
+        return coreOrgRepository.saveCoreOrg(coreOrg);
     }
 
     @Override
     public boolean updateCoreOrg(OrgUpdateDTO orgUpdateDTO) {
         CoreOrg coreOrg = CoreOrgConvert.INSTANCE.convertCoreOrg(orgUpdateDTO);
-        return updateById(coreOrg);
+        return coreOrgRepository.updateCoreOrg(coreOrg);
     }
 
     @Override
     public boolean deleteBatchCoreOrg(List<Long> ids) {
+        coreOrgRepository.deleteBatchCoreOrg(ids);
         authUserService.deleteOrgIds(ids);
-        return removeByIds(ids);
+        return true;
     }
 
     @Override

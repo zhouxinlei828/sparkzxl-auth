@@ -54,8 +54,16 @@ public class AuthRoleController extends SuperCacheController<IRoleService, Long,
         List<AuthRole> pageInfoList = pageInfo.getList();
         if (CollectionUtils.isNotEmpty(pageInfoList)) {
             List<Long> roleIdList = pageInfoList.stream().map(AuthRole::getId).collect(Collectors.toList());
-            Map<Long, List<AuthRoleAttribute>> roleAttributeMap = roleAttributeService.getRoleAttributeList(roleIdList);
-            pageInfoList.forEach(role -> role.setRoleAttributes(roleAttributeMap.get(role.getId())));
+            Map<Long, List<AuthRoleAttribute>> roleAttributeMapList = roleAttributeService.getRoleAttributeList(roleIdList);
+            pageInfoList.forEach(role -> {
+                List<AuthRoleAttribute> roleAttributes = roleAttributeMapList.get(role.getId());
+                role.setRoleAttributes(roleAttributes);
+                if (CollectionUtils.isNotEmpty(roleAttributes)) {
+                    Map<String, String> roleAttributeMap = roleAttributes.stream().collect(Collectors.toMap(AuthRoleAttribute::getAttributeKey,
+                            AuthRoleAttribute::getAttributeValue, (key1, key2) -> key2));
+                    role.setRoleAttribute(roleAttributeMap);
+                }
+            });
             pageInfo.setList(pageInfoList);
         }
         return pageInfo;

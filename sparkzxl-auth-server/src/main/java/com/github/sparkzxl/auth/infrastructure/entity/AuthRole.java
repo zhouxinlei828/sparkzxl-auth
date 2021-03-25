@@ -12,18 +12,19 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * description: 角色
  *
  * @author charles.zhou
- * @date  2020-06-07 13:25:40
+ * @date 2020-06-07 13:25:40
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("auth_role")
-@ApiModel(value="CAuthRoleDO对象", description="角色")
+@ApiModel(value = "CAuthRoleDO对象", description = "角色")
 public class AuthRole extends Entity<Long> {
 
     private static final long serialVersionUID = 6879339693496966527L;
@@ -51,8 +52,12 @@ public class AuthRole extends Entity<Long> {
     @TableField("realm_code")
     private String realmCode;
 
-    @ApiModelProperty(value = "角色自定义属性")
+    @ApiModelProperty(value = "角色自定义属性列表")
     @TableField(exist = false)
     private List<AuthRoleAttribute> roleAttributes;
+
+    @ApiModelProperty(value = "角色自定义属性")
+    @TableField(exist = false)
+    private Map<String, String> roleAttribute;
 
 }

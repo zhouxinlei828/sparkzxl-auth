@@ -17,6 +17,7 @@ import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE_RIGHT;
 import static com.github.sparkzxl.auth.infrastructure.constant.InjectionFieldConstants.*;
@@ -119,8 +120,11 @@ public class AuthUser extends Entity<Long> {
     @TableField("status")
     private Boolean status;
 
-    @ApiModelProperty(value = "用户自定义属性")
+    @ApiModelProperty(value = "用户自定义属性列表")
     @TableField(exist = false)
     private List<AuthUserAttribute> userAttributes;
 
+    @ApiModelProperty(value = "用户自定义属性")
+    @TableField(exist = false)
+    private Map<String, String> userAttribute;
 }

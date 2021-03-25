@@ -4,6 +4,7 @@ import com.github.sparkzxl.core.context.BaseContextConstants;
 import com.github.sparkzxl.core.entity.JwtUserInfo;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.github.sparkzxl.core.utils.ListUtils;
+import com.github.sparkzxl.gateway.infrastructure.constant.RoleConstant;
 import com.github.sparkzxl.gateway.utils.WebFluxUtils;
 import com.github.sparkzxl.jwt.service.JwtTokenService;
 import com.google.common.collect.Lists;
@@ -70,6 +71,9 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             authorities.add("REALM_MANAGER");
         } else {
             String cacheKey = BuildKeyUtils.generateKey(RESOURCE_ROLES_MAP, authJwtInfo.getRealm());
+            if (RoleConstant.USER_PATH.equals(routePath) || RoleConstant.USER_ROUTER_PATH.equals(routePath)) {
+                authorities.add(RoleConstant.USER_CODE);
+            }
             String obj = (String) redisTemplate.opsForHash().get(cacheKey, routePath);
             if (ObjectUtils.isNotEmpty(obj)) {
                 List<String> stringList = ListUtils.stringToList(obj);

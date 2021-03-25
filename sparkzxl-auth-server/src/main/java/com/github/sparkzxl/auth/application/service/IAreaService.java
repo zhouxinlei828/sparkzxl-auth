@@ -19,14 +19,14 @@ public interface IAreaService extends SuperCacheService<Area> {
      * 查询地区信息
      *
      * @param areaQueryDTO 地区查询入参
-     * @return List<CommonArea>
+     * @return List<Area>
      */
     List<Area> getAreaList(AreaQueryDTO areaQueryDTO);
 
     /**
      * 导入城市数据信息
      * @param multipartFile 文件信息
-     * @return
+     * @return boolean
      */
     boolean importAreaJsonData(MultipartFile multipartFile);
 }

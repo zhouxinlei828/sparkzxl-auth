@@ -1,5 +1,6 @@
 package com.github.sparkzxl.auth.infrastructure.config;
 
+import com.github.sparkzxl.auth.infrastructure.oauth2.Oauth2ExceptionHandler;
 import com.github.sparkzxl.auth.infrastructure.oauth2.OpenProperties;
 import com.github.sparkzxl.auth.infrastructure.oauth2.enhancer.JwtTokenEnhancer;
 import com.github.sparkzxl.core.utils.HuSecretUtils;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -38,11 +40,12 @@ import java.util.Optional;
  * description: 授权服务器配置
  *
  * @author charles.zhou
- * @date   2021-02-23 14:13:03
+ * @date 2021-02-23 14:13:03
  */
 @Configuration
 @EnableAuthorizationServer
 @EnableConfigurationProperties(OpenProperties.class)
+@Import(Oauth2ExceptionHandler.class)
 @Slf4j
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 

@@ -16,8 +16,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("common_area")
-@ApiModel(value = "CCommonArea对象", description = "地区表")
+@TableName("area")
+@ApiModel(value = "Area对象", description = "地区表")
 public class Area extends TreeEntity<Area, Long> {
 
     private static final long serialVersionUID = -5452812529610884314L;

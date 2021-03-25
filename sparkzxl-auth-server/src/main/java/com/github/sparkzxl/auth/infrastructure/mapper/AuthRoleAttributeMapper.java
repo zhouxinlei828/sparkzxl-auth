@@ -1,7 +1,9 @@
 package com.github.sparkzxl.auth.infrastructure.mapper;
 
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRoleAttribute;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,4 +15,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AuthRoleAttributeMapper extends BaseMapper<AuthRoleAttribute> {
 
+    /**
+     * 根据领域池code删除角色属性
+     *
+     * @param realmCode 领域池code
+     */
+    @Delete("delete from auth_role_attribute where realm_code = #{realmCode}")
+    @InterceptorIgnore(tenantLine = "true")
+    void deleteAuthRoleAttribute(String realmCode);
 }

@@ -2,6 +2,8 @@ package com.github.sparkzxl.auth.application.service;
 
 
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
+import com.github.sparkzxl.auth.interfaces.dto.role.RoleSaveDTO;
+import com.github.sparkzxl.auth.interfaces.dto.role.RoleUpdateDTO;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
 
 import java.util.List;
@@ -24,10 +26,25 @@ public interface IRoleService extends SuperCacheService<AuthRole> {
     /**
      * 更新角色状态
      *
-     * @param userId 用户id
      * @param roleId 角色id
      * @param status 状态
      * @return boolean
      */
-    boolean updateAuthRoleStatus(Long userId, Long roleId, Boolean status);
+    boolean updateAuthRoleStatus(Long roleId, Boolean status);
+
+    /**
+     * 保存角色信息
+     *
+     * @param roleSaveDTO 角色保存
+     * @return boolean
+     */
+    boolean saveRole(RoleSaveDTO roleSaveDTO);
+
+    /**
+     * 更新角色
+     *
+     * @param roleUpdateDTO 角色更新
+     * @return boolean
+     */
+    boolean updateRole(RoleUpdateDTO roleUpdateDTO);
 }

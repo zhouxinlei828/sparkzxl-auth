@@ -25,10 +25,10 @@ public interface AuthRoleConvert {
     /**
      * AuthRoleSaveDTO转化为AuthRole
      *
-     * @param authRoleSaveDTO 角色保存对象
+     * @param roleSaveDTO 角色保存对象
      * @return AuthRole
      */
-    AuthRole convertAuthRoleDO(RoleSaveDTO authRoleSaveDTO);
+    AuthRole convertAuthRole(RoleSaveDTO roleSaveDTO);
 
     /**
      * authRoleUpdateDTO转化为AuthRole
@@ -36,7 +36,7 @@ public interface AuthRoleConvert {
      * @param authRoleUpdateDTO 角色更新对象
      * @return AuthRole
      */
-    AuthRole convertAuthRoleDO(RoleUpdateDTO authRoleUpdateDTO);
+    AuthRole convertAuthRole(RoleUpdateDTO authRoleUpdateDTO);
 
     /**
      * 角色资源领域对象转换显示层对象

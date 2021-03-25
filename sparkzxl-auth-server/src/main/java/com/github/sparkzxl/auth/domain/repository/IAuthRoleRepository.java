@@ -24,12 +24,20 @@ public interface IAuthRoleRepository {
      * 保存角色
      *
      * @param authRole 角色信息
+     * @return boolean
      */
-    void saveRole(AuthRole authRole);
+    boolean saveRole(AuthRole authRole);
 
     /**
      * 根据领域池code删除角色信息
      * @param realmCode 领域池code
      */
     void deleteAuthRole(String realmCode);
+
+    /**
+     * 更新角色信息
+     * @param authRole 角色信息
+     * @return boolean
+     */
+    boolean updateRole(AuthRole authRole);
 }

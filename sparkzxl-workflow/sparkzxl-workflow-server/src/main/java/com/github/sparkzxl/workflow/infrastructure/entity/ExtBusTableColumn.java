@@ -1,9 +1,6 @@
 package com.github.sparkzxl.workflow.infrastructure.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -32,7 +29,7 @@ public class ExtBusTableColumn implements Serializable {
 
     @ApiModelProperty(value = "表结构id")
     @TableField("table_id")
-    private String tableId;
+    private Long tableId;
 
     @ApiModelProperty(value = "属性名")
     @TableField("name")
@@ -63,11 +60,11 @@ public class ExtBusTableColumn implements Serializable {
     private String defaultValue;
 
     @ApiModelProperty(value = "创建时间")
-    @TableField("create_time")
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "更新时间")
-    @TableField("update_time")
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
 

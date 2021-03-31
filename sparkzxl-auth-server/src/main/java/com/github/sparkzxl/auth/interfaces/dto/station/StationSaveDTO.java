@@ -1,12 +1,12 @@
 package com.github.sparkzxl.auth.interfaces.dto.station;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.database.entity.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 public class StationSaveDTO {
 
     @ApiModelProperty(value = "名称")
-    @NotNull(message = "岗位名称不能为空")
+    @NotEmpty(message = "岗位名称不能为空")
     private String name;
 
     @ApiModelProperty(value = "组织ID")
@@ -32,7 +32,6 @@ public class StationSaveDTO {
     private Boolean status;
 
     @ApiModelProperty(value = "描述")
-    @TableField("describe_")
     private String describe;
 
 }

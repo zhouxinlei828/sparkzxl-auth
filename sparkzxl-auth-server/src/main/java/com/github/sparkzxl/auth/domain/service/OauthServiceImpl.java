@@ -13,11 +13,11 @@ import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AuthorizationRequest;
 import com.github.sparkzxl.auth.infrastructure.oauth2.OpenProperties;
 import com.github.sparkzxl.cache.template.CacheTemplate;
+import com.github.sparkzxl.core.base.result.ApiResponseStatus;
 import com.github.sparkzxl.core.context.BaseContextConstants;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.core.entity.CaptchaInfo;
 import com.github.sparkzxl.core.spring.SpringContextUtils;
-import com.github.sparkzxl.core.support.ResponseResultStatus;
 import com.github.sparkzxl.core.support.SparkZxlExceptionAssert;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.github.sparkzxl.core.utils.ListUtils;
@@ -132,7 +132,7 @@ public class OauthServiceImpl implements IOauthService {
                     authUserInfo.getName()).setRealmCode(authUserInfo.getRealm())));
             return oAuth2AccessToken;
         }
-        SparkZxlExceptionAssert.businessFail(ResponseResultStatus.AUTHORIZED_FAIL);
+        SparkZxlExceptionAssert.businessFail(ApiResponseStatus.AUTHORIZED_FAIL);
         return null;
     }
 

@@ -26,7 +26,6 @@ public class MybatisPlusGenerator {
      *
      * @param tip
      * @return String[]
-     * @throws
      * @author charles.zhou
      * @date 2020-04-12 14:06:32
      */

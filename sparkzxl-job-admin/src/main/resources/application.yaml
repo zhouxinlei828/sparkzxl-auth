@@ -57,18 +57,19 @@ management:
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
 knife4j:
-  group-name: 定时任务调度应用
+  enable: true
+  description: sparkzxl job admin定时任务在线文档
   base-package: com.github.sparkzxl.job.admin.controller
-  title: 定时任务调度应用
-  description: 定时任务调度应用管理
+  group: 定时任务调度应用
+  title: sparkzxl job admin定时任务在线文档
   terms-of-service-url: https://www.sparksys.top
   version: 1.0
   license: Powered By sparkzxl
-  licenseUrl: https://github.com/sparkzxl
+  license-url: https://github.com/sparkzxl
   contact:
-    url: https://github.com/sparkzxl
     name: zhouxinlei
     email: zhouxinlei298@163.com
+    url: https://github.com/sparkzxl
 xxl:
   job:
     accessToken: ''

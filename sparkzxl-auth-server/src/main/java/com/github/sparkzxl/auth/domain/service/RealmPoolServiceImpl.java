@@ -27,40 +27,40 @@ import java.util.List;
 public class RealmPoolServiceImpl extends SuperCacheServiceImpl<RealmPoolMapper, RealmPool> implements IRealmPoolService {
 
     @Autowired
-    private IRealmPoolRepository tenantRepository;
+    private IRealmPoolRepository realmPoolRepository;
 
     @Override
     public PageInfo<RealmPool> getRealmPoolPageList(PageParams<RealmPoolQueryDTO> params) {
-        return tenantRepository.getRealmPoolPageList(params.getPageNum(), params.getPageSize(),
+        return realmPoolRepository.getRealmPoolPageList(params.getPageNum(), params.getPageSize(),
                 params.getModel().getRealmUserId(), params.getModel().getCode(),
                 params.getModel().getName());
     }
 
     @Override
     public boolean saveRealmPool(RealmPoolSaveDTO realmPoolSaveDTO) {
-        RealmPool tenant = RealmPoolConvert.INSTANCE.convertRealmPool(realmPoolSaveDTO);
-        return tenantRepository.saveRealmPool(tenant);
+        RealmPool realmPool = RealmPoolConvert.INSTANCE.convertRealmPool(realmPoolSaveDTO);
+        return realmPoolRepository.saveRealmPool(realmPool);
     }
 
     @Override
     public boolean updateRealmPool(RealmPoolUpdateDTO realmPoolUpdateDTO) {
-        RealmPool tenant = RealmPoolConvert.INSTANCE.convertRealmPool(realmPoolUpdateDTO);
-        return tenantRepository.updateRealmPool(tenant);
+        RealmPool realmPool = RealmPoolConvert.INSTANCE.convertRealmPool(realmPoolUpdateDTO);
+        return realmPoolRepository.updateRealmPool(realmPool);
     }
 
     @Override
     public boolean deleteRealmPool(Long realmPoolId) {
-        return tenantRepository.deleteRealmPool(realmPoolId);
+        return realmPoolRepository.deleteRealmPool(realmPoolId);
     }
 
     @Override
     public boolean deleteBatchRealmPool(List<Long> realmPoolIds) {
-        return tenantRepository.deleteBatchRealmPool(realmPoolIds);
+        return realmPoolRepository.deleteBatchRealmPool(realmPoolIds);
     }
 
     @Override
-    public boolean checkRealmCode(String RealmCode) {
-        return count(new LambdaQueryWrapper<RealmPool>().eq(RealmPool::getCode, RealmCode)) == 1;
+    public boolean checkRealmCode(String realmCode) {
+        return count(new LambdaQueryWrapper<RealmPool>().eq(RealmPool::getCode, realmCode)) == 1;
     }
 
     @Override

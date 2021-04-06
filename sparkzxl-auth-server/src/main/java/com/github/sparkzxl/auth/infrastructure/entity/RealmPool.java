@@ -38,6 +38,10 @@ public class RealmPool extends Entity<Long> {
     @TableField("status")
     private Boolean status;
 
+    @ApiModelProperty(value = "内置领域池")
+    @TableField("readonly")
+    private Boolean readonly;
+
     @ApiModelProperty(value = "logo地址")
     @TableField("logo")
     private String logo;

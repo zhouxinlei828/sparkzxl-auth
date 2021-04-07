@@ -221,7 +221,7 @@
                     <version>${jib-maven-plugin.version}</version>
                     <configuration>
                         <from>
-                            <image>registry.cn-hangzhou.aliyuncs.com/sparkzxl/jdk:1.8</image>
+                            <image>registry.cn-hangzhou.aliyuncs.com/sparkzxl/java:8</image>
                         </from>
                         <to>
                             <image>registry.cn-hangzhou.aliyuncs.com/sparkzxl/${project.artifactId}</image>
@@ -235,7 +235,7 @@
                         </to>
                         <container>
                             <jvmFlags>
-                                <jvmFlag>-javaagent:/home/${project.artifactId}/agent/skywalking-agent.jar</jvmFlag>
+                                <!--<jvmFlag>-javaagent:/skywalking/agent/skywalking-agent.jar</jvmFlag>-->
                                 <jvmFlag>-Xms512m</jvmFlag>
                                 <jvmFlag>-Xmx512m</jvmFlag>
                                 <jvmFlag>-Xdebug</jvmFlag>

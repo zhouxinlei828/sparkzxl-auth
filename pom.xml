@@ -235,10 +235,9 @@
                         </to>
                         <container>
                             <jvmFlags>
-                                <!--<jvmFlag>-javaagent:/skywalking/agent/skywalking-agent.jar</jvmFlag>-->
+                                <jvmFlag>-javaagent:/skywalking/agent/skywalking-agent.jar</jvmFlag>
                                 <jvmFlag>-Xms512m</jvmFlag>
                                 <jvmFlag>-Xmx512m</jvmFlag>
-                                <jvmFlag>-Xdebug</jvmFlag>
                             </jvmFlags>
                             <appRoot>/home/${project.artifactId}</appRoot>
                             <workingDirectory>/home/${project.artifactId}</workingDirectory>

@@ -8,6 +8,7 @@ import com.github.javafaker.Faker;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
 import com.github.sparkzxl.auth.application.service.*;
+import com.github.sparkzxl.auth.application.service.es.IEsUserAttributeService;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
@@ -16,6 +17,7 @@ import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.domain.repository.IRealmManagerRepository;
 import com.github.sparkzxl.auth.domain.repository.IUserAttributeRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.ElasticsearchConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUserAttribute;
@@ -75,6 +77,8 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     private IDictionaryItemService dictionaryItemService;
     @Autowired
     private IUserAttributeRepository userAttributeRepository;
+    @Autowired
+    private IEsUserAttributeService esUserAttributeService;
 
     @Override
     public AuthUserInfo<Long> getAuthUserInfo(String username) {
@@ -99,13 +103,15 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         List<AuthUser> userList = authUserPageInfo.getList();
         if (CollectionUtils.isNotEmpty(userList)) {
             List<Long> userIdList = userList.stream().map(SuperEntity::getId).collect(Collectors.toList());
+            List<Map<String, Object>> searchUserAttribute = esUserAttributeService.searchUserAttributeList(ElasticsearchConstant.USER_ATTRIBUTE, userIdList);
+            System.out.println(JSONUtil.toJsonPrettyStr(searchUserAttribute));
             Map<Long, List<AuthUserAttribute>> userAttributeMapList = userAttributeRepository.findUserAttributeMapList(userIdList);
             userList.forEach(user -> {
                 List<AuthUserAttribute> authUserAttributes = userAttributeMapList.get(user.getId());
                 user.setUserAttributes(authUserAttributes);
                 if (CollectionUtils.isNotEmpty(authUserAttributes)) {
-                    Map<String, String> userAttributeMap = authUserAttributes.stream().collect(Collectors.toMap(AuthUserAttribute::getAttributeKey,
-                            AuthUserAttribute::getAttributeValue, (key1, key2) -> key2));
+                    Map<String, Object> userAttributeMap = authUserAttributes.stream().collect(Collectors.toMap(AuthUserAttribute::getAttributeKey,
+                            p -> p.getAttributeValue() == null ? "" : p.getAttributeValue(), (key1, key2) -> (key2)));
                     user.setUserAttribute(userAttributeMap);
                 }
             });
@@ -120,7 +126,11 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         authUser.setPassword(password);
         String realmCode = BaseContextHandler.getRealm();
         authUser.setRealmCode(realmCode);
-        return authUserRepository.saveAuthUser(authUser);
+        boolean result = authUserRepository.saveAuthUser(authUser);
+        Map<String, Object> userAttributeMap = authUser.getUserAttributes().stream().collect(Collectors.toMap(AuthUserAttribute::getAttributeKey,
+                p -> p.getAttributeValue() == null ? "" : p.getAttributeValue(), (key1, key2) -> (key2)));
+        esUserAttributeService.insert(ElasticsearchConstant.USER_ATTRIBUTE, String.valueOf(authUser.getId()), userAttributeMap);
+        return result;
     }
 
     @Override

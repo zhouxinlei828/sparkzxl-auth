@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.github.sparkzxl.auth.infrastructure.constant.ElasticsearchConstant;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,7 +20,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("auth_user_attribute")
+@TableName(ElasticsearchConstant.USER_ATTRIBUTE)
 @ApiModel(value = "AuthUserAttribute对象", description = "用户属性")
 public class AuthUserAttribute implements Serializable {
 
@@ -43,7 +44,7 @@ public class AuthUserAttribute implements Serializable {
 
     @ApiModelProperty(value = "属性值")
     @TableField("attribute_value")
-    private String attributeValue;
+    private Object attributeValue;
 
     @ApiModelProperty(value = "备注")
     @TableField("remark")

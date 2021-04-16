@@ -60,7 +60,7 @@ public class AuthRoleController extends SuperCacheController<IRoleService, Long,
                 role.setRoleAttributes(roleAttributes);
                 if (CollectionUtils.isNotEmpty(roleAttributes)) {
                     Map<String, String> roleAttributeMap = roleAttributes.stream().collect(Collectors.toMap(AuthRoleAttribute::getAttributeKey,
-                            AuthRoleAttribute::getAttributeValue, (key1, key2) -> key2));
+                            p -> p.getAttributeValue() == null ? "" : p.getAttributeValue(), (key1, key2) -> (key2)));
                     role.setRoleAttribute(roleAttributeMap);
                 }
             });

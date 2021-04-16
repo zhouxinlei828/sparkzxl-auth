@@ -108,7 +108,7 @@ public class CoreOrgRepository implements ICoreOrgRepository {
                 org.setOrgAttributes(orgAttributeList);
                 if (CollectionUtils.isNotEmpty(orgAttributeList)){
                     Map<String, String> orgAttributeMap = orgAttributeList.stream().collect(Collectors.toMap(CoreOrgAttribute::getAttributeKey,
-                            CoreOrgAttribute::getAttributeValue, (key1, key2) -> (key2)));
+                            p -> p.getAttributeValue() == null ? "" : p.getAttributeValue(), (key1, key2) -> (key2)));
                     org.setOrgAttribute(orgAttributeMap);
                 }
             });

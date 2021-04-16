@@ -40,6 +40,10 @@
         </dependency>
         <dependency>
             <groupId>com.github.sparkzxl</groupId>
+            <artifactId>sparkzxl-elasticsearch-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.sparkzxl</groupId>
             <artifactId>sparkzxl-user-starter</artifactId>
         </dependency>
         <dependency>

@@ -41,3 +41,5 @@ logging:
     com.github.sparkzxl.auth.infrastructure.mapper: debug
 open:
   sso-server-uri: http://127.0.0.1:8801
+elasticsearch:
+  cluster-nodes: 192.168.3.14:9200

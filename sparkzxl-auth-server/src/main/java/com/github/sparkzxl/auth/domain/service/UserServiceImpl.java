@@ -15,7 +15,6 @@ import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
 import com.github.sparkzxl.auth.domain.model.vo.AuthUserBasicVO;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.domain.repository.IRealmManagerRepository;
-import com.github.sparkzxl.auth.domain.repository.IUserAttributeRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.constant.ElasticsearchConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
@@ -31,9 +30,9 @@ import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
 import com.github.sparkzxl.core.context.BaseContextHandler;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.constant.EntityConstant;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.database.entity.RemoteData;
-import com.github.sparkzxl.database.entity.SuperEntity;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -76,8 +75,6 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     @Autowired
     private IDictionaryItemService dictionaryItemService;
     @Autowired
-    private IUserAttributeRepository userAttributeRepository;
-    @Autowired
     private IEsUserAttributeService esUserAttributeService;
 
     @Override
@@ -102,19 +99,9 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         PageInfo<AuthUser> authUserPageInfo = PageInfoUtils.pageInfo(authUserList);
         List<AuthUser> userList = authUserPageInfo.getList();
         if (CollectionUtils.isNotEmpty(userList)) {
-            List<Long> userIdList = userList.stream().map(SuperEntity::getId).collect(Collectors.toList());
-            List<Map<String, Object>> searchUserAttribute = esUserAttributeService.searchUserAttributeList(ElasticsearchConstant.USER_ATTRIBUTE, userIdList);
+            List<String> userIdList = userList.stream().map(x -> String.valueOf(x.getId())).collect(Collectors.toList());
+            List<Map> searchUserAttribute = esUserAttributeService.searchDocsByIdList(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, userIdList, Map.class);
             System.out.println(JSONUtil.toJsonPrettyStr(searchUserAttribute));
-            Map<Long, List<AuthUserAttribute>> userAttributeMapList = userAttributeRepository.findUserAttributeMapList(userIdList);
-            userList.forEach(user -> {
-                List<AuthUserAttribute> authUserAttributes = userAttributeMapList.get(user.getId());
-                user.setUserAttributes(authUserAttributes);
-                if (CollectionUtils.isNotEmpty(authUserAttributes)) {
-                    Map<String, Object> userAttributeMap = authUserAttributes.stream().collect(Collectors.toMap(AuthUserAttribute::getAttributeKey,
-                            p -> p.getAttributeValue() == null ? "" : p.getAttributeValue(), (key1, key2) -> (key2)));
-                    user.setUserAttribute(userAttributeMap);
-                }
-            });
         }
         return authUserPageInfo;
     }
@@ -129,7 +116,8 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         boolean result = authUserRepository.saveAuthUser(authUser);
         Map<String, Object> userAttributeMap = authUser.getUserAttributes().stream().collect(Collectors.toMap(AuthUserAttribute::getAttributeKey,
                 p -> p.getAttributeValue() == null ? "" : p.getAttributeValue(), (key1, key2) -> (key2)));
-        esUserAttributeService.insert(ElasticsearchConstant.USER_ATTRIBUTE, String.valueOf(authUser.getId()), userAttributeMap);
+        userAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(authUser.getId()));
+        esUserAttributeService.saveDoc(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, String.valueOf(authUser.getId()), userAttributeMap);
         return result;
     }
 

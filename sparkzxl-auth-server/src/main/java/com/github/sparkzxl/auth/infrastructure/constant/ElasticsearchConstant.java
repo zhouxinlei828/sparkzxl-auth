@@ -11,7 +11,12 @@ public class ElasticsearchConstant {
     /**
      * 用户属性
      */
-    public static final String USER_ATTRIBUTE = "auth_user_attribute";
+    public static final String INDEX_USER_ATTRIBUTE = "auth_user_attribute";
+
+    /**
+     * 用户属性
+     */
+    public static final String USER_ATTRIBUTE_RELATION = "user_id";
 
     /**
      * 用户属性

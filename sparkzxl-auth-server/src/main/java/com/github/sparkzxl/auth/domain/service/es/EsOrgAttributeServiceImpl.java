@@ -1,7 +1,6 @@
 package com.github.sparkzxl.auth.domain.service.es;
 
 import com.github.sparkzxl.auth.application.service.es.IEsOrgAttributeService;
-import com.github.sparkzxl.auth.application.service.es.IEsUserAttributeService;
 import com.github.sparkzxl.elasticsearch.service.base.BaseElasticsearchServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

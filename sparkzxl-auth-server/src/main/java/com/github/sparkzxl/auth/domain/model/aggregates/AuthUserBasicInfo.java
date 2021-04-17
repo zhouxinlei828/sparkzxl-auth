@@ -1,6 +1,5 @@
 package com.github.sparkzxl.auth.domain.model.aggregates;
 
-import com.github.sparkzxl.auth.infrastructure.entity.AuthUserAttribute;
 import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
 import com.github.sparkzxl.database.entity.RemoteData;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,12 +7,13 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * description: 用户基本信息
  *
  * @author charles.zhou
- * @date   2020-12-27 11:08:49
+ * @date 2020-12-27 11:08:49
  */
 @Data
 public class AuthUserBasicInfo {
@@ -76,6 +76,6 @@ public class AuthUserBasicInfo {
     private Boolean realmStatus;
 
     @ApiModelProperty(value = "用户自定义属性")
-    private List<AuthUserAttribute> userAttributes;
+    private Map<String, Object> userAttribute;
 
 }

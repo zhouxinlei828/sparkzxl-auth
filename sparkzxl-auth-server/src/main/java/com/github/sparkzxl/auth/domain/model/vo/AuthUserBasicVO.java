@@ -4,14 +4,13 @@ import com.github.sparkzxl.auth.domain.model.aggregates.OrgBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.ResourceBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.RoleBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.StationBasicInfo;
-import com.github.sparkzxl.auth.infrastructure.entity.AuthUserAttribute;
 import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
-import com.github.sparkzxl.database.entity.RemoteData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * description: 用户基本信息显示层对象
@@ -71,5 +70,5 @@ public class AuthUserBasicVO {
     private Boolean realmStatus;
 
     @ApiModelProperty(value = "用户自定义属性")
-    private List<AuthUserAttribute> userAttributes;
+    private Map<String, Object> userAttribute;
 }

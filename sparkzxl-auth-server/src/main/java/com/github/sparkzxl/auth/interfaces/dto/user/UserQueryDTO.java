@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Map;
+
 
 /**
  * description: 用户信息
@@ -35,5 +37,8 @@ public class UserQueryDTO extends PageDTO {
 
     @ApiModelProperty(value = "组织id")
     private Long orgId;
+
+    @ApiModelProperty(value = "用户自定义属性")
+    private Map<String, Object> userAttribute;
 
 }

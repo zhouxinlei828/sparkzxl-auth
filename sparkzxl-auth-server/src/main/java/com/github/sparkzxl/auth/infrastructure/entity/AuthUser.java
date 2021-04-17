@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE_RIGHT;
@@ -53,7 +52,7 @@ public class AuthUser extends Entity<Long> {
 
     @ApiModelProperty(value = "上级id")
     @TableField("superior_id")
-    private long superiorId;
+    private Long superiorId;
 
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
@@ -119,10 +118,6 @@ public class AuthUser extends Entity<Long> {
     @ApiModelProperty(value = "状态 1启用 0禁用")
     @TableField("status")
     private Boolean status;
-
-    @ApiModelProperty(value = "用户自定义属性列表")
-    @TableField(exist = false)
-    private List<AuthUserAttribute> userAttributes;
 
     @ApiModelProperty(value = "用户自定义属性")
     @TableField(exist = false)

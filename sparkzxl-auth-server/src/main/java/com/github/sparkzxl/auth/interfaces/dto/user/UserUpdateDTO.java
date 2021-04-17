@@ -1,6 +1,5 @@
 package com.github.sparkzxl.auth.interfaces.dto.user;
 
-import com.github.sparkzxl.auth.infrastructure.entity.AuthUserAttribute;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.Map;
 
 /**
  * description: 用户信息
@@ -66,6 +65,6 @@ public class UserUpdateDTO {
     private Boolean status;
 
     @ApiModelProperty(value = "用户自定义属性")
-    private List<AuthUserAttribute> userAttributes;
+    private Map<String, Object> userAttribute;
 
 }

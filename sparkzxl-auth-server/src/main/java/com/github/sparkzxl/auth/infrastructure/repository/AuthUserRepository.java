@@ -51,7 +51,6 @@ public class AuthUserRepository implements IAuthUserRepository {
     private CoreOrgMapper coreOrgMapper;
     private PasswordEncoder passwordEncoder;
     private Snowflake snowflake;
-    private AuthUserAttributeMapper userAttributeMapper;
 
     @Autowired
     public void setAuthUserMapper(AuthUserMapper authUserMapper) {
@@ -93,11 +92,6 @@ public class AuthUserRepository implements IAuthUserRepository {
         this.snowflake = snowflake;
     }
 
-    @Autowired
-    public void setUserAttributeMapper(AuthUserAttributeMapper userAttributeMapper) {
-        this.userAttributeMapper = userAttributeMapper;
-    }
-
     @Override
     public AuthUser selectById(Long id) {
         return authUserMapper.selectById(id);
@@ -130,14 +124,15 @@ public class AuthUserRepository implements IAuthUserRepository {
     @Override
     public void deleteUserRelation(List<Long> ids) {
         userRoleMapper.delete(new LambdaUpdateWrapper<UserRole>().in(UserRole::getUserId, ids));
-        userAttributeMapper.delete(new LambdaQueryWrapper<AuthUserAttribute>()
-                .in(AuthUserAttribute::getUserId, ids));
     }
 
     @Override
     @InjectionResult
-    public List<AuthUser> getAuthUserList(AuthUser authUser) {
+    public List<AuthUser> getAuthUserList(AuthUser authUser, List<Long> userIdList) {
         LambdaQueryWrapper<AuthUser> queryWrapper = new LambdaQueryWrapper<>();
+        if (CollectionUtils.isNotEmpty(userIdList)) {
+            queryWrapper.in(SuperEntity::getId, userIdList);
+        }
         if (StringUtils.isNotEmpty(authUser.getAccount())) {
             queryWrapper.like(AuthUser::getAccount, authUser.getAccount());
         }
@@ -161,13 +156,7 @@ public class AuthUserRepository implements IAuthUserRepository {
             queryWrapper.like(AuthUser::getRealmCode, realmCode);
         }
         List<AuthUser> authUsers = authUserMapper.selectList(queryWrapper);
-        if (CollectionUtils.isNotEmpty(authUsers)) {
-            List<Long> userIdList = authUsers.stream().map(SuperEntity::getId).collect(Collectors.toList());
-            List<AuthUserAttribute> authUserAttributes = userAttributeMapper.selectList(new LambdaQueryWrapper<AuthUserAttribute>().in(AuthUserAttribute::getUserId, userIdList));
-            Map<Long, List<AuthUserAttribute>> userAttributeMap = authUserAttributes.stream().collect(Collectors.groupingBy(AuthUserAttribute::getUserId));
-            authUsers.forEach(user -> user.setUserAttributes(userAttributeMap.get(user.getId())));
-        }
-        return authUsers;
+        return authUserMapper.selectList(queryWrapper);
     }
 
     @Override
@@ -276,29 +265,12 @@ public class AuthUserRepository implements IAuthUserRepository {
         authUser.setPassword(password);
         String realmCode = BaseContextHandler.getRealm();
         authUser.setRealmCode(realmCode);
-        authUserMapper.insert(authUser);
-        List<AuthUserAttribute> userAttributes = authUser.getUserAttributes();
-        if (CollectionUtils.isNotEmpty(userAttributes)) {
-            userAttributes.forEach(userAttribute -> {
-                userAttribute.setUserId(authUser.getId());
-                userAttributeMapper.insert(userAttribute);
-            });
-        }
-        return true;
+        return authUserMapper.insert(authUser) == 1;
     }
 
     @Override
     public boolean updateAuthUser(AuthUser authUser) {
         authUserMapper.updateById(authUser);
-        List<AuthUserAttribute> userAttributes = authUser.getUserAttributes();
-        userAttributeMapper.delete(new LambdaQueryWrapper<AuthUserAttribute>()
-                .eq(AuthUserAttribute::getUserId, authUser.getId()));
-        if (CollectionUtils.isNotEmpty(userAttributes)) {
-            userAttributes.forEach(userAttribute -> {
-                userAttribute.setUserId(authUser.getId());
-                userAttributeMapper.insert(userAttribute);
-            });
-        }
-        return true;
+        return authUserMapper.updateById(authUser) == 1;
     }
 }

@@ -271,7 +271,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
 
     private void buildQueryUserAttribute(List<Map> searchDocList, List<AuthUser> userList) {
         Map<String, Map> searchUserAttribute = Maps.newHashMap();
-        if (CollectionUtils.isNotEmpty(userList)) {
+        if (CollectionUtils.isNotEmpty(searchDocList)) {
             for (Map doc : searchDocList) {
                 String id = doc.get(EntityConstant.COLUMN_ID).toString();
                 searchUserAttribute.put(id, doc);

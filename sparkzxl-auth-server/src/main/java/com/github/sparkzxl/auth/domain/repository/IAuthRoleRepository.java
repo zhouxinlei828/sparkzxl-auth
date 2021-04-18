@@ -1,6 +1,7 @@
 package com.github.sparkzxl.auth.domain.repository;
 
 
+import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 
 import java.util.List;
@@ -30,14 +31,27 @@ public interface IAuthRoleRepository {
 
     /**
      * 根据领域池code删除角色信息
+     *
      * @param realmCode 领域池code
      */
     void deleteAuthRole(String realmCode);
 
     /**
      * 更新角色信息
+     *
      * @param authRole 角色信息
      * @return boolean
      */
     boolean updateRole(AuthRole authRole);
+
+    /**
+     * 查询角色列表
+     *
+     * @param pageNum  当前页
+     * @param pageSize 分页大小
+     * @param code     角色编码
+     * @param name     角色名称
+     * @return List<AuthRole>
+     */
+    PageInfo<AuthRole> getPageList(int pageNum, int pageSize, String code, String name);
 }

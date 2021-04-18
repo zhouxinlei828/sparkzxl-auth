@@ -1,26 +1,22 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.auth.application.service.IAuthRoleAttributeService;
 import com.github.sparkzxl.auth.application.service.IRoleService;
 import com.github.sparkzxl.auth.application.service.IUserRoleService;
 import com.github.sparkzxl.auth.domain.model.vo.RoleResourceVO;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
-import com.github.sparkzxl.auth.infrastructure.entity.AuthRoleAttribute;
 import com.github.sparkzxl.auth.interfaces.dto.role.*;
 import com.github.sparkzxl.core.annotation.ResponseResult;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.log.annotation.WebLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * description: 角色 前端控制器
@@ -37,36 +33,15 @@ public class AuthRoleController extends SuperCacheController<IRoleService, Long,
         AuthRole, RoleSaveDTO, RoleUpdateDTO, RoleQueryDTO, Object> {
 
     private IUserRoleService userRoleService;
-    private IAuthRoleAttributeService roleAttributeService;
 
     @Autowired
     public void setUserRoleService(IUserRoleService userRoleService) {
         this.userRoleService = userRoleService;
     }
 
-    @Autowired
-    public void setRoleAttributeService(IAuthRoleAttributeService roleAttributeService) {
-        this.roleAttributeService = roleAttributeService;
-    }
-
     @Override
-    public PageInfo<AuthRole> handlerResult(PageInfo<AuthRole> pageInfo) {
-        List<AuthRole> pageInfoList = pageInfo.getList();
-        if (CollectionUtils.isNotEmpty(pageInfoList)) {
-            List<Long> roleIdList = pageInfoList.stream().map(AuthRole::getId).collect(Collectors.toList());
-            Map<Long, List<AuthRoleAttribute>> roleAttributeMapList = roleAttributeService.getRoleAttributeList(roleIdList);
-            pageInfoList.forEach(role -> {
-                List<AuthRoleAttribute> roleAttributes = roleAttributeMapList.get(role.getId());
-                role.setRoleAttributes(roleAttributes);
-                if (CollectionUtils.isNotEmpty(roleAttributes)) {
-                    Map<String, String> roleAttributeMap = roleAttributes.stream().collect(Collectors.toMap(AuthRoleAttribute::getAttributeKey,
-                            p -> p.getAttributeValue() == null ? "" : p.getAttributeValue(), (key1, key2) -> (key2)));
-                    role.setRoleAttribute(roleAttributeMap);
-                }
-            });
-            pageInfo.setList(pageInfoList);
-        }
-        return pageInfo;
+    public PageInfo<AuthRole> page(PageParams<RoleQueryDTO> params) {
+        return baseService.getPageList(params);
     }
 
     @Override

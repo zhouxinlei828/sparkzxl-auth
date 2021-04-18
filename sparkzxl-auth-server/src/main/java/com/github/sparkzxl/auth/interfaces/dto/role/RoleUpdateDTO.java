@@ -1,13 +1,13 @@
 package com.github.sparkzxl.auth.interfaces.dto.role;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.github.sparkzxl.auth.infrastructure.entity.AuthRoleAttribute;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 /**
  * description：角色更新对象
@@ -35,7 +35,7 @@ public class RoleUpdateDTO {
     @ApiModelProperty(value = "状态")
     private Boolean status;
 
-    @ApiModelProperty(value = "角色自定义属性")
-    @TableField(exist = false)
-    private List<AuthRoleAttribute> roleAttributes;
+    @ApiModelProperty(value = "角色属性")
+    private Map<String, Object> attribute;
+
 }

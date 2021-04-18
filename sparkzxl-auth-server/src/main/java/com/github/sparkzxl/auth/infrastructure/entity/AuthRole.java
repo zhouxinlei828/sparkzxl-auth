@@ -52,12 +52,8 @@ public class AuthRole extends Entity<Long> {
     @TableField("realm_code")
     private String realmCode;
 
-    @ApiModelProperty(value = "角色自定义属性列表")
+    @ApiModelProperty(value = "角色属性")
     @TableField(exist = false)
-    private List<AuthRoleAttribute> roleAttributes;
-
-    @ApiModelProperty(value = "角色自定义属性")
-    @TableField(exist = false)
-    private Map<String, String> roleAttribute;
+    private Map<String, Object> attribute;
 
 }

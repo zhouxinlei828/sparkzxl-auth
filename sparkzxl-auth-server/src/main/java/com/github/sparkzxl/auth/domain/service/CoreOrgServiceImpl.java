@@ -50,11 +50,11 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
         if (CollectionUtils.isNotEmpty(coreOrgList)) {
             List<String> orgIdStrList = coreOrgList.stream().map(x -> String.valueOf(x.getId())).collect(Collectors.toList());
             Map<String, Map> searchOrgAttribute = esOrgAttributeService.searchDocsMapByIdList(ElasticsearchConstant.INDEX_ORG_ATTRIBUTE, orgIdStrList, Map.class);
-            coreOrgList.forEach(user -> {
-                Map map = searchOrgAttribute.get(String.valueOf(user.getId()));
+            coreOrgList.forEach(org -> {
+                Map map = searchOrgAttribute.get(String.valueOf(org.getId()));
                 if (MapUtils.isNotEmpty(map)) {
                     map.remove(EntityConstant.COLUMN_ID);
-                    user.setAttribute(map);
+                    org.setAttribute(map);
                 }
             });
         }

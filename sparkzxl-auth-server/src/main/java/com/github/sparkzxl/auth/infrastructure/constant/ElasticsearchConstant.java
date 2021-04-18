@@ -14,6 +14,11 @@ public class ElasticsearchConstant {
     public static final String INDEX_USER_ATTRIBUTE = "auth_user_attribute";
 
     /**
+     * 角色属性
+     */
+    public static final String INDEX_ROLE_ATTRIBUTE = "auth_role_attribute";
+
+    /**
      * 组织属性
      */
     public static final String INDEX_ORG_ATTRIBUTE = "auth_org_attribute";

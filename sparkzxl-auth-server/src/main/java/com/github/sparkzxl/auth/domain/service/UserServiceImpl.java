@@ -98,7 +98,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     @Override
     public PageInfo<AuthUser> getAuthUserPage(PageParams<UserQueryDTO> params) {
         AuthUser authUser = AuthUserConvert.INSTANCE.convertAuthUser(params.getModel());
-        Map<String, Object> userAttribute = authUser.getUserAttribute();
+        Map<String, Object> userAttribute = authUser.getAttribute();
         List<Long> userIdList = Lists.newArrayList();
         List<Map> searchDocList = Lists.newArrayList();
         if (MapUtils.isNotEmpty(userAttribute)) {
@@ -132,7 +132,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         authUser.setRealmCode(realmCode);
         boolean result = authUserRepository.saveAuthUser(authUser);
         Long userId = authUser.getId();
-        Map<String, Object> userAttributeMap = authUser.getUserAttribute();
+        Map<String, Object> userAttributeMap = authUser.getAttribute();
         userAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(userId));
         esUserAttributeService.saveDoc(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, String.valueOf(userId), userAttributeMap);
         return result;
@@ -142,7 +142,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     public boolean updateAuthUser(UserUpdateDTO userUpdateDTO) {
         AuthUser authUser = AuthUserConvert.INSTANCE.convertAuthUser(userUpdateDTO);
         boolean result = authUserRepository.updateAuthUser(authUser);
-        Map<String, Object> userAttributeMap = authUser.getUserAttribute();
+        Map<String, Object> userAttributeMap = authUser.getAttribute();
         Long userId = authUser.getId();
         esUserAttributeService.deleteDocById(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, String.valueOf(userId));
         if (MapUtils.isNotEmpty(userAttributeMap)) {
@@ -248,7 +248,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     @Override
     public List<AuthUser> userList(UserQueryDTO userQueryDTO) {
         AuthUser authUser = AuthUserConvert.INSTANCE.convertAuthUser(userQueryDTO);
-        Map<String, Object> userAttribute = authUser.getUserAttribute();
+        Map<String, Object> userAttribute = authUser.getAttribute();
         List<Long> userIdList = Lists.newArrayList();
         List<Map> searchDocList = Lists.newArrayList();
         if (MapUtils.isNotEmpty(userAttribute)) {
@@ -286,7 +286,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
             Map map = finalSearchUserAttribute.get(String.valueOf(user.getId()));
             if (MapUtils.isNotEmpty(map)) {
                 map.remove(EntityConstant.COLUMN_ID);
-                user.setUserAttribute(map);
+                user.setAttribute(map);
             }
         });
     }

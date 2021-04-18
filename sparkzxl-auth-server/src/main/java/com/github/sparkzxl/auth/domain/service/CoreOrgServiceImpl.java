@@ -3,22 +3,29 @@ package com.github.sparkzxl.auth.domain.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.auth.application.service.ICoreOrgService;
 import com.github.sparkzxl.auth.application.service.IUserService;
+import com.github.sparkzxl.auth.application.service.es.IEsOrgAttributeService;
 import com.github.sparkzxl.auth.domain.repository.ICoreOrgRepository;
 import com.github.sparkzxl.auth.domain.repository.IIdSegmentRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.ElasticsearchConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.CoreOrgConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreOrgMapper;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.constant.EntityConstant;
 import com.github.sparkzxl.database.entity.TreeEntity;
 import com.github.sparkzxl.database.utils.TreeUtil;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * description: 组织 服务实现类
@@ -33,10 +40,12 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
     private IUserService authUserService;
     @Autowired
     private ICoreOrgRepository coreOrgRepository;
+    @Autowired
+    private IEsOrgAttributeService esOrgAttributeService;
 
     @Override
     public List<CoreOrg> getCoreOrgTree(String name, Boolean status) {
-        List<CoreOrg> coreOrgList = coreOrgRepository.getCoreOrgList(name,status);
+        List<CoreOrg> coreOrgList = coreOrgRepository.getCoreOrgList(name, status);
         return TreeUtil.buildTree(coreOrgList);
     }
 
@@ -51,19 +60,35 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
     @Override
     public boolean saveCoreOrg(OrgSaveDTO orgSaveDTO) {
         CoreOrg coreOrg = CoreOrgConvert.INSTANCE.convertCoreOrg(orgSaveDTO);
-        return coreOrgRepository.saveCoreOrg(coreOrg);
+        boolean result = coreOrgRepository.saveCoreOrg(coreOrg);
+        Long orgId = coreOrg.getId();
+        Map<String, Object> orgAttributeMap = coreOrg.getAttribute();
+        orgAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(orgId));
+        esOrgAttributeService.saveDoc(ElasticsearchConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId), orgAttributeMap);
+        return result;
     }
 
     @Override
     public boolean updateCoreOrg(OrgUpdateDTO orgUpdateDTO) {
         CoreOrg coreOrg = CoreOrgConvert.INSTANCE.convertCoreOrg(orgUpdateDTO);
-        return coreOrgRepository.updateCoreOrg(coreOrg);
+        boolean result = coreOrgRepository.updateCoreOrg(coreOrg);
+        Map<String, Object> orgAttributeMap = coreOrg.getAttribute();
+        Long orgId = coreOrg.getId();
+        esOrgAttributeService.deleteDocById(ElasticsearchConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId));
+        if (MapUtils.isNotEmpty(orgAttributeMap)) {
+            orgAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(orgId));
+            esOrgAttributeService.saveDoc(ElasticsearchConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId), orgAttributeMap);
+        }
+        return result;
     }
 
     @Override
     public boolean deleteBatchCoreOrg(List<Long> ids) {
         coreOrgRepository.deleteBatchCoreOrg(ids);
         authUserService.deleteOrgIds(ids);
+        if (CollectionUtils.isNotEmpty(ids)) {
+            esOrgAttributeService.deleteDocByIds(ElasticsearchConstant.INDEX_ORG_ATTRIBUTE, ids.stream().map(String::valueOf).collect(Collectors.toList()));
+        }
         return true;
     }
 

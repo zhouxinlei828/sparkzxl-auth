@@ -39,6 +39,6 @@ public class UserQueryDTO extends PageDTO {
     private Long orgId;
 
     @ApiModelProperty(value = "用户自定义属性")
-    private Map<String, Object> userAttribute;
+    private Map<String, Object> attribute;
 
 }

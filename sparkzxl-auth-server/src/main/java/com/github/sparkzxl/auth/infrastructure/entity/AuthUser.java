@@ -121,5 +121,5 @@ public class AuthUser extends Entity<Long> {
 
     @ApiModelProperty(value = "用户自定义属性")
     @TableField(exist = false)
-    private Map<String, Object> userAttribute;
+    private Map<String, Object> attribute;
 }

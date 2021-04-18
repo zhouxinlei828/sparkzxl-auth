@@ -67,7 +67,7 @@ public class UserSaveDTO {
     private Boolean status;
 
     @ApiModelProperty(value = "用户自定义属性")
-    private Map<String, Object> userAttribute;
+    private Map<String, Object> attribute;
 
 
 }

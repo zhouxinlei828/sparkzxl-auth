@@ -1,6 +1,5 @@
 package com.github.sparkzxl.auth.interfaces.dto.org;
 
-import com.github.sparkzxl.auth.infrastructure.entity.CoreOrgAttribute;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -8,7 +7,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.Map;
 
 /**
  * description: 组织保存实体类
@@ -51,6 +50,6 @@ public class OrgUpdateDTO {
     private String describe;
 
     @ApiModelProperty(value = "组织属性")
-    private List<CoreOrgAttribute> orgAttributes;
+    private Map<String, Object> attribute;
 
 }

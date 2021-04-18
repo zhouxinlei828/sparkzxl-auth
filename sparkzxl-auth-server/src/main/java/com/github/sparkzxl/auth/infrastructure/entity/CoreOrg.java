@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,13 +42,9 @@ public class CoreOrg extends TreeEntity<CoreOrg, Long> {
     @TableField("describe_")
     private String describe;
 
-    @ApiModelProperty(value = "组织属性列表")
-    @TableField(exist = false)
-    private List<CoreOrgAttribute> orgAttributes;
-
     @ApiModelProperty(value = "组织属性")
     @TableField(exist = false)
-    private Map<String, String> orgAttribute;
+    private Map<String, Object> attribute;
 
     @ApiModelProperty(value = "领域池code")
     @TableField("realm_code")

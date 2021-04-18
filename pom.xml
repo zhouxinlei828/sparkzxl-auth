@@ -221,7 +221,7 @@
                     <version>${jib-maven-plugin.version}</version>
                     <configuration>
                         <from>
-                            <image>registry.cn-hangzhou.aliyuncs.com/sparkzxl/java:8</image>
+                            <image>registry.cn-hangzhou.aliyuncs.com/sparkzxl/java:8.1</image>
                         </from>
                         <to>
                             <image>registry.cn-hangzhou.aliyuncs.com/sparkzxl/${project.artifactId}</image>

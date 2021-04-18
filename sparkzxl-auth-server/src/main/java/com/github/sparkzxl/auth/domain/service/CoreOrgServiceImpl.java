@@ -17,6 +17,7 @@ import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.constant.EntityConstant;
 import com.github.sparkzxl.database.entity.TreeEntity;
 import com.github.sparkzxl.database.utils.TreeUtil;
+import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,17 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
     @Override
     public List<CoreOrg> getCoreOrgTree(String name, Boolean status) {
         List<CoreOrg> coreOrgList = coreOrgRepository.getCoreOrgList(name, status);
+        if (CollectionUtils.isNotEmpty(coreOrgList)) {
+            List<String> orgIdStrList = coreOrgList.stream().map(x -> String.valueOf(x.getId())).collect(Collectors.toList());
+            Map<String, Map> searchOrgAttribute = esOrgAttributeService.searchDocsMapByIdList(ElasticsearchConstant.INDEX_ORG_ATTRIBUTE, orgIdStrList, Map.class);
+            coreOrgList.forEach(user -> {
+                Map map = searchOrgAttribute.get(String.valueOf(user.getId()));
+                if (MapUtils.isNotEmpty(map)) {
+                    map.remove(EntityConstant.COLUMN_ID);
+                    user.setAttribute(map);
+                }
+            });
+        }
         return TreeUtil.buildTree(coreOrgList);
     }
 

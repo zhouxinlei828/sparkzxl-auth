@@ -45,7 +45,7 @@ public interface IAuthRoleRepository {
     boolean updateRole(AuthRole authRole);
 
     /**
-     * 查询角色列表
+     * 分页查询角色列表
      *
      * @param pageNum  当前页
      * @param pageSize 分页大小

@@ -155,7 +155,6 @@ public class AuthUserRepository implements IAuthUserRepository {
         if (StringUtils.isNotEmpty(realmCode)) {
             queryWrapper.like(AuthUser::getRealmCode, realmCode);
         }
-        List<AuthUser> authUsers = authUserMapper.selectList(queryWrapper);
         return authUserMapper.selectList(queryWrapper);
     }
 
@@ -270,7 +269,6 @@ public class AuthUserRepository implements IAuthUserRepository {
 
     @Override
     public boolean updateAuthUser(AuthUser authUser) {
-        authUserMapper.updateById(authUser);
         return authUserMapper.updateById(authUser) == 1;
     }
 }

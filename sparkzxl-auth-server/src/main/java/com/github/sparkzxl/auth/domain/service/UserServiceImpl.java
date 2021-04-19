@@ -26,7 +26,6 @@ import com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
-import com.github.sparkzxl.core.context.BaseContextHandler;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.constant.EntityConstant;
@@ -126,10 +125,6 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     @Override
     public boolean saveAuthUser(UserSaveDTO userSaveDTO) {
         AuthUser authUser = AuthUserConvert.INSTANCE.convertAuthUser(userSaveDTO);
-        String password = passwordEncoder.encode(authUser.getPassword());
-        authUser.setPassword(password);
-        String realmCode = BaseContextHandler.getRealm();
-        authUser.setRealmCode(realmCode);
         boolean result = authUserRepository.saveAuthUser(authUser);
         Long userId = authUser.getId();
         Map<String, Object> userAttributeMap = authUser.getAttribute();
@@ -214,7 +209,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
             authUserBasicInfo = authUserRepository.getAuthUserBasicInfo(authUserInfo.getId());
             if (ObjectUtils.isNotEmpty(authUserBasicInfo) && ObjectUtils.isNotEmpty(authUserBasicInfo.getId())) {
                 Map userAttribute = esUserAttributeService.searchDocById(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, String.valueOf(authUserBasicInfo.getId()), Map.class);
-                authUserBasicInfo.setUserAttribute(userAttribute);
+                authUserBasicInfo.setAttribute(userAttribute);
             }
         }
         return AuthUserConvert.INSTANCE.convertAuthUserBasicVO(authUserBasicInfo);

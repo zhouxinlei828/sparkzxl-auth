@@ -277,13 +277,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         }
         System.out.println(JSONUtil.toJsonPrettyStr(searchUserAttribute));
         Map<String, Map> finalSearchUserAttribute = searchUserAttribute;
-        userList.forEach(user -> {
-            Map map = finalSearchUserAttribute.get(String.valueOf(user.getId()));
-            if (MapUtils.isNotEmpty(map)) {
-                map.remove(EntityConstant.COLUMN_ID);
-                user.setAttribute(map);
-            }
-        });
+        userList.forEach(user -> user.setAttribute(finalSearchUserAttribute.get(String.valueOf(user.getId()))));
     }
 
     @Override

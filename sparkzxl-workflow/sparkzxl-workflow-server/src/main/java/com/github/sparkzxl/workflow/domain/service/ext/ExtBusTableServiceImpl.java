@@ -56,9 +56,7 @@ public class ExtBusTableServiceImpl extends SuperCacheServiceImpl<ExtBusTableMap
     public boolean deleteBusTable(List<Long> ids) {
         List<String> tableNames = busTableRepository.deleteBusTable(ids);
         if (CollectionUtils.isNotEmpty(tableNames)) {
-            tableNames.forEach(tableName -> {
-                esExtBusTableService.deleteIndex(tableName);
-            });
+            tableNames.forEach(tableName -> esExtBusTableService.deleteIndex(tableName));
         }
         return true;
     }

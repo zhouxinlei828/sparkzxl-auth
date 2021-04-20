@@ -64,7 +64,7 @@ public class ExtBusTableRepository implements IExtBusTableRepository {
 
     public String buildCreateTableSql(String tableName, String describe, List<ExtBusTableColumn> columnList) {
         //Map<String,Object>
-        esExtBusTableService.createIndex(tableName);
+        esExtBusTableService.createIndex(tableName, null);
         columnList.forEach(column -> {
 
         });

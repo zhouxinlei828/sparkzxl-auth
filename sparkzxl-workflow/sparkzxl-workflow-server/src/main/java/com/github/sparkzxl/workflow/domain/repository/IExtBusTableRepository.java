@@ -31,7 +31,7 @@ public interface IExtBusTableRepository {
      * 删除业务表结构
      *
      * @param ids 主键列表
-     * @return boolean
+     * @return List<String>
      */
-    boolean deleteBusTable(List<Long> ids);
+    List<String> deleteBusTable(List<Long> ids);
 }

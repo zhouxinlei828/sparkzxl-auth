@@ -45,7 +45,7 @@ public class ResourceServiceImpl extends SuperCacheServiceImpl<AuthResourceMappe
         String userResourceKey = BuildKeyUtils.generateKey(getRegion(), userId);
         List<AuthResource> visibleResource = Lists.newArrayList();
         Long finalUserId = userId;
-        cacheTemplate.get(userResourceKey, (key) -> {
+        generalCacheService.get(userResourceKey, (key) -> {
             visibleResource.addAll(authResourceRepository.findVisibleResource(finalUserId, resourceQueryDTO.getMenuId()));
             return visibleResource.stream().mapToLong(AuthResource::getId).boxed().collect(Collectors.toList());
         });

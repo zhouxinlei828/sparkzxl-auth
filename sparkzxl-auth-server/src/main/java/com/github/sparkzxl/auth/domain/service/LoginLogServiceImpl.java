@@ -77,49 +77,49 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
         loginLogRepository.saveLoginLog(loginLog);
         LocalDate now = LocalDate.now();
         LocalDate tenDays = now.plusDays(-9);
-        cacheTemplate.remove(CacheConstant.LOGIN_LOG_TOTAL);
-        cacheTemplate.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TODAY, now));
-        cacheTemplate.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TODAY_IP, now));
-        cacheTemplate.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_BROWSER));
-        cacheTemplate.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_SYSTEM));
+        generalCacheService.remove(CacheConstant.LOGIN_LOG_TOTAL);
+        generalCacheService.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TODAY, now));
+        generalCacheService.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TODAY_IP, now));
+        generalCacheService.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_BROWSER));
+        generalCacheService.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_SYSTEM));
         if (authUser != null) {
-            cacheTemplate.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TEN_DAY, tenDays, loginStatus.getAccount()));
+            generalCacheService.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TEN_DAY, tenDays, loginStatus.getAccount()));
         }
     }
 
     @Override
     public Long findTotalVisitCount() {
-        return cacheTemplate.get(CacheConstant.LOGIN_LOG_TOTAL);
+        return generalCacheService.get(CacheConstant.LOGIN_LOG_TOTAL);
     }
 
     @Override
     public Long findTodayVisitCount() {
         LocalDate now = LocalDate.now();
-        return cacheTemplate.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TODAY, now));
+        return generalCacheService.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TODAY, now));
     }
 
     @Override
     public Long findTodayIp() {
         LocalDate now = LocalDate.now();
-        return cacheTemplate.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TODAY_IP, now));
+        return generalCacheService.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TODAY_IP, now));
     }
 
     @Override
     public List<LoginLogCount> findLastTenDaysVisitCount(String account) {
         LocalDate tenDays = LocalDate.now().plusDays(-9);
-        return cacheTemplate.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TEN_DAY, tenDays, account),
+        return generalCacheService.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TEN_DAY, tenDays, account),
                 (key) -> loginLogRepository.findLastTenDaysVisitCount(tenDays, account));
     }
 
     @Override
     public List<LoginLogCount> findByBrowser() {
-        return cacheTemplate.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_BROWSER),
+        return generalCacheService.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_BROWSER),
                 (key) -> loginLogRepository.findByBrowser());
     }
 
     @Override
     public List<LoginLogCount> findByOperatingSystem() {
-        return cacheTemplate.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_SYSTEM),
+        return generalCacheService.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_SYSTEM),
                 (key) -> loginLogRepository.findByOperatingSystem());
     }
 

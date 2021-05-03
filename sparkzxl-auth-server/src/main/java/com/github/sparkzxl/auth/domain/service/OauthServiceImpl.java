@@ -12,7 +12,7 @@ import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AuthorizationRequest;
 import com.github.sparkzxl.auth.infrastructure.oauth2.OpenProperties;
-import com.github.sparkzxl.cache.template.CacheTemplate;
+import com.github.sparkzxl.cache.template.GeneralCacheService;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
 import com.github.sparkzxl.core.context.BaseContextConstants;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
@@ -66,7 +66,7 @@ import static io.vavr.API.Case;
 public class OauthServiceImpl implements IOauthService {
 
     private TokenEndpoint tokenEndpoint;
-    private CacheTemplate cacheTemplate;
+    private GeneralCacheService generalCacheService;
     private IUserService userService;
     private IRealmManagerService realmManagerService;
     private RedisTemplate<String, Object> redisTemplate;
@@ -80,8 +80,8 @@ public class OauthServiceImpl implements IOauthService {
     }
 
     @Autowired
-    public void setCacheTemplate(CacheTemplate cacheTemplate) {
-        this.cacheTemplate = cacheTemplate;
+    public void setGeneralCacheService(GeneralCacheService generalCacheService) {
+        this.generalCacheService = generalCacheService;
     }
 
     @Autowired
@@ -232,7 +232,7 @@ public class OauthServiceImpl implements IOauthService {
         String simpleUUID = IdUtil.simpleUUID();
         captchaInfo.setKey(simpleUUID);
         captchaInfo.setData(captcha.toBase64());
-        cacheTemplate.set(BuildKeyUtils.generateKey(CacheConstant.CAPTCHA, simpleUUID), captcha.text().toLowerCase(), 60L, TimeUnit.SECONDS);
+        generalCacheService.set(BuildKeyUtils.generateKey(CacheConstant.CAPTCHA, simpleUUID), captcha.text().toLowerCase(), 60L, TimeUnit.SECONDS);
         return captchaInfo;
     }
 
@@ -242,14 +242,14 @@ public class OauthServiceImpl implements IOauthService {
             SparkZxlExceptionAssert.businessFail(400, "请输入验证码");
         }
         String cacheKey = BuildKeyUtils.generateKey(CacheConstant.CAPTCHA, key);
-        String captchaData = cacheTemplate.get(cacheKey);
+        String captchaData = generalCacheService.get(cacheKey);
         if (StringUtils.isEmpty(captchaData)) {
             SparkZxlExceptionAssert.businessFail(400, "验证码已过期");
         }
         if (!StrUtil.equalsIgnoreCase(value, captchaData)) {
             SparkZxlExceptionAssert.businessFail(400, "验证码不正确");
         }
-        cacheTemplate.remove(cacheKey);
+        generalCacheService.remove(cacheKey);
         return true;
     }
 
@@ -272,7 +272,7 @@ public class OauthServiceImpl implements IOauthService {
             UrlBuilder builder = UrlBuilder.ofHttp(referer, CharsetUtil.CHARSET_UTF_8);
             builder.setPath(UrlPath.of("jump", StandardCharsets.UTF_8));
             String frontStateKey = BuildKeyUtils.generateKey(CacheConstant.FRONT_STATE, state);
-            cacheTemplate.set(frontStateKey, builder.build(), 5L, TimeUnit.MINUTES);
+            generalCacheService.set(frontStateKey, builder.build(), 5L, TimeUnit.MINUTES);
         }
         return EscapeUtil.safeUnescape(authorizeUrl);
     }
@@ -280,11 +280,11 @@ public class OauthServiceImpl implements IOauthService {
     @Override
     public AccessTokenInfo authorizationCodeCallBack(String authorizationCode, String loginState) {
         String frontStateKey = BuildKeyUtils.generateKey(CacheConstant.FRONT_STATE, loginState);
-        String frontUrl = cacheTemplate.get(frontStateKey);
+        String frontUrl = generalCacheService.get(frontStateKey);
         if (StringUtils.isEmpty(frontUrl)) {
             return null;
         }
-        cacheTemplate.remove(frontStateKey);
+        generalCacheService.remove(frontStateKey);
         ClientDetails clientDetails = clientDetailsService.loadClientByClientId(openProperties.getAppId());
         Map<String, String> parameters = Maps.newHashMap();
         parameters.put("grant_type", "authorization_code");

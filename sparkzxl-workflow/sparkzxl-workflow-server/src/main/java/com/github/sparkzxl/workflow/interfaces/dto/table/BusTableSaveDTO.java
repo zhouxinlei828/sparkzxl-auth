@@ -1,6 +1,5 @@
 package com.github.sparkzxl.workflow.interfaces.dto.table;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtBusTableColumn;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

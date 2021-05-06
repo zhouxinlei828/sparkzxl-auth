@@ -1,6 +1,5 @@
 package com.github.sparkzxl.workflow.infrastructure.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.sparkzxl.database.base.mapper.SuperMapper;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtBusDatasource;
 import org.springframework.stereotype.Repository;

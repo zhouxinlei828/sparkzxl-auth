@@ -5,7 +5,6 @@ import com.github.sparkzxl.auth.application.service.ICoreOrgService;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.application.service.es.IEsOrgAttributeService;
 import com.github.sparkzxl.auth.domain.repository.ICoreOrgRepository;
-import com.github.sparkzxl.auth.domain.repository.IIdSegmentRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.constant.ElasticsearchConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.CoreOrgConvert;
@@ -17,7 +16,6 @@ import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.constant.EntityConstant;
 import com.github.sparkzxl.database.entity.TreeEntity;
 import com.github.sparkzxl.database.utils.TreeUtil;
-import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**

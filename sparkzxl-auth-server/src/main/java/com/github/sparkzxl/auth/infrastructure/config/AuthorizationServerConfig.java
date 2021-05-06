@@ -3,7 +3,6 @@ package com.github.sparkzxl.auth.infrastructure.config;
 import com.github.sparkzxl.auth.infrastructure.oauth2.Oauth2ExceptionHandler;
 import com.github.sparkzxl.auth.infrastructure.oauth2.OpenProperties;
 import com.github.sparkzxl.auth.infrastructure.oauth2.enhancer.JwtTokenEnhancer;
-import com.github.sparkzxl.core.utils.HuSecretUtils;
 import com.github.sparkzxl.jwt.properties.KeyStoreProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;

@@ -1,4 +1,4 @@
-package com.github.sparkzxl.workflow.infrastructure.strategy;
+package com.github.sparkzxl.workflow.application.rule.external;
 
 import com.github.sparkzxl.workflow.domain.model.DriveProcess;
 import com.github.sparkzxl.workflow.dto.DriverResult;

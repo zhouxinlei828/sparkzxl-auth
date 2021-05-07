@@ -1,4 +1,4 @@
-package com.github.sparkzxl.workflow.infrastructure.strategy;
+package com.github.sparkzxl.workflow.application.rule.external;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.github.sparkzxl.core.support.SparkZxlExceptionAssert;

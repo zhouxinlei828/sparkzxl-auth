@@ -231,7 +231,7 @@
                         </to>
                         <container>
                             <jvmFlags>
-                                <jvmFlag>-javaagent:/skywalking/agent/skywalking-agent.jar</jvmFlag>
+                                <!--<jvmFlag>-javaagent:/skywalking/agent/skywalking-agent.jar</jvmFlag>-->
                                 <jvmFlag>-Xms512m</jvmFlag>
                                 <jvmFlag>-Xmx512m</jvmFlag>
                             </jvmFlags>
@@ -239,9 +239,9 @@
                             <workingDirectory>/home/${project.artifactId}</workingDirectory>
                             <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
                             <environment>
-                                <SW_AGENT_NAME>${project.artifactId}</SW_AGENT_NAME>
+                                <!--<SW_AGENT_NAME>${project.artifactId}</SW_AGENT_NAME>
                                 <SW_AGENT_COLLECTOR_BACKEND_SERVICES>172.34.200.5:11800</SW_AGENT_COLLECTOR_BACKEND_SERVICES>
-                                <SW_AGENT_SPAN_LIMIT>2000</SW_AGENT_SPAN_LIMIT>
+                                <SW_AGENT_SPAN_LIMIT>2000</SW_AGENT_SPAN_LIMIT>-->
                                 <TZ>Asia/Shanghai</TZ>
                             </environment>
                             <labels>

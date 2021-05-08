@@ -57,11 +57,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ProcessHistoryServiceImpl implements IProcessHistoryService {
 
-    private final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(4,
-            Runtime.getRuntime().availableProcessors() + 1,
+    private final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2,
+            4,
             10,
             TimeUnit.MILLISECONDS,
-            new LinkedBlockingDeque<>(30),
+            new ArrayBlockingQueue<>(30),
             new CustomThreadFactory());
 
     @Autowired

@@ -1,0 +1,45 @@
+server:
+  shutdown: graceful
+  port: 8801
+  undertow:
+    buffer-size: 1024
+    direct-buffers: on
+    always-set-keep-alive: true
+spring:
+  application:
+    name: sparkzxl-auth-server
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  thymeleaf:
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.114.40.129:8848
+        namespace: 8887c86b-7a96-40af-8f2d-9cbe4346753a
+      config:
+        server-addr: 47.114.40.129:8848
+        namespace: 8887c86b-7a96-40af-8f2d-9cbe4346753a
+        file-extension: yaml
+        prefix: ${spring.application.name}
+        shared-configs:
+          - dataId: redis.yaml
+            group: DEFAULT_GROUP
+            refresh: false
+          - dataId: common.yaml
+            group: DEFAULT_GROUP
+            refresh: false
+        enable-remote-sync-config: true
+        refresh-enabled: true
+authorization:
+  logout: http://10.206.0.16:8801/logout
+logging:
+  level:
+    com.github.sparkzxl.auth.infrastructure.client: debug
+    com.github.sparkzxl.auth.infrastructure.mapper: debug
+open:
+  sso-server-uri: http://10.206.0.16:8801
+elasticsearch:
+  cluster-nodes: 10.206.0.16:9200

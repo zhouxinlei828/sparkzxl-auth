@@ -1,0 +1,28 @@
+{
+  "version": "1.0.RELEASE",
+  "registryName": "172.34.200.5:8603/ltc",
+  "appName": "sparkzxl-auth-server",
+  "env": {
+    "dev": {
+      "credentialsId": "e295a990-f63b-44ac-8211-c8d02bce38a8",
+      "host": "172.34.200.5",
+      "containerName": "sparkzxl-auth-server-dev",
+      "hostPort": 8821,
+      "serverPort": 8801
+    },
+    "test": {
+      "credentialsId": "e295a990-f63b-44ac-8211-c8d02bce38a8",
+      "host": "172.34.200.5",
+      "containerName": "sparkzxl-auth-server-test",
+      "hostPort": 8811,
+      "serverPort": 8801
+    },
+    "prod": {
+      "credentialsId": "e295a990-f63b-44ac-8211-c8d02bce38a8",
+      "host": "172.34.200.5",
+      "containerName": "sparkzxl-auth-server-prod",
+      "hostPort": 8801,
+      "serverPort": 8801
+    }
+  }
+}

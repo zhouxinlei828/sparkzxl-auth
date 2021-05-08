@@ -16,10 +16,10 @@ spring:
     nacos:
       discovery:
         server-addr: 47.114.40.129:8848
-        namespace: 4820f686-98dc-4b1b-8741-a7efaadb6746
+        namespace: 8887c86b-7a96-40af-8f2d-9cbe4346753a
       config:
         server-addr: 47.114.40.129:8848
-        namespace: 4820f686-98dc-4b1b-8741-a7efaadb6746
+        namespace: 8887c86b-7a96-40af-8f2d-9cbe4346753a
         file-extension: yaml
         prefix: ${spring.application.name}
         shared-configs:
@@ -32,7 +32,7 @@ spring:
         enable-remote-sync-config: true
         refresh-enabled: true
   redis:
-    redisson: redisson.yaml
+    redisson: redisson-test.yaml
 logging:
   level:
     com.github.sparkzxl.workflow.infrastructure.mapper: debug

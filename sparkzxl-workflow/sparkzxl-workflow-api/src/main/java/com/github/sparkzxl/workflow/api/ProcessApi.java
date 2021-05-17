@@ -3,6 +3,8 @@ package com.github.sparkzxl.workflow.api;
 import com.github.sparkzxl.workflow.dto.BusTaskInfo;
 import com.github.sparkzxl.workflow.dto.ProcessHistory;
 import com.github.sparkzxl.workflow.dto.ProcessHistoryParam;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +17,7 @@ import java.util.List;
  * description: activiti驱动API接口
  *
  * @author charles.zhou
- * @date   2020-10-01 19:42:13
+ * @date 2020-10-01 19:42:13
  */
 public interface ProcessApi {
 
@@ -27,6 +29,10 @@ public interface ProcessApi {
      * @return BusTaskInfo
      */
     @ApiOperation("查询业务任务数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "businessId", value = "业务主键id", required = true),
+            @ApiImplicitParam(name = "procDefKey", value = "流程定义key", required = true)
+    })
     @RequestMapping(method = RequestMethod.GET, value = "/busTaskInfo")
     BusTaskInfo busTaskInfo(@RequestParam("businessId") String businessId,
                             @RequestParam("procDefKey") String procDefKey);
@@ -39,6 +45,10 @@ public interface ProcessApi {
      * @return List<BusTaskInfo>
      */
     @ApiOperation("查询业务批量任务数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "businessIds", value = "业务主键id列表", required = true),
+            @ApiImplicitParam(name = "procDefKey", value = "流程定义key", required = true)
+    })
     @RequestMapping(method = RequestMethod.GET, value = "/busTaskInfoList")
     List<BusTaskInfo> busTaskInfoList(@RequestParam("businessIds") List<String> businessIds,
                                       @RequestParam("procDefKey") String procDefKey);

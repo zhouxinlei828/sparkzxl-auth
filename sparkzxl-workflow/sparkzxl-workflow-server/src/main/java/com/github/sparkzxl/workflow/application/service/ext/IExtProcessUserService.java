@@ -1,6 +1,7 @@
 package com.github.sparkzxl.workflow.application.service.ext;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.sparkzxl.database.base.service.SuperCacheService;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUser;
 
 /**
@@ -9,6 +10,6 @@ import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUser;
  * @author charles.zhou
  * @date   2021-01-08 16:53:50
  */
-public interface IExtProcessUserService extends IService<ExtProcessUser> {
+public interface IExtProcessUserService extends SuperCacheService<ExtProcessUser> {
 
 }

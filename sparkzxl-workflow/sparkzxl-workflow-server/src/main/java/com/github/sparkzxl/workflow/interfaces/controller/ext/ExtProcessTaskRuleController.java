@@ -6,9 +6,7 @@ import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskRuleS
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
 import com.github.sparkzxl.workflow.interfaces.dto.process.ProcessActionDTO;
 import com.github.sparkzxl.workflow.interfaces.dto.process.TaskRuleSaveDTO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +16,7 @@ import java.util.List;
  * description:流程流向管理
  *
  * @author charles.zhou
- * @date   2020-07-21 15:44:59
+ * @date 2020-07-21 15:44:59
  */
 @RestController
 @ResponseResult
@@ -41,8 +39,12 @@ public class ExtProcessTaskRuleController {
 
     @GetMapping("get")
     @ApiOperation("查询流程跳转规则")
-    public List<ExtProcessTaskRule> getProcessTaskRule(@RequestParam("procDefKey") @ApiParam("流程定义key") String procDefKey,
-                                                       @RequestParam("taskDefKey") @ApiParam("任务定义key") String taskDefKey) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "procDefKey", value = "流程定义key", required = true),
+            @ApiImplicitParam(name = "taskDefKey", value = "任务定义key", required = true)
+    })
+    public List<ExtProcessTaskRule> getProcessTaskRule(@RequestParam("procDefKey") String procDefKey,
+                                                       @RequestParam("taskDefKey") String taskDefKey) {
         return processTaskRuleService.getProcessTaskRule(procDefKey, taskDefKey);
     }
 

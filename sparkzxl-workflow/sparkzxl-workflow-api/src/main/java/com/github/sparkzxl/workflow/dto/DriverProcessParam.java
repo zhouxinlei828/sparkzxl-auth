@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * description:流程驱动入参
  *
  * @author charles.zhou
- * @date   2020-10-01 19:52:24
+ * @date 2020-10-01 19:52:24
  */
 @Data
 @ApiModel("流程驱动入参")
@@ -25,17 +25,19 @@ public class DriverProcessParam {
     @NotEmpty(message = "业务主键不能为空")
     protected String businessId;
 
-    @ApiModelProperty(value = "流程动作类型", required = true)
+    @ApiModelProperty(value = "流程动作类型", required = true, notes = "0:启动流程，1：提交审批，2：同意，3：跳转，-1：驳回")
     @NotNull(message = "流程动作类型不能为空")
     private Integer actType;
 
-    @ApiModelProperty(value = "评论")
+    @ApiModelProperty(value = "评论，审批意见")
     private String comment;
 
     @ApiModelProperty(value = "任务代理人")
+    @NotEmpty(message = "任务代理人不能为空")
     private String applyUserId;
 
     @ApiModelProperty(value = "用户id")
+    @NotEmpty(message = "用户不能为空")
     private String userId;
 
     @ApiModelProperty(value = "是否需要跳转")

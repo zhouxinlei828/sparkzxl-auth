@@ -4,13 +4,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
  * description:删除流程实例入参
  *
  * @author charles.zhou
- * @date   2020-10-01 19:52:24
+ * @date 2020-10-01 19:52:24
  */
 @Data
 @ApiModel("删除流程实例入参")
@@ -22,7 +23,8 @@ public class ProcessInstanceDeleteDTO {
     @ApiModelProperty("流程实例id")
     List<String> processInstanceIds;
 
-    @ApiModelProperty("挂起类型：1.业务挂起 2. 实例挂起")
+    @ApiModelProperty("删除类型：1.业务删除 2. 实例删除")
+    @NotNull(message = "流程删除类型不能为空")
     Integer type;
 
     @ApiModelProperty("删除原因")

@@ -1,6 +1,7 @@
 package com.github.sparkzxl.workflow.infrastructure.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.github.sparkzxl.database.base.mapper.SuperMapper;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUser;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +12,6 @@ import org.springframework.stereotype.Repository;
  * @date   2021-01-08 16:51:21
  */
 @Repository
-public interface ExtProcessUserMapper extends BaseMapper<ExtProcessUser> {
+public interface ExtProcessUserMapper extends SuperMapper<ExtProcessUser> {
 
 }

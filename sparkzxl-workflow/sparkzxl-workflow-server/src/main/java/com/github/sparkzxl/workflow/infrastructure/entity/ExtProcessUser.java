@@ -29,7 +29,7 @@ public class ExtProcessUser implements Serializable {
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
-    @ApiModelProperty(value = "用户id")
+    @ApiModelProperty(value = "用户账户")
     @TableField("account")
     private String account;
 

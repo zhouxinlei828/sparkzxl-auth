@@ -6,7 +6,7 @@ import java.awt.*;
  * description: 流程常量
  *
  * @author charles.zhou
- * @date   2020-07-23 13:25:17
+ * @date 2020-07-23 13:25:17
  */
 public final class WorkflowConstants {
 
@@ -57,7 +57,7 @@ public final class WorkflowConstants {
         public static final int ROLLBACK = -1;
     }
 
-    public static class ActType{
+    public static class ActType {
 
         public static final String START_EVENT = "startEvent";
 

@@ -1,7 +1,6 @@
 package com.github.sparkzxl.workflow.infrastructure.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.sparkzxl.workflow.application.service.es.IEsExtBusTableService;
 import com.github.sparkzxl.workflow.domain.repository.IExtBusTableRepository;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtBusTable;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtBusTableColumn;
@@ -28,9 +27,6 @@ public class ExtBusTableRepository implements IExtBusTableRepository {
 
     @Autowired
     private ExtBusTableColumnMapper tableColumnMapper;
-
-    @Autowired
-    private IEsExtBusTableService esExtBusTableService;
 
     @Override
     public boolean saveBusTable(ExtBusTable extBusTable) {

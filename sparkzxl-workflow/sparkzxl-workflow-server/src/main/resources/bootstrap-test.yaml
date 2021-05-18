@@ -40,5 +40,3 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
-elasticsearch:
-  cluster-nodes: 10.206.0.16:9200

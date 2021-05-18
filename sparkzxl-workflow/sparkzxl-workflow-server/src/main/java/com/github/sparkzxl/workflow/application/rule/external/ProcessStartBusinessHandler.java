@@ -2,6 +2,8 @@ package com.github.sparkzxl.workflow.application.rule.external;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.github.sparkzxl.core.support.SparkZxlExceptionAssert;
+import com.github.sparkzxl.patterns.annonation.BusinessStrategy;
+import com.github.sparkzxl.patterns.strategy.BusinessHandler;
 import com.github.sparkzxl.redisson.annotation.RedisLock;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRuntimeService;
 import com.github.sparkzxl.workflow.domain.model.DriveProcess;
@@ -16,20 +18,20 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Map;
 
 /**
- * description: 启动activiti流程
+ * description: 流程启动业务处理
  *
  * @author charles.zhou
- * @date   2020-07-20 16:28:09
+ * @date 2020-07-20 16:28:09
  */
-@Component
 @Slf4j
-public class ProcessStartProcessSolver extends AbstractProcessSolver {
+@BusinessStrategy(type = WorkflowConstants.BusinessTaskStrategy.BUSINESS_TASK_DRIVER, source = WorkflowConstants.BusinessTaskStrategy.START)
+public class ProcessStartBusinessHandler implements BusinessHandler<DriverResult, DriveProcess> {
+
 
     @Autowired
     private IdentityService identityService;
@@ -39,9 +41,11 @@ public class ProcessStartProcessSolver extends AbstractProcessSolver {
     private ActWorkApiService actWorkApiService;
 
     @Override
-    @RedisLock(keyPrefix = "driver", waitTime = 0, leaseTime = 15000)
-    public DriverResult slove(String businessId, DriveProcess driveProcess) {
+    @RedisLock(lockExpression = "#p0.businessId", keyPrefix = "act_driver")
+    public DriverResult businessHandler(DriveProcess driveProcess) {
+        log.info("流程启动业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
         DriverResult driverResult = new DriverResult();
+        String businessId = driveProcess.getBusinessId();
         try {
             String userId = driveProcess.getUserId();
             //查询是否存在已有流程，如果有，则不能进行启动工作流操作
@@ -54,7 +58,7 @@ public class ProcessStartProcessSolver extends AbstractProcessSolver {
             variables.put("actType", driveProcess.getActType());
             identityService.setAuthenticatedUserId(String.valueOf(userId));
             ProcessInstance processInstance = processRuntimeService.startProcessInstanceByKey(driveProcess.getProcessDefinitionKey(),
-                    driveProcess.getBusinessId(),
+                    businessId,
                     variables);
             String processInstanceId = processInstance.getProcessInstanceId();
             log.info("启动activiti流程------++++++ProcessInstanceId：{}------++++++", processInstanceId);
@@ -95,8 +99,4 @@ public class ProcessStartProcessSolver extends AbstractProcessSolver {
         return driverResult;
     }
 
-    @Override
-    public Integer[] supports() {
-        return new Integer[]{WorkflowConstants.WorkflowAction.START};
-    }
 }

@@ -1,3 +1,4 @@
+/*
 package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
 
@@ -14,12 +15,14 @@ import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+*/
 /**
  * description: 业务表结构管理
  *
  * @author charles.zhou
  * @date 2021-03-25 18:03:38
- */
+ *//*
+
 @ResponseResult
 @RestController
 @RequestMapping("/business/table")
@@ -44,3 +47,4 @@ public class ExtBusTableController extends SuperCacheController<IExtBusTableServ
         return baseService.deleteBusTable(deleteDTO.getIds());
     }
 }
+*/

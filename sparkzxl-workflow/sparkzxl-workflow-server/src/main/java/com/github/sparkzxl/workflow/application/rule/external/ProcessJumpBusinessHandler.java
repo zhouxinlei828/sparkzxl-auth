@@ -28,11 +28,18 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 @BusinessStrategy(type = WorkflowConstants.BusinessTaskStrategy.BUSINESS_TASK_DRIVER, source = WorkflowConstants.BusinessTaskStrategy.JUMP)
 public class ProcessJumpBusinessHandler implements BusinessHandler<DriverResult, DriveProcess> {
 
-    @Autowired
     private IProcessRuntimeService processRuntimeService;
-    @Autowired
     private ActWorkApiService actWorkApiService;
 
+    @Autowired
+    public void setProcessRuntimeService(IProcessRuntimeService processRuntimeService) {
+        this.processRuntimeService = processRuntimeService;
+    }
+
+    @Autowired
+    public void setActWorkApiService(ActWorkApiService actWorkApiService) {
+        this.actWorkApiService = actWorkApiService;
+    }
 
     @Override
     @RedisLock(expression = "#p0.businessId", keyPrefix = "act_driver")

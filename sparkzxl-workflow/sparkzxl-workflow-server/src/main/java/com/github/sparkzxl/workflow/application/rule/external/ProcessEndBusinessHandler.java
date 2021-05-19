@@ -20,8 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 @BusinessStrategy(type = WorkflowConstants.BusinessTaskStrategy.BUSINESS_TASK_DRIVER, source = WorkflowConstants.BusinessTaskStrategy.END)
 public class ProcessEndBusinessHandler implements BusinessHandler<DriverResult, DriveProcess> {
 
-    @Autowired
     private ActWorkApiService actWorkApiService;
+
+    @Autowired
+    public void setActWorkApiService(ActWorkApiService actWorkApiService) {
+        this.actWorkApiService = actWorkApiService;
+    }
 
     @Override
     @RedisLock(expression = "#p0.businessId", keyPrefix = "act_driver")

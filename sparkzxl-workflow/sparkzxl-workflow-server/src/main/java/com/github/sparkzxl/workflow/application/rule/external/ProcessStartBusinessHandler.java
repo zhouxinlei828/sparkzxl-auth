@@ -33,12 +33,24 @@ import java.util.Map;
 public class ProcessStartBusinessHandler implements BusinessHandler<DriverResult, DriveProcess> {
 
 
-    @Autowired
     private IdentityService identityService;
-    @Autowired
     private IProcessRuntimeService processRuntimeService;
-    @Autowired
     private ActWorkApiService actWorkApiService;
+
+    @Autowired
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
+    }
+
+    @Autowired
+    public void setProcessRuntimeService(IProcessRuntimeService processRuntimeService) {
+        this.processRuntimeService = processRuntimeService;
+    }
+
+    @Autowired
+    public void setActWorkApiService(ActWorkApiService actWorkApiService) {
+        this.actWorkApiService = actWorkApiService;
+    }
 
     @Override
     @RedisLock(expression = "#p0.businessId", keyPrefix = "act_driver")

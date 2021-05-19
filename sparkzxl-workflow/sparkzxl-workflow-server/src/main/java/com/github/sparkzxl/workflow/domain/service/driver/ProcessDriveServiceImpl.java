@@ -49,7 +49,6 @@ import java.util.Map;
  */
 @Service
 @Slf4j
-@Transactional(transactionManager = "transactionManager", rollbackFor = Exception.class)
 public class ProcessDriveServiceImpl implements IProcessDriveService {
 
     private IExtHiTaskStatusService extHiTaskStatusService;
@@ -183,6 +182,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean suspendProcess(SuspendProcessDTO suspendProcessDTO) {
         if (suspendProcessDTO.getType().equals(1)) {
             return processRuntimeService.suspendProcess(suspendProcessDTO.getBusinessId());
@@ -204,6 +204,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean deleteProcessInstanceBatch(ProcessInstanceDeleteDTO processInstanceDeleteDTO) {
         if (processInstanceDeleteDTO.getType().equals(1)) {
             if (CollectionUtils.isNotEmpty(processInstanceDeleteDTO.getBusinessIds())) {
@@ -236,6 +237,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean deleteProcessByProcInsIds(List<String> processInstanceIds) {
         if (CollectionUtils.isNotEmpty(processInstanceIds)) {
             processInstanceIds.forEach(processInstanceId -> deleteProcessByProcInsId(processInstanceId, "删除流程"));

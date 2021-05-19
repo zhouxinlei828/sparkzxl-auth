@@ -24,7 +24,7 @@ public class ProcessAgreeBusinessHandler implements BusinessHandler<DriverResult
     private ActWorkApiService actWorkApiService;
 
     @Override
-    @RedisLock(lockExpression = "#p0.businessId", keyPrefix = "act_driver")
+    @RedisLock(expression = "#p0.businessId", keyPrefix = "act_driver")
     public DriverResult businessHandler(DriveProcess driveProcess) {
         log.info("流程跳转业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
         return actWorkApiService.submitProcess(driveProcess);

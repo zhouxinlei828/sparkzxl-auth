@@ -24,7 +24,7 @@ public class ProcessSubmitBusinessHandler implements BusinessHandler<DriverResul
     private ActWorkApiService actWorkApiService;
 
     @Override
-    @RedisLock(lockExpression = "#p0.businessId", keyPrefix = "act_driver")
+    @RedisLock(expression = "#p0.businessId", keyPrefix = "act_driver")
     public DriverResult businessHandler(DriveProcess driveProcess) {
         log.info("流程提交业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
         return actWorkApiService.submitProcess(driveProcess);

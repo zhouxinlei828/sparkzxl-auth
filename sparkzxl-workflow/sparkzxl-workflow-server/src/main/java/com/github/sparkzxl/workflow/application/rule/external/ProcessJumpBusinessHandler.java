@@ -66,7 +66,6 @@ public class ProcessJumpBusinessHandler implements BusinessHandler<DriverResult,
                     .build();
             driverResult = actWorkApiService.jumpProcess(driverData);
         } catch (Exception e) {
-            e.printStackTrace();
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             driverResult.setErrorMsg(e.getMessage());
             log.error("发生异常 Exception：{}", ExceptionUtil.getMessage(e));

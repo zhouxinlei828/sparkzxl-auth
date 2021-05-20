@@ -103,7 +103,6 @@ public class ProcessStartBusinessHandler implements BusinessHandler<DriverResult
                 driverResult = actWorkApiService.promoteProcess(driverData);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             driverResult.setErrorMsg(e.getMessage());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             log.error("发生异常 Exception：{}", ExceptionUtil.getMessage(e));

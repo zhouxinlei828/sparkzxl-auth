@@ -33,13 +33,7 @@ spring:
             refresh: false
         enable-remote-sync-config: true
         refresh-enabled: true
-authorization:
-  logout: http://10.206.0.16:8801/logout
 logging:
   level:
     com.github.sparkzxl.auth.infrastructure.client: debug
     com.github.sparkzxl.auth.infrastructure.mapper: debug
-open:
-  sso-server-uri: http://10.206.0.16:8801
-elasticsearch:
-  cluster-nodes: 10.206.0.16:9200

@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.application.rule.external;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.github.sparkzxl.core.support.SparkZxlExceptionAssert;
+import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.github.sparkzxl.patterns.annonation.BusinessStrategy;
 import com.github.sparkzxl.patterns.strategy.BusinessHandler;
 import com.github.sparkzxl.redisson.annotation.RedisLock;
@@ -52,7 +52,7 @@ public class ProcessJumpBusinessHandler implements BusinessHandler<DriverResult,
             int actType = driveProcess.getActType();
             ProcessInstance processInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
             if (ObjectUtils.isEmpty(processInstance)) {
-                SparkZxlExceptionAssert.businessFail("流程实例为空，请检查参数是否正确");
+                BizExceptionAssert.businessFail("流程实例为空，请检查参数是否正确");
             }
             String processDefinitionKey = processInstance.getProcessDefinitionKey();
             String processInstanceId = processInstance.getProcessInstanceId();

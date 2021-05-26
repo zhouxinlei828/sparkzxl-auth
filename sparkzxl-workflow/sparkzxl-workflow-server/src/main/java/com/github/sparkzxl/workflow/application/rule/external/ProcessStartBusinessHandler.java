@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.application.rule.external;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.github.sparkzxl.core.support.SparkZxlExceptionAssert;
+import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.github.sparkzxl.patterns.annonation.BusinessStrategy;
 import com.github.sparkzxl.patterns.strategy.BusinessHandler;
 import com.github.sparkzxl.redisson.annotation.RedisLock;
@@ -63,7 +63,7 @@ public class ProcessStartBusinessHandler implements BusinessHandler<DriverResult
             //查询是否存在已有流程，如果有，则不能进行启动工作流操作
             ProcessInstance originalProcessInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
             if (ObjectUtils.isNotEmpty(originalProcessInstance)) {
-                SparkZxlExceptionAssert.businessFail("流程已存在，请勿重复启动");
+                BizExceptionAssert.businessFail("流程已存在，请勿重复启动");
             }
             Map<String, Object> variables = Maps.newHashMap();
             variables.put("assignee", driveProcess.getApplyUserId());

@@ -62,7 +62,6 @@ public class CoreStationServiceImpl extends SuperCacheServiceImpl<CoreStationMap
         LambdaQueryWrapper<CoreStation> stationLambdaQueryWrapper = new LambdaQueryWrapper<>();
         stationLambdaQueryWrapper.eq(CoreStation::getName, stationName);
         stationLambdaQueryWrapper.eq(CoreStation::getStatus, true).last("limit 1");
-        ;
         return getOne(stationLambdaQueryWrapper);
     }
 

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.sparkzxl.core.support.SparkZxlExceptionAssert;
+import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessDetailService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskRuleService;
@@ -143,7 +143,7 @@ public class ModelerServiceImpl implements IModelerService {
             try {
                 ProcessInstance pi = runtimeService.createProcessInstanceQuery().processDefinitionKey(modelData.getKey()).singleResult();
                 if (null != pi) {
-                    SparkZxlExceptionAssert.businessFail("该流程正在运作，请勿删除");
+                    BizExceptionAssert.businessFail("该流程正在运作，请勿删除");
                 }
                 if (StringUtils.isNotEmpty(modelData.getDeploymentId())) {
                     repositoryService.deleteDeployment(modelData.getDeploymentId());

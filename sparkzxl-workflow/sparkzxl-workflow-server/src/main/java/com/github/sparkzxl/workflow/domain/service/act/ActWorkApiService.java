@@ -2,7 +2,7 @@ package com.github.sparkzxl.workflow.domain.service.act;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
-import com.github.sparkzxl.core.support.SparkZxlExceptionAssert;
+import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRuntimeService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessTaskService;
@@ -151,7 +151,7 @@ public class ActWorkApiService {
                 taskDefinitionKey, driverData.getActType());
         DriverResult driverResult;
         if (ObjectUtils.isEmpty(actRuTaskRule)) {
-            SparkZxlExceptionAssert.businessFail("请设置流程跳转规则");
+            BizExceptionAssert.businessFail("请设置流程跳转规则");
         }
         String taskDefKey = actRuTaskRule.getTaskDefKey();
         FlowElement flowElement = ActivitiUtils.getFlowElementById(taskDefKey, flowElements);
@@ -220,7 +220,7 @@ public class ActWorkApiService {
             variables.put("actType", driveProcess.getActType());
             ProcessInstance processInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
             if (ObjectUtils.isEmpty(processInstance)) {
-                SparkZxlExceptionAssert.businessFail("流程实例为空，请检查参数是否正确");
+                BizExceptionAssert.businessFail("流程实例为空，请检查参数是否正确");
             }
             DriverData driverData = DriverData.builder()
                     .userId(userId)

@@ -18,7 +18,7 @@ import com.github.sparkzxl.core.context.BaseContextConstants;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.core.entity.CaptchaInfo;
 import com.github.sparkzxl.core.spring.SpringContextUtils;
-import com.github.sparkzxl.core.support.SparkZxlExceptionAssert;
+import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
@@ -132,7 +132,7 @@ public class OauthServiceImpl implements IOauthService {
                     authUserInfo.getName()).setRealmCode(authUserInfo.getRealm())));
             return oAuth2AccessToken;
         }
-        SparkZxlExceptionAssert.businessFail(ApiResponseStatus.AUTHORIZED_FAIL);
+        BizExceptionAssert.businessFail(ApiResponseStatus.AUTHORIZED_FAIL);
         return null;
     }
 
@@ -218,7 +218,7 @@ public class OauthServiceImpl implements IOauthService {
     @Override
     public CaptchaInfo createCaptcha(String type) {
         if (StrUtil.isBlank(type)) {
-            SparkZxlExceptionAssert.businessFail("验证码类型不能为空");
+            BizExceptionAssert.businessFail("验证码类型不能为空");
         }
         CaptchaInfo captchaInfo = new CaptchaInfo();
         Captcha captcha;
@@ -239,15 +239,15 @@ public class OauthServiceImpl implements IOauthService {
     @Override
     public boolean checkCaptcha(String key, String value) {
         if (StrUtil.isBlank(value)) {
-            SparkZxlExceptionAssert.businessFail(400, "请输入验证码");
+            BizExceptionAssert.businessFail(400, "请输入验证码");
         }
         String cacheKey = BuildKeyUtils.generateKey(CacheConstant.CAPTCHA, key);
         String captchaData = generalCacheService.get(cacheKey);
         if (StringUtils.isEmpty(captchaData)) {
-            SparkZxlExceptionAssert.businessFail(400, "验证码已过期");
+            BizExceptionAssert.businessFail(400, "验证码已过期");
         }
         if (!StrUtil.equalsIgnoreCase(value, captchaData)) {
-            SparkZxlExceptionAssert.businessFail(400, "验证码不正确");
+            BizExceptionAssert.businessFail(400, "验证码不正确");
         }
         generalCacheService.remove(cacheKey);
         return true;

@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 /**
@@ -41,7 +42,8 @@ public class ProcessRollbackBusinessHandler implements BusinessHandler<DriverRes
     }
 
     @Override
-    @RedisLock(expression = "#p0.businessId", keyPrefix = "act_driver")
+    @RedisLock(prefix = "act_driver")
+    @Transactional(rollbackFor = Exception.class)
     public DriverResult businessHandler(DriveProcess driveProcess) {
         log.info("流程驳回业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
         DriverResult driverResult = new DriverResult();

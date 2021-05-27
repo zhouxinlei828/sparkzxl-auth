@@ -33,7 +33,6 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -205,7 +204,6 @@ public class ActWorkApiService {
         }
         processTaskStatusService.saveOrUpdate(extProcessStatus);
     }
-
 
     public DriverResult submitProcess(DriveProcess driveProcess) {
         DriverResult driverResult = new DriverResult();

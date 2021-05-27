@@ -18,6 +18,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Map;
@@ -53,7 +54,8 @@ public class ProcessStartBusinessHandler implements BusinessHandler<DriverResult
     }
 
     @Override
-    @RedisLock(expression = "#p0.businessId", keyPrefix = "act_driver")
+    @RedisLock(prefix = "act_driver")
+    @Transactional(rollbackFor = Exception.class)
     public DriverResult businessHandler(DriveProcess driveProcess) {
         log.info("流程启动业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
         DriverResult driverResult = new DriverResult();

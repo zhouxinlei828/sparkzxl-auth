@@ -37,3 +37,5 @@ logging:
   level:
     com.github.sparkzxl.auth.infrastructure.client: debug
     com.github.sparkzxl.auth.infrastructure.mapper: debug
+  file:
+    enable: true

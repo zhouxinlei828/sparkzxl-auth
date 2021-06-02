@@ -22,7 +22,7 @@
         <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
         <spring-boot-maven.version>2.3.9.RELEASE</spring-boot-maven.version>
         <mapstruct.version>1.4.0.CR1</mapstruct.version>
-        <sparkzxl-dependencies.version>1.0.2.RELEASE</sparkzxl-dependencies.version>
+        <sparkzxl-dependencies.version>1.0.4-SNAPSHOT</sparkzxl-dependencies.version>
         <lombok.version>1.18.8</lombok.version>
         <javafaker.version>1.0.2</javafaker.version>
         <mybatis-spring-boot-starter.version>2.1.4</mybatis-spring-boot-starter.version>
@@ -36,6 +36,16 @@
         <module>sparkzxl-workflow</module>
     </modules>
 
+    <repositories>
+        <repository>
+            <id>maven-releases</id>
+            <url>http://47.114.40.129:8764/repository/maven-releases/</url>
+        </repository>
+        <repository>
+            <id>maven-snapshots</id>
+            <url>http://47.114.40.129:8764/repository/maven-snapshots/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>

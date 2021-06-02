@@ -3,6 +3,8 @@ package com.github.sparkzxl.workflow.domain.service.driver;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.sparkzxl.core.utils.DateUtils;
 import com.github.sparkzxl.core.utils.ListUtils;
+import com.github.sparkzxl.patterns.strategy.BusinessHandler;
+import com.github.sparkzxl.patterns.strategy.BusinessHandlerChooser;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRuntimeService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessTaskService;
@@ -15,8 +17,6 @@ import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import com.github.sparkzxl.workflow.infrastructure.convert.ActivitiDriverConvert;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtHiTaskStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessStatus;
-import com.github.sparkzxl.workflow.application.rule.external.AbstractProcessSolver;
-import com.github.sparkzxl.workflow.application.rule.external.ProcessSolverChooser;
 import com.github.sparkzxl.workflow.infrastructure.utils.ActivitiUtils;
 import com.github.sparkzxl.workflow.interfaces.dto.process.ProcessNextTaskDTO;
 import com.google.common.collect.Lists;
@@ -45,23 +45,22 @@ import java.util.Map;
  * description: 流程驱动 服务 实现类
  *
  * @author charles.zhou
- * @date   2020-07-17 16:27:58
+ * @date 2020-07-17 16:27:58
  */
 @Service
 @Slf4j
-@Transactional(transactionManager = "transactionManager", rollbackFor = Exception.class)
 public class ProcessDriveServiceImpl implements IProcessDriveService {
 
-    private ProcessSolverChooser processSolverChooser;
     private IExtHiTaskStatusService extHiTaskStatusService;
     private IExtProcessStatusService extProcessStatusService;
     private IProcessRepositoryService processRepositoryService;
     private IProcessRuntimeService processRuntimeService;
     private IProcessTaskService processTaskService;
+    private BusinessHandlerChooser businessHandlerChooser;
 
     @Autowired
-    public void setActivitiSolverChooser(ProcessSolverChooser processSolverChooser) {
-        this.processSolverChooser = processSolverChooser;
+    public void setBusinessHandlerChooser(BusinessHandlerChooser businessHandlerChooser) {
+        this.businessHandlerChooser = businessHandlerChooser;
     }
 
     @Autowired
@@ -92,9 +91,11 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
     @Override
     public DriverResult driveProcess(DriverProcessParam driverProcessParam) {
         int actType = driverProcessParam.getActType();
-        AbstractProcessSolver activitiSolver = processSolverChooser.chooser(actType);
+        BusinessHandler<DriverResult, DriveProcess> businessHandlerChooser =
+                this.businessHandlerChooser.businessHandlerChooser(WorkflowConstants.BusinessTaskStrategy.BUSINESS_TASK_DRIVER,
+                        String.valueOf(actType));
         DriveProcess driveProcess = ActivitiDriverConvert.INSTANCE.convertDriveProcess(driverProcessParam);
-        return activitiSolver.slove(driverProcessParam.getBusinessId(), driveProcess);
+        return businessHandlerChooser.businessHandler(driveProcess);
     }
 
     @Override
@@ -181,6 +182,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean suspendProcess(SuspendProcessDTO suspendProcessDTO) {
         if (suspendProcessDTO.getType().equals(1)) {
             return processRuntimeService.suspendProcess(suspendProcessDTO.getBusinessId());
@@ -202,6 +204,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean deleteProcessInstanceBatch(ProcessInstanceDeleteDTO processInstanceDeleteDTO) {
         if (processInstanceDeleteDTO.getType().equals(1)) {
             if (CollectionUtils.isNotEmpty(processInstanceDeleteDTO.getBusinessIds())) {
@@ -234,6 +237,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean deleteProcessByProcInsIds(List<String> processInstanceIds) {
         if (CollectionUtils.isNotEmpty(processInstanceIds)) {
             processInstanceIds.forEach(processInstanceId -> deleteProcessByProcInsId(processInstanceId, "删除流程"));

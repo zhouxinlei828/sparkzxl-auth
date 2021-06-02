@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.sparkzxl.core.support.SparkZxlExceptionAssert;
+import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessDetailService;
 import com.github.sparkzxl.workflow.application.service.model.IModelService;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessDetail;
@@ -69,7 +69,7 @@ public class ModelServiceImpl implements IModelService {
                 modelNode.set("model", editorJsonNode);
             } catch (Exception e) {
                 log.error("Error creating model JSON {}", e.getMessage());
-                SparkZxlExceptionAssert.businessFail("Error creating model JSON");
+                BizExceptionAssert.businessFail("Error creating model JSON");
             }
         }
         return modelNode;
@@ -100,7 +100,7 @@ public class ModelServiceImpl implements IModelService {
             outStream.close();
         } catch (Exception e) {
             log.error("Error saving model", e);
-            SparkZxlExceptionAssert.businessFail("Error saving model");
+            BizExceptionAssert.businessFail("Error saving model");
         }
         return true;
     }
@@ -147,7 +147,7 @@ public class ModelServiceImpl implements IModelService {
             return IOUtils.toString(stencilsetStream, StandardCharsets.UTF_8);
         } catch (Exception e) {
             log.error("Error while loading stencil set", e);
-            SparkZxlExceptionAssert.businessFail("Error while loading stencil set");
+            BizExceptionAssert.businessFail("Error while loading stencil set");
         }
         return null;
     }

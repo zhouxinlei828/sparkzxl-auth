@@ -1,13 +1,15 @@
 package com.github.sparkzxl.workflow.domain.service.act;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
-import com.github.sparkzxl.core.support.SparkZxlExceptionAssert;
+import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRuntimeService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessTaskService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtHiTaskStatusService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessStatusService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskRuleService;
+import com.github.sparkzxl.workflow.domain.model.DriveProcess;
 import com.github.sparkzxl.workflow.domain.model.DriverData;
 import com.github.sparkzxl.workflow.dto.DriverResult;
 import com.github.sparkzxl.workflow.infrastructure.act.DeleteTaskCmd;
@@ -19,6 +21,7 @@ import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
 import com.github.sparkzxl.workflow.infrastructure.enums.ProcessStatusEnum;
 import com.github.sparkzxl.workflow.infrastructure.enums.TaskStatusEnum;
 import com.github.sparkzxl.workflow.infrastructure.utils.ActivitiUtils;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.FlowElement;
@@ -26,11 +29,13 @@ import org.activiti.bpmn.model.FlowNode;
 import org.activiti.bpmn.model.Process;
 import org.activiti.engine.ManagementService;
 import org.activiti.engine.impl.identity.Authentication;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Collection;
 import java.util.Map;
@@ -40,7 +45,7 @@ import java.util.concurrent.CompletableFuture;
  * description: 流程核心API接口
  *
  * @author charles.zhou
- * @date   2020-07-20 18:35:56
+ * @date 2020-07-20 18:35:56
  */
 @Service
 @Slf4j
@@ -145,7 +150,7 @@ public class ActWorkApiService {
                 taskDefinitionKey, driverData.getActType());
         DriverResult driverResult;
         if (ObjectUtils.isEmpty(actRuTaskRule)) {
-            SparkZxlExceptionAssert.businessFail("请设置流程跳转规则");
+            BizExceptionAssert.businessFail("请设置流程跳转规则");
         }
         String taskDefKey = actRuTaskRule.getTaskDefKey();
         FlowElement flowElement = ActivitiUtils.getFlowElementById(taskDefKey, flowElements);
@@ -198,6 +203,40 @@ public class ActWorkApiService {
             extProcessStatus.setStatus(status);
         }
         processTaskStatusService.saveOrUpdate(extProcessStatus);
+    }
+
+    public DriverResult submitProcess(DriveProcess driveProcess) {
+        DriverResult driverResult = new DriverResult();
+        String businessId = driveProcess.getBusinessId();
+        try {
+            String applyUserId = driveProcess.getApplyUserId();
+            String userId = driveProcess.getUserId();
+            Map<String, Object> variables = Maps.newHashMap();
+            if (StringUtils.isNotEmpty(applyUserId)) {
+                variables.put("assignee", applyUserId);
+            }
+            variables.put("actType", driveProcess.getActType());
+            ProcessInstance processInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
+            if (ObjectUtils.isEmpty(processInstance)) {
+                BizExceptionAssert.businessFail("流程实例为空，请检查参数是否正确");
+            }
+            DriverData driverData = DriverData.builder()
+                    .userId(userId)
+                    .processInstanceId(processInstance.getProcessInstanceId())
+                    .businessId(businessId)
+                    .processDefinitionKey(processInstance.getProcessDefinitionKey())
+                    .actType(driveProcess.getActType())
+                    .comment(driveProcess.getComment())
+                    .variables(variables)
+                    .build();
+            driverResult = promoteProcess(driverData);
+        } catch (Exception e) {
+            e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            log.error("发生异常 Exception：{}", ExceptionUtil.getMessage(e));
+            driverResult.setErrorMsg(e.getMessage());
+        }
+        return driverResult;
     }
 
 }

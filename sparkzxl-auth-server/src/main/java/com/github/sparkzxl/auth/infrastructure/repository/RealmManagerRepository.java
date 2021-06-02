@@ -11,7 +11,7 @@ import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.RealmManagerConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.RealmManager;
 import com.github.sparkzxl.auth.infrastructure.mapper.RealmManagerMapper;
-import com.github.sparkzxl.core.support.SparkZxlExceptionAssert;
+import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -88,7 +88,7 @@ public class RealmManagerRepository implements IRealmManagerRepository {
         }
         Integer count = realmManagerMapper.selectCount(realmManagerLambdaQueryWrapper);
         if (count > 0) {
-            SparkZxlExceptionAssert.businessFail("账户重复，请勿重复注册");
+            BizExceptionAssert.businessFail("账户重复，请勿重复注册");
         }
         realmManager.setName(account);
         realmManager.setStatus(true);

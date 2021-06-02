@@ -1,5 +1,6 @@
 package com.github.sparkzxl.workflow.domain.model;
 
+import com.github.sparkzxl.redisson.annotation.RedisLockParam;
 import lombok.Data;
 
 /**
@@ -19,6 +20,7 @@ public class DriveProcess {
     /**
      * 业务主键
      */
+    @RedisLockParam(name = "businessId")
     protected String businessId;
 
     /**

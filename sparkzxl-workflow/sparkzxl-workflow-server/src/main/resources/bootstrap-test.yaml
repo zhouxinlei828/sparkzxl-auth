@@ -1,6 +1,10 @@
 server:
   shutdown: graceful
   port: 8802
+  undertow:
+    buffer-size: 1024
+    direct-buffers: on
+    always-set-keep-alive: true
 spring:
   application:
     name: sparkzxl-workflow-server
@@ -40,5 +44,3 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
-elasticsearch:
-  cluster-nodes: 10.206.0.16:9200

@@ -2,15 +2,20 @@ package com.github.sparkzxl.generator;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
+import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -33,7 +38,7 @@ public class MybatisPlusGenerator {
         Scanner scanner = new Scanner(System.in);
         StringBuilder help = new StringBuilder();
         help.append("请输入" + tip + "：");
-        System.out.println(help.toString());
+        System.out.println(help);
         if (scanner.hasNext()) {
             String ipt = scanner.next();
             if (!StringUtils.isEmpty(ipt)) {
@@ -50,7 +55,12 @@ public class MybatisPlusGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/sparkzxl-workflow/sparkzxl-workflow-server/src/main/java");
+        String[] moduleNames = scanner("模块相对路径，例如格式为sparkzxl-workflow/sparkzxl-workflow-server");
+        if (ArrayUtils.isEmpty(moduleNames)) {
+            throw new RuntimeException("模块名称为空");
+        }
+        projectPath = projectPath.concat("/").concat(moduleNames[0]);
+        gc.setOutputDir(projectPath.concat("/src/main/java"));
         gc.setFileOverride(true);
         gc.setBaseResultMap(true);
         gc.setSwagger2(true);
@@ -83,16 +93,28 @@ public class MybatisPlusGenerator {
         mpg.setPackageInfo(pc);
 
         // 自定义配置
-        InjectionConfig cfg = new InjectionConfig() {
+        InjectionConfig injectionConfig = new InjectionConfig() {
             @Override
             public void initMap() {
                 // to do nothing
             }
         };
-        // 如果模板引擎是 freemarker
-        mpg.setCfg(cfg);
-        // 配置模板
+        // 如果模板引擎是 velocity
+        String templatePath = "/templates/mapper.xml.vm";
+
+        List<FileOutConfig> fileOutConfigList = new ArrayList<>();
+        String finalProjectPath = projectPath;
+        fileOutConfigList.add(new FileOutConfig(templatePath) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return finalProjectPath + "/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+            }
+        });
+        injectionConfig.setFileOutConfigList(fileOutConfigList);
+        mpg.setCfg(injectionConfig);
+
         TemplateConfig templateConfig = new TemplateConfig();
+        templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();

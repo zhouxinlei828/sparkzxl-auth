@@ -11,7 +11,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
-import com.github.sparkzxl.core.context.BaseContextHandler;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
 import com.github.sparkzxl.database.entity.RemoteData;
 import com.google.common.collect.Lists;
@@ -71,7 +71,7 @@ public class ImportUserDataListener extends ImportDataListener<UserExcel> {
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
         log.info("所有数据解析完成！size：{}", list.size());
-        String realmCode = BaseContextHandler.getRealm();
+        String realmCode = BaseContextHolder.getRealm();
         List<AuthUser> authUserList = Lists.newArrayList();
         list.forEach(item -> {
             AuthUser authUser = new AuthUser();

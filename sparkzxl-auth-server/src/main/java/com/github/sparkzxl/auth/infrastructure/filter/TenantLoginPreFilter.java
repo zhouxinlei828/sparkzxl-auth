@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.infrastructure.filter;
 
-import com.github.sparkzxl.core.context.BaseContextHandler;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,7 +27,7 @@ public class TenantLoginPreFilter extends OncePerRequestFilter {
         String authenticationFormUrl = "/authentication/form";
         if (StringUtils.equals(request.getRequestURI(), authenticationFormUrl)) {
             String RealmCode = request.getParameter("RealmCode");
-            BaseContextHandler.setRealm(RealmCode);
+            BaseContextHolder.setRealm(RealmCode);
         }
         chain.doFilter(request, response);
     }

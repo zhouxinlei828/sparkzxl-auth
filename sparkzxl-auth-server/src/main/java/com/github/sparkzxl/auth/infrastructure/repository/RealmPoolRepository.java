@@ -12,7 +12,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthApplication;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthMenu;
 import com.github.sparkzxl.auth.infrastructure.entity.RealmPool;
 import com.github.sparkzxl.auth.infrastructure.mapper.*;
-import com.github.sparkzxl.core.context.BaseContextHandler;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -106,7 +106,7 @@ public class RealmPoolRepository implements IRealmPoolRepository {
     @Transactional(rollbackFor = Exception.class)
     public boolean saveRealmPool(RealmPool realmPool) {
         String realmCode = IdUtil.objectId();
-        Long userId = BaseContextHandler.getUserId(Long.TYPE);
+        Long userId = BaseContextHolder.getUserId(Long.TYPE);
         realmPool.setRealmUserId(userId);
         realmPool.setCode(realmCode);
         realmPoolMapper.insert(realmPool);
@@ -115,7 +115,7 @@ public class RealmPoolRepository implements IRealmPoolRepository {
     }
 
     public void initRealmPoolData(String realmCode) {
-        BaseContextHandler.setRealm(realmCode);
+        BaseContextHolder.setRealm(realmCode);
         initMenuData(realmCode);
     }
 

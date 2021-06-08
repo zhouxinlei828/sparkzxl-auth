@@ -13,7 +13,7 @@ import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.*;
 import com.github.sparkzxl.auth.infrastructure.mapper.*;
-import com.github.sparkzxl.core.context.BaseContextHandler;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.core.tree.TreeUtils;
 import com.github.sparkzxl.database.annonation.InjectionResult;
 import com.github.sparkzxl.database.entity.RemoteData;
@@ -151,7 +151,7 @@ public class AuthUserRepository implements IAuthUserRepository {
         if (ObjectUtils.isNotEmpty(authUser.getOrg()) && ObjectUtils.isNotEmpty(authUser.getOrg().getKey())) {
             queryWrapper.eq(AuthUser::getOrg, authUser.getOrg().getKey());
         }
-        String realmCode = BaseContextHandler.getRealm();
+        String realmCode = BaseContextHolder.getRealm();
         if (StringUtils.isNotEmpty(realmCode)) {
             queryWrapper.like(AuthUser::getRealmCode, realmCode);
         }
@@ -262,7 +262,7 @@ public class AuthUserRepository implements IAuthUserRepository {
     public boolean saveAuthUser(AuthUser authUser) {
         String password = passwordEncoder.encode(authUser.getPassword());
         authUser.setPassword(password);
-        String realmCode = BaseContextHandler.getRealm();
+        String realmCode = BaseContextHolder.getRealm();
         authUser.setRealmCode(realmCode);
         return authUserMapper.insert(authUser) == 1;
     }

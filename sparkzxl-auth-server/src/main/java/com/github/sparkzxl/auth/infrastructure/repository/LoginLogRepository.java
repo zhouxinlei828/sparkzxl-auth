@@ -9,7 +9,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
 import com.github.sparkzxl.auth.infrastructure.entity.RealmPool;
 import com.github.sparkzxl.auth.infrastructure.mapper.LoginLogMapper;
-import com.github.sparkzxl.core.context.BaseContextHandler;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.core.utils.DateUtils;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
 import org.apache.commons.collections4.CollectionUtils;
@@ -93,7 +93,7 @@ public class LoginLogRepository implements ILoginLogRepository {
             loginLogLambdaQueryWrapper.in(LoginLog::getRealmCode, realmCodeList)
                     .or().eq(LoginLog::getUserId, realmUserId);
         } else {
-            String realmCode = BaseContextHandler.getRealm();
+            String realmCode = BaseContextHolder.getRealm();
             loginLogLambdaQueryWrapper.in(LoginLog::getRealmCode, realmCode);
         }
         loginLogLambdaQueryWrapper.orderByDesc(LoginLog::getLoginDate);

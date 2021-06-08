@@ -8,7 +8,7 @@ import com.github.sparkzxl.auth.infrastructure.convert.RealmManagerConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.RealmManager;
 import com.github.sparkzxl.auth.infrastructure.security.AuthUserDetail;
-import com.github.sparkzxl.core.context.BaseContextHandler;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.core.utils.ListUtils;
 import com.google.common.collect.Lists;
@@ -76,7 +76,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 authUserDetail.setName(authUser.getName());
                 authUserDetail.setRealm(authUser.getRealmCode());
                 authUserDetail.setRealmStatus(false);
-                BaseContextHandler.setRealm(authUser.getRealmCode());
+                BaseContextHolder.setRealm(authUser.getRealmCode());
                 return authUserDetail;
             }
         }

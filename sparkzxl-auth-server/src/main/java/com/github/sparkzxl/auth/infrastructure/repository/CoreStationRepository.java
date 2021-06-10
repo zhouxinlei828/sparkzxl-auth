@@ -10,7 +10,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreStationMapper;
 import com.github.sparkzxl.core.utils.MapHelper;
-import com.github.sparkzxl.database.annonation.InjectionResult;
+import com.github.sparkzxl.database.echo.annonation.EchoResult;
 import com.github.sparkzxl.database.entity.RemoteData;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -57,7 +57,7 @@ public class CoreStationRepository implements ICoreStationRepository {
     }
 
     @Override
-    @InjectionResult
+    @EchoResult
     public List<CoreStation> getStationPageList(int pageNum, int pageSize, String name, RemoteData<Long, CoreOrg> org) {
         LambdaQueryWrapper<CoreStation> stationQueryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotEmpty(name)) {

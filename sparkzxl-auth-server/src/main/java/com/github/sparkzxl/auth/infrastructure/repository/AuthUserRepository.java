@@ -15,11 +15,12 @@ import com.github.sparkzxl.auth.infrastructure.entity.*;
 import com.github.sparkzxl.auth.infrastructure.mapper.*;
 import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.core.tree.TreeUtils;
-import com.github.sparkzxl.database.annonation.InjectionResult;
+import com.github.sparkzxl.database.echo.annonation.EchoResult;
 import com.github.sparkzxl.database.entity.RemoteData;
 import com.github.sparkzxl.database.entity.SuperEntity;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -38,59 +39,19 @@ import java.util.stream.Collectors;
  * @author charles.zhou
  * @date 2020/6/5 8:45 下午
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Repository
 @Slf4j
 public class AuthUserRepository implements IAuthUserRepository {
 
-    public AuthUserMapper authUserMapper;
-    private UserRoleMapper userRoleMapper;
-    private AuthRoleMapper authRoleMapper;
-    private RoleAuthorityMapper roleAuthorityMapper;
-    private AuthResourceMapper authResourceMapper;
-    private CoreOrgMapper coreOrgMapper;
-    private PasswordEncoder passwordEncoder;
-    private Snowflake snowflake;
-
-    @Autowired
-    public void setAuthUserMapper(AuthUserMapper authUserMapper) {
-        this.authUserMapper = authUserMapper;
-    }
-
-    @Autowired
-    public void setUserRoleMapper(UserRoleMapper userRoleMapper) {
-        this.userRoleMapper = userRoleMapper;
-    }
-
-    @Autowired
-    public void setAuthRoleMapper(AuthRoleMapper authRoleMapper) {
-        this.authRoleMapper = authRoleMapper;
-    }
-
-    @Autowired
-    public void setRoleAuthorityMapper(RoleAuthorityMapper roleAuthorityMapper) {
-        this.roleAuthorityMapper = roleAuthorityMapper;
-    }
-
-    @Autowired
-    public void setAuthResourceMapper(AuthResourceMapper authResourceMapper) {
-        this.authResourceMapper = authResourceMapper;
-    }
-
-    @Autowired
-    public void setCoreOrgMapper(CoreOrgMapper coreOrgMapper) {
-        this.coreOrgMapper = coreOrgMapper;
-    }
-
-    @Autowired
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @Autowired
-    public void setSnowflake(Snowflake snowflake) {
-        this.snowflake = snowflake;
-    }
+    private final AuthUserMapper authUserMapper;
+    private final UserRoleMapper userRoleMapper;
+    private final AuthRoleMapper authRoleMapper;
+    private final RoleAuthorityMapper roleAuthorityMapper;
+    private final AuthResourceMapper authResourceMapper;
+    private final CoreOrgMapper coreOrgMapper;
+    private final PasswordEncoder passwordEncoder;
+    private final Snowflake snowflake;
 
     @Override
     public AuthUser selectById(Long id) {
@@ -98,7 +59,7 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    @InjectionResult
+    @EchoResult
     public AuthUser selectByAccount(String account) {
         QueryWrapper<AuthUser> queryWrapper = new QueryWrapper<>();
         boolean mobile = Validator.isMobile(account);
@@ -127,7 +88,7 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    @InjectionResult
+    @EchoResult
     public List<AuthUser> getAuthUserList(AuthUser authUser, List<Long> userIdList) {
         LambdaQueryWrapper<AuthUser> queryWrapper = new LambdaQueryWrapper<>();
         if (CollectionUtils.isNotEmpty(userIdList)) {

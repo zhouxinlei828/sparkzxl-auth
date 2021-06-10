@@ -7,12 +7,15 @@ package com.github.sparkzxl.auth.infrastructure.constant;
  * @author charles.zhou
  * @date 2020-07-19 09:25:48
  */
-public class InjectionFieldConstants {
+public class EchoConstants {
+
+    public static final String FIND_NAME_BY_IDS = "findNameByIds";
+    public static final String FIND_BY_IDS = "findByIds";
 
     /**
      * 组织 仓储查询类
      */
-    public static final String ORG_ID_CLASS = "coreOrgRepository";
+    public static final String ORG_ID_CLASS = "coreOrgServiceImpl";
     /**
      * 组织 feign查询类
      */

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.github.sparkzxl.auth.domain.model.aggregates.UserCount;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo;
-import com.github.sparkzxl.database.annonation.InjectionResult;
 import com.github.sparkzxl.database.base.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
@@ -62,7 +61,6 @@ public interface AuthUserMapper extends SuperMapper<AuthUser> {
      * @param id 主键
      * @return AuthUser
      */
-    @InjectionResult
     AuthUser getById(@Param("id") Long id);
 
     /**

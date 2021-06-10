@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.infrastructure.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.sparkzxl.database.annonation.InjectionField;
+import com.github.sparkzxl.database.echo.annonation.EchoField;
 import com.github.sparkzxl.database.entity.Entity;
 import com.github.sparkzxl.database.entity.RemoteData;
 import io.swagger.annotations.ApiModel;
@@ -11,8 +11,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import static com.github.sparkzxl.auth.infrastructure.constant.InjectionFieldConstants.ORG_ID_CLASS;
-import static com.github.sparkzxl.auth.infrastructure.constant.InjectionFieldConstants.ORG_ID_METHOD;
+import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstants.*;
+import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstants.FIND_NAME_BY_IDS;
 
 /**
  * description: 岗位
@@ -35,7 +35,7 @@ public class CoreStation extends Entity<Long> {
 
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
-    @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = CoreOrg.class)
+    @EchoField(api = STATION_ID_CLASS, method = FIND_NAME_BY_IDS, beanClass = CoreStation.class)
     private RemoteData<Long, CoreOrg> org;
 
     @ApiModelProperty(value = "状态")
@@ -48,5 +48,5 @@ public class CoreStation extends Entity<Long> {
 
     @ApiModelProperty(value = "领域池code")
     @TableField("realm_code")
-    private String RealmCode;
+    private String realmCode;
 }

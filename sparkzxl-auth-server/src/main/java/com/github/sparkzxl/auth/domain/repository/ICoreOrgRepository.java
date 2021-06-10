@@ -18,14 +18,6 @@ public interface ICoreOrgRepository {
 
 
     /**
-     * 根据 id 查询组织，并转换成Map结构
-     *
-     * @param ids
-     * @return
-     */
-    Map<Serializable, Object> findOrgByIds(Set<Serializable> ids);
-
-    /**
      * 保存组织机构
      *
      * @param coreOrg 组织机构

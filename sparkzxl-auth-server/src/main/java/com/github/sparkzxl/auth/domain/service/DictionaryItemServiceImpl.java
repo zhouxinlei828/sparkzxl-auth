@@ -4,11 +4,13 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.auth.application.service.IDictionaryItemService;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.entity.Dictionary;
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.infrastructure.mapper.DictionaryItemMapper;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemQueryDTO;
 import com.github.sparkzxl.core.utils.MapHelper;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.echo.properties.EchoProperties;
 import com.github.sparkzxl.database.properties.CustomMybatisProperties;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.ObjectUtils;
@@ -24,35 +26,33 @@ import java.util.stream.Collectors;
  * description: 字典项 服务实现类
  *
  * @author charles.zhou
- * @date   2020-07-28 19:43:58
+ * @date 2020-07-28 19:43:58
  */
 @Service
 public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryItemMapper, DictionaryItem> implements IDictionaryItemService {
 
     @Autowired
-    private CustomMybatisProperties customMybatisProperties;
+    private EchoProperties echoProperties;
+
 
     @Override
-    public Map<Serializable, Object> findDictionaryItem(Set<Serializable> codes) {
-        if (codes.isEmpty()) {
-            return Collections.emptyMap();
-        }
+    public Map<Serializable, Object> findNameByIds(Set<Serializable> codes) {
         Set<String> types = codes.stream().filter(Objects::nonNull)
-                .map((item) -> StrUtil.split(String.valueOf(item), customMybatisProperties.getInjection().getDictSeparator())[0]).collect(Collectors.toSet());
-        Set<String> newCodes = codes.stream().filter(Objects::nonNull)
-                .map((item) -> StrUtil.split(String.valueOf(item), customMybatisProperties.getInjection().getDictSeparator())[1]).collect(Collectors.toSet());
+                .map((item) -> {
+                    String s = StrUtil.split(String.valueOf(item), echoProperties.getDictSeparator())[0];
+                    return s;
+                }).collect(Collectors.toSet());
 
         // 1. 根据 字典编码查询可用的字典列表
         LambdaQueryWrapper<DictionaryItem> dictionaryItemLambdaQueryWrapper = new LambdaQueryWrapper<>();
         dictionaryItemLambdaQueryWrapper.in(DictionaryItem::getDictionaryType, types)
-                .in(DictionaryItem::getCode, newCodes)
                 .eq(DictionaryItem::getStatus, true)
                 .orderByAsc(DictionaryItem::getSortValue);
         List<DictionaryItem> list = super.list(dictionaryItemLambdaQueryWrapper);
 
         // 2. 将 list 转换成 Map，Map的key是字典编码，value是字典名称
         ImmutableMap<String, String> typeMap = MapHelper.uniqueIndex(list,
-                (item) -> StrUtil.join(customMybatisProperties.getInjection().getDictSeparator(), item.getDictionaryType(), item.getCode())
+                (item) -> StrUtil.join(echoProperties.getDictSeparator(), item.getDictionaryType(), item.getCode())
                 , DictionaryItem::getName);
 
         // 3. 将 Map<String, String> 转换成 Map<Serializable, Object>
@@ -60,6 +60,12 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
         typeMap.forEach(typeCodeNameMap::put);
         return typeCodeNameMap;
     }
+
+    @Override
+    public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
+        return Collections.emptyMap();
+    }
+
 
     @Override
     public List<DictionaryItem> findDictionaryItemList(DictionaryItemQueryDTO dictionaryItemQueryDTO) {

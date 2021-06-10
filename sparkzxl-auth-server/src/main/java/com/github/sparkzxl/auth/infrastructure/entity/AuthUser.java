@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.sparkzxl.auth.infrastructure.constant.DictionaryType;
 import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
-import com.github.sparkzxl.database.annonation.InjectionField;
+import com.github.sparkzxl.database.echo.annonation.EchoField;
 import com.github.sparkzxl.database.entity.Entity;
 import com.github.sparkzxl.database.entity.RemoteData;
 import io.swagger.annotations.ApiModel;
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE_RIGHT;
-import static com.github.sparkzxl.auth.infrastructure.constant.InjectionFieldConstants.*;
+import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstants.*;
 
 /**
  * description: 用户信息
@@ -31,7 +31,7 @@ import static com.github.sparkzxl.auth.infrastructure.constant.InjectionFieldCon
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName(value = "auth_user",resultMap = "")
+@TableName(value = "auth_user", resultMap = "")
 @ApiModel(value = "AuthUser对象", description = "用户")
 public class AuthUser extends Entity<Long> {
 
@@ -56,12 +56,12 @@ public class AuthUser extends Entity<Long> {
 
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
-    @InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = CoreOrg.class)
+    @EchoField(api = ORG_ID_CLASS, beanClass = CoreOrg.class)
     private RemoteData<Long, CoreOrg> org;
 
     @ApiModelProperty(value = "岗位ID")
     @TableField("station_id")
-    @InjectionField(api = STATION_ID_CLASS, method = STATION_ID_METHOD)
+    @EchoField(api = STATION_ID_CLASS, method = FIND_NAME_BY_IDS, beanClass = CoreStation.class)
     private RemoteData<Long, CoreStation> station;
 
     @ApiModelProperty(value = "邮箱")
@@ -82,17 +82,17 @@ public class AuthUser extends Entity<Long> {
 
     @ApiModelProperty(value = "民族")
     @TableField("nation")
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION)
+    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.NATION)
     private RemoteData<String, String> nation;
 
     @ApiModelProperty(value = "学历")
     @TableField("education")
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION)
+    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)
     private RemoteData<String, String> education;
 
     @ApiModelProperty(value = "职位状态")
     @TableField("position_status")
-    @InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.POSITION_STATUS)
+    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.POSITION_STATUS)
     private RemoteData<String, String> positionStatus;
 
     @ApiModelProperty(value = "工作描述比如：市长、管理员、局长等等   用于登陆展示")

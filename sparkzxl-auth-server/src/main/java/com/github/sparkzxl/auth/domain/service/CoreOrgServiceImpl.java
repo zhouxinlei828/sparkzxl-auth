@@ -1,6 +1,8 @@
 package com.github.sparkzxl.auth.domain.service;
 
+import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.sparkzxl.auth.application.service.ICoreOrgService;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.application.service.es.IEsOrgAttributeService;
@@ -12,6 +14,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreOrgMapper;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
+import com.github.sparkzxl.core.utils.MapHelper;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.constant.EntityConstant;
 import com.github.sparkzxl.database.entity.TreeEntity;
@@ -21,8 +24,8 @@ import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
+import java.io.Serializable;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -40,6 +43,34 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
     private ICoreOrgRepository coreOrgRepository;
     @Autowired
     private IEsOrgAttributeService esOrgAttributeService;
+
+
+    @Override
+    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
+        return null;
+    }
+
+    @Override
+    public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
+        List<CoreOrg> orgList = getOrgs(ids);
+        return MapHelper.uniqueIndex(orgList, CoreOrg::getId, (org) -> org);
+    }
+
+    private List<CoreOrg> getOrgs(Set<Serializable> ids) {
+        if (ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<Long> idList = ids.stream().mapToLong(Convert::toLong).boxed().collect(Collectors.toList());
+        List<CoreOrg> list;
+        int size = 1000;
+        if (idList.size() <= size) {
+            list = idList.stream().map(super.baseMapper::selectById).filter(Objects::nonNull).collect(Collectors.toList());
+        } else {
+            list = super.baseMapper.selectList(new QueryWrapper<CoreOrg>().lambda().in(CoreOrg::getId, idList).eq(CoreOrg::getStatus, true));
+        }
+        return list;
+    }
+
 
     @Override
     public List<CoreOrg> getCoreOrgTree(String name, Boolean status) {

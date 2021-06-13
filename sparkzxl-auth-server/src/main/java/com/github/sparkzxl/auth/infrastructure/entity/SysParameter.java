@@ -40,8 +40,8 @@ public class SysParameter extends Entity<Long> {
     private String value;
 
     @ApiModelProperty(value = "描述")
-    @TableField("des")
-    private String des;
+    @TableField("describe_")
+    private String describe;
 
     @ApiModelProperty(value = "状态0 禁用 1 启用")
     @TableField("status")

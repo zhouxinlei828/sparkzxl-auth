@@ -30,7 +30,7 @@ import com.github.sparkzxl.database.base.controller.SuperCacheController;
 @ResponseResult
 @WebLog
 @Api(tags = "系统参数管理")
-@RequestMapping("/base/sys")
+@RequestMapping("/base/parameter")
 public class SysParameterController extends SuperCacheController<ISysParameterService, Long,
         SysParameter, SysParameterSaveDTO, SysParameterUpdateDTO, SysParameterQueryDTO, Object> {
 

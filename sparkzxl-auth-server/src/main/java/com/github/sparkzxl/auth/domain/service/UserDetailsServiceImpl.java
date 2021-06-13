@@ -83,7 +83,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return null;
     }
 
-    static AuthUserInfo<Long> buildAuthUserInfo(AuthUser authUser, List<String> authUserRoles) {
+    public static AuthUserInfo<Long> buildAuthUserInfo(AuthUser authUser, List<String> authUserRoles) {
         AuthUserInfo<Long> authUserInfo = AuthUserConvert.INSTANCE.convertAuthUserInfo(authUser);
         authUserInfo.setAuthorityList(authUserRoles);
         Map<String, Object> extraInfo = Maps.newHashMap();
@@ -98,7 +98,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return authUserInfo;
     }
 
-    static AuthUserInfo<Long> buildAuthUserInfo(RealmManager realmManager, List<String> authUserRoles) {
+    public static AuthUserInfo<Long> buildAuthUserInfo(RealmManager realmManager, List<String> authUserRoles) {
         AuthUserInfo<Long> authUserInfo = RealmManagerConvert.INSTANCE.convertAuthUserInfo(realmManager);
         authUserInfo.setAuthorityList(authUserRoles);
         Map<String, Object> extraInfo = Maps.newHashMap();

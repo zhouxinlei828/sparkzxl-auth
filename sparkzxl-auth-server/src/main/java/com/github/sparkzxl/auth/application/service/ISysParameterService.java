@@ -8,7 +8,14 @@ import com.github.sparkzxl.database.base.service.SuperCacheService;
  *
  * @author zhoux
  * @date 2021-06-13 12:06:56
-*/
+ */
 public interface ISysParameterService extends SuperCacheService<SysParameter> {
 
+    /**
+     * 根据code查询系统参数
+     *
+     * @param code 参数code
+     * @return SysParameter
+     */
+    SysParameter getSysParameterByCode(String code);
 }

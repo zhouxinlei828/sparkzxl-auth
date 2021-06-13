@@ -14,9 +14,8 @@ import com.github.sparkzxl.core.annotation.ResponseResult;
 import com.github.sparkzxl.log.annotation.WebLog;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 
 /**
@@ -34,4 +33,9 @@ import com.github.sparkzxl.database.base.controller.SuperCacheController;
 public class SysParameterController extends SuperCacheController<ISysParameterService, Long,
         SysParameter, SysParameterSaveDTO, SysParameterUpdateDTO, SysParameterQueryDTO, Object> {
 
+
+    @GetMapping("getByCode")
+    public SysParameter getSysParameterByCode(@RequestParam("code") String code) {
+        return baseService.getSysParameterByCode(code);
+    }
 }

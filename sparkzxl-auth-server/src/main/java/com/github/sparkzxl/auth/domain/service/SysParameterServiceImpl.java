@@ -1,5 +1,6 @@
 package com.github.sparkzxl.auth.domain.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.auth.infrastructure.entity.SysParameter;
 import com.github.sparkzxl.auth.infrastructure.mapper.SysParameterMapper;
 import com.github.sparkzxl.auth.application.service.ISysParameterService;
@@ -18,5 +19,10 @@ public class SysParameterServiceImpl extends SuperCacheServiceImpl<SysParameterM
     @Override
     protected String getRegion() {
         return "sys_parameter";
+    }
+
+    @Override
+    public SysParameter getSysParameterByCode(String code) {
+        return getOne(new LambdaQueryWrapper<SysParameter>().eq(SysParameter::getCode, code).eq(SysParameter::getStatus, true).last("limit 1"));
     }
 }

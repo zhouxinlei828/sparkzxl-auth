@@ -222,3 +222,16 @@ input:focus {
 .dowebok.right-panel-active .overlay-right {
     transform: translateY(20%);
 }
+
+.title {
+    display: inline-block;
+    overflow: hidden;
+    font-size: 20px;
+    line-height: 55px;
+    color: #001528;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-family: 'Comic Sans MS', serif;
+    margin-top: -25px;
+}

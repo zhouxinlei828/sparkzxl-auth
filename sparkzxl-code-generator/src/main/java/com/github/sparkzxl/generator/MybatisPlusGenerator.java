@@ -75,7 +75,7 @@ public class MybatisPlusGenerator {
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setUrl("jdbc:mysql://sparkzxl.mysql.rds.aliyuncs" +
-                ".com/sparkzxl_workflow?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8");
+                ".com/sparkzxl_auth?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("zhouxinlei");
         dsc.setPassword("Zxl298828");
@@ -83,7 +83,7 @@ public class MybatisPlusGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.github.sparkzxl.workflow");
+        pc.setParent("com.github.sparkzxl.auth");
         pc.setController("interfaces.controller");
         pc.setService("application.service");
         pc.setServiceImpl("domain.service");
@@ -99,8 +99,8 @@ public class MybatisPlusGenerator {
                 // to do nothing
             }
         };
-        // 如果模板引擎是 velocity
-        String templatePath = "/templates/mapper.xml.vm";
+        // 如果模板引擎是 freemarker
+        String templatePath = "/templates/mapper.xml.ftl";
 
         List<FileOutConfig> fileOutConfigList = new ArrayList<>();
         String finalProjectPath = projectPath;
@@ -120,6 +120,12 @@ public class MybatisPlusGenerator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
+        strategy.setSuperEntityClass("com.github.sparkzxl.database.entity.Entity");
+        strategy.setSuperMapperClass("com.github.sparkzxl.database.base.mapper.SuperMapper");
+        strategy.setSuperServiceClass("com.github.sparkzxl.database.base.service.SuperCacheService");
+        strategy.setSuperServiceImplClass("com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl");
+
+        strategy.setSuperControllerClass("com.github.sparkzxl.database.base.controller.SuperCacheController");
         strategy.setEntitySerialVersionUID(true);
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);

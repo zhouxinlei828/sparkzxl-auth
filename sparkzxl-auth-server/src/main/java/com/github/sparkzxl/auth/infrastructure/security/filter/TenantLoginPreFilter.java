@@ -1,4 +1,4 @@
-package com.github.sparkzxl.auth.infrastructure.filter;
+package com.github.sparkzxl.auth.infrastructure.security.filter;
 
 import com.github.sparkzxl.core.context.BaseContextHolder;
 import org.apache.commons.lang3.StringUtils;
@@ -26,8 +26,8 @@ public class TenantLoginPreFilter extends OncePerRequestFilter {
                                     FilterChain chain) throws ServletException, IOException {
         String authenticationFormUrl = "/authentication/form";
         if (StringUtils.equals(request.getRequestURI(), authenticationFormUrl)) {
-            String RealmCode = request.getParameter("RealmCode");
-            BaseContextHolder.setRealm(RealmCode);
+            String realmCode = request.getParameter("realmCode");
+            BaseContextHolder.setRealm(realmCode);
         }
         chain.doFilter(request, response);
     }

@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @Component
 @Slf4j
-public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
+public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
 
     private TokenStore tokenStore;
     private IUserService userService;

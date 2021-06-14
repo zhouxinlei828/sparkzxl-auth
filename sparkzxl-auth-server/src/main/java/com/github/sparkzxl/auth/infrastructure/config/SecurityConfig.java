@@ -2,11 +2,13 @@ package com.github.sparkzxl.auth.infrastructure.config;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.github.sparkzxl.auth.domain.service.UserDetailsServiceImpl;
-import com.github.sparkzxl.auth.infrastructure.filter.TenantLoginPreFilter;
+import com.github.sparkzxl.auth.infrastructure.constant.SecurityConstants;
+import com.github.sparkzxl.auth.infrastructure.security.filter.TenantLoginPreFilter;
 import com.github.sparkzxl.auth.infrastructure.security.RestfulAccessDeniedHandler;
 import com.github.sparkzxl.auth.infrastructure.security.SecurityProperties;
 import com.github.sparkzxl.auth.infrastructure.security.filter.PermitAuthenticationFilter;
-import com.github.sparkzxl.auth.infrastructure.security.logout.LogoutSuccessHandlerImpl;
+import com.github.sparkzxl.auth.infrastructure.security.filter.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.github.sparkzxl.auth.infrastructure.security.logout.CustomizeLogoutSuccessHandler;
 import com.github.sparkzxl.core.resource.SwaggerStaticResource;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
@@ -45,10 +47,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private SecurityProperties securityProperties;
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     @Autowired
     public void setSecurityProperties(SecurityProperties securityProperties) {
         this.securityProperties = securityProperties;
+    }
+
+    @Autowired
+    public void setSmsCodeAuthenticationSecurityConfig(SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig) {
+        this.smsCodeAuthenticationSecurityConfig = smsCodeAuthenticationSecurityConfig;
     }
 
     @Override
@@ -64,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
-        return new LogoutSuccessHandlerImpl();
+        return new CustomizeLogoutSuccessHandler();
     }
 
     @Bean
@@ -99,7 +107,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         RestfulAccessDeniedHandler restfulAccessDeniedHandler = new RestfulAccessDeniedHandler();
-        List<String> ignorePatternList = securityProperties.getIgnorePatterns();
+        List<String> ignorePatternList = Lists.newArrayList(
+                SecurityConstants.DEFAULT_LOGIN_URL,
+                SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,
+                SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE,
+                SecurityConstants.DEFAULT_SIGN_IN_URL_MOBILE_PAGE,
+                SecurityConstants.DEFAULT_REGISTER_URL);
+        ignorePatternList.addAll(securityProperties.getIgnorePatterns());
         if (CollectionUtils.isNotEmpty(ignorePatternList)) {
             http.authorizeRequests()
                     .antMatchers(ArrayUtil.toArray(ignorePatternList, String.class)).permitAll();
@@ -109,7 +123,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if (!securityProperties.isCsrf()) {
             http.csrf().disable();
         }
-        http.logout().logoutUrl("/logout")
+        http.formLogin()
+                .loginPage(SecurityConstants.DEFAULT_LOGIN_URL)
+                .loginProcessingUrl(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM)
+                .permitAll()
+                .and()
+                .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+                .httpBasic()
+                .and()
+                .logout().logoutUrl("/logout")
                 .logoutSuccessHandler(logoutSuccessHandler())
                 .deleteCookies("JSESSIONID")
                 .clearAuthentication(true)
@@ -118,12 +141,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and().authorizeRequests()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/authentication/require")
-                .loginProcessingUrl("/authentication/form")
-                .permitAll().and()
-                .httpBasic()
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(restfulAccessDeniedHandler)

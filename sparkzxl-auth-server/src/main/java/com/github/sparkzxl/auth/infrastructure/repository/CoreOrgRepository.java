@@ -22,11 +22,11 @@ import java.util.*;
 public class CoreOrgRepository implements ICoreOrgRepository {
 
     private final CoreOrgMapper coreOrgMapper;
-    private final IdSegmentRepository segmentRepository;
+    private final SegmentIdRepository segmentRepository;
 
     @Override
     public boolean saveCoreOrg(CoreOrg coreOrg) {
-        long id = segmentRepository.getIdSegment("core_org").longValue();
+        long id = segmentRepository.getSegmentId("core_org").longValue();
         coreOrg.setId(id);
         return coreOrgMapper.insert(coreOrg) == 1;
     }

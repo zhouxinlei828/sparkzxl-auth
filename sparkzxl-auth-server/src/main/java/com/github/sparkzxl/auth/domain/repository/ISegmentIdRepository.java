@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * @author charles.zhou
  * @date   2021-02-20 17:38:32
  */
-public interface IIdSegmentRepository {
+public interface ISegmentIdRepository {
 
     /**
      * 生成id
@@ -16,6 +16,6 @@ public interface IIdSegmentRepository {
      * @param businessTag 业务标记
      * @return BigDecimal
      */
-    BigDecimal getIdSegment(String businessTag);
+    BigDecimal getSegmentId(String businessTag);
 
 }

@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.infrastructure.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.github.sparkzxl.auth.infrastructure.entity.IdSegment;
+import com.github.sparkzxl.auth.infrastructure.entity.SegmentId;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @date   2021-02-14 10:34:04
  */
 @Repository
-public interface IdSegmentMapper extends BaseMapper<IdSegment> {
+public interface SegmentIdMapper extends BaseMapper<SegmentId> {
 
 }

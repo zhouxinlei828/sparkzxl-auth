@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.domain.repository.IAuthMenuRepository;
-import com.github.sparkzxl.auth.domain.repository.IIdSegmentRepository;
+import com.github.sparkzxl.auth.domain.repository.ISegmentIdRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthMenu;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
@@ -43,7 +43,7 @@ public class AuthMenuRepository implements IAuthMenuRepository {
     @Autowired
     private AuthMenuMapper authMenuMapper;
     @Autowired
-    private IIdSegmentRepository segmentRepository;
+    private ISegmentIdRepository segmentRepository;
     @Autowired
     private AuthResourceRepository authResourceRepository;
 
@@ -100,7 +100,7 @@ public class AuthMenuRepository implements IAuthMenuRepository {
     public void saveAuthMenus(List<AuthMenu> authMenus, String realmCode) {
         authMenus.forEach(authMenu -> {
             if (authMenu.getParentId().equals(0L)) {
-                long id = segmentRepository.getIdSegment("auth_menu").longValue();
+                long id = segmentRepository.getSegmentId("auth_menu").longValue();
                 authMenu.setId(id);
                 authMenu.setIsEnable(true);
                 authMenuMapper.insert(authMenu);
@@ -113,7 +113,7 @@ public class AuthMenuRepository implements IAuthMenuRepository {
         if (CollectionUtils.isNotEmpty(authMenus)) {
             for (AuthMenu authMenu : authMenus) {
                 authMenu.setParentId(parentId);
-                long id = segmentRepository.getIdSegment("auth_menu").longValue();
+                long id = segmentRepository.getSegmentId("auth_menu").longValue();
                 authMenu.setId(id);
                 authMenu.setIsEnable(true);
                 authMenuMapper.insert(authMenu);
@@ -133,7 +133,7 @@ public class AuthMenuRepository implements IAuthMenuRepository {
 
     @Override
     public boolean saveMenu(AuthMenu authMenu) {
-        long id = segmentRepository.getIdSegment("auth_menu").longValue();
+        long id = segmentRepository.getSegmentId("auth_menu").longValue();
         authMenu.setId(id);
         return authMenuMapper.insert(authMenu) == 1;
     }

@@ -20,9 +20,9 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("id_segment")
+@TableName("segment_id")
 @ApiModel(value = "IdSegment对象", description = "")
-public class IdSegment implements Serializable {
+public class SegmentId implements Serializable {
 
     private static final long serialVersionUID = -912732215123787770L;
 

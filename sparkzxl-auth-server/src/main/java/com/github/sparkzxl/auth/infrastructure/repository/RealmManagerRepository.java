@@ -51,14 +51,14 @@ public class RealmManagerRepository implements IRealmManagerRepository {
 
     @Override
     public RealmManager selectByAccount(String account) {
-        QueryWrapper<RealmManager> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<RealmManager> queryWrapper = new LambdaQueryWrapper<>();
         boolean mobile = Validator.isMobile(account);
         if (mobile) {
-            queryWrapper.lambda().eq(RealmManager::getMobile, account);
+            queryWrapper.eq(RealmManager::getMobile, account);
         } else {
-            queryWrapper.lambda().eq(RealmManager::getAccount, account);
+            queryWrapper.eq(RealmManager::getAccount, account);
         }
-        queryWrapper.lambda().eq(RealmManager::getStatus, true);
+        queryWrapper.eq(RealmManager::getStatus, true);
         return realmManagerMapper.selectOne(queryWrapper);
     }
 

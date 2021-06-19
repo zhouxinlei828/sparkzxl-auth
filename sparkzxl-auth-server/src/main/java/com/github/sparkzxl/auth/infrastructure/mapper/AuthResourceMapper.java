@@ -34,21 +34,21 @@ public interface AuthResourceMapper extends SuperMapper<AuthResource> {
     List<AuthResource> findVisibleResource(Long userId, Long menuId);
 
     /**
-     * 根据领域池code删除资源
+     * 根据租户池code删除资源
      *
-     * @param realmCode 领域池code
+     * @param tenantId 租户池code
      */
-    @Delete("delete from auth_resource where realm_code = #{realmCode}")
+    @Delete("delete from auth_resource where tenant_code = #{tenantId}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteRealmPoolResource(String realmCode);
+    void deleteTenantPoolResource(String tenantId);
 
     /**
-     * 根据领域池code查询资源列表
+     * 根据租户池code查询资源列表
      *
-     * @param realmCode 领域池code
+     * @param tenantId 租户池code
      * @return List<AuthResource>
      */
-    @Select("SELECT * from auth_resource where realm_code = #{realmCode} and request_url IS NOT NULL")
+    @Select("SELECT * from auth_resource where tenant_code = #{tenantId} and request_url IS NOT NULL")
     @InterceptorIgnore(tenantLine = "true")
-    List<AuthResource> selectResourceListByRealmCode(String realmCode);
+    List<AuthResource> selectResourceListByTenantId(String tenantId);
 }

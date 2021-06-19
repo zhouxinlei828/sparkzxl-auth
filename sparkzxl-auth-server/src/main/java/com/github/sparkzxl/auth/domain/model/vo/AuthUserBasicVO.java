@@ -67,7 +67,7 @@ public class AuthUserBasicVO {
     private Boolean status;
 
     @ApiModelProperty("是否领域用户")
-    private Boolean realmStatus;
+    private Boolean tenantStatus;
 
     @ApiModelProperty(value = "用户自定义属性")
     private Map<String, Object> userAttribute;

@@ -16,11 +16,11 @@ import org.springframework.stereotype.Repository;
 public interface DictionaryItemMapper extends SuperMapper<DictionaryItem> {
 
     /**
-     * 根据领域池code删除字典项
+     * 根据租户池code删除字典项
      *
-     * @param RealmCode 领域池code
+     * @param tenantId 租户池code
      */
-    @Delete("delete from dictionary_item where realm_code = #{RealmCode}")
+    @Delete("delete from dictionary_item where tenant_code = #{tenantId}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteTenantDictionaryItem(String RealmCode);
+    void deleteTenantDictionaryItem(String tenantId);
 }

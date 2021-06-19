@@ -16,10 +16,10 @@ public interface IAuthResourceRepository {
     /**
      * 加载所有资源
      *
-     * @param realmCode 领域池code
+     * @param tenantId 租户池code
      * @return List<AuthResource>
      */
-    List<AuthResource> getResourceListByRealmCode(String realmCode);
+    List<AuthResource> getResourceListByTenantId(String tenantId);
 
 
     /**
@@ -55,11 +55,11 @@ public interface IAuthResourceRepository {
     void saveResourceList(List<AuthResource> resourceList);
 
     /**
-     * 根据领域池code删除资源
+     * 根据租户池code删除资源
      *
-     * @param realmCode 领域池code
+     * @param tenantId 租户池code
      */
-    void deleteRealmPoolResource(String realmCode);
+    void deleteTenantPoolResource(String tenantId);
 
     /**
      * 更新资源

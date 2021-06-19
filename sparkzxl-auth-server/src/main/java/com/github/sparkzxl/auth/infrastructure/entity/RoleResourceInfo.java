@@ -17,7 +17,7 @@ public class RoleResourceInfo implements Serializable {
 
     private String roleCode;
 
-    private String realmCode;
+    private String tenantId;
 
     private String path;
 

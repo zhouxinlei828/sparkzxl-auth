@@ -11,6 +11,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
 import com.github.sparkzxl.auth.infrastructure.mapper.LoginLogMapper;
 import com.github.sparkzxl.auth.interfaces.dto.log.LoginLogQueryDTO;
+import com.github.sparkzxl.core.context.BaseContextConstants;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.core.entity.UserAgentEntity;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
@@ -72,7 +73,7 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
         if (authUser != null) {
             loginLog.setAccount(authUser.getAccount()).setUserId(authUser.getId()).setUserName(authUser.getName())
                     .setCreateUser(authUser.getId());
-            loginLog.setRealmCode(authUser.getRealmCode());
+            loginLog.setTenantId(authUser.getTenantId());
         }
         loginLogRepository.saveLoginLog(loginLog);
         LocalDate now = LocalDate.now();
@@ -131,9 +132,9 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
     @Override
     public PageInfo<LoginLog> getLoginLogPage(AuthUserInfo<Long> authUserInfo, PageParams<LoginLogQueryDTO> pageParams) {
         Map<String, Object> extraInfo = authUserInfo.getExtraInfo();
-        boolean realmStatus = (boolean) extraInfo.get("realmStatus");
+        boolean tenantStatus = (boolean) extraInfo.get(BaseContextConstants.TENANT_STATUS);
         return loginLogRepository.getLoginLogPage(pageParams.getPageNum(), pageParams.getPageSize(),
-                realmStatus, authUserInfo.getId(), pageParams.getModel().getAccount(), pageParams.getModel().getStartTime(),
+                tenantStatus, authUserInfo.getId(), pageParams.getModel().getAccount(), pageParams.getModel().getStartTime(),
                 pageParams.getModel().getEndTime());
     }
 

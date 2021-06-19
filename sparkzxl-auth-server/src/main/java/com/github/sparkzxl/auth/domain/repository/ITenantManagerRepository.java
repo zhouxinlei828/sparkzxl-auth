@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.domain.repository;
 
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
-import com.github.sparkzxl.auth.infrastructure.entity.RealmManager;
+import com.github.sparkzxl.auth.infrastructure.entity.TenantManager;
 
 /**
  * description: 领域管理员仓储层
@@ -9,15 +9,15 @@ import com.github.sparkzxl.auth.infrastructure.entity.RealmManager;
  * @author charles.zhou
  * @date 2020-06-05 20:39:15
  */
-public interface IRealmManagerRepository {
+public interface ITenantManagerRepository {
 
     /**
      * 根据账户查询用户信息
      *
      * @param account 账户
-     * @return RealmManager
+     * @return tenantManager
      */
-    RealmManager selectByAccount(String account);
+    TenantManager selectByAccount(String account);
 
     /**
      * 获取用户基本信息
@@ -30,8 +30,8 @@ public interface IRealmManagerRepository {
     /**
      * 保存领域管理员
      *
-     * @param realmManager 领域管理员
+     * @param tenantManager 领域管理员
      * @return boolean
      */
-    boolean saveRealmManager(RealmManager realmManager);
+    boolean saveTenantManager(TenantManager tenantManager);
 }

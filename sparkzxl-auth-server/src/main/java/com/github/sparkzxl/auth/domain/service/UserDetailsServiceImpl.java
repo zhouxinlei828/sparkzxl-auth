@@ -1,12 +1,12 @@
 package com.github.sparkzxl.auth.domain.service;
 
-import com.github.sparkzxl.auth.application.service.IRealmManagerService;
+import com.github.sparkzxl.auth.application.service.ITenantManagerService;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
-import com.github.sparkzxl.auth.infrastructure.convert.RealmManagerConvert;
+import com.github.sparkzxl.auth.infrastructure.convert.TenantManagerConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
-import com.github.sparkzxl.auth.infrastructure.entity.RealmManager;
+import com.github.sparkzxl.auth.infrastructure.entity.TenantManager;
 import com.github.sparkzxl.auth.infrastructure.security.AuthUserDetail;
 import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
@@ -35,7 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private IUserService authUserService;
 
-    private IRealmManagerService realmManagerService;
+    private ITenantManagerService tenantManagerService;
 
     @Autowired
     public void setAuthUserService(IUserService authUserService) {
@@ -43,8 +43,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Autowired
-    public void setRealmManagerService(IRealmManagerService realmManagerService) {
-        this.realmManagerService = realmManagerService;
+    public void setTenantManagerService(ITenantManagerService tenantManagerService) {
+        this.tenantManagerService = tenantManagerService;
     }
 
     @Override
@@ -53,15 +53,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public AuthUserDetail<Long> getAuthUserDetail(String username) {
-        RealmManager realmManager = realmManagerService.getByAccount(username);
-        if (ObjectUtils.isNotEmpty(realmManager)) {
-            AuthUserInfo<Long> authUserInfo = buildAuthUserInfo(realmManager, Lists.newArrayList(RoleConstant.REALM_MANAGER_CODE, RoleConstant.USER_CODE));
-            AuthUserDetail<Long> authUserDetail = new AuthUserDetail<>(realmManager.getAccount(),
-                    realmManager.getPassword(),
+        TenantManager tenantManager = tenantManagerService.getByAccount(username);
+        if (ObjectUtils.isNotEmpty(tenantManager)) {
+            AuthUserInfo<Long> authUserInfo = buildAuthUserInfo(tenantManager, Lists.newArrayList(RoleConstant.TENANT_MANAGER_CODE, RoleConstant.USER_CODE));
+            AuthUserDetail<Long> authUserDetail = new AuthUserDetail<>(tenantManager.getAccount(),
+                    tenantManager.getPassword(),
                     AuthorityUtils.createAuthorityList(ListUtils.listToArray(authUserInfo.getAuthorityList())));
-            authUserDetail.setId(realmManager.getId());
-            authUserDetail.setName(realmManager.getName());
-            authUserDetail.setRealmStatus(true);
+            authUserDetail.setId(tenantManager.getId());
+            authUserDetail.setName(tenantManager.getName());
+            authUserDetail.setTenantStatus(true);
             return authUserDetail;
         } else {
             AuthUser authUser = authUserService.getByAccount(username);
@@ -74,9 +74,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         AuthorityUtils.createAuthorityList(ListUtils.listToArray(authorityList)));
                 authUserDetail.setId(authUser.getId());
                 authUserDetail.setName(authUser.getName());
-                authUserDetail.setRealm(authUser.getRealmCode());
-                authUserDetail.setRealmStatus(false);
-                BaseContextHolder.setRealm(authUser.getRealmCode());
+                authUserDetail.setTenant(authUser.getTenantId());
+                authUserDetail.setTenantStatus(false);
+                BaseContextHolder.setTenant(authUser.getTenantId());
                 return authUserDetail;
             }
         }
@@ -93,16 +93,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         extraInfo.put("email", authUser.getEmail());
         extraInfo.put("education", authUser.getEducation());
         extraInfo.put("positionStatus", authUser.getPositionStatus());
-        extraInfo.put("realmStatus", false);
+        extraInfo.put("tenantStatus", false);
         authUserInfo.setExtraInfo(extraInfo);
         return authUserInfo;
     }
 
-    public static AuthUserInfo<Long> buildAuthUserInfo(RealmManager realmManager, List<String> authUserRoles) {
-        AuthUserInfo<Long> authUserInfo = RealmManagerConvert.INSTANCE.convertAuthUserInfo(realmManager);
+    public static AuthUserInfo<Long> buildAuthUserInfo(TenantManager tenantManager, List<String> authUserRoles) {
+        AuthUserInfo<Long> authUserInfo = TenantManagerConvert.INSTANCE.convertAuthUserInfo(tenantManager);
         authUserInfo.setAuthorityList(authUserRoles);
         Map<String, Object> extraInfo = Maps.newHashMap();
-        extraInfo.put("realmStatus", true);
+        extraInfo.put("tenantStatus", true);
         authUserInfo.setExtraInfo(extraInfo);
         return authUserInfo;
     }

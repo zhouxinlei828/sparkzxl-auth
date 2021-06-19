@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class UserCount {
 
-    private String realmCode;
+    private String tenantId;
 
     private Integer count;
 }

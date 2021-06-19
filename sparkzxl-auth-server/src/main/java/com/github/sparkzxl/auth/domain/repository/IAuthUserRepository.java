@@ -80,11 +80,11 @@ public interface IAuthUserRepository {
     void saveAuthUserInfo(AuthUser authUser);
 
     /**
-     * 根据领域池code删除用户
+     * 根据租户池code删除用户
      *
-     * @param realmCode 领域池code
+     * @param tenantId 租户池code
      */
-    void deleteRealmPoolUser(String realmCode);
+    void deleteTenantPoolUser(String tenantId);
 
     /**
      * 删除用户信息
@@ -97,10 +97,10 @@ public interface IAuthUserRepository {
     /**
      * 获取用户数量
      *
-     * @param realmCodeList 领域code
+     * @param tenantIdList 租户code
      * @return List<UserCount>
      */
-    List<UserCount> userCount(List<String> realmCodeList);
+    List<UserCount> userCount(List<String> tenantIdList);
 
     /**
      * 保存用户信息

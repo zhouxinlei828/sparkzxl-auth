@@ -19,13 +19,11 @@ import com.github.sparkzxl.database.echo.annonation.EchoResult;
 import com.github.sparkzxl.database.entity.RemoteData;
 import com.github.sparkzxl.database.entity.SuperEntity;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -112,9 +110,9 @@ public class AuthUserRepository implements IAuthUserRepository {
         if (ObjectUtils.isNotEmpty(authUser.getOrg()) && ObjectUtils.isNotEmpty(authUser.getOrg().getKey())) {
             queryWrapper.eq(AuthUser::getOrg, authUser.getOrg().getKey());
         }
-        String realmCode = BaseContextHolder.getRealm();
-        if (StringUtils.isNotEmpty(realmCode)) {
-            queryWrapper.like(AuthUser::getRealmCode, realmCode);
+        String tenantId = BaseContextHolder.getTenant();
+        if (StringUtils.isNotEmpty(tenantId)) {
+            queryWrapper.like(AuthUser::getTenantId, tenantId);
         }
         return authUserMapper.selectList(queryWrapper);
     }
@@ -123,7 +121,7 @@ public class AuthUserRepository implements IAuthUserRepository {
     public AuthUserBasicInfo getAuthUserBasicInfo(Long userId) {
         AuthUser authUser = authUserMapper.getById(userId);
         AuthUserBasicInfo authUserBasicInfo = AuthUserConvert.INSTANCE.convertAuthUserBasicInfo(authUser);
-        authUserBasicInfo.setRealmStatus(false);
+        authUserBasicInfo.setTenantStatus(false);
         RemoteData<Long, CoreOrg> org = authUser.getOrg();
         List<OrgBasicInfo> orgTreeList = CollUtil.newArrayList();
         if (ObjectUtils.isNotEmpty(org)) {
@@ -203,8 +201,8 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    public void deleteRealmPoolUser(String realmCode) {
-        authUserMapper.deleteRealmPoolUser(realmCode);
+    public void deleteTenantPoolUser(String tenantId) {
+        authUserMapper.deleteTenantPoolUser(tenantId);
     }
 
     @Override
@@ -215,16 +213,16 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    public List<UserCount> userCount(List<String> realmCodeList) {
-        return authUserMapper.userCount(realmCodeList);
+    public List<UserCount> userCount(List<String> tenantIdList) {
+        return authUserMapper.userCount(tenantIdList);
     }
 
     @Override
     public boolean saveAuthUser(AuthUser authUser) {
         String password = passwordEncoder.encode(authUser.getPassword());
         authUser.setPassword(password);
-        String realmCode = BaseContextHolder.getRealm();
-        authUser.setRealmCode(realmCode);
+        String tenantId = BaseContextHolder.getTenant();
+        authUser.setTenantId(tenantId);
         return authUserMapper.insert(authUser) == 1;
     }
 

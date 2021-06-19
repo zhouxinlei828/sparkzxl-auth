@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * description: 多领域池模式登录前置过滤器
+ * description: 多租户池模式登录前置过滤器
  *
  * @author charles.zhou
  * @date   2021-02-25 10:53:03
@@ -26,8 +26,8 @@ public class TenantLoginPreFilter extends OncePerRequestFilter {
                                     FilterChain chain) throws ServletException, IOException {
         String authenticationFormUrl = "/authentication/form";
         if (StringUtils.equals(request.getRequestURI(), authenticationFormUrl)) {
-            String realmCode = request.getParameter("realmCode");
-            BaseContextHolder.setRealm(realmCode);
+            String tenantId = request.getParameter("tenantId");
+            BaseContextHolder.setTenant(tenantId);
         }
         chain.doFilter(request, response);
     }

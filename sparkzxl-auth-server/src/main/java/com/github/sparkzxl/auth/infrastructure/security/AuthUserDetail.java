@@ -19,11 +19,11 @@ public class AuthUserDetail<T> extends User {
 
     private T id;
 
-    private String realm;
+    private String tenant;
 
     private String name;
 
-    private boolean realmStatus;
+    private boolean tenantStatus;
 
     public AuthUserDetail(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);

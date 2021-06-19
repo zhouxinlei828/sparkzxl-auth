@@ -88,10 +88,10 @@ public interface IUserService extends SuperCacheService<AuthUser> {
      * 用户菜单
      *
      * @param userId    用户id
-     * @param realmCode 领域code
+     * @param tenantId 租户code
      * @return List<MenuBasicInfo>
      */
-    List<MenuBasicInfo> routers(Long userId, String realmCode);
+    List<MenuBasicInfo> routers(Long userId, String tenantId);
 
     /**
      * Excel导入用户数据

@@ -18,9 +18,9 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("realm_manager")
-@ApiModel(value="RealmManager对象", description="领域管理员")
-public class RealmManager extends Entity<Long> {
+@TableName("tenant_manager")
+@ApiModel(value="tenantManager对象", description="领域管理员")
+public class TenantManager extends Entity<Long> {
 
     private static final long serialVersionUID = 7909712779107414693L;
 

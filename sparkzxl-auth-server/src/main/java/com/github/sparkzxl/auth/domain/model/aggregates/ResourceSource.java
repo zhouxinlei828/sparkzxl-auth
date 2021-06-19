@@ -30,8 +30,8 @@ public class ResourceSource {
     private String oldVal;
 
     /**
-     * 领域池code
+     * 租户池code
      */
-    private String realmCode;
+    private String tenantId;
 
 }

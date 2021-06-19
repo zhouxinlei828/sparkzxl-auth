@@ -49,10 +49,10 @@ public class AuthMenuRepository implements IAuthMenuRepository {
 
 
     @Override
-    public List<MenuBasicInfo> getAuthMenuList(Long userId, String realmCode) {
+    public List<MenuBasicInfo> getAuthMenuList(Long userId, String tenantId) {
         List<MenuBasicInfo> menuBasicInfoList = Lists.newArrayList();
-        if (StringUtils.isNotEmpty(realmCode)) {
-            List<AuthMenu> menuList = authMenuMapper.selectListByRealm(realmCode);
+        if (StringUtils.isNotEmpty(tenantId)) {
+            List<AuthMenu> menuList = authMenuMapper.selectListBytenant(tenantId);
             buildMenuBasicInfo(menuBasicInfoList, menuList);
         } else {
             List<Long> roleIds =
@@ -97,19 +97,19 @@ public class AuthMenuRepository implements IAuthMenuRepository {
 
 
     @Override
-    public void saveAuthMenus(List<AuthMenu> authMenus, String realmCode) {
+    public void saveAuthMenus(List<AuthMenu> authMenus, String tenantId) {
         authMenus.forEach(authMenu -> {
             if (authMenu.getParentId().equals(0L)) {
                 long id = segmentRepository.getSegmentId("auth_menu").longValue();
                 authMenu.setId(id);
                 authMenu.setIsEnable(true);
                 authMenuMapper.insert(authMenu);
-                saveNodeMenu(id, authMenu.getChildren(), realmCode);
+                saveNodeMenu(id, authMenu.getChildren(), tenantId);
             }
         });
     }
 
-    private void saveNodeMenu(Long parentId, List<AuthMenu> authMenus, String realmCode) {
+    private void saveNodeMenu(Long parentId, List<AuthMenu> authMenus, String tenantId) {
         if (CollectionUtils.isNotEmpty(authMenus)) {
             for (AuthMenu authMenu : authMenus) {
                 authMenu.setParentId(parentId);
@@ -121,12 +121,12 @@ public class AuthMenuRepository implements IAuthMenuRepository {
                 if (CollectionUtils.isNotEmpty(resourceList)) {
                     resourceList.forEach(resource -> {
                         resource.setMenuId(id);
-                        resource.setRealmCode(realmCode);
+                        resource.setTenantId(tenantId);
                     });
                     authResourceRepository.saveResourceList(resourceList);
                 }
                 Long nodeParentId = authMenu.getId();
-                saveNodeMenu(nodeParentId, authMenu.getChildren(), realmCode);
+                saveNodeMenu(nodeParentId, authMenu.getChildren(), tenantId);
             }
         }
     }
@@ -144,8 +144,8 @@ public class AuthMenuRepository implements IAuthMenuRepository {
     }
 
     @Override
-    public void deleteRealmPoolMenu(String realmCode) {
-        authMenuMapper.deleteRealmPoolMenu(realmCode);
+    public void deleteTenantPoolMenu(String tenantId) {
+        authMenuMapper.deleteTenantPoolMenu(tenantId);
     }
 
     @Override

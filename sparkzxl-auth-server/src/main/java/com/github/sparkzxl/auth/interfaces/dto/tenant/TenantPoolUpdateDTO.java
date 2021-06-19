@@ -1,4 +1,4 @@
-package com.github.sparkzxl.auth.interfaces.dto.realm;
+package com.github.sparkzxl.auth.interfaces.dto.tenant;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,21 +9,21 @@ import javax.validation.constraints.NotNull;
 
 
 /**
- * description: 领域池更新对象
+ * description: 租户池更新对象
  *
  * @author charles.zhou
  * @date   2020-07-27 19:49:46
  */
 @Data
-@ApiModel(value = "领域池更新对象")
-public class RealmPoolUpdateDTO {
+@ApiModel(value = "租户池更新对象")
+public class TenantPoolUpdateDTO {
 
-    @ApiModelProperty(value = "领域池id")
-    @NotNull(message = "领域池id不能为空")
+    @ApiModelProperty(value = "租户池id")
+    @NotNull(message = "租户池id不能为空")
     private Long id;
 
-    @ApiModelProperty(value = "领域池名称")
-    @NotEmpty(message = "领域池名称不能为空")
+    @ApiModelProperty(value = "租户池名称")
+    @NotEmpty(message = "租户池名称不能为空")
     private String name;
 
     @ApiModelProperty(value = "logo地址")
@@ -32,7 +32,7 @@ public class RealmPoolUpdateDTO {
     @ApiModelProperty(value = "状态")
     private Boolean status;
 
-    @ApiModelProperty(value = "领域池简介")
+    @ApiModelProperty(value = "租户池简介")
     private String describe;
 
 }

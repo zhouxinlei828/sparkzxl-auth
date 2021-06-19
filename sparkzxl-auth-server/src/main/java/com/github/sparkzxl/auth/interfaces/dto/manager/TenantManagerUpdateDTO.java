@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @ApiModel(value = "领域管理员更新对象")
-public class RealmManagerUpdateDTO {
+public class TenantManagerUpdateDTO {
 
     @ApiModelProperty(value = "领域管理员主键")
     @NotNull(message = "主键不能为空")

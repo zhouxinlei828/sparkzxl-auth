@@ -26,7 +26,7 @@ class AuthUserRepositoryTest {
     @DisplayName("测试数据自动回显")
     @Test
     void selectByAccount() {
-        BaseContextHolder.setRealm("6055fc0465a6f7ecf13fe03a");
+        BaseContextHolder.setTenant("6055fc0465a6f7ecf13fe03a");
         AuthUser authUser = authUserRepository.selectByAccount("zhouxinlei");
         System.out.println(JsonUtil.toJsonPretty(authUser));
     }

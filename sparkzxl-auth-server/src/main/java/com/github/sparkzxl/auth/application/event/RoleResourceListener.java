@@ -34,10 +34,10 @@ public class RoleResourceListener {
     public void operationRoleResourceList(RoleResourceEvent event) {
         ResourceSource source = (ResourceSource) event.getSource();
         log.info("权限资源变更事件监听源：{}", JSONUtil.toJsonPrettyStr(source));
-        String realm = BaseContextHolder.getRealm();
+        String tenant = BaseContextHolder.getTenant();
         switch (source.getOperation()) {
             case SAVE:
-                roleAuthorityRepository.refreshAuthorityByRealmCode(source.getRealmCode());
+                roleAuthorityRepository.refreshAuthorityByTenantId(source.getTenantId());
                 break;
             case DELETE:
                 roleAuthorityRepository.refreshAuthority(source.getOldVal());

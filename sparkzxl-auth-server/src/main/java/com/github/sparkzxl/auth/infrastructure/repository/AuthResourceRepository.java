@@ -34,8 +34,8 @@ public class AuthResourceRepository implements IAuthResourceRepository {
     private final RoleAuthorityMapper roleAuthorityMapper;
 
     @Override
-    public List<AuthResource> getResourceListByRealmCode(String realmCode) {
-        return authResourceMapper.selectResourceListByRealmCode(realmCode);
+    public List<AuthResource> getResourceListByTenantId(String tenantId) {
+        return authResourceMapper.selectResourceListByTenantId(tenantId);
     }
 
     @Override
@@ -56,9 +56,9 @@ public class AuthResourceRepository implements IAuthResourceRepository {
         if (CollectionUtils.isNotEmpty(resourceIds)) {
             roleAuthorityMapper.delete(new LambdaQueryWrapper<RoleAuthority>().in(RoleAuthority::getAuthorityId, resourceIds));
             List<AuthResource> authResources = authResourceMapper.selectBatchIds(resourceIds);
-            String realmCode = BaseContextHolder.getRealm();
+            String tenantId = BaseContextHolder.getTenant();
             authResources.forEach(authResource -> SpringContextUtils.publishEvent(
-                    new RoleResourceEvent(new ResourceSource(OperationEnum.DELETE, null, authResource.getRequestUrl(), realmCode))));
+                    new RoleResourceEvent(new ResourceSource(OperationEnum.DELETE, null, authResource.getRequestUrl(), tenantId))));
             return authResourceMapper.deleteBatchIds(resourceIds) > 0;
         }
         return true;
@@ -70,8 +70,8 @@ public class AuthResourceRepository implements IAuthResourceRepository {
     }
 
     @Override
-    public void deleteRealmPoolResource(String realmCode) {
-        authResourceMapper.deleteRealmPoolResource(realmCode);
+    public void deleteTenantPoolResource(String tenantId) {
+        authResourceMapper.deleteTenantPoolResource(tenantId);
     }
 
     @Override
@@ -80,10 +80,10 @@ public class AuthResourceRepository implements IAuthResourceRepository {
             Long resourceId = authResource.getId();
             AuthResource oldResource = authResourceMapper.selectById(resourceId);
             String oldRequestUrl = oldResource.getRequestUrl();
-            String realmCode = BaseContextHolder.getRealm();
+            String tenantId = BaseContextHolder.getTenant();
             authResourceMapper.updateById(authResource);
             SpringContextUtils.publishEvent(new RoleResourceEvent(new ResourceSource(OperationEnum.UPDATE,
-                    authResource.getRequestUrl(), oldRequestUrl, realmCode)));
+                    authResource.getRequestUrl(), oldRequestUrl, tenantId)));
         } else {
             authResourceMapper.updateById(authResource);
         }

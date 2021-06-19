@@ -30,11 +30,11 @@ public interface IAuthRoleRepository {
     boolean saveRole(AuthRole authRole);
 
     /**
-     * 根据领域池code删除角色信息
+     * 根据租户池code删除角色信息
      *
-     * @param realmCode 领域池code
+     * @param tenantId 租户池code
      */
-    void deleteAuthRole(String realmCode);
+    void deleteAuthRole(String tenantId);
 
     /**
      * 更新角色信息

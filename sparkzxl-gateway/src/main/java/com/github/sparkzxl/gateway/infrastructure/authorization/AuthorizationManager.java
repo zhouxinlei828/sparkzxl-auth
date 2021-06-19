@@ -67,10 +67,10 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         token = StringUtils.removeStartIgnoreCase(token, BaseContextConstants.BEARER_TOKEN);
         JwtUserInfo<Long> authJwtInfo = jwtTokenService.getAuthJwtInfo(token);
         List<String> authorities = Lists.newArrayList();
-        if (authJwtInfo.isRealmStatus()) {
-            authorities.add("REALM_MANAGER");
+        if (authJwtInfo.isTenantStatus()) {
+            authorities.add("TENANT_MANAGER");
         } else {
-            String cacheKey = BuildKeyUtils.generateKey(RESOURCE_ROLES_MAP, authJwtInfo.getRealm());
+            String cacheKey = BuildKeyUtils.generateKey(RESOURCE_ROLES_MAP, authJwtInfo.getTenant());
             if (RoleConstant.USER_PATH.equals(routePath) || RoleConstant.USER_ROUTER_PATH.equals(routePath)) {
                 authorities.add(RoleConstant.USER_CODE);
             }

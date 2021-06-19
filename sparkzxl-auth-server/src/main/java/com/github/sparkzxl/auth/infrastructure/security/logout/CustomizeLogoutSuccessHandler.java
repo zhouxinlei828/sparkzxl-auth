@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.infrastructure.security.logout;
 
-import com.github.sparkzxl.auth.application.service.IRealmManagerService;
+import com.github.sparkzxl.auth.application.service.ITenantManagerService;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.core.context.BaseContextConstants;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
@@ -32,7 +32,7 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
     private TokenStore tokenStore;
     private IUserService userService;
     private RedisTemplate<String, Object> redisTemplate;
-    private IRealmManagerService realmManagerService;
+    private ITenantManagerService tenantManagerService;
 
     @Autowired
     public void setTokenStore(TokenStore tokenStore) {
@@ -50,8 +50,8 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
     }
 
     @Autowired
-    public void setRealmManagerService(IRealmManagerService realmManagerService) {
-        this.realmManagerService = realmManagerService;
+    public void settenantManagerService(ITenantManagerService tenantManagerService) {
+        this.tenantManagerService = tenantManagerService;
     }
 
     @Override
@@ -66,10 +66,10 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
                 tokenStore.removeRefreshToken(accessToken.getRefreshToken());
                 Map<String, Object> additionalInformation = accessToken.getAdditionalInformation();
                 String username = (String) additionalInformation.get("username");
-                boolean realmStatus = (boolean) additionalInformation.get("realmStatus");
+                boolean tenantStatus = (boolean) additionalInformation.get("tenantStatus");
                 AuthUserInfo<Long> authUserInfo;
-                if (realmStatus) {
-                    authUserInfo = realmManagerService.getAuthUserInfo(username);
+                if (tenantStatus) {
+                    authUserInfo = tenantManagerService.getAuthUserInfo(username);
                 } else {
                     authUserInfo = userService.getAuthUserInfo(username);
                 }

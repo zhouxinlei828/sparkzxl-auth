@@ -34,6 +34,11 @@ public interface SecurityConstants {
     String DEFAULT_REGISTER_URL = "/authentication/register";
 
     /**
+     * 授权登录接口
+     */
+    String DEFAULT_SIGN_IN_TOKEN_REQUEST = "/authentication/token";
+
+    /**
      * 默认的主页测
      */
     String DEFAULT_SIGNUP_URL = "/register";

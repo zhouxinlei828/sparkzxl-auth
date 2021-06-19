@@ -112,7 +112,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,
                 SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE,
                 SecurityConstants.DEFAULT_SIGN_IN_URL_MOBILE_PAGE,
-                SecurityConstants.DEFAULT_REGISTER_URL);
+                SecurityConstants.DEFAULT_REGISTER_URL,
+                SecurityConstants.DEFAULT_SIGN_IN_TOKEN_REQUEST);
         ignorePatternList.addAll(securityProperties.getIgnorePatterns());
         if (CollectionUtils.isNotEmpty(ignorePatternList)) {
             http.authorizeRequests()

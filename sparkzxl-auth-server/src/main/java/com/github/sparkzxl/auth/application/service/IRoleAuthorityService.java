@@ -26,9 +26,9 @@ public interface IRoleAuthorityService extends SuperCacheService<RoleAuthority> 
     /**
      * 刷新角色权限
      *
-     * @param realmUserId 领域用户id
+     * @param tenantUserId 领域用户id
      */
-    void refreshAuthorityList(Long realmUserId);
+    void refreshAuthorityList(Long tenantUserId);
 
     /**
      * 刷新角色权限
@@ -36,6 +36,6 @@ public interface IRoleAuthorityService extends SuperCacheService<RoleAuthority> 
      * @param authUserInfo 全局用户
      * @return boolean
      */
-    boolean refreshRealmPoolAuthority(AuthUserInfo<Long> authUserInfo);
+    boolean refreshTenantPoolAuthority(AuthUserInfo<Long> authUserInfo);
 
 }

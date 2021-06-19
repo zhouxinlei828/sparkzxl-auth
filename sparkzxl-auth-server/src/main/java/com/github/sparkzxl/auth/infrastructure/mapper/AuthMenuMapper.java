@@ -19,21 +19,21 @@ import java.util.List;
 public interface AuthMenuMapper extends SuperMapper<AuthMenu> {
 
     /**
-     * 根据领域池code删除菜单
+     * 根据租户池code删除菜单
      *
-     * @param realmCode 领域池code
+     * @param tenantId 租户池code
      */
-    @Delete("delete from auth_menu where realm_code = #{realmCode}")
+    @Delete("delete from auth_menu where tenant_code = #{tenantId}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteRealmPoolMenu(String realmCode);
+    void deleteTenantPoolMenu(String tenantId);
 
     /**
-     * 根据领域池code菜单列表
+     * 根据租户池code菜单列表
      *
-     * @param realmCode 领域池code
+     * @param tenantId 租户池code
      * @return List<AuthMenu>
      */
-    @Select("select * from auth_menu where realm_code = #{realmCode}")
+    @Select("select * from auth_menu where tenant_code = #{tenantId}")
     @InterceptorIgnore(tenantLine = "true")
-    List<AuthMenu> selectListByRealm(String realmCode);
+    List<AuthMenu> selectListBytenant(String tenantId);
 }

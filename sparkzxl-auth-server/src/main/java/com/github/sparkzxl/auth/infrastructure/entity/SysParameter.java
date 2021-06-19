@@ -1,13 +1,8 @@
 package com.github.sparkzxl.auth.infrastructure.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-
-import java.time.LocalDateTime;
-
-import com.github.sparkzxl.database.entity.Entity;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.github.sparkzxl.database.entity.Entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -51,9 +46,9 @@ public class SysParameter extends Entity<Long> {
     @TableField("readonly")
     private Boolean readonly;
 
-    @ApiModelProperty(value = "领域池code")
-    @TableField("realm_code")
-    private String realmCode;
+    @ApiModelProperty(value = "租户池code")
+    @TableField("tenant_code")
+    private String tenantId;
 
 
 }

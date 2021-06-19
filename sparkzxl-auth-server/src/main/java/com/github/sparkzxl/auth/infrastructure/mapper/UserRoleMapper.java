@@ -17,11 +17,11 @@ import org.springframework.stereotype.Repository;
 public interface UserRoleMapper extends SuperMapper<UserRole> {
 
     /**
-     * 根据领域池code删除用户角色关系
+     * 根据租户池code删除用户角色关系
      *
-     * @param realmCode 领域池code
+     * @param tenantId 租户池code
      */
-    @Delete("delete from auth_user_role where realm_code = #{realmCode}")
+    @Delete("delete from auth_user_role where tenant_code = #{tenantId}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteUserRole(@Param("realmCode") String RealmCode);
+    void deleteUserRole(@Param("tenantId") String tenantId);
 }

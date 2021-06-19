@@ -14,7 +14,7 @@ import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
 import com.github.sparkzxl.auth.domain.model.vo.AuthUserBasicVO;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
-import com.github.sparkzxl.auth.domain.repository.IRealmManagerRepository;
+import com.github.sparkzxl.auth.domain.repository.ITenantManagerRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.constant.ElasticsearchConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
@@ -66,7 +66,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     @Autowired
     private IAuthUserRepository authUserRepository;
     @Autowired
-    private IRealmManagerRepository realmManagerRepository;
+    private ITenantManagerRepository tenantManagerRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -201,10 +201,10 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     @Override
     public AuthUserBasicVO getAuthUserBasicInfo(AuthUserInfo<Long> authUserInfo) {
         Map<String, Object> extraInfo = authUserInfo.getExtraInfo();
-        boolean realmStatus = (boolean) extraInfo.get("realmStatus");
+        boolean tenantStatus = (boolean) extraInfo.get("tenantStatus");
         AuthUserBasicInfo authUserBasicInfo;
-        if (realmStatus) {
-            authUserBasicInfo = realmManagerRepository.getAuthUserBasicInfo(authUserInfo.getId());
+        if (tenantStatus) {
+            authUserBasicInfo = tenantManagerRepository.getAuthUserBasicInfo(authUserInfo.getId());
         } else {
             authUserBasicInfo = authUserRepository.getAuthUserBasicInfo(authUserInfo.getId());
             if (ObjectUtils.isNotEmpty(authUserBasicInfo) && ObjectUtils.isNotEmpty(authUserBasicInfo.getId())) {
@@ -216,8 +216,8 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     }
 
     @Override
-    public List<MenuBasicInfo> routers(Long userId, String realmCode) {
-        return authMenuService.routers(userId, realmCode);
+    public List<MenuBasicInfo> routers(Long userId, String tenantId) {
+        return authMenuService.routers(userId, tenantId);
     }
 
     @Override

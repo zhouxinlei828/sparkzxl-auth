@@ -9,28 +9,28 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * description: 领域池信息
+ * description: 租户池信息
  *
  * @author charles.zhou
  * @date 2021-02-02 16:08:05
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("realm_pool")
-@ApiModel(value = "领域池信息对象", description = "")
-public class RealmPool extends Entity<Long> {
+@TableName("tenant_pool")
+@ApiModel(value = "租户池信息对象", description = "")
+public class TenantPool extends Entity<Long> {
 
     private static final long serialVersionUID = -6955056237245642400L;
 
     @ApiModelProperty(value = "领域用户id")
-    @TableField("realm_user_id")
-    private Long realmUserId;
+    @TableField("tenant_user_id")
+    private Long tenantUserId;
 
-    @ApiModelProperty(value = "领域池编码")
+    @ApiModelProperty(value = "租户池编码")
     @TableField("code")
     private String code;
 
-    @ApiModelProperty(value = "领域池名称")
+    @ApiModelProperty(value = "租户池名称")
     @TableField("name")
     private String name;
 
@@ -38,7 +38,7 @@ public class RealmPool extends Entity<Long> {
     @TableField("status")
     private Boolean status;
 
-    @ApiModelProperty(value = "内置领域池")
+    @ApiModelProperty(value = "内置租户池")
     @TableField("readonly")
     private Boolean readonly;
 
@@ -46,7 +46,7 @@ public class RealmPool extends Entity<Long> {
     @TableField("logo")
     private String logo;
 
-    @ApiModelProperty(value = "领域池简介")
+    @ApiModelProperty(value = "租户池简介")
     @TableField("describe_")
     private String describe;
 

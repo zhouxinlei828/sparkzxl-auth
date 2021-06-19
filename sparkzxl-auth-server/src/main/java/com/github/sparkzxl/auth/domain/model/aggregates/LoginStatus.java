@@ -46,7 +46,7 @@ public class LoginStatus<T> implements Serializable {
      */
     private String description;
 
-    private String realmCode;
+    private String tenantId;
 
     private UserAgentEntity userAgentEntity;
 

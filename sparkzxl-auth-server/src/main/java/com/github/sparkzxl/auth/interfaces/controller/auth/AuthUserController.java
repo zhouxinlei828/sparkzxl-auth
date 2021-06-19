@@ -73,8 +73,8 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
     @ApiOperation(value = "用户路由菜单", notes = "用户路由菜单")
     @GetMapping("/routers")
     public List<MenuBasicInfo> routers(@ApiIgnore AuthUserInfo<Long> authUserInfo,
-                                       @RequestParam(value = "realmCode", required = false) String realmCode) {
-        return baseService.routers(authUserInfo.getId(),realmCode);
+                                       @RequestParam(value = "tenantId", required = false) String tenantId) {
+        return baseService.routers(authUserInfo.getId(),tenantId);
     }
 
     @ApiOperation("获取用户基本信息")

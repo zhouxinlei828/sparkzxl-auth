@@ -5,7 +5,7 @@ import cn.hutool.core.net.url.UrlPath;
 import cn.hutool.core.util.*;
 import com.github.sparkzxl.auth.application.event.LoginEvent;
 import com.github.sparkzxl.auth.application.service.IOauthService;
-import com.github.sparkzxl.auth.application.service.IRealmManagerService;
+import com.github.sparkzxl.auth.application.service.ITenantManagerService;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
@@ -68,7 +68,7 @@ public class OauthServiceImpl implements IOauthService {
     private TokenEndpoint tokenEndpoint;
     private GeneralCacheService generalCacheService;
     private IUserService userService;
-    private IRealmManagerService realmManagerService;
+    private ITenantManagerService tenantManagerService;
     private RedisTemplate<String, Object> redisTemplate;
     private ClientDetailsService clientDetailsService;
     private OpenProperties openProperties;
@@ -90,8 +90,8 @@ public class OauthServiceImpl implements IOauthService {
     }
 
     @Autowired
-    public void setRealmManagerService(IRealmManagerService realmManagerService) {
-        this.realmManagerService = realmManagerService;
+    public void settenantManagerService(ITenantManagerService tenantManagerService) {
+        this.tenantManagerService = tenantManagerService;
     }
 
     @Autowired
@@ -126,10 +126,10 @@ public class OauthServiceImpl implements IOauthService {
             OAuth2AccessToken oAuth2AccessToken = oAuth2AccessTokenResponseEntity.getBody();
             assert oAuth2AccessToken != null;
             Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
-            boolean realmStatus = (boolean) additionalInformation.get("realmStatus");
-            AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken, realmStatus);
+            boolean tenantStatus = (boolean) additionalInformation.get(BaseContextConstants.TENANT_STATUS);
+            AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken, tenantStatus);
             SpringContextUtils.publishEvent(new LoginEvent(LoginStatus.success(authUserInfo.getId(), authUserInfo.getAccount(),
-                    authUserInfo.getName()).setRealmCode(authUserInfo.getRealm())));
+                    authUserInfo.getName()).setTenantId(authUserInfo.getTenant())));
             return oAuth2AccessToken;
         }
         BizExceptionAssert.businessFail(ApiResponseStatus.AUTHORIZED_FAIL);
@@ -156,20 +156,20 @@ public class OauthServiceImpl implements IOauthService {
 
     private AccessTokenInfo buildAccessToken(OAuth2AccessToken oAuth2AccessToken) {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
-        boolean realmStatus = (boolean) additionalInformation.get("realmStatus");
-        AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken, realmStatus);
+        boolean tenantStatus = (boolean) additionalInformation.get(BaseContextConstants.TENANT_STATUS);
+        AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken, tenantStatus);
         AccessTokenInfo accessTokenInfo = new AccessTokenInfo();
         accessTokenInfo.setAccessToken(oAuth2AccessToken.getValue());
         accessTokenInfo.setTokenType(oAuth2AccessToken.getTokenType());
         accessTokenInfo.setRefreshToken(oAuth2AccessToken.getRefreshToken().getValue());
         accessTokenInfo.setExpiration(oAuth2AccessToken.getExpiration());
-        accessTokenInfo.setRealmStatus(realmStatus);
-        String realm = (String) additionalInformation.get(BaseContextConstants.JWT_KEY_REALM);
-        if (StringUtils.isNotEmpty(realm)) {
-            accessTokenInfo.setRealm(realm);
+        accessTokenInfo.setTenantStatus(tenantStatus);
+        String tenant = (String) additionalInformation.get(BaseContextConstants.TENANT);
+        if (StringUtils.isNotEmpty(tenant)) {
+            accessTokenInfo.setTenant(tenant);
         }
         SpringContextUtils.publishEvent(new LoginEvent(LoginStatus.success(authUserInfo.getId(), authUserInfo.getAccount(),
-                authUserInfo.getName()).setRealmCode(authUserInfo.getRealm())));
+                authUserInfo.getName()).setTenantId(authUserInfo.getTenant())));
         return accessTokenInfo;
     }
 
@@ -178,12 +178,12 @@ public class OauthServiceImpl implements IOauthService {
      *
      * @param oAuth2AccessToken 认证token
      */
-    private AuthUserInfo<Long> buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken, boolean realmStatus) {
+    private AuthUserInfo<Long> buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken, boolean tenantStatus) {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
         String username = (String) additionalInformation.get("username");
         AuthUserInfo<Long> authUserInfo;
-        if (realmStatus) {
-            authUserInfo = realmManagerService.getAuthUserInfo(username);
+        if (tenantStatus) {
+            authUserInfo = tenantManagerService.getAuthUserInfo(username);
         } else {
             authUserInfo = userService.getAuthUserInfo(username);
         }

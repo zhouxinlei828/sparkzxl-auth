@@ -41,11 +41,11 @@ public interface AuthUserMapper extends SuperMapper<AuthUser> {
     /**
      * 查询角色路径
      *
-     * @param realmCode 领域池code
+     * @param tenantId 租户池code
      * @return List<RoleResourceInfo>
      */
     @InterceptorIgnore(tenantLine = "true")
-    List<RoleResourceInfo> getRoleResourceList(@Param("realmCode") String realmCode);
+    List<RoleResourceInfo> getRoleResourceList(@Param("tenantId") String tenantId);
 
     /**
      * 根据请求路径查询角色
@@ -64,19 +64,19 @@ public interface AuthUserMapper extends SuperMapper<AuthUser> {
     AuthUser getById(@Param("id") Long id);
 
     /**
-     * 根据领域池code删除用户
+     * 根据租户池code删除用户
      *
-     * @param realmCode 领域池code
+     * @param tenantId 租户池code
      */
-    @Delete("delete from auth_user where realm_code = #{realmCode}")
+    @Delete("delete from auth_user where tenant_code = #{tenantId}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteRealmPoolUser(String realmCode);
+    void deleteTenantPoolUser(String tenantId);
 
     /**
      * 根据领域统计用户数量
      *
-     * @param realmCodeList 领域池codeList
+     * @param tenantIdList 租户池codeList
      * @return
      */
-    List<UserCount> userCount(@Param("realmCodeList") List<String> realmCodeList);
+    List<UserCount> userCount(@Param("tenantIdList") List<String> tenantIdList);
 }

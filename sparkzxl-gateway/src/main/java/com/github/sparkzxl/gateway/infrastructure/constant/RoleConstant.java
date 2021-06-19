@@ -16,7 +16,7 @@ public class RoleConstant {
     /**
      * 领域管理员角色code
      */
-    public static final String REALM_MANAGER_CODE = "REALM_MANAGER";
+    public static final String TENANT_MANAGER_CODE = "TENANT_MANAGER";
 
 
     /**

@@ -16,11 +16,11 @@ import org.springframework.stereotype.Repository;
 public interface CoreOrgMapper extends SuperMapper<CoreOrg> {
 
     /**
-     * 根据领域池code删除组织信息
+     * 根据租户池code删除组织信息
      *
-     * @param realmCode 领域池code
+     * @param tenantId 租户池code
      */
-    @Delete("delete from core_org where realm_code = #{realmCode}")
+    @Delete("delete from core_org where tenant_code = #{tenantId}")
     @InterceptorIgnore(tenantLine = "true")
-    void deleteTenantOrg(String realmCode);
+    void deleteTenantOrg(String tenantId);
 }

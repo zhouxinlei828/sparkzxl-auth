@@ -36,12 +36,12 @@ public class RoleAuthorityServiceImpl extends SuperCacheServiceImpl<RoleAuthorit
     }
 
     @Override
-    public void refreshAuthorityList(Long realmUserId) {
-        authorityRepository.refreshAuthorityList(realmUserId);
+    public void refreshAuthorityList(Long tenantUserId) {
+        authorityRepository.refreshAuthorityList(tenantUserId);
     }
 
     @Override
-    public boolean refreshRealmPoolAuthority(AuthUserInfo<Long> authUserInfo) {
-        return authorityRepository.refreshRealmPoolAuthority(authUserInfo);
+    public boolean refreshTenantPoolAuthority(AuthUserInfo<Long> authUserInfo) {
+        return authorityRepository.refreshTenantPoolAuthority(authUserInfo);
     }
 }

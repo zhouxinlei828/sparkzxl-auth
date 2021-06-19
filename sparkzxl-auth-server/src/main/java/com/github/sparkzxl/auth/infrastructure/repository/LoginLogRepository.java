@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.domain.repository.ILoginLogRepository;
-import com.github.sparkzxl.auth.domain.repository.IRealmPoolRepository;
+import com.github.sparkzxl.auth.domain.repository.ITenantPoolRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
-import com.github.sparkzxl.auth.infrastructure.entity.RealmPool;
+import com.github.sparkzxl.auth.infrastructure.entity.TenantPool;
+import com.github.sparkzxl.auth.infrastructure.entity.TenantPool;
 import com.github.sparkzxl.auth.infrastructure.mapper.LoginLogMapper;
 import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.core.utils.DateUtils;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 public class LoginLogRepository implements ILoginLogRepository {
 
     private LoginLogMapper loginLogMapper;
-    private IRealmPoolRepository realmPoolRepository;
+    private ITenantPoolRepository TenantPoolRepository;
 
 
     @Autowired
@@ -43,8 +44,8 @@ public class LoginLogRepository implements ILoginLogRepository {
     }
 
     @Autowired
-    public void setRealmPoolRepository(IRealmPoolRepository realmPoolRepository) {
-        this.realmPoolRepository = realmPoolRepository;
+    public void setTenantPoolRepository(ITenantPoolRepository TenantPoolRepository) {
+        this.TenantPoolRepository = TenantPoolRepository;
     }
 
     @Override
@@ -73,7 +74,7 @@ public class LoginLogRepository implements ILoginLogRepository {
     }
 
     @Override
-    public PageInfo<LoginLog> getLoginLogPage(int pageNum, int pageSize, boolean realmStatus, Long realmUserId, String account, Date startTime, Date endTime) {
+    public PageInfo<LoginLog> getLoginLogPage(int pageNum, int pageSize, boolean tenantStatus, Long tenantUserId, String account, Date startTime, Date endTime) {
         LambdaQueryWrapper<LoginLog> loginLogLambdaQueryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotEmpty(account)) {
             loginLogLambdaQueryWrapper.likeRight(LoginLog::getAccount, account);
@@ -87,14 +88,14 @@ public class LoginLogRepository implements ILoginLogRepository {
         } else if (ObjectUtils.isEmpty(startTime) && ObjectUtils.isNotEmpty(endTime)) {
             loginLogLambdaQueryWrapper.le(LoginLog::getLoginDate, DateUtils.endOfDay(endTime));
         }
-        if (realmStatus) {
-            List<RealmPool> realmPoolList = realmPoolRepository.getRealmPoolList(realmUserId);
-            List<String> realmCodeList = realmPoolList.stream().map(RealmPool::getCode).collect(Collectors.toList());
-            loginLogLambdaQueryWrapper.in(LoginLog::getRealmCode, realmCodeList)
-                    .or().eq(LoginLog::getUserId, realmUserId);
+        if (tenantStatus) {
+            List<TenantPool> TenantPoolList = TenantPoolRepository.getTenantPoolList(tenantUserId);
+            List<String> tenantIdList = TenantPoolList.stream().map(TenantPool::getCode).collect(Collectors.toList());
+            loginLogLambdaQueryWrapper.in(LoginLog::getTenantId, tenantIdList)
+                    .or().eq(LoginLog::getUserId, tenantUserId);
         } else {
-            String realmCode = BaseContextHolder.getRealm();
-            loginLogLambdaQueryWrapper.in(LoginLog::getRealmCode, realmCode);
+            String tenantId = BaseContextHolder.getTenant();
+            loginLogLambdaQueryWrapper.in(LoginLog::getTenantId, tenantId);
         }
         loginLogLambdaQueryWrapper.orderByDesc(LoginLog::getLoginDate);
         PageHelper.startPage(pageNum, pageSize);

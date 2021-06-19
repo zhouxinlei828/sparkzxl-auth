@@ -1,5 +1,6 @@
 package com.github.sparkzxl.auth.infrastructure.config;
 
+import com.github.sparkzxl.auth.infrastructure.constant.SecurityConstants;
 import com.github.sparkzxl.auth.infrastructure.security.RestAuthenticationEntryPoint;
 import com.github.sparkzxl.auth.infrastructure.security.RestfulAccessDeniedHandler;
 import com.github.sparkzxl.auth.infrastructure.security.SecurityProperties;
@@ -38,7 +39,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         RestAuthenticationEntryPoint restAuthenticationEntryPoint = new RestAuthenticationEntryPoint();
         RestfulAccessDeniedHandler restfulAccessDeniedHandler = new RestfulAccessDeniedHandler();
-        List<String> excludeStaticPatterns = Lists.newArrayList();
+        List<String> excludeStaticPatterns = Lists.newArrayList(
+                SecurityConstants.DEFAULT_LOGIN_URL,
+                SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,
+                SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE,
+                SecurityConstants.DEFAULT_SIGN_IN_URL_MOBILE_PAGE,
+                SecurityConstants.DEFAULT_REGISTER_URL,
+                SecurityConstants.DEFAULT_SIGN_IN_TOKEN_REQUEST);
         excludeStaticPatterns.addAll(SwaggerStaticResource.EXCLUDE_STATIC_PATTERNS);
         List<String> ignorePatterns = securityProperties.getIgnorePatterns();
         if (CollectionUtils.isNotEmpty(ignorePatterns)) {
@@ -68,6 +75,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/station/**",
                         "/application/**",
                         "/login/log/**",
-                        "/realm/**");
+                        "/tenant/**");
     }
 }

@@ -48,6 +48,6 @@ public class RoleAuthorityController extends SuperCacheController<IRoleAuthority
     @ApiOperation("刷新角色权限")
     @GetMapping("/refresh")
     public boolean refreshAuthority(@ApiIgnore AuthUserInfo<Long> authUserInfo) {
-        return baseService.refreshRealmPoolAuthority(authUserInfo);
+        return baseService.refreshTenantPoolAuthority(authUserInfo);
     }
 }

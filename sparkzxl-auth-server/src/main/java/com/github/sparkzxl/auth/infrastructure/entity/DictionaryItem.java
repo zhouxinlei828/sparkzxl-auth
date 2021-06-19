@@ -52,8 +52,8 @@ public class DictionaryItem extends Entity<Long> {
     @TableField("sort_value")
     private Integer sortValue;
 
-    @ApiModelProperty(value = "领域池code")
-    @TableField("realm_code")
-    private String RealmCode;
+    @ApiModelProperty(value = "租户池code")
+    @TableField("tenant_code")
+    private String tenantId;
 
 }

@@ -45,7 +45,7 @@ public class AuthResource extends Entity<Long> {
     @TableField("request_url")
     private String requestUrl;
 
-    @ApiModelProperty(value = "领域池code")
-    @TableField("realm_code")
-    private String realmCode;
+    @ApiModelProperty(value = "租户池code")
+    @TableField("tenant_code")
+    private String tenantId;
 }

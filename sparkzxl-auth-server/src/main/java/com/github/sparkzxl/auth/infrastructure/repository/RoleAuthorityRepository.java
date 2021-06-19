@@ -6,17 +6,18 @@ import com.github.sparkzxl.auth.application.event.RoleResourceEvent;
 import com.github.sparkzxl.auth.domain.model.aggregates.ResourceSource;
 import com.github.sparkzxl.auth.domain.model.aggregates.RoleResource;
 import com.github.sparkzxl.auth.domain.repository.IAuthResourceRepository;
-import com.github.sparkzxl.auth.domain.repository.IRealmPoolRepository;
+import com.github.sparkzxl.auth.domain.repository.ITenantPoolRepository;
 import com.github.sparkzxl.auth.domain.repository.IRoleAuthorityRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
-import com.github.sparkzxl.auth.infrastructure.entity.RealmPool;
+import com.github.sparkzxl.auth.infrastructure.entity.TenantPool;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo;
 import com.github.sparkzxl.auth.infrastructure.enums.OperationEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
+import com.github.sparkzxl.core.context.BaseContextConstants;
 import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.core.spring.SpringContextUtils;
@@ -48,7 +49,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
     private AuthUserMapper authUserMapper;
     private RedisTemplate<String, Object> redisTemplate;
     private IAuthResourceRepository resourceRepository;
-    private IRealmPoolRepository realmPoolRepository;
+    private ITenantPoolRepository TenantPoolRepository;
 
     @Autowired
     public void setRoleAuthorityMapper(RoleAuthorityMapper roleAuthorityMapper) {
@@ -71,13 +72,13 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
     }
 
     @Autowired
-    public void setRealmPoolRepository(IRealmPoolRepository realmPoolRepository) {
-        this.realmPoolRepository = realmPoolRepository;
+    public void setTenantPoolRepository(ITenantPoolRepository TenantPoolRepository) {
+        this.TenantPoolRepository = TenantPoolRepository;
     }
 
     @Override
     public boolean saveRoleAuthorityBatch(Long roleId, Set<Long> resourceIds, Set<Long> menuIds) {
-        String realmCode = BaseContextHolder.getRealm();
+        String tenantId = BaseContextHolder.getTenant();
         List<RoleAuthority> roleAuthorities = Lists.newLinkedList();
         roleAuthorityMapper.delete(new LambdaUpdateWrapper<RoleAuthority>()
                 .eq(RoleAuthority::getRoleId, roleId));
@@ -87,7 +88,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
                 roleAuthority.setRoleId(roleId);
                 roleAuthority.setAuthorityId(authorityId);
                 roleAuthority.setAuthorityType("RESOURCE");
-                roleAuthority.setRealmCode(realmCode);
+                roleAuthority.setTenantId(tenantId);
                 roleAuthorities.add(roleAuthority);
             });
         }
@@ -97,14 +98,14 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
                 roleAuthority.setRoleId(roleId);
                 roleAuthority.setAuthorityId(menuId);
                 roleAuthority.setAuthorityType("MENU");
-                roleAuthority.setRealmCode(realmCode);
+                roleAuthority.setTenantId(tenantId);
                 roleAuthorities.add(roleAuthority);
             });
         }
         if (CollectionUtils.isNotEmpty(roleAuthorities)) {
             roleAuthorityMapper.insertBatchSomeColumn(roleAuthorities);
         }
-        SpringContextUtils.publishEvent(new RoleResourceEvent(new ResourceSource(OperationEnum.SAVE, null, null, realmCode)));
+        SpringContextUtils.publishEvent(new RoleResourceEvent(new ResourceSource(OperationEnum.SAVE, null, null, tenantId)));
         return true;
     }
 
@@ -131,20 +132,20 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
     }
 
     @Override
-    public void refreshAuthorityByRealmCode(String realmCode) {
-        List<AuthResource> authResourceList = resourceRepository.getResourceListByRealmCode(realmCode);
+    public void refreshAuthorityByTenantId(String tenantId) {
+        List<AuthResource> authResourceList = resourceRepository.getResourceListByTenantId(tenantId);
         if (CollectionUtils.isNotEmpty(authResourceList)) {
-            String generateCacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, realmCode);
+            String generateCacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, tenantId);
             Map<String, String> resourceMap = Maps.newHashMap();
             authResourceList.forEach(authResource -> {
-                String roleCodeStr = RoleConstant.REALM_MANAGER_CODE;
+                String roleCodeStr = RoleConstant.TENANT_MANAGER_CODE;
                 if (RoleConstant.USER_PATH.equals(authResource.getRequestUrl()) || RoleConstant.USER_ROUTER_PATH.equals(authResource.getRequestUrl())) {
                     roleCodeStr = roleCodeStr.concat(",").concat(RoleConstant.USER_CODE);
                 }
                 resourceMap.put(authResource.getRequestUrl(), roleCodeStr);
             });
             redisTemplate.delete(generateCacheKey);
-            List<RoleResourceInfo> roleResources = authUserMapper.getRoleResourceList(realmCode);
+            List<RoleResourceInfo> roleResources = authUserMapper.getRoleResourceList(tenantId);
             Map<String, String> roleResourceMap = roleResources.stream().collect(Collectors.toMap(RoleResourceInfo::getPath,
                     RoleResourceInfo::getRoleCode));
             if (MapUtils.isNotEmpty(roleResourceMap)) {
@@ -163,19 +164,19 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
 
 
     @Override
-    public void refreshAuthorityList(Long realmUserId) {
-        List<RealmPool> realmPoolList = realmPoolRepository.getRealmPoolList(null);
-        if (CollectionUtils.isNotEmpty(realmPoolList)) {
-            for (RealmPool realmPool : realmPoolList) {
-                refreshAuthorityByRealmCode(realmPool.getCode());
+    public void refreshAuthorityList(Long tenantUserId) {
+        List<TenantPool> tenantPoolList = TenantPoolRepository.getTenantPoolList(null);
+        if (CollectionUtils.isNotEmpty(tenantPoolList)) {
+            for (TenantPool tenantPool : tenantPoolList) {
+                refreshAuthorityByTenantId(tenantPool.getCode());
             }
         }
     }
 
     @Override
     public void refreshAuthority(String oldVal, String newVal) {
-        String realmCode = BaseContextHolder.getRealm();
-        String cacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, realmCode);
+        String tenantId = BaseContextHolder.getTenant();
+        String cacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, tenantId);
         redisTemplate.opsForHash().delete(cacheKey, oldVal);
         RoleResourceInfo roleResource = authUserMapper.getRoleResource(newVal);
         redisTemplate.opsForHash().put(cacheKey, roleResource.getPath(), roleResource.getRoleCode());
@@ -183,21 +184,21 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
 
     @Override
     public void refreshAuthority(String oldVal) {
-        String realmCode = BaseContextHolder.getRealm();
-        String cacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, realmCode);
+        String tenantId = BaseContextHolder.getTenant();
+        String cacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, tenantId);
         redisTemplate.opsForHash().delete(cacheKey, oldVal);
     }
 
     @Override
-    public boolean refreshRealmPoolAuthority(AuthUserInfo<Long> authUserInfo) {
+    public boolean refreshTenantPoolAuthority(AuthUserInfo<Long> authUserInfo) {
         Map<String, Object> extraInfo = authUserInfo.getExtraInfo();
-        boolean realmStatus = (boolean) extraInfo.get("realmStatus");
-        String realmCode = BaseContextHolder.getRealm();
+        boolean tenantStatus = (boolean) extraInfo.get(BaseContextConstants.TENANT_STATUS);
+        String tenantId = BaseContextHolder.getTenant();
         Long userId = BaseContextHolder.getUserId(Long.TYPE);
-        if (realmStatus) {
+        if (tenantStatus) {
             refreshAuthorityList(userId);
         } else {
-            refreshAuthorityByRealmCode(realmCode);
+            refreshAuthorityByTenantId(tenantId);
         }
         return true;
     }

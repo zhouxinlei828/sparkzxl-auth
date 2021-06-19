@@ -66,21 +66,8 @@
 <script>
     $(document).ready(function () {
         const contextPath = $("#contextPath").val();
-        $("#realmCodeMsg").hide()
         getParameter('system_name')
         $('#login').click(function (e) {
-            // 校验领域池信息
-            const url = contextPath + '/oauth/checkTenant';
-            const realmCode = $("#realmCode").val()
-            const param = 'RealmCode=' + RealmCode;
-            const responseData = loadingAjaxJsonData('get', url, param);
-            if (responseData.code !== 200) {
-                Qmsg.error({
-                    content: "领域池不存在，请检查！",
-                    timeout: 3000
-                });
-                return false;
-            }
             return true
         });
         function getParameter(data) {

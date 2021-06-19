@@ -33,19 +33,19 @@ public interface IRoleAuthorityRepository {
     RoleResource getRoleResource(Long roleId);
 
     /**
-     * 根据领域池code刷新角色权限
+     * 根据租户池code刷新角色权限
      *
-     * @param realmCode 角色id
+     * @param tenantId 租户id
      */
-    void refreshAuthorityByRealmCode(String realmCode);
+    void refreshAuthorityByTenantId(String tenantId);
 
 
     /**
      * 刷新角色权限
      *
-     * @param realmUserId 领域用户id
+     * @param tenantUserId 领域用户id
      */
-    void refreshAuthorityList(Long realmUserId);
+    void refreshAuthorityList(Long tenantUserId);
 
     /**
      * 刷新角色权限
@@ -68,6 +68,6 @@ public interface IRoleAuthorityRepository {
      * @param authUserInfo 全局用户
      * @return boolean
      */
-    boolean refreshRealmPoolAuthority(AuthUserInfo<Long> authUserInfo);
+    boolean refreshTenantPoolAuthority(AuthUserInfo<Long> authUserInfo);
 
 }

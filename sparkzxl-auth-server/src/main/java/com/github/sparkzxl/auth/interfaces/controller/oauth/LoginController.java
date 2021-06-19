@@ -1,16 +1,16 @@
 package com.github.sparkzxl.auth.interfaces.controller.oauth;
 
 import com.github.sparkzxl.auth.application.service.IOauthService;
-import com.github.sparkzxl.auth.application.service.IRealmManagerService;
-import com.github.sparkzxl.auth.application.service.IRealmPoolService;
+import com.github.sparkzxl.auth.application.service.ITenantManagerService;
+import com.github.sparkzxl.auth.application.service.ITenantPoolService;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AuthorizationRequest;
-import com.github.sparkzxl.auth.interfaces.dto.manager.RealmManagerSaveDTO;
+import com.github.sparkzxl.auth.interfaces.dto.manager.TenantManagerSaveDTO;
 import com.github.sparkzxl.core.annotation.ResponseResult;
 import com.github.sparkzxl.core.entity.CaptchaInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,26 +22,12 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 @Api(tags = "登录管理")
+@RequiredArgsConstructor
 public class LoginController {
 
-    private IOauthService oauthService;
-    private IRealmPoolService realmPoolService;
-    private IRealmManagerService realmManagerService;
-
-    @Autowired
-    public void setOauthService(IOauthService oauthService) {
-        this.oauthService = oauthService;
-    }
-
-    @Autowired
-    public void setRealmPoolService(IRealmPoolService realmPoolService) {
-        this.realmPoolService = realmPoolService;
-    }
-
-    @Autowired
-    public void setRealmManagerService(IRealmManagerService realmManagerService) {
-        this.realmManagerService = realmManagerService;
-    }
+    private final IOauthService oauthService;
+    private final ITenantPoolService tenantPoolService;
+    private final ITenantManagerService tenantManagerService;
 
     @ApiOperation(value = "登录页面", notes = "登录页面")
     @RequestMapping(value = "/authentication/require", produces = "text/html;charset=UTF-8", method = RequestMethod.GET)
@@ -70,8 +56,8 @@ public class LoginController {
     @PostMapping(value = "/authentication/register")
     @ResponseResult
     @ResponseBody
-    public boolean realmManagerRegister(@RequestBody RealmManagerSaveDTO realmManagerSaveDTO) {
-        return realmManagerService.realmManagerRegister(realmManagerSaveDTO);
+    public boolean tenantManagerRegister(@RequestBody TenantManagerSaveDTO tenantManagerSaveDTO) {
+        return tenantManagerService.tenantManagerRegister(tenantManagerSaveDTO);
     }
 
     @ApiOperation(value = "验证码", notes = "验证码")
@@ -90,12 +76,12 @@ public class LoginController {
         return oauthService.checkCaptcha(key, code);
     }
 
-    @ApiOperation(value = "校验领域池信息", notes = "校验领域池信息")
+    @ApiOperation(value = "校验租户池信息", notes = "校验租户池信息")
     @GetMapping(value = "/authentication/checkTenant")
     @ResponseResult
     @ResponseBody
-    public boolean checkRealmCode(@RequestParam(value = "realmCode") String realmCode) {
-        return realmPoolService.checkRealmCode(realmCode);
+    public boolean checkTenantId(@RequestParam(value = "tenantId") String tenantId) {
+        return tenantPoolService.checkTenantId(tenantId);
     }
 
 

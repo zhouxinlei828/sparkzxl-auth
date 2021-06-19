@@ -216,7 +216,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
 
             }
         }
-        return false;
+        return Boolean.TRUE;
     }
 
     @Override
@@ -229,11 +229,11 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
         ProcessInstance processInstance = processRuntimeService.getProcessInstance(processInstanceId);
         if (ObjectUtils.isNotEmpty(processInstance)) {
             processRuntimeService.deleteProcessInstance(processInstanceId, deleteReason);
-            extHiTaskStatusService.remove(new LambdaUpdateWrapper<ExtHiTaskStatus>().eq(ExtHiTaskStatus::getProcessInstanceId,
-                    processInstanceId));
-            extProcessStatusService.remove(new LambdaUpdateWrapper<ExtProcessStatus>().eq(ExtProcessStatus::getProcessInstanceId,
-                    processInstanceId));
         }
+        extHiTaskStatusService.remove(new LambdaUpdateWrapper<ExtHiTaskStatus>().eq(ExtHiTaskStatus::getProcessInstanceId,
+                processInstanceId));
+        extProcessStatusService.remove(new LambdaUpdateWrapper<ExtProcessStatus>().eq(ExtProcessStatus::getProcessInstanceId,
+                processInstanceId));
     }
 
     @Override

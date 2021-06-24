@@ -68,7 +68,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         JwtUserInfo<Long> authJwtInfo = jwtTokenService.getAuthJwtInfo(token);
         List<String> authorities = Lists.newArrayList();
         if (authJwtInfo.isTenantStatus()) {
-            authorities.add("TENANT_MANAGER");
+            authorities.add(RoleConstant.TENANT_MANAGER_CODE);
         } else {
             String cacheKey = BuildKeyUtils.generateKey(RESOURCE_ROLES_MAP, authJwtInfo.getTenant());
             if (RoleConstant.USER_PATH.equals(routePath) || RoleConstant.USER_ROUTER_PATH.equals(routePath)) {

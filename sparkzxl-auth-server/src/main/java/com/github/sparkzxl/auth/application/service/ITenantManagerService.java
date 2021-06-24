@@ -2,7 +2,6 @@ package com.github.sparkzxl.auth.application.service;
 
 import com.github.sparkzxl.auth.infrastructure.entity.TenantManager;
 import com.github.sparkzxl.auth.interfaces.dto.manager.TenantManagerSaveDTO;
-import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
 
 /**
@@ -20,14 +19,6 @@ public interface ITenantManagerService extends SuperCacheService<TenantManager> 
      * @return tenantManager
      */
     TenantManager getByAccount(String username);
-
-    /**
-     * 获取全局用户信息
-     *
-     * @param username 用户账户
-     * @return AuthUserInfo<Long>
-     */
-    AuthUserInfo<Long> getAuthUserInfo(String username);
 
     /**
      * 领域管理员注册

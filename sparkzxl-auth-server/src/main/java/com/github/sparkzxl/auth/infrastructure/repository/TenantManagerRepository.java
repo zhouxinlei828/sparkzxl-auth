@@ -10,8 +10,10 @@ import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.TenantManagerConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.TenantManager;
 import com.github.sparkzxl.auth.infrastructure.mapper.TenantManagerMapper;
+import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -97,5 +99,18 @@ public class TenantManagerRepository implements ITenantManagerRepository {
             tenantManager.setMobile(account);
         }
         return tenantManagerMapper.insert(tenantManager) == 1;
+    }
+
+    @Override
+    public AuthUserInfo<Long> getAuthUserInfo(String username) {
+        TenantManager tenantManager = selectByAccount(username);
+        if (ObjectUtils.isNotEmpty(tenantManager)) {
+            AuthUserInfo<Long> authUserInfo = TenantManagerConvert.INSTANCE.convertAuthUserInfo(tenantManager);
+            List<String> authUserRoles = Lists.newArrayList(RoleConstant.TENANT_MANAGER_CODE);
+            authUserInfo.setAuthorityList(authUserRoles);
+            authUserInfo.setTenantStatus(true);
+            return authUserInfo;
+        }
+        return null;
     }
 }

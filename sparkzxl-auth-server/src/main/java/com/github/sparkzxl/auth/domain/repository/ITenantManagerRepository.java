@@ -2,6 +2,7 @@ package com.github.sparkzxl.auth.domain.repository;
 
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
 import com.github.sparkzxl.auth.infrastructure.entity.TenantManager;
+import com.github.sparkzxl.core.entity.AuthUserInfo;
 
 /**
  * description: 领域管理员仓储层
@@ -34,4 +35,12 @@ public interface ITenantManagerRepository {
      * @return boolean
      */
     boolean saveTenantManager(TenantManager tenantManager);
+
+    /**
+     * 获取全局用户信息
+     *
+     * @param username 用户账户
+     * @return AuthUserInfo<Long>
+     */
+    AuthUserInfo<Long> getAuthUserInfo(String username);
 }

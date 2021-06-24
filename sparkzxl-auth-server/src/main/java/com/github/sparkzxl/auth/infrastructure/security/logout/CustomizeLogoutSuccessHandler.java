@@ -1,6 +1,5 @@
 package com.github.sparkzxl.auth.infrastructure.security.logout;
 
-import com.github.sparkzxl.auth.application.service.ITenantManagerService;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.core.context.BaseContextConstants;
 import com.github.sparkzxl.core.entity.AuthUserInfo;
@@ -32,7 +31,6 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
     private TokenStore tokenStore;
     private IUserService userService;
     private RedisTemplate<String, Object> redisTemplate;
-    private ITenantManagerService tenantManagerService;
 
     @Autowired
     public void setTokenStore(TokenStore tokenStore) {
@@ -49,11 +47,6 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
         this.redisTemplate = redisTemplate;
     }
 
-    @Autowired
-    public void settenantManagerService(ITenantManagerService tenantManagerService) {
-        this.tenantManagerService = tenantManagerService;
-    }
-
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
         String token = httpServletRequest.getHeader("token");
@@ -67,12 +60,7 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
                 Map<String, Object> additionalInformation = accessToken.getAdditionalInformation();
                 String username = (String) additionalInformation.get("username");
                 boolean tenantStatus = (boolean) additionalInformation.get("tenantStatus");
-                AuthUserInfo<Long> authUserInfo;
-                if (tenantStatus) {
-                    authUserInfo = tenantManagerService.getAuthUserInfo(username);
-                } else {
-                    authUserInfo = userService.getAuthUserInfo(username);
-                }
+                AuthUserInfo<Long> authUserInfo = userService.getAuthUserInfo(username, tenantStatus);
                 String authUserInfoKey = BuildKeyUtils.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
                 redisTemplate.opsForHash().delete(authUserInfoKey, accessToken.getValue());
             }

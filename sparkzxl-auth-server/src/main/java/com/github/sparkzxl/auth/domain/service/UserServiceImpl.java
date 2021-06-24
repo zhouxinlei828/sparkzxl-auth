@@ -17,6 +17,7 @@ import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.domain.repository.ITenantManagerRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.constant.ElasticsearchConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
@@ -81,10 +82,25 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     private IEsUserAttributeService esUserAttributeService;
 
     @Override
-    public AuthUserInfo<Long> getAuthUserInfo(String username) {
+    public AuthUserInfo<Long> getAuthUserInfo(String username, boolean tenantStatus) {
+        if (tenantStatus) {
+            tenantManagerRepository.getAuthUserInfo(username);
+        }
         AuthUser authUser = authUserRepository.selectByAccount(username);
         if (ObjectUtils.isNotEmpty(authUser)) {
-            return UserDetailsServiceImpl.buildAuthUserInfo(authUser, authUserRepository.getAuthUserRoles(authUser.getId()));
+            AuthUserInfo<Long> authUserInfo = AuthUserConvert.INSTANCE.convertAuthUserInfo(authUser);
+            List<String> authUserRoles = getAuthUserRoles(authUser.getId());
+            authUserRoles.add(RoleConstant.USER_CODE);
+            authUserInfo.setAuthorityList(authUserRoles);
+            Map<String, Object> extraInfo = Maps.newHashMap();
+            extraInfo.put("org", authUser.getOrg().getData());
+            extraInfo.put("station", authUser.getStation());
+            extraInfo.put("mobile", authUser.getMobile());
+            extraInfo.put("email", authUser.getEmail());
+            extraInfo.put("education", authUser.getEducation());
+            extraInfo.put("positionStatus", authUser.getPositionStatus());
+            authUserInfo.setTenantStatus(false);
+            authUserInfo.setExtraInfo(extraInfo);
         }
         return null;
     }

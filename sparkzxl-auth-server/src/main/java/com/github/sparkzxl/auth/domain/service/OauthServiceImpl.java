@@ -181,12 +181,7 @@ public class OauthServiceImpl implements IOauthService {
     private AuthUserInfo<Long> buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken, boolean tenantStatus) {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
         String username = (String) additionalInformation.get("username");
-        AuthUserInfo<Long> authUserInfo;
-        if (tenantStatus) {
-            authUserInfo = tenantManagerService.getAuthUserInfo(username);
-        } else {
-            authUserInfo = userService.getAuthUserInfo(username);
-        }
+        AuthUserInfo<Long> authUserInfo = userService.getAuthUserInfo(username, tenantStatus);
         String authUserInfoKey = BuildKeyUtils.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
         redisTemplate.opsForHash().put(authUserInfoKey, oAuth2AccessToken.getValue(), authUserInfo);
         redisTemplate.expire(authUserInfoKey, oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);

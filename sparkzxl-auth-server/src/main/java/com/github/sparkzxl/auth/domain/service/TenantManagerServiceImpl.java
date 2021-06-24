@@ -6,10 +6,7 @@ import com.github.sparkzxl.auth.infrastructure.convert.TenantManagerConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.TenantManager;
 import com.github.sparkzxl.auth.infrastructure.mapper.TenantManagerMapper;
 import com.github.sparkzxl.auth.interfaces.dto.manager.TenantManagerSaveDTO;
-import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
-import com.google.common.collect.Lists;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,15 +29,6 @@ public class TenantManagerServiceImpl extends SuperCacheServiceImpl<TenantManage
     @Override
     public TenantManager getByAccount(String username) {
         return tenantManagerRepository.selectByAccount(username);
-    }
-
-    @Override
-    public AuthUserInfo<Long> getAuthUserInfo(String username) {
-        TenantManager tenantManager = tenantManagerRepository.selectByAccount(username);
-        if (ObjectUtils.isNotEmpty(tenantManager)) {
-            return UserDetailsServiceImpl.buildAuthUserInfo(tenantManager, Lists.newArrayList("TENANT_MANAGER"));
-        }
-        return null;
     }
 
     @Override

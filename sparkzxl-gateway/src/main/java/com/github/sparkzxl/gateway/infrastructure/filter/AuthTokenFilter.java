@@ -34,7 +34,7 @@ public class AuthTokenFilter extends AbstractJwtAuthorizationFilter {
     private ResourceProperties resourceProperties;
 
     @Autowired
-    private JwtTokenService<Long> jwtTokenService;
+    private JwtTokenService jwtTokenService;
 
     @Override
     public String getHeaderKey() {
@@ -43,7 +43,7 @@ public class AuthTokenFilter extends AbstractJwtAuthorizationFilter {
 
     @Override
     public List<String> ignorePatterns() {
-        return Arrays.asList(resourceProperties.getIgnorePatterns());
+        return Arrays.asList(resourceProperties.getIgnore());
     }
 
     @Override

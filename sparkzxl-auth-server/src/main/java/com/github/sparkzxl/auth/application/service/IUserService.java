@@ -7,9 +7,9 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
-import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
 import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.entity.core.AuthUserInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

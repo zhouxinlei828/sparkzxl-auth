@@ -1,12 +1,12 @@
 package com.github.sparkzxl.auth.interfaces.controller.base;
 
 
+import com.github.sparkzxl.annotation.result.WebResult;
 import com.github.sparkzxl.auth.application.service.IDictionaryService;
 import com.github.sparkzxl.auth.infrastructure.entity.Dictionary;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionarySaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryUpdateDTO;
-import com.github.sparkzxl.core.annotation.ResponseResult;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.log.annotation.WebLog;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date   2020-07-28 19:48:00
  */
 @RestController
-@ResponseResult
+@WebResult
 @WebLog
 @Api(tags = "字典类型管理")
 @RequestMapping("/base/dictionary")

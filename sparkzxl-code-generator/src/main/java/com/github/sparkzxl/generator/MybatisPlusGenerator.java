@@ -120,7 +120,7 @@ public class MybatisPlusGenerator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setSuperEntityClass("com.github.sparkzxl.database.entity.Entity");
+        strategy.setSuperEntityClass("com.github.sparkzxl.entity.data.Entity");
         strategy.setSuperMapperClass("com.github.sparkzxl.database.base.mapper.SuperMapper");
         strategy.setSuperServiceClass("com.github.sparkzxl.database.base.service.SuperCacheService");
         strategy.setSuperServiceImplClass("com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl");

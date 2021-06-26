@@ -1,9 +1,9 @@
 package com.github.sparkzxl.gateway.infrastructure.authorization;
 
-import com.github.sparkzxl.core.context.BaseContextConstants;
-import com.github.sparkzxl.core.entity.JwtUserInfo;
+import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.github.sparkzxl.core.utils.ListUtils;
+import com.github.sparkzxl.entity.core.JwtUserInfo;
 import com.github.sparkzxl.gateway.infrastructure.constant.RoleConstant;
 import com.github.sparkzxl.gateway.utils.WebFluxUtils;
 import com.github.sparkzxl.jwt.service.JwtTokenService;

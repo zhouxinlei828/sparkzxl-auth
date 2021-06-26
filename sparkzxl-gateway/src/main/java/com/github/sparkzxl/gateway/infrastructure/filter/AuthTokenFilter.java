@@ -1,10 +1,10 @@
 package com.github.sparkzxl.gateway.infrastructure.filter;
 
+import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
-import com.github.sparkzxl.core.context.BaseContextConstants;
-import com.github.sparkzxl.core.entity.JwtUserInfo;
 import com.github.sparkzxl.core.support.BaseException;
 import com.github.sparkzxl.core.support.BizExceptionAssert;
+import com.github.sparkzxl.entity.core.JwtUserInfo;
 import com.github.sparkzxl.gateway.filter.AbstractJwtAuthorizationFilter;
 import com.github.sparkzxl.jwt.service.JwtTokenService;
 import com.github.sparkzxl.oauth.properties.ResourceProperties;

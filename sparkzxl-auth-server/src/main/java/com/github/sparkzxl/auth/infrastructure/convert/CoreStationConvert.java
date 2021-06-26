@@ -5,7 +5,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationUpdateDTO;
-import com.github.sparkzxl.database.entity.RemoteData;
+import com.github.sparkzxl.entity.data.RemoteData;
 import org.apache.commons.lang3.ObjectUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

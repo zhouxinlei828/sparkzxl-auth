@@ -2,8 +2,8 @@ package com.github.sparkzxl.auth.application.service;
 
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthoritySaveDTO;
-import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.entity.core.AuthUserInfo;
 
 /**
  * <p>

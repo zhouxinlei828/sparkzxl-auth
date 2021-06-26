@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.infrastructure.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.github.sparkzxl.core.enums.Enumerator;
+import com.github.sparkzxl.constant.enums.Enumerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

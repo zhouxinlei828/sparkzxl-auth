@@ -2,7 +2,7 @@ package com.github.sparkzxl.workflow.infrastructure.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.github.sparkzxl.database.constant.EntityConstant;
+import com.github.sparkzxl.constant.EntityConstant;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

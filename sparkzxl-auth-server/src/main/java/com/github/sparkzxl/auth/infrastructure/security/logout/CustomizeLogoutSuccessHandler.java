@@ -1,10 +1,10 @@
 package com.github.sparkzxl.auth.infrastructure.security.logout;
 
 import com.github.sparkzxl.auth.application.service.IUserService;
-import com.github.sparkzxl.core.context.BaseContextConstants;
-import com.github.sparkzxl.core.entity.AuthUserInfo;
+import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.github.sparkzxl.core.utils.ResponseResultUtils;
+import com.github.sparkzxl.entity.core.AuthUserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

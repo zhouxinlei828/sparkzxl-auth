@@ -13,7 +13,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
 import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
-import com.github.sparkzxl.database.entity.RemoteData;
+import com.github.sparkzxl.entity.data.RemoteData;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;

@@ -5,11 +5,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.auth.domain.repository.ICoreOrgRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreOrgMapper;
-import com.github.sparkzxl.database.entity.TreeEntity;
+import com.github.sparkzxl.entity.data.TreeEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * description: 组织 仓储层实现类

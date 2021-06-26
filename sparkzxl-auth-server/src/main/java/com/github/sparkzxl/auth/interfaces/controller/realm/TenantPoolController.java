@@ -2,12 +2,12 @@ package com.github.sparkzxl.auth.interfaces.controller.tenant;
 
 
 import com.github.pagehelper.PageInfo;
+import com.github.sparkzxl.annotation.result.WebResult;
 import com.github.sparkzxl.auth.application.service.ITenantPoolService;
 import com.github.sparkzxl.auth.infrastructure.entity.TenantPool;
 import com.github.sparkzxl.auth.interfaces.dto.tenant.TenantPoolQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.tenant.TenantPoolSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.tenant.TenantPoolUpdateDTO;
-import com.github.sparkzxl.core.annotation.ResponseResult;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.database.dto.PageParams;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021-02-02 16:21:52
  */
 @RestController
-@ResponseResult
+@WebResult
 @Api(tags = "租户池管理")
 @RequestMapping("/tenant/pool/")
 public class TenantPoolController extends SuperCacheController<ITenantPoolService, Long,

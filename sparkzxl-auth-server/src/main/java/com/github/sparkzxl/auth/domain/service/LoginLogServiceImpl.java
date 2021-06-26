@@ -11,11 +11,11 @@ import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
 import com.github.sparkzxl.auth.infrastructure.mapper.LoginLogMapper;
 import com.github.sparkzxl.auth.interfaces.dto.log.LoginLogQueryDTO;
-import com.github.sparkzxl.core.entity.AuthUserInfo;
-import com.github.sparkzxl.core.entity.UserAgentEntity;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.entity.core.AuthUserInfo;
+import com.github.sparkzxl.entity.core.UserAgentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

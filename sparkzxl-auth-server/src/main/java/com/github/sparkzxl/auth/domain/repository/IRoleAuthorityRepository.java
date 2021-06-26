@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.domain.repository;
 
 
 import com.github.sparkzxl.auth.domain.model.aggregates.RoleResource;
-import com.github.sparkzxl.core.entity.AuthUserInfo;
+import com.github.sparkzxl.entity.core.AuthUserInfo;
 
 import java.util.Set;
 

@@ -2,17 +2,17 @@ package com.github.sparkzxl.auth.infrastructure.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.sparkzxl.database.echo.annonation.EchoField;
-import com.github.sparkzxl.database.entity.Entity;
-import com.github.sparkzxl.database.entity.RemoteData;
+import com.github.sparkzxl.annotation.echo.EchoField;
+import com.github.sparkzxl.entity.data.Entity;
+import com.github.sparkzxl.entity.data.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstants.*;
 import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstants.FIND_NAME_BY_IDS;
+import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstants.STATION_ID_CLASS;
 
 /**
  * description: 岗位

@@ -3,7 +3,7 @@ package com.github.sparkzxl.auth.domain.repository;
 
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
-import com.github.sparkzxl.database.entity.RemoteData;
+import com.github.sparkzxl.entity.data.RemoteData;
 
 import java.io.Serializable;
 import java.util.List;

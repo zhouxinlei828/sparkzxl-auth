@@ -1,13 +1,13 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 import com.github.pagehelper.PageInfo;
+import com.github.sparkzxl.annotation.result.WebResult;
 import com.github.sparkzxl.auth.application.service.ILoginLogService;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.interfaces.dto.log.LoginLogQueryDTO;
-import com.github.sparkzxl.core.annotation.ResponseResult;
-import com.github.sparkzxl.core.entity.AuthUserInfo;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.log.annotation.WebLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
  * @date 2020/6/17 0017
  */
 @RestController
-@ResponseResult
+@WebResult
 @RequestMapping("/login/log")
 @WebLog
 @Api(value = "LoginLog", tags = "登录日志")

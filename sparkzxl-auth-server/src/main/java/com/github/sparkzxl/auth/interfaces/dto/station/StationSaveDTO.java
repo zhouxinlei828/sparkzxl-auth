@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.dto.station;
 
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
-import com.github.sparkzxl.database.entity.RemoteData;
+import com.github.sparkzxl.entity.data.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

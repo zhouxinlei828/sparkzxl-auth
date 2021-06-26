@@ -2,7 +2,7 @@
 package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
 
-import com.github.sparkzxl.core.annotation.ResponseResult;
+import com.github.sparkzxl.annotation.result.WebResult;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.log.annotation.WebLog;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021-03-25 18:03:38
  *//*
 
-@ResponseResult
+@WebResult
 @RestController
 @RequestMapping("/business/table")
 @WebLog

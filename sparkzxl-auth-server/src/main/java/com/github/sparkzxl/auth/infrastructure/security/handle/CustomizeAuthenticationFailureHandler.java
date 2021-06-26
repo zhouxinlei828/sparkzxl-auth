@@ -1,11 +1,8 @@
 package com.github.sparkzxl.auth.infrastructure.security.handle;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
-import com.github.sparkzxl.core.base.result.ApiResult;
 import com.github.sparkzxl.core.utils.ResponseResultUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;

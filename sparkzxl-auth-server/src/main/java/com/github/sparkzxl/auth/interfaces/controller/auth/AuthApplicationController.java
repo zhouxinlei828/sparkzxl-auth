@@ -2,12 +2,12 @@ package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 
 import com.github.pagehelper.PageInfo;
+import com.github.sparkzxl.annotation.result.WebResult;
 import com.github.sparkzxl.auth.application.service.IApplicationService;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthApplication;
 import com.github.sparkzxl.auth.interfaces.dto.application.AuthApplicationQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.application.AuthApplicationSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.application.AuthApplicationUpdateDTO;
-import com.github.sparkzxl.core.annotation.ResponseResult;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.database.dto.PageParams;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(tags = "应用客户端管理")
-@ResponseResult
+@WebResult
 @RequestMapping("/application")
 public class AuthApplicationController extends SuperCacheController<IApplicationService, Long,
         AuthApplication, AuthApplicationSaveDTO, AuthApplicationUpdateDTO, AuthApplicationQueryDTO, Object> {

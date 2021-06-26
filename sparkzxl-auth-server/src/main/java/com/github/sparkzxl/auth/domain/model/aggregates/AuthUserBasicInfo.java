@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.domain.model.aggregates;
 
 import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
-import com.github.sparkzxl.database.entity.RemoteData;
+import com.github.sparkzxl.entity.data.RemoteData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 

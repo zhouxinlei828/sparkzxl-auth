@@ -3,7 +3,7 @@ package com.github.sparkzxl.auth.infrastructure.convert;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
 import com.github.sparkzxl.auth.infrastructure.entity.TenantManager;
 import com.github.sparkzxl.auth.interfaces.dto.manager.TenantManagerSaveDTO;
-import com.github.sparkzxl.core.entity.AuthUserInfo;
+import com.github.sparkzxl.entity.core.AuthUserInfo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

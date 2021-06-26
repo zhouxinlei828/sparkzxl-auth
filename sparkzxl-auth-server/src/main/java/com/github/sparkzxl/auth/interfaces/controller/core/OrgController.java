@@ -1,12 +1,12 @@
 package com.github.sparkzxl.auth.interfaces.controller.core;
 
 
+import com.github.sparkzxl.annotation.result.WebResult;
 import com.github.sparkzxl.auth.application.service.ICoreOrgService;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
-import com.github.sparkzxl.core.annotation.ResponseResult;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.log.annotation.WebLog;
@@ -26,7 +26,7 @@ import java.util.List;
  * @date 2020-06-07 13:40:59
  */
 @RestController
-@ResponseResult
+@WebResult
 @WebLog
 @Api(tags = "组织管理")
 @RequestMapping("/org")

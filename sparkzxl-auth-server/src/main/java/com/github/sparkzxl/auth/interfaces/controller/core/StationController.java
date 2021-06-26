@@ -2,6 +2,7 @@ package com.github.sparkzxl.auth.interfaces.controller.core;
 
 
 import com.github.pagehelper.PageInfo;
+import com.github.sparkzxl.annotation.result.WebResult;
 import com.github.sparkzxl.auth.application.event.ImportStationDataListener;
 import com.github.sparkzxl.auth.application.service.ICoreStationService;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.StationExcel;
@@ -10,7 +11,6 @@ import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationUpdateDTO;
-import com.github.sparkzxl.core.annotation.ResponseResult;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
 import com.github.sparkzxl.database.dto.DeleteDTO;
@@ -31,7 +31,7 @@ import java.util.List;
  * @date 2020-06-07 13:41:11
  */
 @RestController
-@ResponseResult
+@WebResult
 @WebLog
 @Api(tags = "岗位管理")
 @RequestMapping("/station")

@@ -1,13 +1,13 @@
 package com.github.sparkzxl.auth.interfaces.controller.oauth;
 
+import com.github.sparkzxl.annotation.result.WebResult;
 import com.github.sparkzxl.auth.application.service.IOauthService;
 import com.github.sparkzxl.auth.application.service.ITenantManagerService;
 import com.github.sparkzxl.auth.application.service.ITenantPoolService;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AuthorizationRequest;
 import com.github.sparkzxl.auth.interfaces.dto.manager.TenantManagerSaveDTO;
-import com.github.sparkzxl.core.annotation.ResponseResult;
-import com.github.sparkzxl.core.entity.CaptchaInfo;
+import com.github.sparkzxl.entity.core.CaptchaInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class LoginController {
 
     @ApiOperation(value = "GET授权登录端口", notes = "GET授权登录端口")
     @GetMapping("/authentication/token")
-    @ResponseResult
+    @WebResult
     @ResponseBody
     public AccessTokenInfo getAccessToken(AuthorizationRequest authorizationRequest) {
         return oauthService.getAccessToken(authorizationRequest);
@@ -46,7 +46,7 @@ public class LoginController {
 
     @ApiOperation(value = "POST授权登录端口", notes = "POST授权登录端口")
     @PostMapping("/authentication/token")
-    @ResponseResult
+    @WebResult
     @ResponseBody
     public AccessTokenInfo postAccessToken(@RequestBody AuthorizationRequest authorizationRequest) {
         return oauthService.postAccessToken(authorizationRequest);
@@ -54,7 +54,7 @@ public class LoginController {
 
     @ApiOperation(value = "用户注册", notes = "用户注册")
     @PostMapping(value = "/authentication/register")
-    @ResponseResult
+    @WebResult
     @ResponseBody
     public boolean tenantManagerRegister(@RequestBody TenantManagerSaveDTO tenantManagerSaveDTO) {
         return tenantManagerService.tenantManagerRegister(tenantManagerSaveDTO);
@@ -62,7 +62,7 @@ public class LoginController {
 
     @ApiOperation(value = "验证码", notes = "验证码")
     @GetMapping(value = "/authentication/captcha")
-    @ResponseResult
+    @WebResult
     @ResponseBody
     public CaptchaInfo captcha(@RequestParam(value = "type") String type) {
         return oauthService.createCaptcha(type);
@@ -70,7 +70,7 @@ public class LoginController {
 
     @ApiOperation(value = "验证验证码", notes = "验证验证码")
     @GetMapping(value = "/authentication/checkCaptcha")
-    @ResponseResult
+    @WebResult
     @ResponseBody
     public boolean checkCaptcha(@RequestParam(value = "key") String key, @RequestParam(value = "code") String code) {
         return oauthService.checkCaptcha(key, code);
@@ -78,7 +78,7 @@ public class LoginController {
 
     @ApiOperation(value = "校验租户池信息", notes = "校验租户池信息")
     @GetMapping(value = "/authentication/checkTenant")
-    @ResponseResult
+    @WebResult
     @ResponseBody
     public boolean checkTenantId(@RequestParam(value = "tenantId") String tenantId) {
         return tenantPoolService.checkTenantId(tenantId);

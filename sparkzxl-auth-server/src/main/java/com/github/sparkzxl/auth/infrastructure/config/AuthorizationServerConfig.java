@@ -3,9 +3,9 @@ package com.github.sparkzxl.auth.infrastructure.config;
 import com.github.sparkzxl.auth.infrastructure.oauth2.Oauth2ExceptionHandler;
 import com.github.sparkzxl.auth.infrastructure.oauth2.OpenProperties;
 import com.github.sparkzxl.auth.infrastructure.oauth2.enhancer.JwtTokenEnhancer;
+import com.github.sparkzxl.jwt.properties.JwtProperties;
 import com.github.sparkzxl.jwt.properties.KeyStoreProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -54,7 +54,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private DataSource dataSource;
 
-    private KeyStoreProperties keyStoreProperties;
+    private JwtProperties jwtProperties;
 
     private UserDetailsService userDetailsService;
 
@@ -71,8 +71,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     @Autowired
-    public void setKeyStoreProperties(KeyStoreProperties keyStoreProperties) {
-        this.keyStoreProperties = keyStoreProperties;
+    public void setJwtProperties(JwtProperties jwtProperties) {
+        this.jwtProperties = jwtProperties;
     }
 
     @Autowired
@@ -106,10 +106,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
         jwtAccessTokenConverter.setSigningKey("SparkAuth");
-        if (ObjectUtils.isNotEmpty(keyStoreProperties) && keyStoreProperties.isEnable()) {
-            KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource(keyStoreProperties.getPath()),
-                    keyStoreProperties.getPassword().toCharArray());
-            KeyPair keyPair = keyStoreKeyFactory.getKeyPair("jwt", keyStoreProperties.getPassword().toCharArray());
+        KeyStoreProperties keyStore = jwtProperties.getKeyStore();
+        if (keyStore.isEnable()) {
+            KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource(keyStore.getPath()),
+                    keyStore.getPassword().toCharArray());
+            KeyPair keyPair = keyStoreKeyFactory.getKeyPair("jwt", keyStore.getPassword().toCharArray());
             Optional.ofNullable(keyPair).ifPresent(jwtAccessTokenConverter::setKeyPair);
         }
         return jwtAccessTokenConverter;

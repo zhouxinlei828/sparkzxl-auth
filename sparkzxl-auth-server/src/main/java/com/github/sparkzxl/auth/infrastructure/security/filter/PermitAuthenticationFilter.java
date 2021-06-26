@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.infrastructure.security.filter;
 
-import com.github.sparkzxl.core.context.BaseContextConstants;
+import com.github.sparkzxl.constant.BaseContextConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
 

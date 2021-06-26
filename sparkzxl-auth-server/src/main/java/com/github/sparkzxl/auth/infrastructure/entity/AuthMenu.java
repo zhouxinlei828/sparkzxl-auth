@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.infrastructure.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.sparkzxl.database.entity.TreeEntity;
+import com.github.sparkzxl.entity.data.TreeEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

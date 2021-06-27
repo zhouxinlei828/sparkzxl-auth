@@ -24,6 +24,10 @@ spring:
         namespace: 8887c86b-7a96-40af-8f2d-9cbe4346753a
         file-extension: yaml
         prefix: ${spring.application.name}
+        extension-configs:
+          - dataId: sparkzxl-auth-datasource.yaml
+            group: DEFAULT_GROUP
+            refresh: true
         shared-configs:
           - dataId: redis.yaml
             group: DEFAULT_GROUP

@@ -1,8 +1,6 @@
 package com.github.sparkzxl.auth;
 
 import com.github.sparkzxl.boot.SparkBootApplication;
-import com.github.sparkzxl.core.spring.SpringContextUtils;
-import com.github.sparkzxl.log.netty.LogWebSocketHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +17,5 @@ public class AuthServerApplication extends SparkBootApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AuthServerApplication.class, args);
-        startNettyServer(8761, null, SpringContextUtils.getBean(LogWebSocketHandler.class));
     }
 }

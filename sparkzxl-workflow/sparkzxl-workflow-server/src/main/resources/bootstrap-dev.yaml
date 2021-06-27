@@ -26,6 +26,10 @@ spring:
         namespace: 65c07321-73fa-43f5-bbea-30ac6a4e6021
         file-extension: yaml
         prefix: ${spring.application.name}
+        extension-configs:
+          - dataId: sparkzxl-workflow-datasource.yaml
+            group: DEFAULT_GROUP
+            refresh: true
         shared-configs:
           - dataId: redis.yaml
             group: DEFAULT_GROUP

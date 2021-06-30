@@ -5,6 +5,7 @@ import com.github.sparkzxl.auth.infrastructure.oauth2.handler.AbstractAuthentica
 import com.github.sparkzxl.auth.infrastructure.security.AuthUserDetail;
 import com.github.sparkzxl.core.jackson.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.client.security.user.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ public class DefaultAuthenticationSuccessEventHandler extends AbstractAuthentica
 
     @Override
     public void handle(Authentication authentication) {
-        AuthUserDetail userDetails = (AuthUserDetail) authentication.getPrincipal();
-        log.info("用户：{} 登录成功", JsonUtil.toJsonPretty(userDetails));
+        //User userDetails = (User) authentication.getPrincipal();
+        //log.info("用户：{} 登录成功", JsonUtil.toJsonPretty(userDetails));
     }
 }

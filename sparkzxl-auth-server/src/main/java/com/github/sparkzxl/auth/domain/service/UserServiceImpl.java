@@ -101,6 +101,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
             extraInfo.put("positionStatus", authUser.getPositionStatus());
             authUserInfo.setTenantStatus(false);
             authUserInfo.setExtraInfo(extraInfo);
+            return authUserInfo;
         }
         return null;
     }

@@ -3,6 +3,7 @@ package com.github.sparkzxl.auth.interfaces.controller.oauth;
 import com.github.sparkzxl.annotation.result.WebResult;
 import com.github.sparkzxl.auth.application.service.IOauthService;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.log.annotation.WebLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -65,6 +66,7 @@ public class OauthController {
                                              @RequestParam Map<String, String> parameters)
             throws HttpRequestMethodNotSupportedException {
         log.info("Authorization = {}", authorization);
+        BaseContextHolder.setTenant("6055fc0465a6f7ecf13fe03a");
         return oauthService.postAccessToken(principal, parameters);
     }
 

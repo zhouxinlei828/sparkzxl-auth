@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.infrastructure.oauth2.enhancer;
 
-import com.github.sparkzxl.auth.infrastructure.security.AuthUserDetail;
+import com.github.sparkzxl.entity.security.AuthUserDetail;
 import com.google.common.collect.Maps;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;

@@ -6,12 +6,11 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 
 /**
- * 短信登录验证信息封装类
- * Created on 2018/1/10.
+ * description: 短信登录验证信息
  *
- * @author zlf
- * @since 1.0
- */
+ * @author zhouxinlei
+ * @date 2021-07-02 13:14:39
+*/
 public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
     private static final long serialVersionUID = 2383092775910246006L;
 
@@ -56,6 +55,7 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
      * @param isAuthenticated
      * @throws IllegalArgumentException
      */
+    @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
         if (isAuthenticated) {
             throw new IllegalArgumentException(

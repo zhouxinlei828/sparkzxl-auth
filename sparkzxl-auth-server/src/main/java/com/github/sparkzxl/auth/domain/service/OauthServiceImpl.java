@@ -118,13 +118,17 @@ public class OauthServiceImpl implements IOauthService {
     @Override
     public OAuth2AccessToken getAccessToken(Principal principal, Map<String, String> parameters) {
         ResponseEntity<OAuth2AccessToken> oAuth2AccessTokenResponseEntity = tokenEndpoint.getAccessToken(principal, parameters);
-        return loginEventAndBack(oAuth2AccessTokenResponseEntity);
+        return loginEventAndBack(parameters, oAuth2AccessTokenResponseEntity);
     }
 
-    private OAuth2AccessToken loginEventAndBack(ResponseEntity<OAuth2AccessToken> oAuth2AccessTokenResponseEntity) {
-        if (!oAuth2AccessTokenResponseEntity.getStatusCode().isError()) {
+    private OAuth2AccessToken loginEventAndBack(Map<String, String> parameters, ResponseEntity<OAuth2AccessToken> oAuth2AccessTokenResponseEntity) {
+        if (oAuth2AccessTokenResponseEntity.getStatusCode().is2xxSuccessful()) {
             OAuth2AccessToken oAuth2AccessToken = oAuth2AccessTokenResponseEntity.getBody();
             assert oAuth2AccessToken != null;
+            String grantType = parameters.get("grant_type");
+            if (grantType.equals("client_credentials")) {
+                return oAuth2AccessToken;
+            }
             Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
             boolean tenantStatus = (boolean) additionalInformation.get(BaseContextConstants.TENANT_STATUS);
             AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken, tenantStatus);
@@ -140,7 +144,7 @@ public class OauthServiceImpl implements IOauthService {
     @Override
     public OAuth2AccessToken postAccessToken(Principal principal, Map<String, String> parameters) {
         ResponseEntity<OAuth2AccessToken> oAuth2AccessTokenResponseEntity = tokenEndpoint.postAccessToken(principal, parameters);
-        return loginEventAndBack(oAuth2AccessTokenResponseEntity);
+        return loginEventAndBack(parameters, oAuth2AccessTokenResponseEntity);
     }
 
     @Override

@@ -3,12 +3,10 @@ package com.github.sparkzxl.auth.domain.repository;
 
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
+import com.github.sparkzxl.database.echo.core.LoadService;
 import com.github.sparkzxl.entity.data.RemoteData;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * description: 岗位 仓储类
@@ -16,15 +14,7 @@ import java.util.Set;
  * @author charles.zhou
  * @date 2020-06-07 13:32:55
  */
-public interface ICoreStationRepository {
-
-    /**
-     * 根据id 查询 岗位名称
-     *
-     * @param ids
-     * @return
-     */
-    Map<Serializable, Object> findStationByIds(Set<Serializable> ids);
+public interface ICoreStationRepository extends LoadService {
 
     /**
      * 注入分页查询岗位列表

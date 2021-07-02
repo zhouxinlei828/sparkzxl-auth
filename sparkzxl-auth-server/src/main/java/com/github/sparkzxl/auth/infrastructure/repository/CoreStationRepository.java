@@ -12,6 +12,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreStationMapper;
 import com.github.sparkzxl.core.utils.MapHelper;
 import com.github.sparkzxl.entity.data.RemoteData;
+import com.github.sparkzxl.entity.data.SuperEntity;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,8 +34,15 @@ public class CoreStationRepository implements ICoreStationRepository {
 
     private final CoreStationMapper coreStationMapper;
 
+
     @Override
-    public Map<Serializable, Object> findStationByIds(Set<Serializable> ids) {
+    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
+        List<CoreStation> stations = getStations(ids);
+        return stations.stream().collect(Collectors.toMap(SuperEntity::getId, CoreStation::getName));
+    }
+
+    @Override
+    public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
         List<CoreStation> stations = getStations(ids);
         return MapHelper.uniqueIndex(stations, CoreStation::getId, (station) -> station);
     }

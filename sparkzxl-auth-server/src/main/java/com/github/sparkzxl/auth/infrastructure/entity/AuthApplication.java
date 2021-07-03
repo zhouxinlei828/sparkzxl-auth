@@ -62,16 +62,8 @@ public class AuthApplication extends Entity<Long> {
     @TableField("original_client_secret")
     private String originalClientSecret;
 
-    @ApiModelProperty(value = "租户池code")
-    @TableField("tenant_code")
-    private String tenantId;
-
     @ApiModelProperty(value = "应用客户端")
     @TableField(exist = false)
     private OauthClientDetails oauthClientDetail;
-
-    @ApiModelProperty(value = "租户池名称")
-    @TableField(exist = false)
-    private String tenantName;
 
 }

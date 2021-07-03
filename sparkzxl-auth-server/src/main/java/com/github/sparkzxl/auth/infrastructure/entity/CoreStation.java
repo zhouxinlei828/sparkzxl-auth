@@ -45,8 +45,4 @@ public class CoreStation extends Entity<Long> {
     @ApiModelProperty(value = "描述")
     @TableField("describe_")
     private String describe;
-
-    @ApiModelProperty(value = "租户池code")
-    @TableField("tenant_code")
-    private String tenantId;
 }

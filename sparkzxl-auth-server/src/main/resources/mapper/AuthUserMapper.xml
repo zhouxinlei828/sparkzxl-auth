@@ -9,7 +9,6 @@
                  INNER JOIN auth_role_authority aua ON aua.role_id = arr.id
                  INNER JOIN auth_resource ar ON ar.id = aua.authority_id
         WHERE ar.request_url IS NOT NULL
-          and arr.tenant_code = #{tenantId}
         GROUP BY ar.request_url
         ORDER BY ar.id asc
     </select>
@@ -22,7 +21,6 @@
                  INNER JOIN auth_role_authority aua ON aua.role_id = arr.id
                  INNER JOIN auth_resource ar ON ar.id = aua.authority_id
         WHERE ar.request_url = #{requestUrl}
-          and arr.tenant_code = #{tenantId}
     </select>
     <select id="getById" resultType="com.github.sparkzxl.auth.infrastructure.entity.AuthUser">
         select id,
@@ -64,16 +62,5 @@
                  INNER JOIN auth_resource ar ON ar.id = aua.authority_id
         WHERE aur.user_id = #{id}
           and ar.request_url IS NOT NULL
-    </select>
-    <select id="userCount" resultType="com.github.sparkzxl.auth.domain.model.aggregates.UserCount">
-        SELECT COUNT( tenant_code ) count,
-        tenant_code tenantId
-        FROM auth_user WHERE tenant_code
-        in
-        <foreach item="tenantId" index="index" collection="tenantIdList" open="(" separator="," close=")">
-            #{tenantId}
-        </foreach>
-        GROUP BY
-        tenant_code
     </select>
 </mapper>

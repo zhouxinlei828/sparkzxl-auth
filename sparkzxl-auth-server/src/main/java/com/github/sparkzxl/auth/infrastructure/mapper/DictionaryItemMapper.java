@@ -15,12 +15,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DictionaryItemMapper extends SuperMapper<DictionaryItem> {
 
-    /**
-     * 根据租户池code删除字典项
-     *
-     * @param tenantId 租户池code
-     */
-    @Delete("delete from dictionary_item where tenant_code = #{tenantId}")
-    @InterceptorIgnore(tenantLine = "true")
-    void deleteTenantDictionaryItem(String tenantId);
 }

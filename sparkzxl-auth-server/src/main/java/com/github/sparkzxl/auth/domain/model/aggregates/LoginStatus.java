@@ -46,8 +46,6 @@ public class LoginStatus<T> implements Serializable {
      */
     private String description;
 
-    private String tenantId;
-
     private UserAgentEntity userAgentEntity;
 
     public static <T> LoginStatus success(T id, String account, String name) {

@@ -16,10 +16,9 @@ public interface IAuthResourceRepository {
     /**
      * 加载所有资源
      *
-     * @param tenantId 租户池code
      * @return List<AuthResource>
      */
-    List<AuthResource> getResourceListByTenantId(String tenantId);
+    List<AuthResource> getResourceList();
 
 
     /**
@@ -53,13 +52,6 @@ public interface IAuthResourceRepository {
      * @param resourceList 资源信息列表
      */
     void saveResourceList(List<AuthResource> resourceList);
-
-    /**
-     * 根据租户池code删除资源
-     *
-     * @param tenantId 租户池code
-     */
-    void deleteTenantPoolResource(String tenantId);
 
     /**
      * 更新资源

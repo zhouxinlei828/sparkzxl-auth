@@ -38,7 +38,7 @@ public class OauthClientDetailsRepository implements IOauthClientDetailsReposito
         if (StringUtils.isEmpty(oauthClientDetails.getClientSecret())) {
             BizExceptionAssert.businessFail(400, "客户端id不能为空");
         }
-        if (StringUtils.isEmpty(oauthClientDetails.getAuthorizedGrantTypes())) {
+        if (CollectionUtils.isEmpty(oauthClientDetails.getAuthorizedGrantTypes())) {
             BizExceptionAssert.businessFail(400, "授权类型不能为空");
         }
         if (ObjectUtils.isEmpty(oauthClientDetails.getAccessTokenValidity())) {
@@ -81,5 +81,10 @@ public class OauthClientDetailsRepository implements IOauthClientDetailsReposito
         } else {
             clientDetailsMapper.updateById(oauthClientDetails);
         }
+    }
+
+    @Override
+    public OauthClientDetails findById(String clientId) {
+        return clientDetailsMapper.selectById(clientId);
     }
 }

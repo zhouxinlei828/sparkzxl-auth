@@ -84,16 +84,14 @@ public class LoginLog extends SuperEntity<Long> {
     @TableField(value = "location", condition = LIKE)
     private String location;
 
-    @ApiModelProperty(value = "租户池code")
-    @TableField("tenant_code")
-    private String tenantId;
+    
 
 
     @Builder
     public LoginLog(Long id, LocalDateTime createTime, Long createUser,
                     String requestIp, Long userId, String userName, String account, String description,
                     LocalDateTime loginDate, String ua, String browser, String browserVersion, String operatingSystem,
-                    String location, String tenantId) {
+                    String location) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;
@@ -108,7 +106,6 @@ public class LoginLog extends SuperEntity<Long> {
         this.browserVersion = browserVersion;
         this.operatingSystem = operatingSystem;
         this.location = location;
-        this.tenantId = tenantId;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.github.sparkzxl.auth.infrastructure.config;
 
+import com.github.sparkzxl.auth.domain.service.ClientDetailsServiceImpl;
 import com.github.sparkzxl.auth.infrastructure.oauth2.Oauth2ExceptionHandler;
 import com.github.sparkzxl.auth.infrastructure.oauth2.OpenProperties;
 import com.github.sparkzxl.auth.infrastructure.oauth2.enhancer.JwtTokenEnhancer;
@@ -21,7 +22,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.endpoint.CustomTokenGrantService;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
@@ -141,7 +141,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Bean
     public ClientDetailsService jdbcClientDetailsService() {
-        return new JdbcClientDetailsService(dataSource);
+        return new ClientDetailsServiceImpl();
     }
 
     @Override

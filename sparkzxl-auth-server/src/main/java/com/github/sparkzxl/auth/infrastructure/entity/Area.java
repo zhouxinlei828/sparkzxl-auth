@@ -30,7 +30,4 @@ public class Area extends TreeEntity<Area, Long> {
     @TableField("level")
     private String level;
 
-    @ApiModelProperty(value = "租户池code")
-    @TableField("tenant_code")
-    private String tenantId;
 }

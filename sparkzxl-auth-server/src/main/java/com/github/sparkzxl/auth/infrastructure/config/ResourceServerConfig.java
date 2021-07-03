@@ -74,7 +74,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/org/**",
                         "/station/**",
                         "/application/**",
-                        "/login/log/**",
-                        "/tenant/**");
+                        "/login/log/**");
     }
 }

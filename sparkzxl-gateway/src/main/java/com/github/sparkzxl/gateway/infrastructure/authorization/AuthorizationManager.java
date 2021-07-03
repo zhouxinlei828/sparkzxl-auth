@@ -3,14 +3,12 @@ package com.github.sparkzxl.gateway.infrastructure.authorization;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.github.sparkzxl.core.utils.ListUtils;
-import com.github.sparkzxl.entity.core.JwtUserInfo;
 import com.github.sparkzxl.gateway.infrastructure.constant.RoleConstant;
 import com.github.sparkzxl.gateway.utils.WebFluxUtils;
 import com.github.sparkzxl.jwt.service.JwtTokenService;
 import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.cloud.gateway.config.GatewayProperties;
@@ -48,9 +46,6 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
     @Autowired
     private ServerProperties serverProperties;
 
-    @Autowired
-    private JwtTokenService<Long> jwtTokenService;
-
     @SneakyThrows
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
@@ -63,22 +58,16 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             path[0] = path[0].replace(prefix, "");
         });
         String routePath = path[0];
-        String token = WebFluxUtils.getHeader(BaseContextConstants.JWT_TOKEN_HEADER, request);
-        token = StringUtils.removeStartIgnoreCase(token, BaseContextConstants.BEARER_TOKEN);
-        JwtUserInfo<Long> authJwtInfo = jwtTokenService.getAuthJwtInfo(token);
+        String tenant = WebFluxUtils.getHeader(BaseContextConstants.TENANT, request);
         List<String> authorities = Lists.newArrayList();
-        if (authJwtInfo.isTenantStatus()) {
-            authorities.add(RoleConstant.TENANT_MANAGER_CODE);
-        } else {
-            String cacheKey = BuildKeyUtils.generateKey(RESOURCE_ROLES_MAP, authJwtInfo.getTenant());
-            if (RoleConstant.USER_PATH.equals(routePath) || RoleConstant.USER_ROUTER_PATH.equals(routePath)) {
-                authorities.add(RoleConstant.USER_CODE);
-            }
-            String obj = (String) redisTemplate.opsForHash().get(cacheKey, routePath);
-            if (ObjectUtils.isNotEmpty(obj)) {
-                List<String> stringList = ListUtils.stringToList(obj);
-                authorities.addAll(stringList);
-            }
+        String cacheKey = BuildKeyUtils.generateKey(RESOURCE_ROLES_MAP, tenant);
+        if (RoleConstant.USER_PATH.equals(routePath) || RoleConstant.USER_ROUTER_PATH.equals(routePath)) {
+            authorities.add(RoleConstant.USER_CODE);
+        }
+        String obj = (String) redisTemplate.opsForHash().get(cacheKey, routePath);
+        if (ObjectUtils.isNotEmpty(obj)) {
+            List<String> stringList = ListUtils.stringToList(obj);
+            authorities.addAll(stringList);
         }
         authorities = authorities.stream().map(i -> i = BaseContextConstants.AUTHORITY_PREFIX + i).collect(Collectors.toList());
         //认证通过且角色匹配的用户可访问当前路径

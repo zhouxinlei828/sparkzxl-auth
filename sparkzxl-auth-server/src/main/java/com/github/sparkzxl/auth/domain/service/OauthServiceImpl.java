@@ -5,7 +5,6 @@ import cn.hutool.core.net.url.UrlPath;
 import cn.hutool.core.util.*;
 import com.github.sparkzxl.auth.application.event.LoginEvent;
 import com.github.sparkzxl.auth.application.service.IOauthService;
-import com.github.sparkzxl.auth.application.service.ITenantManagerService;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
@@ -68,7 +67,6 @@ public class OauthServiceImpl implements IOauthService {
     private TokenEndpoint tokenEndpoint;
     private GeneralCacheService generalCacheService;
     private IUserService userService;
-    private ITenantManagerService tenantManagerService;
     private RedisTemplate<String, Object> redisTemplate;
     private ClientDetailsService clientDetailsService;
     private OpenProperties openProperties;
@@ -87,11 +85,6 @@ public class OauthServiceImpl implements IOauthService {
     @Autowired
     public void setUserService(IUserService userService) {
         this.userService = userService;
-    }
-
-    @Autowired
-    public void settenantManagerService(ITenantManagerService tenantManagerService) {
-        this.tenantManagerService = tenantManagerService;
     }
 
     @Autowired
@@ -129,11 +122,9 @@ public class OauthServiceImpl implements IOauthService {
             if (grantType.equals("client_credentials")) {
                 return oAuth2AccessToken;
             }
-            Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
-            boolean tenantStatus = (boolean) additionalInformation.get(BaseContextConstants.TENANT_STATUS);
-            AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken, tenantStatus);
+            AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken);
             SpringContextUtils.publishEvent(new LoginEvent(LoginStatus.success(authUserInfo.getId(), authUserInfo.getAccount(),
-                    authUserInfo.getName()).setTenantId(authUserInfo.getTenant())));
+                    authUserInfo.getName())));
             return oAuth2AccessToken;
         }
         BizExceptionAssert.businessFail(ApiResponseStatus.AUTHORIZED_FAIL);
@@ -160,20 +151,14 @@ public class OauthServiceImpl implements IOauthService {
 
     private AccessTokenInfo buildAccessToken(OAuth2AccessToken oAuth2AccessToken) {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
-        boolean tenantStatus = (boolean) additionalInformation.get(BaseContextConstants.TENANT_STATUS);
-        AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken, tenantStatus);
+        AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken);
         AccessTokenInfo accessTokenInfo = new AccessTokenInfo();
         accessTokenInfo.setAccessToken(oAuth2AccessToken.getValue());
         accessTokenInfo.setTokenType(oAuth2AccessToken.getTokenType());
         accessTokenInfo.setRefreshToken(oAuth2AccessToken.getRefreshToken().getValue());
         accessTokenInfo.setExpiration(oAuth2AccessToken.getExpiration());
-        accessTokenInfo.setTenantStatus(tenantStatus);
-        String tenant = (String) additionalInformation.get(BaseContextConstants.TENANT);
-        if (StringUtils.isNotEmpty(tenant)) {
-            accessTokenInfo.setTenant(tenant);
-        }
         SpringContextUtils.publishEvent(new LoginEvent(LoginStatus.success(authUserInfo.getId(), authUserInfo.getAccount(),
-                authUserInfo.getName()).setTenantId(authUserInfo.getTenant())));
+                authUserInfo.getName())));
         return accessTokenInfo;
     }
 
@@ -182,10 +167,10 @@ public class OauthServiceImpl implements IOauthService {
      *
      * @param oAuth2AccessToken 认证token
      */
-    private AuthUserInfo<Long> buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken, boolean tenantStatus) {
+    private AuthUserInfo<Long> buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken) {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
         String username = (String) additionalInformation.get("username");
-        AuthUserInfo<Long> authUserInfo = userService.getAuthUserInfo(username, tenantStatus);
+        AuthUserInfo<Long> authUserInfo = userService.getAuthUserInfo(username);
         String authUserInfoKey = BuildKeyUtils.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
         redisTemplate.opsForHash().put(authUserInfoKey, oAuth2AccessToken.getValue(), authUserInfo);
         redisTemplate.expire(authUserInfoKey, oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);

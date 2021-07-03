@@ -61,14 +61,14 @@ public interface ILoginLogRepository {
      *
      * @param pageNum     当前页
      * @param pageSize    分页大小
-     * @param tenantStatus 领域管理员
-     * @param tenantUserId 领域管理员账号
+     * @param userId 领域管理员账号
      * @param account     账户
      * @param startTime   开始时间
      * @param endTime     结束时间
      * @return PageInfo<LoginLog>
      */
-    PageInfo<LoginLog> getLoginLogPage(int pageNum, int pageSize, boolean tenantStatus, Long tenantUserId, String account, Date startTime, Date endTime);
+    PageInfo<LoginLog> getLoginLogPage(int pageNum, int pageSize, Long userId, String account, Date startTime,
+                                       Date endTime);
 
     /**
      * 删除登录日志

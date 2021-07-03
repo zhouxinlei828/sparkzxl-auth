@@ -59,8 +59,7 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
                 tokenStore.removeRefreshToken(accessToken.getRefreshToken());
                 Map<String, Object> additionalInformation = accessToken.getAdditionalInformation();
                 String username = (String) additionalInformation.get("username");
-                boolean tenantStatus = (boolean) additionalInformation.get("tenantStatus");
-                AuthUserInfo<Long> authUserInfo = userService.getAuthUserInfo(username, tenantStatus);
+                AuthUserInfo<Long> authUserInfo = userService.getAuthUserInfo(username);
                 String authUserInfoKey = BuildKeyUtils.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
                 redisTemplate.opsForHash().delete(authUserInfoKey, accessToken.getValue());
             }

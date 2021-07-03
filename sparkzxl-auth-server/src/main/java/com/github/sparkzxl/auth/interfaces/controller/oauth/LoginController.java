@@ -2,11 +2,8 @@ package com.github.sparkzxl.auth.interfaces.controller.oauth;
 
 import com.github.sparkzxl.annotation.result.WebResult;
 import com.github.sparkzxl.auth.application.service.IOauthService;
-import com.github.sparkzxl.auth.application.service.ITenantManagerService;
-import com.github.sparkzxl.auth.application.service.ITenantPoolService;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AuthorizationRequest;
-import com.github.sparkzxl.auth.interfaces.dto.manager.TenantManagerSaveDTO;
 import com.github.sparkzxl.entity.core.CaptchaInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,8 +23,6 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     private final IOauthService oauthService;
-    private final ITenantPoolService tenantPoolService;
-    private final ITenantManagerService tenantManagerService;
 
     @ApiOperation(value = "登录页面", notes = "登录页面")
     @RequestMapping(value = "/authentication/require", produces = "text/html;charset=UTF-8", method = RequestMethod.GET)
@@ -52,14 +47,6 @@ public class LoginController {
         return oauthService.postAccessToken(authorizationRequest);
     }
 
-    @ApiOperation(value = "用户注册", notes = "用户注册")
-    @PostMapping(value = "/authentication/register")
-    @WebResult
-    @ResponseBody
-    public boolean tenantManagerRegister(@RequestBody TenantManagerSaveDTO tenantManagerSaveDTO) {
-        return tenantManagerService.tenantManagerRegister(tenantManagerSaveDTO);
-    }
-
     @ApiOperation(value = "验证码", notes = "验证码")
     @GetMapping(value = "/authentication/captcha")
     @WebResult
@@ -75,14 +62,4 @@ public class LoginController {
     public boolean checkCaptcha(@RequestParam(value = "key") String key, @RequestParam(value = "code") String code) {
         return oauthService.checkCaptcha(key, code);
     }
-
-    @ApiOperation(value = "校验租户池信息", notes = "校验租户池信息")
-    @GetMapping(value = "/authentication/checkTenant")
-    @WebResult
-    @ResponseBody
-    public boolean checkTenantId(@RequestParam(value = "tenantId") String tenantId) {
-        return tenantPoolService.checkTenantId(tenantId);
-    }
-
-
 }

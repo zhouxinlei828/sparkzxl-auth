@@ -3,7 +3,6 @@ package com.github.sparkzxl.auth.application.event;
 import cn.hutool.json.JSONUtil;
 import com.github.sparkzxl.auth.domain.model.aggregates.ResourceSource;
 import com.github.sparkzxl.auth.domain.repository.IRoleAuthorityRepository;
-import com.github.sparkzxl.core.context.BaseContextHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +33,9 @@ public class RoleResourceListener {
     public void operationRoleResourceList(RoleResourceEvent event) {
         ResourceSource source = (ResourceSource) event.getSource();
         log.info("权限资源变更事件监听源：{}", JSONUtil.toJsonPrettyStr(source));
-        String tenant = BaseContextHolder.getTenant();
         switch (source.getOperation()) {
             case SAVE:
-                roleAuthorityRepository.refreshAuthorityByTenantId(source.getTenantId());
+                roleAuthorityRepository.refreshAuthorityList(source.getTenantId());
                 break;
             case DELETE:
                 roleAuthorityRepository.refreshAuthority(source.getOldVal());

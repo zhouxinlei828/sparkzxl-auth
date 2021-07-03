@@ -39,8 +39,8 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<AuthMenuMapper, AuthM
     }
 
     @Override
-    public List<MenuBasicInfo> routers(Long userId, String tenantId) {
-        return authMenuRepository.getAuthMenuList(userId, tenantId);
+    public List<MenuBasicInfo> routers(Long userId) {
+        return authMenuRepository.getAuthMenuList(userId);
     }
 
     @Override

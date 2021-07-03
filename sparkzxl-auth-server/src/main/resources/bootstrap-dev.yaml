@@ -1,6 +1,6 @@
 server:
   shutdown: graceful
-  port: 8801
+  port: 8802
   undertow:
     buffer-size: 1024
     direct-buffers: on
@@ -24,11 +24,10 @@ spring:
         namespace: 65c07321-73fa-43f5-bbea-30ac6a4e6021
         file-extension: yaml
         prefix: ${spring.application.name}
-        extension-configs:
-          - dataId: sparkzxl-auth-datasource.yaml
+        shared-configs:
+          - dataId: mysql.yaml
             group: DEFAULT_GROUP
             refresh: true
-        shared-configs:
           - dataId: redis.yaml
             group: DEFAULT_GROUP
             refresh: true

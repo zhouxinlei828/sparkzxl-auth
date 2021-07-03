@@ -1,6 +1,7 @@
 package com.github.sparkzxl.auth.application.event;
 
 import com.github.sparkzxl.auth.application.service.IRoleAuthorityService;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.Ordered;
@@ -24,7 +25,8 @@ public class InitRolePathApplicationRunner implements CommandLineRunner, Ordered
 
     @Override
     public void run(String... args) {
-        roleAuthorityService.refreshAuthorityList(null);
+        BaseContextHolder.setTenant("hz");
+        roleAuthorityService.refreshAuthorityList();
     }
 
     @Override

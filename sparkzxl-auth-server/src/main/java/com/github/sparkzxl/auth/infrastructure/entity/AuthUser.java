@@ -107,10 +107,6 @@ public class AuthUser extends Entity<Long> {
     @TableField("last_login_time")
     private LocalDateTime lastLoginTime;
 
-    @ApiModelProperty(value = "租户池code")
-    @TableField("tenant_code")
-    private String tenantId;
-
     @ApiModelProperty(value = "密码")
     @TableField(exist = false)
     private String originalPassword;

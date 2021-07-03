@@ -1,0 +1,41 @@
+server:
+  shutdown: graceful
+  port: 8801
+  undertow:
+    buffer-size: 1024
+    direct-buffers: on
+    always-set-keep-alive: true
+spring:
+  application:
+    name: sparkzxl-tenant-server
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  thymeleaf:
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.114.40.129:8848
+        namespace: 8887c86b-7a96-40af-8f2d-9cbe4346753a
+      config:
+        server-addr: 47.114.40.129:8848
+        namespace: 8887c86b-7a96-40af-8f2d-9cbe4346753a
+        file-extension: yaml
+        prefix: ${spring.application.name}
+        shared-configs:
+          - dataId: mysql.yaml
+            group: DEFAULT_GROUP
+          - dataId: redis.yaml
+            group: DEFAULT_GROUP
+            refresh: false
+          - dataId: common.yaml
+            group: DEFAULT_GROUP
+            refresh: false
+        enable-remote-sync-config: true
+        refresh-enabled: true
+logging:
+  level:
+    com.github.sparkzxl.tenant.infrastructure.client: debug
+    com.github.sparkzxl.tenant.infrastructure.mapper: debug

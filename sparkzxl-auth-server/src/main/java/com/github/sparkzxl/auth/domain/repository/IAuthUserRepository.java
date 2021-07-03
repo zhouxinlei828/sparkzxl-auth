@@ -1,7 +1,6 @@
 package com.github.sparkzxl.auth.domain.repository;
 
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
-import com.github.sparkzxl.auth.domain.model.aggregates.UserCount;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 
 import java.util.List;
@@ -73,34 +72,12 @@ public interface IAuthUserRepository {
     AuthUserBasicInfo getAuthUserBasicInfo(Long userId);
 
     /**
-     * 保存用户信息
-     *
-     * @param authUser 用户信息
-     */
-    void saveAuthUserInfo(AuthUser authUser);
-
-    /**
-     * 根据租户池code删除用户
-     *
-     * @param tenantId 租户池code
-     */
-    void deleteTenantPoolUser(String tenantId);
-
-    /**
      * 删除用户信息
      *
      * @param ids 用户ids
      * @return boolean
      */
     boolean deleteAuthUser(List<Long> ids);
-
-    /**
-     * 获取用户数量
-     *
-     * @param tenantIdList 租户code
-     * @return List<UserCount>
-     */
-    List<UserCount> userCount(List<String> tenantIdList);
 
     /**
      * 保存用户信息

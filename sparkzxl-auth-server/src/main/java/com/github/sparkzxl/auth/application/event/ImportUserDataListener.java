@@ -71,7 +71,6 @@ public class ImportUserDataListener extends ImportDataListener<UserExcel> {
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
         log.info("所有数据解析完成！size：{}", list.size());
-        String tenantId = BaseContextHolder.getTenant();
         List<AuthUser> authUserList = Lists.newArrayList();
         list.forEach(item -> {
             AuthUser authUser = new AuthUser();
@@ -89,7 +88,6 @@ public class ImportUserDataListener extends ImportDataListener<UserExcel> {
                     authUser.setStation(new RemoteData<>(station.getId()));
                 }
             }
-            authUser.setTenantId(tenantId);
             authUser.setEmail(item.getEmail());
             authUser.setMobile(item.getMobile());
             authUser.setSex(SexEnum.getEnum(item.getSex()));

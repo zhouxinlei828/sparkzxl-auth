@@ -3,7 +3,6 @@ package com.github.sparkzxl.auth.infrastructure.config;
 import cn.hutool.core.util.ArrayUtil;
 import com.github.sparkzxl.auth.domain.service.UserDetailsServiceImpl;
 import com.github.sparkzxl.auth.infrastructure.constant.SecurityConstants;
-import com.github.sparkzxl.auth.infrastructure.security.filter.TenantLoginPreFilter;
 import com.github.sparkzxl.auth.infrastructure.security.RestfulAccessDeniedHandler;
 import com.github.sparkzxl.auth.infrastructure.security.SecurityProperties;
 import com.github.sparkzxl.auth.infrastructure.security.filter.PermitAuthenticationFilter;
@@ -26,7 +25,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.cors.CorsConfiguration;
@@ -63,11 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }
-
-    @Bean
-    public TenantLoginPreFilter tenantLoginPreFilter() {
-        return new TenantLoginPreFilter();
     }
 
     @Bean
@@ -143,9 +136,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .exceptionHandling()
-                .accessDeniedHandler(restfulAccessDeniedHandler)
-                .and()
-                .addFilterBefore(tenantLoginPreFilter(), UsernamePasswordAuthenticationFilter.class);
+                .accessDeniedHandler(restfulAccessDeniedHandler);
     }
 
     @Bean

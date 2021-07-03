@@ -18,32 +18,9 @@ public interface IAuthMenuRepository {
      * 获取菜单列表
      *
      * @param userId    用户id
-     * @param tenantId 租户code
      * @return List<MenuBasicInfo>
      */
-    List<MenuBasicInfo> getAuthMenuList(Long userId, String tenantId);
-
-    /**
-     * 保存菜单信息
-     *
-     * @param authMenus 菜单集合
-     * @param tenantId 租户池code
-     */
-    void saveAuthMenus(List<AuthMenu> authMenus, String tenantId);
-
-    /**
-     * 查询菜单列表
-     *
-     * @return List<AuthMenu>
-     */
-    List<AuthMenu> findAuthMenuList();
-
-    /**
-     * 根据租户池code删除菜单
-     *
-     * @param tenantId 租户池code
-     */
-    void deleteTenantPoolMenu(String tenantId);
+    List<MenuBasicInfo> getAuthMenuList(Long userId);
 
     /**
      * 保存菜单信息

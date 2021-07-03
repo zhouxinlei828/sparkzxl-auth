@@ -2,6 +2,7 @@ package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.annotation.result.WebResult;
+import com.github.sparkzxl.auth.api.IAuthUserApi;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
@@ -23,7 +24,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -41,7 +41,7 @@ import java.util.List;
 @WebLog
 @Api(tags = "用户管理")
 public class AuthUserController extends SuperCacheController<IUserService, Long,
-        AuthUser, UserSaveDTO, UserUpdateDTO, UserQueryDTO, UserExcel> {
+        AuthUser, UserSaveDTO, UserUpdateDTO, UserQueryDTO, UserExcel> implements IAuthUserApi {
 
     private ImportUserDataListener importUserDataListener;
 
@@ -72,9 +72,8 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
 
     @ApiOperation(value = "用户路由菜单", notes = "用户路由菜单")
     @GetMapping("/routers")
-    public List<MenuBasicInfo> routers(@ApiIgnore AuthUserInfo<Long> authUserInfo,
-                                       @RequestParam(value = "tenantId", required = false) String tenantId) {
-        return baseService.routers(authUserInfo.getId(),tenantId);
+    public List<MenuBasicInfo> routers(@ApiIgnore AuthUserInfo<Long> authUserInfo) {
+        return baseService.routers(authUserInfo.getId());
     }
 
     @ApiOperation("获取用户基本信息")
@@ -109,5 +108,4 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
     public Class<?> importExcelClass() {
         return UserExcel.class;
     }
-
 }

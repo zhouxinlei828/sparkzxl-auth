@@ -1,7 +1,6 @@
 package com.github.sparkzxl.auth;
 
 import com.github.sparkzxl.boot.SparkBootApplication;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date   2021-02-01 11:18:40
  */
 @SpringBootApplication(scanBasePackages = {"com.github.sparkzxl.auth"})
-@Slf4j
 public class AuthServerApplication extends SparkBootApplication {
 
     public static void main(String[] args) {

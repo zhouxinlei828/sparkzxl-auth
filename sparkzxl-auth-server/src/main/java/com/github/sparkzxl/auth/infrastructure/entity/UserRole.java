@@ -36,8 +36,4 @@ public class UserRole implements Serializable {
     @TableField("user_id")
     private Long userId;
 
-    @ApiModelProperty(value = "租户池code")
-    @TableField("tenant_code")
-    private String tenantId;
-
 }

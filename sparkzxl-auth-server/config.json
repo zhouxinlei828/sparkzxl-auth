@@ -8,21 +8,21 @@
       "host": "172.34.200.5",
       "containerName": "sparkzxl-auth-server-dev",
       "hostPort": 8821,
-      "serverPort": 8801
+      "serverPort": 8802
     },
     "test": {
       "credentialsId": "e295a990-f63b-44ac-8211-c8d02bce38a8",
       "host": "172.34.200.5",
       "containerName": "sparkzxl-auth-server-test",
       "hostPort": 8811,
-      "serverPort": 8801
+      "serverPort": 8802
     },
     "prod": {
       "credentialsId": "e295a990-f63b-44ac-8211-c8d02bce38a8",
       "host": "172.34.200.5",
       "containerName": "sparkzxl-auth-server-prod",
-      "hostPort": 8801,
-      "serverPort": 8801
+      "hostPort": 8802,
+      "serverPort": 8802
     }
   }
 }

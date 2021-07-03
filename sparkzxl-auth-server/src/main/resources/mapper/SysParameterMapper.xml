@@ -15,7 +15,6 @@
         <result column="create_time" property="createTime" />
         <result column="update_user" property="updateUser" />
         <result column="update_time" property="updateTime" />
-        <result column="tenant_code" property="tenantId" />
     </resultMap>
 
 </mapper>

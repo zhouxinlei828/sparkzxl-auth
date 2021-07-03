@@ -26,10 +26,9 @@ public interface IUserService extends SuperCacheService<AuthUser> {
      * 获取全局用户信息
      *
      * @param username     用户账户
-     * @param tenantStatus 租户管理员
      * @return AuthUserInfo<Long>
      */
-    AuthUserInfo<Long> getAuthUserInfo(String username, boolean tenantStatus);
+    AuthUserInfo<Long> getAuthUserInfo(String username);
 
     /**
      * 根据账户查询用户信息
@@ -89,10 +88,9 @@ public interface IUserService extends SuperCacheService<AuthUser> {
      * 用户菜单
      *
      * @param userId   用户id
-     * @param tenantId 租户code
      * @return List<MenuBasicInfo>
      */
-    List<MenuBasicInfo> routers(Long userId, String tenantId);
+    List<MenuBasicInfo> routers(Long userId);
 
     /**
      * Excel导入用户数据

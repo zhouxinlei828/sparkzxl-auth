@@ -6,8 +6,8 @@ import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthoritySaveDTO;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
-import com.github.sparkzxl.entity.core.AuthUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * description: 角色的资源 服务实现类
  *
  * @author charles.zhou
- * @date   2020-07-19 20:59:45
+ * @date 2020-07-19 20:59:45
  */
 @Service
 public class RoleAuthorityServiceImpl extends SuperCacheServiceImpl<RoleAuthorityMapper, RoleAuthority> implements IRoleAuthorityService {
@@ -36,12 +36,8 @@ public class RoleAuthorityServiceImpl extends SuperCacheServiceImpl<RoleAuthorit
     }
 
     @Override
-    public void refreshAuthorityList(Long tenantUserId) {
-        authorityRepository.refreshAuthorityList(tenantUserId);
-    }
-
-    @Override
-    public boolean refreshTenantPoolAuthority(AuthUserInfo<Long> authUserInfo) {
-        return authorityRepository.refreshTenantPoolAuthority(authUserInfo);
+    public boolean refreshAuthorityList() {
+        String tenantId = BaseContextHolder.getTenant();
+        return authorityRepository.refreshAuthorityList(tenantId);
     }
 }

@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 /**
  * description：系统日志 服务实现类
@@ -72,7 +71,6 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
         if (authUser != null) {
             loginLog.setAccount(authUser.getAccount()).setUserId(authUser.getId()).setUserName(authUser.getName())
                     .setCreateUser(authUser.getId());
-            loginLog.setTenantId(authUser.getTenantId());
         }
         loginLogRepository.saveLoginLog(loginLog);
         LocalDate now = LocalDate.now();
@@ -130,10 +128,7 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
 
     @Override
     public PageInfo<LoginLog> getLoginLogPage(AuthUserInfo<Long> authUserInfo, PageParams<LoginLogQueryDTO> pageParams) {
-        Map<String, Object> extraInfo = authUserInfo.getExtraInfo();
-        boolean tenantStatus = authUserInfo.getTenantStatus();
-        return loginLogRepository.getLoginLogPage(pageParams.getPageNum(), pageParams.getPageSize(),
-                tenantStatus, authUserInfo.getId(), pageParams.getModel().getAccount(), pageParams.getModel().getStartTime(),
+        return loginLogRepository.getLoginLogPage(pageParams.getPageNum(), pageParams.getPageSize(), authUserInfo.getId(), pageParams.getModel().getAccount(), pageParams.getModel().getStartTime(),
                 pageParams.getModel().getEndTime());
     }
 

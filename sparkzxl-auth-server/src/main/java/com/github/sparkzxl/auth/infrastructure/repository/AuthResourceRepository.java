@@ -34,8 +34,8 @@ public class AuthResourceRepository implements IAuthResourceRepository {
     private final RoleAuthorityMapper roleAuthorityMapper;
 
     @Override
-    public List<AuthResource> getResourceListByTenantId(String tenantId) {
-        return authResourceMapper.selectResourceListByTenantId(tenantId);
+    public List<AuthResource> getResourceList() {
+        return authResourceMapper.selectResourceList();
     }
 
     @Override
@@ -67,11 +67,6 @@ public class AuthResourceRepository implements IAuthResourceRepository {
     @Override
     public void saveResourceList(List<AuthResource> resourceList) {
         authResourceMapper.insertBatchSomeColumn(resourceList);
-    }
-
-    @Override
-    public void deleteTenantPoolResource(String tenantId) {
-        authResourceMapper.deleteTenantPoolResource(tenantId);
     }
 
     @Override

@@ -45,10 +45,4 @@ public class SysParameter extends Entity<Long> {
     @ApiModelProperty(value = "只读")
     @TableField("readonly")
     private Boolean readonly;
-
-    @ApiModelProperty(value = "租户池code")
-    @TableField("tenant_code")
-    private String tenantId;
-
-
 }

@@ -85,6 +85,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.sparkzxl</groupId>
+            <artifactId>sparkzxl-auth-api</artifactId>
+            <version>1.0.RELEASE</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

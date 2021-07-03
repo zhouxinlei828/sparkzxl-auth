@@ -8,7 +8,7 @@ import java.util.List;
  * description: 客户端 仓储类
  *
  * @author charles.zhou
- * @date   2021-02-20 09:51:03
+ * @date 2021-02-20 09:51:03
  */
 public interface IOauthClientDetailsRepository {
 
@@ -40,4 +40,12 @@ public interface IOauthClientDetailsRepository {
      * @return List<OauthClientDetails>
      */
     List<OauthClientDetails> findListByIdList(List<String> ids);
+
+    /**
+     * 查询客户端列表
+     *
+     * @param clientId 客户端id
+     * @return List<OauthClientDetails>
+     */
+    OauthClientDetails findById(String clientId);
 }

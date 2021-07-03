@@ -4,13 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.domain.repository.ILoginLogRepository;
-import com.github.sparkzxl.auth.domain.repository.ITenantPoolRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
-import com.github.sparkzxl.auth.infrastructure.entity.TenantPool;
-import com.github.sparkzxl.auth.infrastructure.entity.TenantPool;
 import com.github.sparkzxl.auth.infrastructure.mapper.LoginLogMapper;
-import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.core.utils.DateUtils;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
 import org.apache.commons.collections4.CollectionUtils;
@@ -23,7 +19,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * description：登录日志 仓储实现类
@@ -35,17 +30,11 @@ import java.util.stream.Collectors;
 public class LoginLogRepository implements ILoginLogRepository {
 
     private LoginLogMapper loginLogMapper;
-    private ITenantPoolRepository TenantPoolRepository;
 
 
     @Autowired
     public void setLoginLogMapper(LoginLogMapper loginLogMapper) {
         this.loginLogMapper = loginLogMapper;
-    }
-
-    @Autowired
-    public void setTenantPoolRepository(ITenantPoolRepository TenantPoolRepository) {
-        this.TenantPoolRepository = TenantPoolRepository;
     }
 
     @Override
@@ -74,7 +63,8 @@ public class LoginLogRepository implements ILoginLogRepository {
     }
 
     @Override
-    public PageInfo<LoginLog> getLoginLogPage(int pageNum, int pageSize, boolean tenantStatus, Long tenantUserId, String account, Date startTime, Date endTime) {
+    public PageInfo<LoginLog> getLoginLogPage(int pageNum, int pageSize, Long userId, String account,
+                                              Date startTime, Date endTime) {
         LambdaQueryWrapper<LoginLog> loginLogLambdaQueryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotEmpty(account)) {
             loginLogLambdaQueryWrapper.likeRight(LoginLog::getAccount, account);
@@ -87,15 +77,6 @@ public class LoginLogRepository implements ILoginLogRepository {
             loginLogLambdaQueryWrapper.le(LoginLog::getLoginDate, DateUtils.endOfDay(new Date()));
         } else if (ObjectUtils.isEmpty(startTime) && ObjectUtils.isNotEmpty(endTime)) {
             loginLogLambdaQueryWrapper.le(LoginLog::getLoginDate, DateUtils.endOfDay(endTime));
-        }
-        if (tenantStatus) {
-            List<TenantPool> TenantPoolList = TenantPoolRepository.getTenantPoolList(tenantUserId);
-            List<String> tenantIdList = TenantPoolList.stream().map(TenantPool::getCode).collect(Collectors.toList());
-            loginLogLambdaQueryWrapper.in(LoginLog::getTenantId, tenantIdList)
-                    .or().eq(LoginLog::getUserId, tenantUserId);
-        } else {
-            String tenantId = BaseContextHolder.getTenant();
-            loginLogLambdaQueryWrapper.in(LoginLog::getTenantId, tenantId);
         }
         loginLogLambdaQueryWrapper.orderByDesc(LoginLog::getLoginDate);
         PageHelper.startPage(pageNum, pageSize);

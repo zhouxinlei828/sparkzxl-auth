@@ -47,10 +47,6 @@ public class AuthRole extends Entity<Long> {
     @TableField("status")
     private Boolean status;
 
-    @ApiModelProperty(value = "租户池code")
-    @TableField("tenant_code")
-    private String tenantId;
-
     @ApiModelProperty(value = "角色属性")
     @TableField(exist = false)
     private Map<String, Object> attribute;

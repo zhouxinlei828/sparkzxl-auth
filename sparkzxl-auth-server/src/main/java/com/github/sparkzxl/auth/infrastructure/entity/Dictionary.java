@@ -40,7 +40,4 @@ public class Dictionary extends Entity<Long> {
     @TableField("status_")
     private Boolean status;
 
-    @ApiModelProperty(value = "租户池code")
-    @TableField("tenant_code")
-    private String tenantId;
 }

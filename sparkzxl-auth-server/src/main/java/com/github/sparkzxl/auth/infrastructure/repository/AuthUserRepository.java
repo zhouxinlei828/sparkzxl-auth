@@ -7,7 +7,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.sparkzxl.annotation.echo.EchoResult;
-import com.github.sparkzxl.auth.domain.model.aggregates.*;
+import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
+import com.github.sparkzxl.auth.domain.model.aggregates.OrgBasicInfo;
+import com.github.sparkzxl.auth.domain.model.aggregates.ResourceBasicInfo;
+import com.github.sparkzxl.auth.domain.model.aggregates.RoleBasicInfo;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
@@ -110,10 +113,6 @@ public class AuthUserRepository implements IAuthUserRepository {
         if (ObjectUtils.isNotEmpty(authUser.getOrg()) && ObjectUtils.isNotEmpty(authUser.getOrg().getKey())) {
             queryWrapper.eq(AuthUser::getOrg, authUser.getOrg().getKey());
         }
-        String tenantId = BaseContextHolder.getTenant();
-        if (StringUtils.isNotEmpty(tenantId)) {
-            queryWrapper.like(AuthUser::getTenantId, tenantId);
-        }
         return authUserMapper.selectList(queryWrapper);
     }
 
@@ -121,7 +120,6 @@ public class AuthUserRepository implements IAuthUserRepository {
     public AuthUserBasicInfo getAuthUserBasicInfo(Long userId) {
         AuthUser authUser = authUserMapper.getById(userId);
         AuthUserBasicInfo authUserBasicInfo = AuthUserConvert.INSTANCE.convertAuthUserBasicInfo(authUser);
-        authUserBasicInfo.setTenantStatus(false);
         RemoteData<Long, CoreOrg> org = authUser.getOrg();
         List<OrgBasicInfo> orgTreeList = CollUtil.newArrayList();
         if (ObjectUtils.isNotEmpty(org)) {
@@ -195,17 +193,6 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    public void saveAuthUserInfo(AuthUser authUser) {
-        authUser.setPassword(passwordEncoder.encode(authUser.getPassword()));
-        authUserMapper.insert(authUser);
-    }
-
-    @Override
-    public void deleteTenantPoolUser(String tenantId) {
-        authUserMapper.deleteTenantPoolUser(tenantId);
-    }
-
-    @Override
     public boolean deleteAuthUser(List<Long> ids) {
         authUserMapper.deleteBatchIds(ids);
         deleteUserRelation(ids);
@@ -213,16 +200,9 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    public List<UserCount> userCount(List<String> tenantIdList) {
-        return authUserMapper.userCount(tenantIdList);
-    }
-
-    @Override
     public boolean saveAuthUser(AuthUser authUser) {
         String password = passwordEncoder.encode(authUser.getPassword());
         authUser.setPassword(password);
-        String tenantId = BaseContextHolder.getTenant();
-        authUser.setTenantId(tenantId);
         return authUserMapper.insert(authUser) == 1;
     }
 

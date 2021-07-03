@@ -14,7 +14,6 @@ import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
 import com.github.sparkzxl.auth.domain.model.vo.AuthUserBasicVO;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
-import com.github.sparkzxl.auth.domain.repository.ITenantManagerRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
 import com.github.sparkzxl.auth.infrastructure.constant.ElasticsearchConstant;
 import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
@@ -67,8 +66,6 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     @Autowired
     private IAuthUserRepository authUserRepository;
     @Autowired
-    private ITenantManagerRepository tenantManagerRepository;
-    @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private IMenuService authMenuService;
@@ -82,10 +79,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     private IEsUserAttributeService esUserAttributeService;
 
     @Override
-    public AuthUserInfo<Long> getAuthUserInfo(String username, boolean tenantStatus) {
-        if (tenantStatus) {
-            tenantManagerRepository.getAuthUserInfo(username);
-        }
+    public AuthUserInfo<Long> getAuthUserInfo(String username) {
         AuthUser authUser = authUserRepository.selectByAccount(username);
         if (ObjectUtils.isNotEmpty(authUser)) {
             AuthUserInfo<Long> authUserInfo = AuthUserConvert.INSTANCE.convertAuthUserInfo(authUser);
@@ -99,7 +93,6 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
             extraInfo.put("email", authUser.getEmail());
             extraInfo.put("education", authUser.getEducation());
             extraInfo.put("positionStatus", authUser.getPositionStatus());
-            authUserInfo.setTenantStatus(false);
             authUserInfo.setExtraInfo(extraInfo);
             return authUserInfo;
         }
@@ -218,23 +211,17 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     @Override
     public AuthUserBasicVO getAuthUserBasicInfo(AuthUserInfo<Long> authUserInfo) {
         Map<String, Object> extraInfo = authUserInfo.getExtraInfo();
-        boolean tenantStatus = (boolean) extraInfo.get("tenantStatus");
-        AuthUserBasicInfo authUserBasicInfo;
-        if (tenantStatus) {
-            authUserBasicInfo = tenantManagerRepository.getAuthUserBasicInfo(authUserInfo.getId());
-        } else {
-            authUserBasicInfo = authUserRepository.getAuthUserBasicInfo(authUserInfo.getId());
-            if (ObjectUtils.isNotEmpty(authUserBasicInfo) && ObjectUtils.isNotEmpty(authUserBasicInfo.getId())) {
-                Map userAttribute = esUserAttributeService.searchDocById(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, String.valueOf(authUserBasicInfo.getId()), Map.class);
-                authUserBasicInfo.setAttribute(userAttribute);
-            }
+        AuthUserBasicInfo authUserBasicInfo = authUserRepository.getAuthUserBasicInfo(authUserInfo.getId());
+        if (ObjectUtils.isNotEmpty(authUserBasicInfo) && ObjectUtils.isNotEmpty(authUserBasicInfo.getId())) {
+            Map userAttribute = esUserAttributeService.searchDocById(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, String.valueOf(authUserBasicInfo.getId()), Map.class);
+            authUserBasicInfo.setAttribute(userAttribute);
         }
         return AuthUserConvert.INSTANCE.convertAuthUserBasicVO(authUserBasicInfo);
     }
 
     @Override
-    public List<MenuBasicInfo> routers(Long userId, String tenantId) {
-        return authMenuService.routers(userId, tenantId);
+    public List<MenuBasicInfo> routers(Long userId) {
+        return authMenuService.routers(userId);
     }
 
     @Override

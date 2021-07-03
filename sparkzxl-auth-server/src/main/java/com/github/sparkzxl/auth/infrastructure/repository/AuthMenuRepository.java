@@ -49,26 +49,21 @@ public class AuthMenuRepository implements IAuthMenuRepository {
 
 
     @Override
-    public List<MenuBasicInfo> getAuthMenuList(Long userId, String tenantId) {
+    public List<MenuBasicInfo> getAuthMenuList(Long userId) {
         List<MenuBasicInfo> menuBasicInfoList = Lists.newArrayList();
-        if (StringUtils.isNotEmpty(tenantId)) {
-            List<AuthMenu> menuList = authMenuMapper.selectListBytenant(tenantId);
-            buildMenuBasicInfo(menuBasicInfoList, menuList);
-        } else {
-            List<Long> roleIds =
-                    userRoleMapper.selectList(new LambdaUpdateWrapper<UserRole>().eq(UserRole::getUserId, userId)).stream().map(UserRole::getRoleId)
-                            .collect(Collectors.toList());
-            if (CollectionUtils.isNotEmpty(roleIds)) {
-                List<RoleAuthority> roleAuthorities =
-                        roleAuthorityMapper.selectList(new LambdaQueryWrapper<RoleAuthority>().in(RoleAuthority::getRoleId, roleIds)
-                                .groupBy(RoleAuthority::getAuthorityId, RoleAuthority::getAuthorityType, RoleAuthority::getRoleId));
-                List<Long> menuIds = roleAuthorities.stream().filter(x -> "MENU".equals(x.getAuthorityType()))
-                        .map(RoleAuthority::getAuthorityId).collect(Collectors.toList());
+        List<Long> roleIds =
+                userRoleMapper.selectList(new LambdaUpdateWrapper<UserRole>().eq(UserRole::getUserId, userId)).stream().map(UserRole::getRoleId)
+                        .collect(Collectors.toList());
+        if (CollectionUtils.isNotEmpty(roleIds)) {
+            List<RoleAuthority> roleAuthorities =
+                    roleAuthorityMapper.selectList(new LambdaQueryWrapper<RoleAuthority>().in(RoleAuthority::getRoleId, roleIds)
+                            .groupBy(RoleAuthority::getAuthorityId, RoleAuthority::getAuthorityType, RoleAuthority::getRoleId));
+            List<Long> menuIds = roleAuthorities.stream().filter(x -> "MENU".equals(x.getAuthorityType()))
+                    .map(RoleAuthority::getAuthorityId).collect(Collectors.toList());
 
-                if (CollectionUtils.isNotEmpty(menuIds)) {
-                    List<AuthMenu> menuList = authMenuMapper.selectBatchIds(menuIds);
-                    buildMenuBasicInfo(menuBasicInfoList, menuList);
-                }
+            if (CollectionUtils.isNotEmpty(menuIds)) {
+                List<AuthMenu> menuList = authMenuMapper.selectBatchIds(menuIds);
+                buildMenuBasicInfo(menuBasicInfoList, menuList);
             }
         }
         return TreeUtils.buildTree(menuBasicInfoList);
@@ -95,57 +90,11 @@ public class AuthMenuRepository implements IAuthMenuRepository {
         }
     }
 
-
-    @Override
-    public void saveAuthMenus(List<AuthMenu> authMenus, String tenantId) {
-        authMenus.forEach(authMenu -> {
-            if (authMenu.getParentId().equals(0L)) {
-                long id = segmentRepository.getSegmentId("auth_menu").longValue();
-                authMenu.setId(id);
-                authMenu.setIsEnable(true);
-                authMenuMapper.insert(authMenu);
-                saveNodeMenu(id, authMenu.getChildren(), tenantId);
-            }
-        });
-    }
-
-    private void saveNodeMenu(Long parentId, List<AuthMenu> authMenus, String tenantId) {
-        if (CollectionUtils.isNotEmpty(authMenus)) {
-            for (AuthMenu authMenu : authMenus) {
-                authMenu.setParentId(parentId);
-                long id = segmentRepository.getSegmentId("auth_menu").longValue();
-                authMenu.setId(id);
-                authMenu.setIsEnable(true);
-                authMenuMapper.insert(authMenu);
-                List<AuthResource> resourceList = authMenu.getResourceList();
-                if (CollectionUtils.isNotEmpty(resourceList)) {
-                    resourceList.forEach(resource -> {
-                        resource.setMenuId(id);
-                        resource.setTenantId(tenantId);
-                    });
-                    authResourceRepository.saveResourceList(resourceList);
-                }
-                Long nodeParentId = authMenu.getId();
-                saveNodeMenu(nodeParentId, authMenu.getChildren(), tenantId);
-            }
-        }
-    }
-
     @Override
     public boolean saveMenu(AuthMenu authMenu) {
         long id = segmentRepository.getSegmentId("auth_menu").longValue();
         authMenu.setId(id);
         return authMenuMapper.insert(authMenu) == 1;
-    }
-
-    @Override
-    public List<AuthMenu> findAuthMenuList() {
-        return authMenuMapper.selectList(null);
-    }
-
-    @Override
-    public void deleteTenantPoolMenu(String tenantId) {
-        authMenuMapper.deleteTenantPoolMenu(tenantId);
     }
 
     @Override

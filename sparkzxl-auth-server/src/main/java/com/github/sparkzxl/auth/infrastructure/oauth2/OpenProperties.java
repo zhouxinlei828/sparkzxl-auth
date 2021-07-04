@@ -17,4 +17,6 @@ public class OpenProperties {
 
     private String ssoServerUri;
 
+    private String logout;
+
 }

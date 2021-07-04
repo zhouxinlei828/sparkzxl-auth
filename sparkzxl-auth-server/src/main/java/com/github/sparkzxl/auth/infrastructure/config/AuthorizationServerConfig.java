@@ -31,7 +31,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 
-import javax.sql.DataSource;
 import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +51,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private AuthenticationManager authenticationManager;
 
-    private DataSource dataSource;
-
     private JwtProperties jwtProperties;
 
     private UserDetailsService userDetailsService;
@@ -63,11 +60,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-    }
-
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
     }
 
     @Autowired
@@ -140,13 +132,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     @Bean
-    public ClientDetailsService jdbcClientDetailsService() {
+    public ClientDetailsService clientDetailsService() {
         return new ClientDetailsServiceImpl();
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(jdbcClientDetailsService());
+        clients.withClientDetails(clientDetailsService());
     }
 
 }

@@ -38,7 +38,7 @@ public class OauthClientDetailsRepository implements IOauthClientDetailsReposito
         if (StringUtils.isEmpty(oauthClientDetails.getClientSecret())) {
             BizExceptionAssert.businessFail(400, "客户端id不能为空");
         }
-        if (CollectionUtils.isEmpty(oauthClientDetails.getAuthorizedGrantTypes())) {
+        if (StringUtils.isEmpty(oauthClientDetails.getAuthorizedGrantTypes())) {
             BizExceptionAssert.businessFail(400, "授权类型不能为空");
         }
         if (ObjectUtils.isEmpty(oauthClientDetails.getAccessTokenValidity())) {

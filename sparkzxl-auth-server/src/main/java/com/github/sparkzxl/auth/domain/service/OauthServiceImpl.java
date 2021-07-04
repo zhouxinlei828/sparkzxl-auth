@@ -150,7 +150,6 @@ public class OauthServiceImpl implements IOauthService {
     }
 
     private AccessTokenInfo buildAccessToken(OAuth2AccessToken oAuth2AccessToken) {
-        Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
         AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken);
         AccessTokenInfo accessTokenInfo = new AccessTokenInfo();
         accessTokenInfo.setAccessToken(oAuth2AccessToken.getValue());

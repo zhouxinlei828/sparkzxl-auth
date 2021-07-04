@@ -4,6 +4,8 @@ import com.github.sparkzxl.annotation.result.WebResult;
 import com.github.sparkzxl.auth.application.service.IOauthService;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AuthorizationRequest;
+import com.github.sparkzxl.auth.infrastructure.properties.SystemProperties;
+import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
 import com.github.sparkzxl.entity.core.CaptchaInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,11 +25,13 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     private final IOauthService oauthService;
+    private final SystemProperties systemProperties;
 
     @ApiOperation(value = "登录页面", notes = "登录页面")
     @RequestMapping(value = "/authentication/require", produces = "text/html;charset=UTF-8", method = RequestMethod.GET)
     @CrossOrigin(origins = "*", allowCredentials = "true")
     public String require() {
+        RequestContextHolderUtils.getRequest().setAttribute("systemName",systemProperties.getName());
         return "login";
     }
 

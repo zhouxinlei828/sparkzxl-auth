@@ -140,11 +140,11 @@ public class ModelServiceImpl implements IModelService {
 
 
     @Override
-    public String getProcessJson() {
+    public JSONObject getProcessJson() {
         InputStream stencilsetStream = this.getClass().getClassLoader().getResourceAsStream("stencilset.json");
         try {
             assert stencilsetStream != null;
-            return IOUtils.toString(stencilsetStream, StandardCharsets.UTF_8);
+            return JSONObject.parseObject(IOUtils.toString(stencilsetStream, StandardCharsets.UTF_8));
         } catch (Exception e) {
             log.error("Error while loading stencil set", e);
             BizExceptionAssert.businessFail("Error while loading stencil set");

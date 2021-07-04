@@ -1,5 +1,6 @@
 package com.github.sparkzxl.workflow.interfaces.controller.model;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.sparkzxl.workflow.application.service.model.IModelService;
 import io.swagger.annotations.Api;
@@ -41,7 +42,7 @@ public class ModelEditorController implements ModelDataJsonConstants {
 
     @ApiOperation("获取流程json文件")
     @GetMapping("editor/stencilset")
-    public String getProcessJson() {
+    public JSONObject getProcessJson() {
         return modelEditorService.getProcessJson();
     }
 }

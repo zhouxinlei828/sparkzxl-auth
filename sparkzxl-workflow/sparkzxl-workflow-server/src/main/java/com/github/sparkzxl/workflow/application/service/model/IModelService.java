@@ -1,5 +1,6 @@
 package com.github.sparkzxl.workflow.application.service.model;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
@@ -33,8 +34,8 @@ public interface IModelService {
     /**
      * 获取流程json文件
      *
-     * @return String
+     * @return JSONObject
      */
-    String getProcessJson();
+    JSONObject getProcessJson();
 
 }

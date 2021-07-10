@@ -1,11 +1,10 @@
 package com.github.sparkzxl.tenant.infrastructure.repository;
 
-import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
-import com.github.sparkzxl.entity.security.AuthUserDetail;
+import com.github.sparkzxl.entity.security.SecurityUserDetail;
 import com.github.sparkzxl.tenant.domain.repository.ITenantManagerRepository;
 import com.github.sparkzxl.tenant.infrastructure.convert.TenantManagerConvert;
 import com.github.sparkzxl.tenant.infrastructure.entity.TenantManager;
@@ -13,7 +12,6 @@ import com.github.sparkzxl.tenant.infrastructure.mapper.TenantManagerMapper;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -28,18 +26,11 @@ public class TenantManagerRepository implements ITenantManagerRepository {
 
     private TenantManagerMapper tenantManagerMapper;
 
-    private Snowflake snowflake;
-
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     public void setTenantManagerMapper(TenantManagerMapper tenantManagerMapper) {
         this.tenantManagerMapper = tenantManagerMapper;
-    }
-
-    @Autowired
-    public void setSnowflake(Snowflake snowflake) {
-        this.snowflake = snowflake;
     }
 
     @Autowired
@@ -85,15 +76,16 @@ public class TenantManagerRepository implements ITenantManagerRepository {
     }
 
     @Override
-    public AuthUserDetail<Long> getAuthUserDetail(String username) {
+    public SecurityUserDetail<Long> getAuthUserDetail(String username) {
         TenantManager tenantManager = selectByAccount(username);
         if (ObjectUtils.isNotEmpty(tenantManager)) {
-            AuthUserDetail<Long> adminUserDetails = new AuthUserDetail(
+            return new SecurityUserDetail<>(
+                    tenantManager.getId(),
                     tenantManager.getAccount(),
                     tenantManager.getPassword(),
-                    Lists.newArrayList(new SimpleGrantedAuthority("ADMIN")));
-            adminUserDetails.setId(tenantManager.getId());
-            return adminUserDetails;
+                    tenantManager.getName(),
+                    tenantManager.getStatus(),
+                    Lists.newArrayList("ADMIN"));
         }
         return null;
     }
@@ -101,6 +93,8 @@ public class TenantManagerRepository implements ITenantManagerRepository {
     @Override
     public AuthUserInfo<Long> getAuthUserInfo(String username) {
         TenantManager tenantManager = selectByAccount(username);
-        return TenantManagerConvert.INSTANCE.convertAuthUserInfo(tenantManager);
+        AuthUserInfo<Long> authUserInfo = TenantManagerConvert.INSTANCE.convertAuthUserInfo(tenantManager);
+        authUserInfo.setAuthorityList(Lists.newArrayList("ADMIN"));
+        return authUserInfo;
     }
 }

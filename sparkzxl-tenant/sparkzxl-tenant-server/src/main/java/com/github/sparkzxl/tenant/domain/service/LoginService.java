@@ -5,7 +5,7 @@ import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.entity.security.AuthRequest;
 import com.github.sparkzxl.entity.security.AuthToken;
-import com.github.sparkzxl.entity.security.AuthUserDetail;
+import com.github.sparkzxl.entity.security.SecurityUserDetail;
 import com.github.sparkzxl.jwt.properties.JwtProperties;
 import com.github.sparkzxl.jwt.service.JwtTokenService;
 import com.github.sparkzxl.security.service.AbstractSecurityLoginService;
@@ -42,7 +42,7 @@ public class LoginService extends AbstractSecurityLoginService<Long> {
     private RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    public void checkPasswordError(AuthRequest authRequest, AuthUserDetail<Long> authUserDetail) throws PasswordException {
+    public void checkPasswordError(AuthRequest authRequest, SecurityUserDetail<Long> authUserDetail) throws PasswordException {
         String password = authRequest.getPassword();
         String encodePassword = passwordEncoder.encode(password);
         if (passwordEncoder.matches(encodePassword, authUserDetail.getPassword())) {

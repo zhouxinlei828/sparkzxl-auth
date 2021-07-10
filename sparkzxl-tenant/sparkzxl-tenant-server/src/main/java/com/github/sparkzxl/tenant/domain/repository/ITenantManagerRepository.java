@@ -1,7 +1,7 @@
 package com.github.sparkzxl.tenant.domain.repository;
 
 import com.github.sparkzxl.entity.core.AuthUserInfo;
-import com.github.sparkzxl.entity.security.AuthUserDetail;
+import com.github.sparkzxl.entity.security.SecurityUserDetail;
 import com.github.sparkzxl.tenant.infrastructure.entity.TenantManager;
 
 /**
@@ -34,7 +34,7 @@ public interface ITenantManagerRepository {
      * @param username 用户账户
      * @return AuthUserInfo<Long>
      */
-    AuthUserDetail<Long> getAuthUserDetail(String username);
+    SecurityUserDetail<Long> getAuthUserDetail(String username);
 
     /**
      * 获取全局用户信息

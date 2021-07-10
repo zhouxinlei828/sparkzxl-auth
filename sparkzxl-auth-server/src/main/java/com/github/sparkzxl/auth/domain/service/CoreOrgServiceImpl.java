@@ -103,8 +103,10 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
         boolean result = coreOrgRepository.saveCoreOrg(coreOrg);
         Long orgId = coreOrg.getId();
         Map<String, Object> orgAttributeMap = coreOrg.getAttribute();
-        orgAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(orgId));
-        esOrgAttributeService.saveDoc(ElasticsearchConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId), orgAttributeMap);
+        if (MapUtils.isNotEmpty(orgAttributeMap)){
+            orgAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(orgId));
+            esOrgAttributeService.saveDoc(ElasticsearchConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId), orgAttributeMap);
+        }
         return result;
     }
 

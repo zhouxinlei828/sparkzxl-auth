@@ -138,8 +138,10 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         boolean result = authUserRepository.saveAuthUser(authUser);
         Long userId = authUser.getId();
         Map<String, Object> userAttributeMap = authUser.getAttribute();
-        userAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(userId));
-        esUserAttributeService.saveDoc(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, String.valueOf(userId), userAttributeMap);
+        if (MapUtils.isNotEmpty(userAttributeMap)){
+            userAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(userId));
+            esUserAttributeService.saveDoc(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, String.valueOf(userId), userAttributeMap);
+        }
         return result;
     }
 

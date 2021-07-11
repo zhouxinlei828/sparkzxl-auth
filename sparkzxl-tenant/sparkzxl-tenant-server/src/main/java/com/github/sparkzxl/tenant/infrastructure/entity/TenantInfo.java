@@ -9,28 +9,28 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * description: 租户池信息
+ * description: 租户信息
  *
  * @author charles.zhou
  * @date 2021-02-02 16:08:05
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("tenant_pool")
-@ApiModel(value = "TenantPool对象", description = "租户池信息")
-public class TenantPool extends Entity<Long> {
+@TableName("tenant_info")
+@ApiModel(value = "TenantInfo对象", description = "租户信息")
+public class TenantInfo extends Entity<Long> {
 
     private static final long serialVersionUID = -6955056237245642400L;
 
-    @ApiModelProperty(value = "领域用户id")
+    @ApiModelProperty(value = "租户用户id")
     @TableField("tenant_user_id")
     private Long tenantUserId;
 
-    @ApiModelProperty(value = "租户池编码")
+    @ApiModelProperty(value = "租户信息编码")
     @TableField("code")
     private String code;
 
-    @ApiModelProperty(value = "租户池名称")
+    @ApiModelProperty(value = "租户信息名称")
     @TableField("name")
     private String name;
 
@@ -38,7 +38,7 @@ public class TenantPool extends Entity<Long> {
     @TableField("status")
     private Boolean status;
 
-    @ApiModelProperty(value = "内置租户池")
+    @ApiModelProperty(value = "内置租户信息")
     @TableField("readonly")
     private Boolean readonly;
 
@@ -46,12 +46,8 @@ public class TenantPool extends Entity<Long> {
     @TableField("logo")
     private String logo;
 
-    @ApiModelProperty(value = "租户池简介")
+    @ApiModelProperty(value = "租户信息简介")
     @TableField("describe_")
     private String describe;
-
-    @ApiModelProperty(value = "用户数")
-    @TableField(exist = false)
-    private int userCount;
 
 }

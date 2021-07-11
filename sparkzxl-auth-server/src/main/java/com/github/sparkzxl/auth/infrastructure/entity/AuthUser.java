@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.sparkzxl.annotation.echo.EchoField;
-import com.github.sparkzxl.auth.infrastructure.constant.DictionaryType;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
 import com.github.sparkzxl.entity.data.Entity;
 import com.github.sparkzxl.entity.data.RemoteData;
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE_RIGHT;
-import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstants.*;
+import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstant.*;
 
 /**
  * description: 用户信息
@@ -82,17 +82,17 @@ public class AuthUser extends Entity<Long> {
 
     @ApiModelProperty(value = "民族")
     @TableField("nation")
-    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.NATION)
+    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = BizConstant.NATION)
     private RemoteData<String, String> nation;
 
     @ApiModelProperty(value = "学历")
     @TableField("education")
-    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.EDUCATION)
+    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = BizConstant.EDUCATION)
     private RemoteData<String, String> education;
 
     @ApiModelProperty(value = "职位状态")
     @TableField("position_status")
-    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = DictionaryType.POSITION_STATUS)
+    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = BizConstant.POSITION_STATUS)
     private RemoteData<String, String> positionStatus;
 
     @ApiModelProperty(value = "工作描述比如：市长、管理员、局长等等   用于登陆展示")

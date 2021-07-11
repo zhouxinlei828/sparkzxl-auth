@@ -7,8 +7,8 @@ import com.github.sparkzxl.auth.application.service.ICoreOrgService;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.application.service.es.IEsOrgAttributeService;
 import com.github.sparkzxl.auth.domain.repository.ICoreOrgRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
-import com.github.sparkzxl.auth.infrastructure.constant.ElasticsearchConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.CoreOrgConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreOrgMapper;
@@ -77,7 +77,7 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
         List<CoreOrg> coreOrgList = coreOrgRepository.getCoreOrgList(name, status);
         if (CollectionUtils.isNotEmpty(coreOrgList)) {
             List<String> orgIdStrList = coreOrgList.stream().map(x -> String.valueOf(x.getId())).collect(Collectors.toList());
-            Map<String, Map> searchOrgAttribute = esOrgAttributeService.searchDocsMapByIdList(ElasticsearchConstant.INDEX_ORG_ATTRIBUTE, orgIdStrList, Map.class);
+            Map<String, Map> searchOrgAttribute = esOrgAttributeService.searchDocsMapByIdList(BizConstant.INDEX_ORG_ATTRIBUTE, orgIdStrList, Map.class);
             coreOrgList.forEach(org -> {
                 Map map = searchOrgAttribute.get(String.valueOf(org.getId()));
                 if (MapUtils.isNotEmpty(map)) {
@@ -105,7 +105,7 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
         Map<String, Object> orgAttributeMap = coreOrg.getAttribute();
         if (MapUtils.isNotEmpty(orgAttributeMap)){
             orgAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(orgId));
-            esOrgAttributeService.saveDoc(ElasticsearchConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId), orgAttributeMap);
+            esOrgAttributeService.saveDoc(BizConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId), orgAttributeMap);
         }
         return result;
     }
@@ -116,10 +116,10 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
         boolean result = coreOrgRepository.updateCoreOrg(coreOrg);
         Map<String, Object> orgAttributeMap = coreOrg.getAttribute();
         Long orgId = coreOrg.getId();
-        esOrgAttributeService.deleteDocById(ElasticsearchConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId));
+        esOrgAttributeService.deleteDocById(BizConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId));
         if (MapUtils.isNotEmpty(orgAttributeMap)) {
             orgAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(orgId));
-            esOrgAttributeService.saveDoc(ElasticsearchConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId), orgAttributeMap);
+            esOrgAttributeService.saveDoc(BizConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId), orgAttributeMap);
         }
         return result;
     }
@@ -129,13 +129,13 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
         coreOrgRepository.deleteBatchCoreOrg(ids);
         authUserService.deleteOrgIds(ids);
         if (CollectionUtils.isNotEmpty(ids)) {
-            esOrgAttributeService.deleteDocByIds(ElasticsearchConstant.INDEX_ORG_ATTRIBUTE, ids.stream().map(String::valueOf).collect(Collectors.toList()));
+            esOrgAttributeService.deleteDocByIds(BizConstant.INDEX_ORG_ATTRIBUTE, ids.stream().map(String::valueOf).collect(Collectors.toList()));
         }
         return true;
     }
 
     @Override
     protected String getRegion() {
-        return CacheConstant.ORG;
+        return BizConstant.ORG;
     }
 }

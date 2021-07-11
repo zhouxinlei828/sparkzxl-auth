@@ -1,4 +1,4 @@
-package com.github.sparkzxl.auth.infrastructure.constant;
+package com.github.sparkzxl.gateway.infrastructure.constant;
 
 /**
  * description: 角色属性常量
@@ -6,12 +6,18 @@ package com.github.sparkzxl.auth.infrastructure.constant;
  * @author charles.zhou
  * @date 2021-03-23 09:44:45
  */
-public class RoleConstant {
+public class BizConstant {
 
     /**
      * 普通用户角色code
      */
     public static final String USER_CODE = "USER";
+
+    /**
+     * 领域管理员角色code
+     */
+    public static final String TENANT_MANAGER_CODE = "TENANT_MANAGER";
+
 
     /**
      * 用户信息查询路径

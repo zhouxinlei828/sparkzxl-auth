@@ -3,7 +3,7 @@ package com.github.sparkzxl.auth.domain.service;
 import cn.hutool.core.convert.Convert;
 import com.github.sparkzxl.auth.application.service.IMenuService;
 import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthMenuConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthMenu;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthMenuMapper;
@@ -55,6 +55,6 @@ public class MenuServiceImpl extends SuperCacheServiceImpl<AuthMenuMapper, AuthM
 
     @Override
     protected String getRegion() {
-        return CacheConstant.MENU;
+        return BizConstant.MENU;
     }
 }

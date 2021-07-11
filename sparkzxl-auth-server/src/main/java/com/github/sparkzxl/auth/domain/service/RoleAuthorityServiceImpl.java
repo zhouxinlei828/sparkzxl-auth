@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.domain.service;
 
 import com.github.sparkzxl.auth.application.service.IRoleAuthorityService;
 import com.github.sparkzxl.auth.domain.repository.IRoleAuthorityRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthoritySaveDTO;
@@ -25,7 +25,7 @@ public class RoleAuthorityServiceImpl extends SuperCacheServiceImpl<RoleAuthorit
 
     @Override
     protected String getRegion() {
-        return CacheConstant.ROLE_RESOURCE;
+        return BizConstant.ROLE_RESOURCE;
     }
 
     @Override

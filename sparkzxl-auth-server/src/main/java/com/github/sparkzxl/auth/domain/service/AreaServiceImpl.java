@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.sparkzxl.auth.application.service.IAreaService;
 import com.github.sparkzxl.auth.domain.model.aggregates.City;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.Area;
 import com.github.sparkzxl.auth.infrastructure.mapper.AreaMapper;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
@@ -112,6 +112,6 @@ public class AreaServiceImpl extends SuperCacheServiceImpl<AreaMapper, Area> imp
 
     @Override
     protected String getRegion() {
-        return CacheConstant.AREA;
+        return BizConstant.AREA;
     }
 }

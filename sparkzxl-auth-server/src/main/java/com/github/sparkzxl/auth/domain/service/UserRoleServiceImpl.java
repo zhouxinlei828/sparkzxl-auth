@@ -5,7 +5,7 @@ import com.github.sparkzxl.auth.domain.model.aggregates.RoleResource;
 import com.github.sparkzxl.auth.domain.model.vo.RoleResourceVO;
 import com.github.sparkzxl.auth.domain.repository.IRoleAuthorityRepository;
 import com.github.sparkzxl.auth.domain.repository.IUserRoleRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.UserRole;
@@ -37,7 +37,7 @@ public class UserRoleServiceImpl extends SuperCacheServiceImpl<UserRoleMapper, U
 
     @Override
     protected String getRegion() {
-        return CacheConstant.USER_ROLE;
+        return BizConstant.USER_ROLE;
     }
 
     @Override

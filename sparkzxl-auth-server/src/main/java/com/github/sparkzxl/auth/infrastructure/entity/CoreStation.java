@@ -11,8 +11,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstants.FIND_NAME_BY_IDS;
-import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstants.STATION_ID_CLASS;
+import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstant.FIND_NAME_BY_IDS;
+import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstant.STATION_ID_CLASS;
 
 /**
  * description: 岗位

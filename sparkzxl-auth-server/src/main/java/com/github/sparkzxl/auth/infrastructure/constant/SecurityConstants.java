@@ -1,10 +1,10 @@
 package com.github.sparkzxl.auth.infrastructure.constant;
 
 /**
- * Created on 2018/1/4.
+ * description:  权限常量类
  *
- * @author zlf
- * @since 1.0
+ * @author zhouxinlei
+ * @date 2021-07-11 09:51:19
  */
 public interface SecurityConstants {
 
@@ -60,5 +60,5 @@ public interface SecurityConstants {
     /**
      * 默认用户密码
      */
-    String DEFAULT_PASSWORD="123456";
+    String DEFAULT_PASSWORD = "123456";
 }

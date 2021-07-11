@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.domain.service;
 
 import com.github.sparkzxl.auth.application.service.IUserService;
-import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.entity.security.AuthUserDetail;
@@ -45,7 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         AuthUser authUser = authUserService.getByAccount(username);
         if (ObjectUtils.isNotEmpty(authUser)) {
             List<String> authUserRoles = authUserService.getAuthUserRoles(authUser.getId());
-            authUserRoles.add(RoleConstant.USER_CODE);
+            authUserRoles.add(BizConstant.USER_CODE);
             AuthUserDetail<Long> authUserDetail = new AuthUserDetail<>(authUser.getAccount(),
                     authUser.getPassword(),
                     AuthorityUtils.createAuthorityList(ListUtils.listToArray(authUserRoles)));

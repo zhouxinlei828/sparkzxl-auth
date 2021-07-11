@@ -3,7 +3,7 @@ package com.github.sparkzxl.auth.domain.service;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.auth.application.service.IDictionaryItemService;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.infrastructure.mapper.DictionaryItemMapper;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemQueryDTO;
@@ -96,6 +96,6 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
 
     @Override
     protected String getRegion() {
-        return CacheConstant.DICTIONARY_ITEM;
+        return BizConstant.DICTIONARY_ITEM;
     }
 }

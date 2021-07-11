@@ -12,7 +12,7 @@ import com.github.sparkzxl.auth.domain.model.aggregates.OrgBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.ResourceBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.RoleBasicInfo;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.*;
@@ -145,7 +145,7 @@ public class AuthUserRepository implements IAuthUserRepository {
             List<RoleBasicInfo> roleBasicInfos = AuthRoleConvert.INSTANCE.convertRoleBasicInfo(roleList);
             RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
             roleBasicInfo.setId(snowflake.nextId());
-            roleBasicInfo.setCode(RoleConstant.USER_CODE);
+            roleBasicInfo.setCode(BizConstant.USER_CODE);
             roleBasicInfo.setName("普通用户");
             roleBasicInfos.add(roleBasicInfo);
             authUserBasicInfo.setRoleBasicInfos(roleBasicInfos);
@@ -174,7 +174,7 @@ public class AuthUserRepository implements IAuthUserRepository {
         } else {
             RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
             roleBasicInfo.setId(snowflake.nextId());
-            roleBasicInfo.setCode(RoleConstant.USER_CODE);
+            roleBasicInfo.setCode(BizConstant.USER_CODE);
             roleBasicInfo.setName("普通用户");
             List<RoleBasicInfo> roleBasicInfos = Lists.newArrayList(roleBasicInfo);
             authUserBasicInfo.setRoleBasicInfos(roleBasicInfos);

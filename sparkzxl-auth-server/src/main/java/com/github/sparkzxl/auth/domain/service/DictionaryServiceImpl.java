@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.domain.service;
 
 import com.github.sparkzxl.auth.application.service.IDictionaryService;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.Dictionary;
 import com.github.sparkzxl.auth.infrastructure.mapper.DictionaryMapper;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
@@ -18,6 +18,6 @@ public class DictionaryServiceImpl extends SuperCacheServiceImpl<DictionaryMappe
 
     @Override
     protected String getRegion() {
-        return CacheConstant.DICTIONARY;
+        return BizConstant.DICTIONARY;
     }
 }

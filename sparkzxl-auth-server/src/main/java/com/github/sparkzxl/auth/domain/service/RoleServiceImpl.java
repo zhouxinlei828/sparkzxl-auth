@@ -4,8 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.application.service.IRoleService;
 import com.github.sparkzxl.auth.application.service.es.IEsRoleAttributeService;
 import com.github.sparkzxl.auth.domain.repository.IAuthRoleRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
-import com.github.sparkzxl.auth.infrastructure.constant.ElasticsearchConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthRoleMapper;
@@ -46,7 +46,7 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<AuthRoleMapper, AuthR
         List<AuthRole> roleList = rolePage.getList();
         if (CollectionUtils.isNotEmpty(roleList)) {
             List<String> roleIdStrList = roleList.stream().map(x -> String.valueOf(x.getId())).collect(Collectors.toList());
-            Map<String, Map> searchRoleAttribute = esRoleAttributeService.searchDocsMapByIdList(ElasticsearchConstant.INDEX_ROLE_ATTRIBUTE, roleIdStrList, Map.class);
+            Map<String, Map> searchRoleAttribute = esRoleAttributeService.searchDocsMapByIdList(BizConstant.INDEX_ROLE_ATTRIBUTE, roleIdStrList, Map.class);
             roleList.forEach(role -> {
                 Map map = searchRoleAttribute.get(String.valueOf(role.getId()));
                 if (MapUtils.isNotEmpty(map)) {
@@ -63,7 +63,7 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<AuthRoleMapper, AuthR
     public void deleteAuthRoleRelation(List<Long> ids) {
         authRoleRepository.deleteAuthRoleRelation(ids);
         if (CollectionUtils.isNotEmpty(ids)) {
-            esRoleAttributeService.deleteDocByIds(ElasticsearchConstant.INDEX_ROLE_ATTRIBUTE, ids.stream().map(String::valueOf).collect(Collectors.toList()));
+            esRoleAttributeService.deleteDocByIds(BizConstant.INDEX_ROLE_ATTRIBUTE, ids.stream().map(String::valueOf).collect(Collectors.toList()));
         }
     }
 
@@ -83,7 +83,7 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<AuthRoleMapper, AuthR
         Map<String, Object> roleAttributeMap = authRole.getAttribute();
         if (MapUtils.isNotEmpty(roleAttributeMap)){
             roleAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(roleId));
-            esRoleAttributeService.saveDoc(ElasticsearchConstant.INDEX_ROLE_ATTRIBUTE, String.valueOf(roleId), roleAttributeMap);
+            esRoleAttributeService.saveDoc(BizConstant.INDEX_ROLE_ATTRIBUTE, String.valueOf(roleId), roleAttributeMap);
         }
         return result;
     }
@@ -94,16 +94,16 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<AuthRoleMapper, AuthR
         boolean result = authRoleRepository.updateRole(authRole);
         Long roleId = authRole.getId();
         Map<String, Object> roleAttributeMap = authRole.getAttribute();
-        esRoleAttributeService.deleteDocById(ElasticsearchConstant.INDEX_ROLE_ATTRIBUTE, String.valueOf(roleId));
+        esRoleAttributeService.deleteDocById(BizConstant.INDEX_ROLE_ATTRIBUTE, String.valueOf(roleId));
         if (MapUtils.isNotEmpty(roleAttributeMap)) {
             roleAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(roleId));
-            esRoleAttributeService.saveDoc(ElasticsearchConstant.INDEX_ROLE_ATTRIBUTE, String.valueOf(roleId), roleAttributeMap);
+            esRoleAttributeService.saveDoc(BizConstant.INDEX_ROLE_ATTRIBUTE, String.valueOf(roleId), roleAttributeMap);
         }
         return result;
     }
 
     @Override
     protected String getRegion() {
-        return CacheConstant.ROLE;
+        return BizConstant.ROLE;
     }
 }

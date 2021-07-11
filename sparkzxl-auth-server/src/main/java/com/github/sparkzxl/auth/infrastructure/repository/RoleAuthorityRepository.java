@@ -7,8 +7,8 @@ import com.github.sparkzxl.auth.domain.model.aggregates.ResourceSource;
 import com.github.sparkzxl.auth.domain.model.aggregates.RoleResource;
 import com.github.sparkzxl.auth.domain.repository.IAuthResourceRepository;
 import com.github.sparkzxl.auth.domain.repository.IRoleAuthorityRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
-import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo;
@@ -124,12 +124,12 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
     public boolean refreshAuthorityList(String tenantId) {
         List<AuthResource> authResourceList = resourceRepository.getResourceList();
         if (CollectionUtils.isNotEmpty(authResourceList)) {
-            String generateCacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, tenantId);
+            String generateCacheKey = BuildKeyUtils.generateKey(BizConstant.RESOURCE_ROLES_MAP, tenantId);
             Map<String, String> resourceMap = Maps.newHashMap();
             authResourceList.forEach(authResource -> {
                 String roleCodeStr = "";
-                if (RoleConstant.USER_PATH.equals(authResource.getRequestUrl()) || RoleConstant.USER_ROUTER_PATH.equals(authResource.getRequestUrl())) {
-                    roleCodeStr = roleCodeStr.concat(RoleConstant.USER_CODE);
+                if (BizConstant.USER_PATH.equals(authResource.getRequestUrl()) || BizConstant.USER_ROUTER_PATH.equals(authResource.getRequestUrl())) {
+                    roleCodeStr = roleCodeStr.concat(BizConstant.USER_CODE);
                 }
                 resourceMap.put(authResource.getRequestUrl(), roleCodeStr);
             });
@@ -156,7 +156,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
     @Override
     public void refreshAuthority(String oldVal, String newVal) {
         String tenantId = BaseContextHolder.getTenant();
-        String cacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, tenantId);
+        String cacheKey = BuildKeyUtils.generateKey(BizConstant.RESOURCE_ROLES_MAP, tenantId);
         redisTemplate.opsForHash().delete(cacheKey, oldVal);
         RoleResourceInfo roleResource = authUserMapper.getRoleResource(newVal);
         redisTemplate.opsForHash().put(cacheKey, roleResource.getPath(), roleResource.getRoleCode());
@@ -165,7 +165,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
     @Override
     public void refreshAuthority(String oldVal) {
         String tenantId = BaseContextHolder.getTenant();
-        String cacheKey = BuildKeyUtils.generateKey(CacheConstant.RESOURCE_ROLES_MAP, tenantId);
+        String cacheKey = BuildKeyUtils.generateKey(BizConstant.RESOURCE_ROLES_MAP, tenantId);
         redisTemplate.opsForHash().delete(cacheKey, oldVal);
     }
 }

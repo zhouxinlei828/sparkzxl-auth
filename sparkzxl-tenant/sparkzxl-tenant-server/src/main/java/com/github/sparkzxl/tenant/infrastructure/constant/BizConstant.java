@@ -1,4 +1,4 @@
-package com.github.sparkzxl.gateway.infrastructure.constant;
+package com.github.sparkzxl.tenant.infrastructure.constant;
 
 /**
  * description: 角色属性常量
@@ -6,7 +6,7 @@ package com.github.sparkzxl.gateway.infrastructure.constant;
  * @author charles.zhou
  * @date 2021-03-23 09:44:45
  */
-public class RoleConstant {
+public class BizConstant {
 
     /**
      * 普通用户角色code

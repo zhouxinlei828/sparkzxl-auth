@@ -5,7 +5,7 @@ import com.github.sparkzxl.auth.application.service.ILoginLogService;
 import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.domain.repository.ILoginLogRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
@@ -75,49 +75,49 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
         loginLogRepository.saveLoginLog(loginLog);
         LocalDate now = LocalDate.now();
         LocalDate tenDays = now.plusDays(-9);
-        generalCacheService.remove(CacheConstant.LOGIN_LOG_TOTAL);
-        generalCacheService.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TODAY, now));
-        generalCacheService.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TODAY_IP, now));
-        generalCacheService.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_BROWSER));
-        generalCacheService.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_SYSTEM));
+        generalCacheService.remove(BizConstant.LOGIN_LOG_TOTAL);
+        generalCacheService.remove(BuildKeyUtils.generateKey(BizConstant.LOGIN_LOG_TODAY, now));
+        generalCacheService.remove(BuildKeyUtils.generateKey(BizConstant.LOGIN_LOG_TODAY_IP, now));
+        generalCacheService.remove(BuildKeyUtils.generateKey(BizConstant.LOGIN_LOG_BROWSER));
+        generalCacheService.remove(BuildKeyUtils.generateKey(BizConstant.LOGIN_LOG_SYSTEM));
         if (authUser != null) {
-            generalCacheService.remove(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TEN_DAY, tenDays, loginStatus.getAccount()));
+            generalCacheService.remove(BuildKeyUtils.generateKey(BizConstant.LOGIN_LOG_TEN_DAY, tenDays, loginStatus.getAccount()));
         }
     }
 
     @Override
     public Long findTotalVisitCount() {
-        return generalCacheService.get(CacheConstant.LOGIN_LOG_TOTAL);
+        return generalCacheService.get(BizConstant.LOGIN_LOG_TOTAL);
     }
 
     @Override
     public Long findTodayVisitCount() {
         LocalDate now = LocalDate.now();
-        return generalCacheService.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TODAY, now));
+        return generalCacheService.get(BuildKeyUtils.generateKey(BizConstant.LOGIN_LOG_TODAY, now));
     }
 
     @Override
     public Long findTodayIp() {
         LocalDate now = LocalDate.now();
-        return generalCacheService.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TODAY_IP, now));
+        return generalCacheService.get(BuildKeyUtils.generateKey(BizConstant.LOGIN_LOG_TODAY_IP, now));
     }
 
     @Override
     public List<LoginLogCount> findLastTenDaysVisitCount(String account) {
         LocalDate tenDays = LocalDate.now().plusDays(-9);
-        return generalCacheService.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_TEN_DAY, tenDays, account),
+        return generalCacheService.get(BuildKeyUtils.generateKey(BizConstant.LOGIN_LOG_TEN_DAY, tenDays, account),
                 (key) -> loginLogRepository.findLastTenDaysVisitCount(tenDays, account));
     }
 
     @Override
     public List<LoginLogCount> findByBrowser() {
-        return generalCacheService.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_BROWSER),
+        return generalCacheService.get(BuildKeyUtils.generateKey(BizConstant.LOGIN_LOG_BROWSER),
                 (key) -> loginLogRepository.findByBrowser());
     }
 
     @Override
     public List<LoginLogCount> findByOperatingSystem() {
-        return generalCacheService.get(BuildKeyUtils.generateKey(CacheConstant.LOGIN_LOG_SYSTEM),
+        return generalCacheService.get(BuildKeyUtils.generateKey(BizConstant.LOGIN_LOG_SYSTEM),
                 (key) -> loginLogRepository.findByOperatingSystem());
     }
 

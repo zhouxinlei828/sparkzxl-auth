@@ -7,7 +7,7 @@ import com.github.sparkzxl.auth.application.event.LoginEvent;
 import com.github.sparkzxl.auth.application.service.IOauthService;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.auth.infrastructure.oauth2.AuthorizationRequest;
 import com.github.sparkzxl.auth.infrastructure.oauth2.OpenProperties;
@@ -215,7 +215,7 @@ public class OauthServiceImpl implements IOauthService {
         String simpleUUID = IdUtil.simpleUUID();
         captchaInfo.setKey(simpleUUID);
         captchaInfo.setData(captcha.toBase64());
-        generalCacheService.set(BuildKeyUtils.generateKey(CacheConstant.CAPTCHA, simpleUUID), captcha.text().toLowerCase(), 60L, TimeUnit.SECONDS);
+        generalCacheService.set(BuildKeyUtils.generateKey(BizConstant.CAPTCHA, simpleUUID), captcha.text().toLowerCase(), 60L, TimeUnit.SECONDS);
         return captchaInfo;
     }
 
@@ -224,7 +224,7 @@ public class OauthServiceImpl implements IOauthService {
         if (StrUtil.isBlank(value)) {
             BizExceptionAssert.businessFail(400, "请输入验证码");
         }
-        String cacheKey = BuildKeyUtils.generateKey(CacheConstant.CAPTCHA, key);
+        String cacheKey = BuildKeyUtils.generateKey(BizConstant.CAPTCHA, key);
         String captchaData = generalCacheService.get(cacheKey);
         if (StringUtils.isEmpty(captchaData)) {
             BizExceptionAssert.businessFail(400, "验证码已过期");
@@ -254,7 +254,7 @@ public class OauthServiceImpl implements IOauthService {
         if (StringUtils.isNotEmpty(referer)) {
             UrlBuilder builder = UrlBuilder.ofHttp(referer, CharsetUtil.CHARSET_UTF_8);
             builder.setPath(UrlPath.of("jump", StandardCharsets.UTF_8));
-            String frontStateKey = BuildKeyUtils.generateKey(CacheConstant.FRONT_STATE, state);
+            String frontStateKey = BuildKeyUtils.generateKey(BizConstant.FRONT_STATE, state);
             generalCacheService.set(frontStateKey, builder.build(), 5L, TimeUnit.MINUTES);
         }
         return EscapeUtil.safeUnescape(authorizeUrl);
@@ -262,7 +262,7 @@ public class OauthServiceImpl implements IOauthService {
 
     @Override
     public AccessTokenInfo authorizationCodeCallBack(String authorizationCode, String loginState) {
-        String frontStateKey = BuildKeyUtils.generateKey(CacheConstant.FRONT_STATE, loginState);
+        String frontStateKey = BuildKeyUtils.generateKey(BizConstant.FRONT_STATE, loginState);
         String frontUrl = generalCacheService.get(frontStateKey);
         if (StringUtils.isEmpty(frontUrl)) {
             return null;

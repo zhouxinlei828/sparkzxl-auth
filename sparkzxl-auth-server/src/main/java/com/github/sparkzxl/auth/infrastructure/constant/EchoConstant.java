@@ -7,7 +7,7 @@ package com.github.sparkzxl.auth.infrastructure.constant;
  * @author charles.zhou
  * @date 2020-07-19 09:25:48
  */
-public class EchoConstants {
+public class EchoConstant {
 
     public static final String FIND_NAME_BY_IDS = "findNameByIds";
     public static final String FIND_BY_IDS = "findByIds";

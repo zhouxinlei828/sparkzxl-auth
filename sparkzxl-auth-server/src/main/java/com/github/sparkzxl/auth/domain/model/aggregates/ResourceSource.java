@@ -30,7 +30,7 @@ public class ResourceSource {
     private String oldVal;
 
     /**
-     * 租户池code
+     * 租户信息code
      */
     private String tenantId;
 

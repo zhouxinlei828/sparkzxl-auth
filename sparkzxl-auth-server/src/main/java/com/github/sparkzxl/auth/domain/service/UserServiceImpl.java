@@ -14,9 +14,9 @@ import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
 import com.github.sparkzxl.auth.domain.model.vo.AuthUserBasicVO;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
-import com.github.sparkzxl.auth.infrastructure.constant.ElasticsearchConstant;
-import com.github.sparkzxl.auth.infrastructure.constant.RoleConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
@@ -84,7 +84,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         if (ObjectUtils.isNotEmpty(authUser)) {
             AuthUserInfo<Long> authUserInfo = AuthUserConvert.INSTANCE.convertAuthUserInfo(authUser);
             List<String> authUserRoles = getAuthUserRoles(authUser.getId());
-            authUserRoles.add(RoleConstant.USER_CODE);
+            authUserRoles.add(BizConstant.USER_CODE);
             authUserInfo.setAuthorityList(authUserRoles);
             Map<String, Object> extraInfo = Maps.newHashMap();
             extraInfo.put("org", authUser.getOrg().getData());
@@ -115,7 +115,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
             for (String key : userAttribute.keySet()) {
                 searchSourceBuilder.query(QueryBuilders.termQuery(key, userAttribute.get(key)));
             }
-            searchDocList = esUserAttributeService.searchDocList(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, searchSourceBuilder, Map.class);
+            searchDocList = esUserAttributeService.searchDocList(BizConstant.INDEX_USER_ATTRIBUTE, searchSourceBuilder, Map.class);
             userIdList = searchDocList.stream().filter(x -> ObjectUtils.isNotEmpty(x.get(EntityConstant.COLUMN_ID))).map(x -> Long.valueOf((String) x.get(EntityConstant.COLUMN_ID))).collect(Collectors.toList());
             if (CollectionUtils.isEmpty(userIdList)) {
                 return new PageInfo<>();
@@ -140,7 +140,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         Map<String, Object> userAttributeMap = authUser.getAttribute();
         if (MapUtils.isNotEmpty(userAttributeMap)){
             userAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(userId));
-            esUserAttributeService.saveDoc(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, String.valueOf(userId), userAttributeMap);
+            esUserAttributeService.saveDoc(BizConstant.INDEX_USER_ATTRIBUTE, String.valueOf(userId), userAttributeMap);
         }
         return result;
     }
@@ -151,10 +151,10 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         boolean result = authUserRepository.updateAuthUser(authUser);
         Map<String, Object> userAttributeMap = authUser.getAttribute();
         Long userId = authUser.getId();
-        esUserAttributeService.deleteDocById(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, String.valueOf(userId));
+        esUserAttributeService.deleteDocById(BizConstant.INDEX_USER_ATTRIBUTE, String.valueOf(userId));
         if (MapUtils.isNotEmpty(userAttributeMap)) {
             userAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(userId));
-            esUserAttributeService.saveDoc(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, String.valueOf(userId), userAttributeMap);
+            esUserAttributeService.saveDoc(BizConstant.INDEX_USER_ATTRIBUTE, String.valueOf(userId), userAttributeMap);
         }
         return result;
     }
@@ -215,7 +215,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
         Map<String, Object> extraInfo = authUserInfo.getExtraInfo();
         AuthUserBasicInfo authUserBasicInfo = authUserRepository.getAuthUserBasicInfo(authUserInfo.getId());
         if (ObjectUtils.isNotEmpty(authUserBasicInfo) && ObjectUtils.isNotEmpty(authUserBasicInfo.getId())) {
-            Map userAttribute = esUserAttributeService.searchDocById(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, String.valueOf(authUserBasicInfo.getId()), Map.class);
+            Map userAttribute = esUserAttributeService.searchDocById(BizConstant.INDEX_USER_ATTRIBUTE, String.valueOf(authUserBasicInfo.getId()), Map.class);
             authUserBasicInfo.setAttribute(userAttribute);
         }
         return AuthUserConvert.INSTANCE.convertAuthUserBasicVO(authUserBasicInfo);
@@ -257,7 +257,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
             for (String key : userAttribute.keySet()) {
                 searchSourceBuilder.query(QueryBuilders.termQuery(key, userAttribute.get(key)));
             }
-            searchDocList = esUserAttributeService.searchDocList(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, searchSourceBuilder, Map.class);
+            searchDocList = esUserAttributeService.searchDocList(BizConstant.INDEX_USER_ATTRIBUTE, searchSourceBuilder, Map.class);
             userIdList = searchDocList.stream().filter(x -> ObjectUtils.isNotEmpty(x.get(EntityConstant.COLUMN_ID))).map(x -> Long.valueOf((String) x.get(EntityConstant.COLUMN_ID))).collect(Collectors.toList());
             if (CollectionUtils.isEmpty(userIdList)) {
                 return Lists.newArrayList();
@@ -279,7 +279,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
             }
         } else {
             List<String> userIdStrList = userList.stream().map(x -> String.valueOf(x.getId())).collect(Collectors.toList());
-            searchUserAttribute = esUserAttributeService.searchDocsMapByIdList(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, userIdStrList, Map.class);
+            searchUserAttribute = esUserAttributeService.searchDocsMapByIdList(BizConstant.INDEX_USER_ATTRIBUTE, userIdStrList, Map.class);
         }
         System.out.println(JSONUtil.toJsonPrettyStr(searchUserAttribute));
         Map<String, Map> finalSearchUserAttribute = searchUserAttribute;
@@ -296,7 +296,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     public boolean deleteAuthUser(List<Long> ids) {
         boolean result = authUserRepository.deleteAuthUser(ids);
         if (CollectionUtils.isNotEmpty(ids)) {
-            esUserAttributeService.deleteDocByIds(ElasticsearchConstant.INDEX_USER_ATTRIBUTE, ids.stream().map(String::valueOf).collect(Collectors.toList()));
+            esUserAttributeService.deleteDocByIds(BizConstant.INDEX_USER_ATTRIBUTE, ids.stream().map(String::valueOf).collect(Collectors.toList()));
         }
         return result;
     }
@@ -308,7 +308,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
 
     @Override
     protected String getRegion() {
-        return CacheConstant.USER;
+        return BizConstant.USER;
     }
 
 }

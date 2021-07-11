@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.application.service.ICoreStationService;
 import com.github.sparkzxl.auth.domain.repository.ICoreStationRepository;
 import com.github.sparkzxl.auth.domain.repository.ISegmentIdRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.CoreStationConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreStationMapper;
@@ -73,6 +73,6 @@ public class CoreStationServiceImpl extends SuperCacheServiceImpl<CoreStationMap
 
     @Override
     protected String getRegion() {
-        return CacheConstant.STATION;
+        return BizConstant.STATION;
     }
 }

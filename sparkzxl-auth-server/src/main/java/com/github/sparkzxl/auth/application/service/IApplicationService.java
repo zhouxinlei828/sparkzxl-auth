@@ -11,7 +11,7 @@ import com.github.sparkzxl.database.dto.PageParams;
 import java.util.List;
 
 /**
- * description: 租户池客户端服务类
+ * description: 租户信息客户端服务类
  *
  * @author charles.zhou
  * @date 2021-02-20 09:44:35

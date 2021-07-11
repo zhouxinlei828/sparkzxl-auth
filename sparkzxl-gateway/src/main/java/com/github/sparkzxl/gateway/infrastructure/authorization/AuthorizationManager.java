@@ -3,7 +3,7 @@ package com.github.sparkzxl.gateway.infrastructure.authorization;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.github.sparkzxl.core.utils.ListUtils;
-import com.github.sparkzxl.gateway.infrastructure.constant.RoleConstant;
+import com.github.sparkzxl.gateway.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.gateway.utils.WebFluxUtils;
 import com.github.sparkzxl.jwt.service.JwtTokenService;
 import com.google.common.collect.Lists;
@@ -61,8 +61,8 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         String tenant = WebFluxUtils.getHeader(BaseContextConstants.TENANT, request);
         List<String> authorities = Lists.newArrayList();
         String cacheKey = BuildKeyUtils.generateKey(RESOURCE_ROLES_MAP, tenant);
-        if (RoleConstant.USER_PATH.equals(routePath) || RoleConstant.USER_ROUTER_PATH.equals(routePath)) {
-            authorities.add(RoleConstant.USER_CODE);
+        if (BizConstant.USER_PATH.equals(routePath) || BizConstant.USER_ROUTER_PATH.equals(routePath)) {
+            authorities.add(BizConstant.USER_CODE);
         }
         String obj = (String) redisTemplate.opsForHash().get(cacheKey, routePath);
         if (ObjectUtils.isNotEmpty(obj)) {

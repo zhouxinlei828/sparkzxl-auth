@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.domain.service;
 
 import com.github.sparkzxl.auth.application.service.IResourceService;
 import com.github.sparkzxl.auth.domain.repository.IAuthResourceRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.CacheConstant;
+import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthResourceConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthResourceMapper;
@@ -34,7 +34,7 @@ public class ResourceServiceImpl extends SuperCacheServiceImpl<AuthResourceMappe
 
     @Override
     protected String getRegion() {
-        return CacheConstant.RESOURCE;
+        return BizConstant.RESOURCE;
     }
 
     @Override

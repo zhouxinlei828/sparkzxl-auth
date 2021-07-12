@@ -82,12 +82,6 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
         return baseService.getAuthUserBasicInfo(authUserInfo);
     }
 
-    @ApiOperation("生成用户测试数据")
-    @GetMapping("/mockData")
-    public boolean mockUserData() {
-        return baseService.mockUserData();
-    }
-
     @Override
     public boolean handlerExcelQueryList(UserQueryDTO userQueryDTO, List<AuthUser> authUsers) {
         authUsers.addAll(baseService.userList(userQueryDTO));

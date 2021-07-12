@@ -61,4 +61,9 @@ public interface SecurityConstants {
      * 默认用户密码
      */
     String DEFAULT_PASSWORD = "123456";
+
+    /**
+     * 默认用户密码
+     */
+    String MOCK_REQUEST = "/mock/**";
 }

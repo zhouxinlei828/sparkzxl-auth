@@ -24,10 +24,10 @@ import java.util.Map;
 @Slf4j
 public class JwtValidationController {
 
-    private JwtTokenService<Long> jwtTokenService;
+    private JwtTokenService jwtTokenService;
 
     @Autowired
-    public void setJwtTokenService(JwtTokenService<Long> jwtTokenService) {
+    public void setJwtTokenService(JwtTokenService jwtTokenService) {
         this.jwtTokenService = jwtTokenService;
     }
 

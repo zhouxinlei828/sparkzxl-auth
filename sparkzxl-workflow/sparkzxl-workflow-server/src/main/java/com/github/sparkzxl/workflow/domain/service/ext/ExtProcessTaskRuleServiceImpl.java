@@ -53,10 +53,6 @@ public class ExtProcessTaskRuleServiceImpl extends SuperCacheServiceImpl<ExtProc
                 .id(WorkflowConstants.WorkflowAction.JUMP)
                 .name("跳转")
                 .build());
-        processActions.add(ProcessActionDTO.builder()
-                .id(WorkflowConstants.WorkflowAction.ROLLBACK)
-                .name("驳回")
-                .build());
         return processActions;
     }
 

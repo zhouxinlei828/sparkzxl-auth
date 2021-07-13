@@ -326,12 +326,11 @@ var SaveModelCtrl = [ '$rootScope', '$scope', '$http', '$route', '$location',
 
     $scope.saveAndClose = function () {
     	$scope.save(function() {
-
     	});
     };
     $scope.save = function (successCallback) {
 
-        if (!$scope.saveDialog.name || $scope.saveDialog.name.length === 0) {
+        if (!$scope.saveDialog.name || $scope.saveDialog.name.length == 0) {
             return;
         }
 

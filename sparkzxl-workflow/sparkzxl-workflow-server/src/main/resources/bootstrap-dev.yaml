@@ -10,12 +10,12 @@ spring:
     name: sparkzxl-workflow-server
   lifecycle:
     timeout-per-shutdown-phase: 30s
-  freemarker:
-    enabled: true
-    content-type: text/html
-    charset: utf-8
-    template-loader-path: classpath:/templates/
-    suffix: .ftl
+  thymeleaf:
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
   cloud:
     nacos:
       discovery:

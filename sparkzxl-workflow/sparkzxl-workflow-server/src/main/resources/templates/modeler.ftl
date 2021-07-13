@@ -29,7 +29,7 @@
 </head>
 <body>
 
-<#--<div class="navbar navbar-fixed-top navbar-inverse" role="navigation" id="main-header">
+<!--<div class="navbar navbar-fixed-top navbar-inverse" role="navigation" id="main-header">
     <div class="navbar-header">
         <a href="" ng-click="backToLanding()" class="navbar-brand"
            title="{{'GENERAL.MAIN-TITLE' | translate}}"><span

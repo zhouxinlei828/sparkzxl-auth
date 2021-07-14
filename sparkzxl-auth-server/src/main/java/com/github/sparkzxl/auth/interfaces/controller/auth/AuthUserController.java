@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.annotation.result.WebResult;
+import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.auth.api.IAuthUserApi;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
 import com.github.sparkzxl.auth.application.service.IUserService;
@@ -37,7 +37,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
-@WebResult
+@ResponseResult
 @WebLog
 @Api(tags = "用户管理")
 public class AuthUserController extends SuperCacheController<IUserService, Long,

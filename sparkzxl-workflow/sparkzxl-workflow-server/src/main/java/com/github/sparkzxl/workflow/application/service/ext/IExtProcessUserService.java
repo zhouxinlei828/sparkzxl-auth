@@ -1,6 +1,5 @@
 package com.github.sparkzxl.workflow.application.service.ext;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUser;
 

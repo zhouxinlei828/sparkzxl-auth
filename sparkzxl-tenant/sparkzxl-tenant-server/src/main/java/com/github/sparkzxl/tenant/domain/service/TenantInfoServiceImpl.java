@@ -10,7 +10,6 @@ import com.github.sparkzxl.tenant.domain.repository.ITenantInfoRepository;
 import com.github.sparkzxl.tenant.infrastructure.convert.TenantInfoConvert;
 import com.github.sparkzxl.tenant.infrastructure.entity.TenantInfo;
 import com.github.sparkzxl.tenant.infrastructure.mapper.TenantInfoMapper;
-import com.github.sparkzxl.tenant.infrastructure.repository.TenantInfoRepository;
 import com.github.sparkzxl.tenant.interfaces.dto.tenant.TenantInfoQueryDTO;
 import com.github.sparkzxl.tenant.interfaces.dto.tenant.TenantInfoSaveDTO;
 import com.github.sparkzxl.tenant.interfaces.dto.tenant.TenantInfoUpdateDTO;

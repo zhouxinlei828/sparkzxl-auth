@@ -2,7 +2,7 @@ package com.github.sparkzxl.tenant.interfaces.controller;
 
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.annotation.result.WebResult;
+import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.database.dto.PageParams;
@@ -26,7 +26,7 @@ import java.util.List;
  * @date 2021-02-02 16:21:52
  */
 @RestController
-@WebResult
+@ResponseResult
 @Api(tags = "租户信息管理")
 @RequestMapping("/tenant/info")
 public class TenantInfoController extends SuperCacheController<ITenantInfoService, Long,

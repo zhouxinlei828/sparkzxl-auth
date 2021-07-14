@@ -8,7 +8,6 @@ import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.application.service.es.IEsOrgAttributeService;
 import com.github.sparkzxl.auth.domain.repository.ICoreOrgRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
-import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.CoreOrgConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreOrgMapper;

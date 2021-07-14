@@ -1,9 +1,9 @@
 package com.github.sparkzxl.auth.domain.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.github.sparkzxl.auth.application.service.ISysParameterService;
 import com.github.sparkzxl.auth.infrastructure.entity.SysParameter;
 import com.github.sparkzxl.auth.infrastructure.mapper.SysParameterMapper;
-import com.github.sparkzxl.auth.application.service.ISysParameterService;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import org.springframework.stereotype.Service;
 

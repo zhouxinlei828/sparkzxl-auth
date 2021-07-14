@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
 
-import com.github.sparkzxl.annotation.result.WebResult;
+import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.log.annotation.WebLog;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessFormService;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author charles.zhou
  * @date 2021-03-25 18:03:38
  */
-@WebResult
+@ResponseResult
 @RestController
 @RequestMapping("/process/form")
 @WebLog

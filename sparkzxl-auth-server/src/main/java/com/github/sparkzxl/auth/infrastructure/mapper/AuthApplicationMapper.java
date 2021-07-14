@@ -1,6 +1,5 @@
 package com.github.sparkzxl.auth.infrastructure.mapper;
 
-import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthApplication;
 import com.github.sparkzxl.database.base.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Param;

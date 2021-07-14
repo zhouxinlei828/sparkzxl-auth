@@ -5,7 +5,6 @@ import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.gateway.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.gateway.utils.WebFluxUtils;
-import com.github.sparkzxl.jwt.service.JwtTokenService;
 import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ObjectUtils;

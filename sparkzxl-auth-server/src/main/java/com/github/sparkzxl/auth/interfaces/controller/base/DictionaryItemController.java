@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.controller.base;
 
 
-import com.github.sparkzxl.annotation.result.WebResult;
+import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.auth.application.service.IDictionaryItemService;
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemQueryDTO;
@@ -27,7 +27,7 @@ import java.util.List;
  */
 @AllArgsConstructor
 @RestController
-@WebResult
+@ResponseResult
 @WebLog
 @Api(tags = "字典项管理")
 @RequestMapping("/base/dictionaryItem")

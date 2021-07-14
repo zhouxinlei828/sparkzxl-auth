@@ -3,10 +3,7 @@ package com.github.sparkzxl.auth.domain.repository;
 
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * description: 组织 仓储类

@@ -2,7 +2,7 @@ package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.annotation.result.WebResult;
+import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.log.annotation.WebLog;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessDetailService;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessDetail;
@@ -25,7 +25,7 @@ import java.util.List;
  * @date   2020-07-21 14:53:25
  */
 @RestController
-@WebResult
+@ResponseResult
 @WebLog
 @RequestMapping("/process/detail")
 @Api(tags = "流程节点管理")

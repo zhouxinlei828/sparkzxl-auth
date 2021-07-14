@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.interfaces.controller.model;
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.annotation.result.WebResult;
+import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.log.annotation.WebLog;
 import com.github.sparkzxl.workflow.application.service.act.IActReModelService;
@@ -28,7 +28,7 @@ import javax.validation.Valid;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/modeler")
-@WebResult
+@ResponseResult
 @WebLog
 @Slf4j
 @Api(tags = "流程模型管理")
@@ -39,7 +39,7 @@ public class ModelerController {
 
     @ApiOperation("查询流程模型列表")
     @GetMapping("/page")
-    @WebResult
+    @ResponseResult
     public PageInfo<ActReModel> modelList(ModelPageDTO modelPageDTO) {
         return actReModelService.actReModelList(modelPageDTO);
     }

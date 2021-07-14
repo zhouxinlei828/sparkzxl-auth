@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 
 import cn.hutool.core.convert.Convert;
-import com.github.sparkzxl.annotation.result.WebResult;
+import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.auth.application.service.IMenuService;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthMenu;
 import com.github.sparkzxl.auth.interfaces.dto.menu.AuthMenuQueryDTO;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/menu")
-@WebResult
+@ResponseResult
 @WebLog
 @Api(tags = "菜单管理")
 public class AuthMenuController extends SuperCacheController<IMenuService, Long,

@@ -5,7 +5,6 @@ import com.github.sparkzxl.auth.application.service.IRoleService;
 import com.github.sparkzxl.auth.application.service.es.IEsRoleAttributeService;
 import com.github.sparkzxl.auth.domain.repository.IAuthRoleRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
-import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthRoleMapper;

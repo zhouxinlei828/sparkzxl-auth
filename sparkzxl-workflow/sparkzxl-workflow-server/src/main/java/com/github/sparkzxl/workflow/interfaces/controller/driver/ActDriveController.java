@@ -1,6 +1,6 @@
 package com.github.sparkzxl.workflow.interfaces.controller.driver;
 
-import com.github.sparkzxl.annotation.result.WebResult;
+import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.log.annotation.WebLog;
 import com.github.sparkzxl.workflow.api.ProcessDriveApi;
 import com.github.sparkzxl.workflow.application.service.driver.IProcessDriveService;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/drive")
-@WebResult
+@ResponseResult
 @WebLog
 @Api(tags = "流程驱动管理")
 public class ActDriveController implements ProcessDriveApi {

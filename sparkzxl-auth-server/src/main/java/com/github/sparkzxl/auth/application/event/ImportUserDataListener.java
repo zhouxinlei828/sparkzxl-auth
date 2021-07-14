@@ -11,7 +11,6 @@ import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
-import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
 import com.github.sparkzxl.entity.data.RemoteData;
 import com.google.common.collect.Lists;

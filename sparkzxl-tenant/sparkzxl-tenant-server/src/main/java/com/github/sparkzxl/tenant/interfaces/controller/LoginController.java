@@ -1,6 +1,6 @@
 package com.github.sparkzxl.tenant.interfaces.controller;
 
-import com.github.sparkzxl.annotation.result.WebResult;
+import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.entity.security.AuthRequest;
@@ -26,7 +26,7 @@ import javax.security.auth.login.AccountNotFoundException;
  * @date 2021-07-03 14:21:16
  */
 @RestController
-@WebResult
+@ResponseResult
 @WebLog
 @Api(value = "loginController", tags = "登录管理")
 public class LoginController {

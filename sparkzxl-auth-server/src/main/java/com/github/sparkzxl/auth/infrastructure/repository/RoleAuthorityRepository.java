@@ -8,7 +8,6 @@ import com.github.sparkzxl.auth.domain.model.aggregates.RoleResource;
 import com.github.sparkzxl.auth.domain.repository.IAuthResourceRepository;
 import com.github.sparkzxl.auth.domain.repository.IRoleAuthorityRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
-import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo;

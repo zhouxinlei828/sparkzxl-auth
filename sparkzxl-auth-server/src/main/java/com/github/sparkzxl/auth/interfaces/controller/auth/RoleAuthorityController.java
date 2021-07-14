@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.github.sparkzxl.annotation.result.WebResult;
+import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.auth.application.service.IRoleAuthorityService;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthorityQueryDTO;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/role/authority")
-@WebResult
+@ResponseResult
 @WebLog
 @Api(tags = "角色资源管理")
 public class RoleAuthorityController extends SuperCacheController<IRoleAuthorityService, Long,

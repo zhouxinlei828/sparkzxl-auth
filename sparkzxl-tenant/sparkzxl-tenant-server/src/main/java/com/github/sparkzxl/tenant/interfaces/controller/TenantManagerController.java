@@ -1,7 +1,7 @@
 package com.github.sparkzxl.tenant.interfaces.controller;
 
 
-import com.github.sparkzxl.annotation.result.WebResult;
+import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.tenant.application.service.ITenantManagerService;
 import com.github.sparkzxl.tenant.infrastructure.entity.TenantManager;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021-02-02 16:21:52
  */
 @RestController
-@WebResult
+@ResponseResult
 @Api(tags = "租户管理员管理")
 @RequestMapping("/tenant/manager")
 public class TenantManagerController extends SuperCacheController<ITenantManagerService, Long,

@@ -1,11 +1,8 @@
 package com.github.sparkzxl.auth.interfaces.dto.parameter;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.apache.poi.ss.formula.functions.T;
 
 /**
  * description: 系统参数

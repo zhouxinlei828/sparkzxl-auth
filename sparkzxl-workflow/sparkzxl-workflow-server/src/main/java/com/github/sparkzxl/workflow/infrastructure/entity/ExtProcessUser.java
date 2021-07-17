@@ -1,21 +1,20 @@
 package com.github.sparkzxl.workflow.infrastructure.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import com.github.sparkzxl.constant.EntityConstant;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * description: 流程用户信息
  *
  * @author charles.zhou
- * @date   2021-01-08 16:47:21
+ * @date 2021-01-08 16:47:21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -41,5 +40,10 @@ public class ExtProcessUser implements Serializable {
     @TableField("status")
     private Boolean status;
 
+    @TableField(value = EntityConstant.COLUMN_CREATE_TIME, fill = FieldFill.INSERT)
+    protected LocalDateTime createTime;
+
+    @TableField(value = EntityConstant.COLUMN_UPDATE_TIME, fill = FieldFill.INSERT_UPDATE)
+    protected LocalDateTime updateTime;
 
 }

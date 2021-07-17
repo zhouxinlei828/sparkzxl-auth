@@ -10,7 +10,7 @@ import java.util.Map;
  * description: 业务任务数据
  *
  * @author charles.zhou
- * @date   2020-10-01 19:56:14
+ * @date 2020-10-01 19:56:14
  */
 @Data
 @ApiModel("业务任务数据")
@@ -24,6 +24,9 @@ public class BusTaskInfo {
 
     @ApiModelProperty(value = "流程动作类型")
     private Map<Object, Object> actTypeMap;
+
+    @ApiModelProperty(value = "下一步任务")
+    private UserNextTask currentUserTask;
 
     @ApiModelProperty(value = "下一步任务")
     private UserNextTask userNextTask;

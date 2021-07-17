@@ -54,7 +54,11 @@ public final class WorkflowConstants {
         /**
          * 驳回
          */
-        public static final int ROLLBACK = -1;
+        public static final int REJECTED = -1;
+        /**
+         * 回退
+         */
+        public static final int ROLLBACK = -2;
     }
 
     public static class ActType {
@@ -92,7 +96,11 @@ public final class WorkflowConstants {
         /**
          * 驳回
          */
-        public static final String ROLLBACK = "-1";
+        public static final String REJECTED = "-1";
+        /**
+         * 回退
+         */
+        public static final String ROLLBACK = "-2";
 
 
     }

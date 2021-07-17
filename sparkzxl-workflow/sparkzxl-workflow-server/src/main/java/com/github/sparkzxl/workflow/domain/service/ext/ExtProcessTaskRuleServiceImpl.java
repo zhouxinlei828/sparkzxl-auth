@@ -19,7 +19,7 @@ import java.util.List;
  * description:流程控制 服务实现类
  *
  * @author charles.zhou
- * @date   2020-07-17 13:37:00
+ * @date 2020-07-17 13:37:00
  */
 @Service
 public class ExtProcessTaskRuleServiceImpl extends SuperCacheServiceImpl<ExtProcessTaskRuleMapper, ExtProcessTaskRule> implements IExtProcessTaskRuleService {
@@ -52,6 +52,10 @@ public class ExtProcessTaskRuleServiceImpl extends SuperCacheServiceImpl<ExtProc
         processActions.add(ProcessActionDTO.builder()
                 .id(WorkflowConstants.WorkflowAction.JUMP)
                 .name("跳转")
+                .build());
+        processActions.add(ProcessActionDTO.builder()
+                .id(WorkflowConstants.WorkflowAction.ROLLBACK)
+                .name("回退")
                 .build());
         return processActions;
     }

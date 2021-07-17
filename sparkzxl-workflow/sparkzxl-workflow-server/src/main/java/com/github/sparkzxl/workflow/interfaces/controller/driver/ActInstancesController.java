@@ -29,7 +29,7 @@ import java.util.List;
  * description: 流程实例管理
  *
  * @author charles.zhou
- * @date   2020-07-21 14:53:25
+ * @date 2020-07-21 14:53:25
  */
 @AllArgsConstructor
 @RestController
@@ -55,8 +55,8 @@ public class ActInstancesController implements ProcessApi {
 
     @ApiOperation(value = "获取下一步任务详情")
     @PostMapping("nextUserTask")
-    public List<UserNextTask> getNextUserTask(@RequestBody @Validated ProcessNextTaskDTO processNextTaskDTO) {
-        return processDriveService.getNextUserTask(processNextTaskDTO);
+    public UserNextTask getNextUserTask(@RequestBody @Validated ProcessNextTaskDTO processNextTaskDTO) {
+        return processDriveService.getNextUserTask(processNextTaskDTO.getProcessInstanceId(), processNextTaskDTO.getActType());
     }
 
     @Override

@@ -9,10 +9,9 @@ import com.github.sparkzxl.workflow.dto.DriverResult;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
- * description: 流程驳回业务处理
+ * description: 流程跳转业务处理
  *
  * @author charles.zhou
  * @date 2020-07-20 16:28:09
@@ -30,10 +29,9 @@ public class ProcessRollbackBusinessHandler implements BusinessHandler<DriverRes
 
     @Override
     @RedisLock(prefix = "act_driver")
-    @Transactional(rollbackFor = Exception.class)
     public DriverResult businessHandler(DriveProcess driveProcess) {
-        log.info("流程驳回业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
-        return actWorkApiService.submitProcess(driveProcess);
+        log.info("流程回退业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
+        return actWorkApiService.jumpProcess(driveProcess);
     }
 
 }

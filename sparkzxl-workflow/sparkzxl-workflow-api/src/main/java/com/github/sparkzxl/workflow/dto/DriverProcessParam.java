@@ -32,12 +32,12 @@ public class DriverProcessParam {
     @ApiModelProperty(value = "评论，审批意见")
     private String comment;
 
-    @ApiModelProperty(value = "任务代理人")
-    @NotEmpty(message = "任务代理人不能为空")
-    private String applyUserId;
+    @ApiModelProperty(value = "下一任务代理人")
+    @NotEmpty(message = "下一任务代理人不能为空")
+    private String nextTaskApproveUserId;
 
-    @ApiModelProperty(value = "用户id")
-    @NotEmpty(message = "用户不能为空")
+    @ApiModelProperty(value = "审批用户id")
+    @NotEmpty(message = "审批用户不能为空")
     private String userId;
 
     @ApiModelProperty(value = "是否需要跳转")

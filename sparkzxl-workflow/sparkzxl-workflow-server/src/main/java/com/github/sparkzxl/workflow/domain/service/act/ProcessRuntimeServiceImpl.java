@@ -22,7 +22,7 @@ import java.util.Map;
  * @date   2020-07-28 14:10:24
  */
 @Service
-@Transactional(transactionManager = "transactionManager", rollbackFor = Exception.class)
+@Transactional(rollbackFor = Exception.class)
 public class ProcessRuntimeServiceImpl implements IProcessRuntimeService {
 
     @Autowired

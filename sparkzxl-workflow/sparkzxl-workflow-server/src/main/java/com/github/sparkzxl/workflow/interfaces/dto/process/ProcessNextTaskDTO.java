@@ -12,7 +12,7 @@ import java.util.Map;
  * description: 流程驱动入参
  *
  * @author charles.zhou
- * @date   2020-07-20 16:00:12
+ * @date 2020-07-20 16:00:12
  */
 @Getter
 @Setter
@@ -23,7 +23,10 @@ public class ProcessNextTaskDTO {
     @ApiModelProperty(value = "流程实例id", required = true)
     private String processInstanceId;
 
-    @ApiModelProperty(value = "业务数据")
+    @ApiModelProperty(value = "流程动作类型")
+    private Integer actType;
+
+    @ApiModelProperty(value = "业务变量")
     private Map<String, Object> variables;
 
 }

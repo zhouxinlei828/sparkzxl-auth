@@ -24,6 +24,15 @@ public interface IProcessDriveService {
     /**
      * 获取下一步任务详情
      *
+     * @param processInstanceId 流程实例id
+     * @param actType 流程动作类型
+     * @return List<UserNextTask>
+     */
+    UserNextTask getNextUserTask(String processInstanceId,Integer actType);
+
+    /**
+     * 获取下一步任务详情
+     *
      * @param processNextTaskDTO 查询下一步入参
      * @return List<UserNextTask>
      */
@@ -60,9 +69,8 @@ public interface IProcessDriveService {
      *
      * @param businessId   业务主键
      * @param deleteReason 删除原因
-     * @return boolean
      */
-    boolean deleteProcessInstance(String businessId, String deleteReason);
+    void deleteProcessInstance(String businessId, String deleteReason);
 
     /**
      * 删除流程实例

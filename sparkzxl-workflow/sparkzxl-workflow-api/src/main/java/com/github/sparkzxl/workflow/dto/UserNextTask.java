@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,6 +17,9 @@ import java.util.List;
 @ApiModel("用户任务详情")
 public class UserNextTask {
 
+    @ApiModelProperty("任务id")
+    protected String taskId;
+
     @ApiModelProperty("任务代理人")
     protected String assignee;
 
@@ -26,7 +30,7 @@ public class UserNextTask {
     protected String priority;
 
     @ApiModelProperty("任务到期日")
-    protected String dueDate;
+    protected Date dueDate;
 
     protected String businessCalendarName;
 

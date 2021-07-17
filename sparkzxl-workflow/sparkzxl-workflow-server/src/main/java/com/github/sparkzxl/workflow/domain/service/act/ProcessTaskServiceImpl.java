@@ -19,7 +19,7 @@ import java.util.Map;
  * description: 运行中的Task相关 服务实现类
  *
  * @author charles.zhou
- * @date   2020-07-17 16:23:03
+ * @date 2020-07-17 16:23:03
  */
 @Service
 public class ProcessTaskServiceImpl implements IProcessTaskService {
@@ -39,6 +39,17 @@ public class ProcessTaskServiceImpl implements IProcessTaskService {
         } else {
             taskService.complete(taskId);
         }
+    }
+
+
+    @Override
+    public void addCandidateUser(String taskId, String userId) {
+        taskService.addCandidateUser(taskId, userId);
+    }
+
+    @Override
+    public void addCandidateGroup(String taskId, String groupId) {
+        taskService.addCandidateGroup(taskId, groupId);
     }
 
     @Override
@@ -154,6 +165,11 @@ public class ProcessTaskServiceImpl implements IProcessTaskService {
     @Override
     public Object getVariable(String taskId, String variableName) {
         return taskService.getVariable(taskId, variableName);
+    }
+
+    @Override
+    public Map<String, Object> getVariables(String taskId) {
+        return taskService.getVariables(taskId);
     }
 
     @Override

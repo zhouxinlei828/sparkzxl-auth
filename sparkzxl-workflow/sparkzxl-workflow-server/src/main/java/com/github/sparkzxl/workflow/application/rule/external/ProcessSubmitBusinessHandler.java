@@ -9,7 +9,6 @@ import com.github.sparkzxl.workflow.dto.DriverResult;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * description: 流程提交业务处理
@@ -30,7 +29,6 @@ public class ProcessSubmitBusinessHandler implements BusinessHandler<DriverResul
 
     @Override
     @RedisLock(prefix = "act_driver")
-    @Transactional(rollbackFor = Exception.class)
     public DriverResult businessHandler(DriveProcess driveProcess) {
         log.info("流程提交业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
         return actWorkApiService.submitProcess(driveProcess);

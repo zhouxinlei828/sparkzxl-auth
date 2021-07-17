@@ -1,6 +1,7 @@
 package com.github.sparkzxl.workflow.domain.service.act;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
 import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;
@@ -18,15 +19,17 @@ import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtHiTaskStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
+import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUser;
 import com.github.sparkzxl.workflow.infrastructure.enums.ProcessStatusEnum;
 import com.github.sparkzxl.workflow.infrastructure.enums.TaskStatusEnum;
+import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessUserMapper;
+import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessUserRoleMapper;
 import com.github.sparkzxl.workflow.infrastructure.utils.ActivitiUtils;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
-import org.activiti.bpmn.model.BpmnModel;
-import org.activiti.bpmn.model.FlowElement;
-import org.activiti.bpmn.model.FlowNode;
 import org.activiti.bpmn.model.Process;
+import org.activiti.bpmn.model.*;
+import org.activiti.engine.IdentityService;
 import org.activiti.engine.ManagementService;
 import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -35,9 +38,11 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -60,13 +65,72 @@ public class ActWorkApiService {
     @Autowired
     private IExtHiTaskStatusService actHiTaskStatusService;
     @Autowired
-    private IProcessTaskService taskService;
-    @Autowired
     private IProcessRepositoryService repositoryService;
     @Autowired
     private ManagementService managementService;
     @Autowired
     private IExtProcessTaskRuleService processTaskRuleService;
+
+    @Autowired
+    private ExtProcessUserRoleMapper processUserRoleMapper;
+
+    @Autowired
+    private ExtProcessUserMapper extProcessUserMapper;
+
+    @Autowired
+    private IdentityService identityService;
+
+    @Transactional(rollbackFor = Exception.class)
+    public DriverResult startProcess(DriveProcess driveProcess) {
+        DriverResult driverResult = new DriverResult();
+        String businessId = driveProcess.getBusinessId();
+        try {
+            String userId = driveProcess.getUserId();
+            //查询是否存在已有流程，如果有，则不能进行启动工作流操作
+            ProcessInstance originalProcessInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
+            if (ObjectUtils.isNotEmpty(originalProcessInstance)) {
+                BizExceptionAssert.businessFail("流程已存在，请勿重复启动");
+            }
+            Map<String, Object> variables = Maps.newHashMap();
+            variables.put("assignee", driveProcess.getNextTaskApproveUserId());
+            variables.put("actType", driveProcess.getActType());
+            identityService.setAuthenticatedUserId(String.valueOf(userId));
+            ProcessInstance processInstance = processRuntimeService.startProcessInstanceByKey(driveProcess.getProcessDefinitionKey(),
+                    businessId,
+                    variables);
+            String processInstanceId = processInstance.getProcessInstanceId();
+            log.info("启动activiti流程------++++++ProcessInstanceId：{}------++++++", processInstanceId);
+            String comment = driveProcess.getComment();
+            if (StringUtils.isEmpty(comment)) {
+                comment = "开始节点跳过";
+            }
+            boolean needJump = driveProcess.isNeedJump();
+            if (needJump) {
+                driveProcess.setProcessInstanceId(processInstanceId);
+                driveProcess.setProcessDefinitionKey(processInstance.getProcessDefinitionKey());
+                driveProcess.setActType(WorkflowConstants.WorkflowAction.JUMP);
+                driveProcess.setComment(comment);
+                driverResult = jumpProcess(driveProcess);
+            } else {
+                variables.put("actType", WorkflowConstants.WorkflowAction.SUBMIT);
+                DriverData driverData = DriverData.builder()
+                        .userId(userId)
+                        .processInstanceId(processInstanceId)
+                        .businessId(businessId)
+                        .processDefinitionKey(processInstance.getProcessDefinitionKey())
+                        .actType(WorkflowConstants.WorkflowAction.SUBMIT)
+                        .comment(comment)
+                        .variables(variables)
+                        .build();
+                driverResult = promoteProcess(driverData);
+            }
+        } catch (Exception e) {
+            driverResult.setErrorMsg(e.getMessage());
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            log.error("发生异常 Exception：{}", ExceptionUtil.getMessage(e));
+        }
+        return driverResult;
+    }
 
     public DriverResult promoteProcess(DriverData driverData) {
         String processInstanceId = driverData.getProcessInstanceId();
@@ -77,6 +141,7 @@ public class ActWorkApiService {
         String currentTaskId = task.getId();
         String taskDefinitionKey = task.getTaskDefinitionKey();
         ApiResponseStatus.FAILURE.assertNotNull(task);
+        validateAuthority(task, userId);
         //添加审核人
         Authentication.setAuthenticatedUserId(userId);
         if (StringUtils.isNotEmpty(comment)) {
@@ -126,42 +191,55 @@ public class ActWorkApiService {
         return driverResult;
     }
 
-    public DriverResult jumpProcess(DriverData driverData) {
-        String processInstanceId = driverData.getProcessInstanceId();
-        String userId = driverData.getUserId();
-        String comment = driverData.getComment();
-        Task currentTask = taskService.getLatestTaskByProInstId(processInstanceId);
-        String currentTaskId = currentTask.getId();
-        //添加审核人
-        Authentication.setAuthenticatedUserId(userId);
-        if (StringUtils.isNotEmpty(comment)) {
-            processTaskService.addComment(currentTaskId, processInstanceId, comment);
+    @Transactional(rollbackFor = Exception.class)
+    public DriverResult jumpProcess(DriveProcess driveProcess) {
+        DriverResult driverResult = new DriverResult();
+        try {
+            String businessId = driveProcess.getBusinessId();
+            String userId = driveProcess.getUserId();
+            int actType = driveProcess.getActType();
+            ProcessInstance processInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
+            if (ObjectUtils.isEmpty(processInstance)) {
+                BizExceptionAssert.businessFail("流程实例为空，请检查参数是否正确");
+            }
+            String processInstanceId = processInstance.getProcessInstanceId();
+            String comment = driveProcess.getComment();
+            Task currentTask = processTaskService.getLatestTaskByProInstId(processInstanceId);
+            String currentTaskId = currentTask.getId();
+            //添加审核人
+            Authentication.setAuthenticatedUserId(userId);
+            if (StringUtils.isNotEmpty(comment)) {
+                processTaskService.addComment(currentTaskId, processInstanceId, comment);
+            }
+            processTaskService.setAssignee(currentTaskId, userId);
+            String taskDefinitionKey = currentTask.getTaskDefinitionKey();
+            String processDefinitionId = currentTask.getProcessDefinitionId();
+            BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
+            // 获取流程定义
+            Process process = bpmnModel.getMainProcess();
+            //获取所有的FlowElement信息
+            Collection<FlowElement> flowElements = process.getFlowElements();
+            // 获取目标节点task定义key
+            ExtProcessTaskRule actRuTaskRule = processTaskRuleService.findActRuTaskRule(driveProcess.getProcessDefinitionKey(),
+                    taskDefinitionKey, driveProcess.getActType());
+            if (ObjectUtils.isEmpty(actRuTaskRule)) {
+                BizExceptionAssert.businessFail("请设置流程跳转规则");
+            }
+            String taskDefKey = actRuTaskRule.getTaskDefKey();
+            FlowElement flowElement = ActivitiUtils.getFlowElementById(taskDefKey, flowElements);
+            // 获取目标节点定义
+            assert flowElement != null;
+            FlowNode targetNode = (FlowNode) process.getFlowElement(flowElement.getId());
+            // 删除当前运行任务，同时返回执行id，该id在并发情况下也是唯一的
+            String executionEntityId = managementService.executeCommand(new DeleteTaskCmd(currentTaskId));
+            // 流程执行到来源节点
+            managementService.executeCommand(new SetFlowNodeAndGoCmd(targetNode, executionEntityId));
+            driverResult = recordProcessState(processInstanceId, driveProcess.getBusinessId(), actType, currentTaskId, taskDefinitionKey);
+        } catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            driverResult.setErrorMsg(e.getMessage());
+            log.error("发生异常 Exception：{}", ExceptionUtil.getMessage(e));
         }
-        processTaskService.setAssignee(currentTaskId, userId);
-        String taskDefinitionKey = currentTask.getTaskDefinitionKey();
-        String processDefinitionId = currentTask.getProcessDefinitionId();
-        BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
-        // 获取流程定义
-        Process process = bpmnModel.getMainProcess();
-        //获取所有的FlowElement信息
-        Collection<FlowElement> flowElements = process.getFlowElements();
-        // 获取目标节点task定义key
-        ExtProcessTaskRule actRuTaskRule = processTaskRuleService.findActRuTaskRule(driverData.getProcessDefinitionKey(),
-                taskDefinitionKey, driverData.getActType());
-        DriverResult driverResult;
-        if (ObjectUtils.isEmpty(actRuTaskRule)) {
-            BizExceptionAssert.businessFail("请设置流程跳转规则");
-        }
-        String taskDefKey = actRuTaskRule.getTaskDefKey();
-        FlowElement flowElement = ActivitiUtils.getFlowElementById(taskDefKey, flowElements);
-        // 获取目标节点定义
-        assert flowElement != null;
-        FlowNode targetNode = (FlowNode) process.getFlowElement(flowElement.getId());
-        // 删除当前运行任务，同时返回执行id，该id在并发情况下也是唯一的
-        String executionEntityId = managementService.executeCommand(new DeleteTaskCmd(currentTaskId));
-        // 流程执行到来源节点
-        managementService.executeCommand(new SetFlowNodeAndGoCmd(targetNode, executionEntityId));
-        driverResult = recordProcessState(processInstanceId, driverData.getBusinessId(), driverData.getActType(), currentTaskId, taskDefinitionKey);
         return driverResult;
     }
 
@@ -205,15 +283,16 @@ public class ActWorkApiService {
         processTaskStatusService.saveOrUpdate(extProcessStatus);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public DriverResult submitProcess(DriveProcess driveProcess) {
         DriverResult driverResult = new DriverResult();
         String businessId = driveProcess.getBusinessId();
         try {
-            String applyUserId = driveProcess.getApplyUserId();
+            String nextTaskApproveUserId = driveProcess.getNextTaskApproveUserId();
             String userId = driveProcess.getUserId();
             Map<String, Object> variables = Maps.newHashMap();
-            if (StringUtils.isNotEmpty(applyUserId)) {
-                variables.put("assignee", applyUserId);
+            if (StringUtils.isNotEmpty(nextTaskApproveUserId)) {
+                variables.put("assignee", nextTaskApproveUserId);
             }
             variables.put("actType", driveProcess.getActType());
             ProcessInstance processInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
@@ -239,4 +318,31 @@ public class ActWorkApiService {
         return driverResult;
     }
 
+
+    private void validateAuthority(Task task, String userId) {
+        FlowElement flowElement = getThisNodeByInsId(task);
+        if (flowElement instanceof UserTask) {
+            List<String> listGroup = ((UserTask) flowElement).getCandidateGroups();
+            if (listGroup.size() == 0) {
+                return;
+            }
+            //遍历所有组
+            List<String> userIdList = processUserRoleMapper.findUserIdListByRoleIds(listGroup);
+            if (userIdList.contains(userId)) {
+                return;
+            }
+        }
+        ExtProcessUser extProcessUser = extProcessUserMapper.selectOne(new LambdaQueryWrapper<ExtProcessUser>()
+                .eq(ExtProcessUser::getId, userId).last("limit 1"));
+        BizExceptionAssert.businessFail("当前节点审批人[" + extProcessUser.getName() + "]无权限审批！");
+    }
+
+    private FlowElement getThisNodeByInsId(Task task) {
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(task.getProcessDefinitionId());
+        // 获取流程定义
+        Process process = bpmnModel.getMainProcess();
+        //获取所有的FlowElement信息
+        Collection<FlowElement> flowElements = process.getFlowElements();
+        return ActivitiUtils.getFlowElementById(task.getTaskDefinitionKey(), flowElements);
+    }
 }

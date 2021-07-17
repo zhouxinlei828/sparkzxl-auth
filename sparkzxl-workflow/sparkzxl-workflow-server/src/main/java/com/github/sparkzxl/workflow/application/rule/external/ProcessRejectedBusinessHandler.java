@@ -11,14 +11,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * description: 流程结束业务处理
+ * description: 流程驳回业务处理
  *
  * @author charles.zhou
  * @date 2020-07-20 16:28:09
  */
 @Slf4j
-@BusinessStrategy(type = WorkflowConstants.BusinessTaskStrategy.BUSINESS_TASK_DRIVER, source = WorkflowConstants.BusinessTaskStrategy.END)
-public class ProcessEndBusinessHandler implements BusinessHandler<DriverResult, DriveProcess> {
+@BusinessStrategy(type = WorkflowConstants.BusinessTaskStrategy.BUSINESS_TASK_DRIVER, source = WorkflowConstants.BusinessTaskStrategy.REJECTED)
+public class ProcessRejectedBusinessHandler implements BusinessHandler<DriverResult, DriveProcess> {
 
     private ActWorkApiService actWorkApiService;
 
@@ -30,7 +30,7 @@ public class ProcessEndBusinessHandler implements BusinessHandler<DriverResult, 
     @Override
     @RedisLock(prefix = "act_driver")
     public DriverResult businessHandler(DriveProcess driveProcess) {
-        log.info("流程结束业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
+        log.info("流程驳回业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
         return actWorkApiService.submitProcess(driveProcess);
     }
 

@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-@Transactional(transactionManager = "transactionManager", rollbackFor = Exception.class)
+@Transactional(rollbackFor = Exception.class)
 public class ProcessRepositoryServiceImpl implements IProcessRepositoryService {
 
     @Autowired

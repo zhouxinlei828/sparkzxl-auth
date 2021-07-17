@@ -13,7 +13,7 @@ import java.util.Map;
  * description: 运行中的Task相关 服务类
  *
  * @author charles.zhou
- * @date   2020-07-17 15:45:37
+ * @date 2020-07-17 15:45:37
  */
 public interface IProcessTaskService {
 
@@ -32,6 +32,23 @@ public interface IProcessTaskService {
      * @param variables 流程变量
      */
     void completeTask(String taskId, Map<String, Object> variables);
+
+
+    /**
+     * 添加任务候选人
+     *
+     * @param taskId 任务id
+     * @param userId 用户id
+     */
+    void addCandidateUser(String taskId, String userId);
+
+    /**
+     * 添加任务候选人组
+     *
+     * @param taskId 任务id
+     * @param groupId 用户组id
+     */
+    void addCandidateGroup(String taskId, String groupId);
 
     /**
      * 查询指定用户任务
@@ -81,7 +98,7 @@ public interface IProcessTaskService {
      * 获取历史评论信息
      *
      * @param taskId 历史任务实例id
-     * @param type    意见记录类型: event（事件） comment（意见）
+     * @param type   意见记录类型: event（事件） comment（意见）
      * @return List<Comment>
      */
     List<Comment> getTaskComments(String taskId, String type);
@@ -112,6 +129,7 @@ public interface IProcessTaskService {
 
     /**
      * 获取任务候选人信息
+     *
      * @param taskId 任务id
      * @return List<IdentityLink>
      */
@@ -222,6 +240,14 @@ public interface IProcessTaskService {
     Object getVariable(String taskId, String variableName);
 
     /**
+     * 获取流程变量
+     *
+     * @param taskId 任务id
+     * @return Map<String, Object>
+     */
+    Map<String, Object> getVariables(String taskId);
+
+    /**
      * 根据流程定义id获取相关附件信息列表
      *
      * @param processInstanceId 流程实例id
@@ -238,6 +264,7 @@ public interface IProcessTaskService {
 
     /**
      * 设置任务处理人
+     *
      * @param taskId
      * @param userId
      */

@@ -13,6 +13,11 @@ import lombok.Data;
 public class DriveProcess {
 
     /**
+     * 流程实例id
+     */
+    private String processInstanceId;
+
+    /**
      * 流程定义key
      */
     private String processDefinitionKey;
@@ -26,6 +31,7 @@ public class DriveProcess {
     /**
      * 流程动作类型 0:启动流程，1：提交审批，2：同意，3：跳转，-1：驳回
      */
+    @RedisLockParam(name = "actType")
     private int actType;
 
     /**
@@ -34,9 +40,9 @@ public class DriveProcess {
     private String comment;
 
     /**
-     * 申请人id
+     * 下一任务代理人
      */
-    private String applyUserId;
+    private String nextTaskApproveUserId;
 
     /**
      * 用户id

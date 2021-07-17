@@ -13,10 +13,9 @@ import com.github.sparkzxl.workflow.interfaces.dto.role.ProcessUserRoleSaveDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * description: 流程角色管理
@@ -37,4 +36,11 @@ public class ExtProcessRoleController extends SuperCacheController<IExtProcessRo
     public boolean saveRoleUser(@Validated @RequestBody ProcessUserRoleSaveDTO processUserRole) {
         return baseService.saveRoleUser(processUserRole);
     }
+
+    @ApiOperation("查询角色用户Id列表")
+    @GetMapping("/user/list")
+    public List<Long> getRoleUserList(@RequestParam("roleId") Long roleId) {
+        return baseService.getRoleUserList(roleId);
+    }
+
 }

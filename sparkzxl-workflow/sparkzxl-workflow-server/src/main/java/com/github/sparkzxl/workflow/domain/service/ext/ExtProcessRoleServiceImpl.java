@@ -1,13 +1,21 @@
 package com.github.sparkzxl.workflow.domain.service.ext;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessRoleService;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessRoleRepository;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessRole;
+import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUserRole;
 import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessRoleMapper;
+import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessUserRoleMapper;
 import com.github.sparkzxl.workflow.interfaces.dto.role.ProcessUserRoleSaveDTO;
+import com.google.common.collect.Lists;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * description: 流程角色 服务实现类
@@ -20,6 +28,8 @@ public class ExtProcessRoleServiceImpl extends SuperCacheServiceImpl<ExtProcessR
 
     private IExtProcessRoleRepository processRoleRepository;
 
+    private ExtProcessUserRoleMapper processUserRoleMapper;
+
     @Autowired
     public void setProcessRoleRepository(IExtProcessRoleRepository processRoleRepository) {
         this.processRoleRepository = processRoleRepository;
@@ -27,7 +37,17 @@ public class ExtProcessRoleServiceImpl extends SuperCacheServiceImpl<ExtProcessR
 
     @Override
     public boolean saveRoleUser(ProcessUserRoleSaveDTO processUserRole) {
-        return processRoleRepository.saveRoleUser(processUserRole.getRoleId(),processUserRole.getUserIdList());
+        return processRoleRepository.saveRoleUser(processUserRole.getRoleId(), processUserRole.getUserIdList());
+    }
+
+    @Override
+    public List<Long> getRoleUserList(Long roleId) {
+        List<ExtProcessUserRole> extProcessUserRoles = processUserRoleMapper.selectList(new LambdaQueryWrapper<ExtProcessUserRole>()
+                .eq(ExtProcessUserRole::getRoleId, roleId));
+        if (CollectionUtils.isNotEmpty(extProcessUserRoles)) {
+            return extProcessUserRoles.stream().map(ExtProcessUserRole::getUserId).collect(Collectors.toList());
+        }
+        return Lists.newArrayList();
     }
 
     @Override

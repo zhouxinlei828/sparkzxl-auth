@@ -4,7 +4,6 @@ import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.sparkzxl.core.utils.DateUtils;
 import com.github.sparkzxl.core.utils.ListUtils;
-import com.github.sparkzxl.database.factory.CustomThreadFactory;
 import com.github.sparkzxl.patterns.strategy.BusinessHandler;
 import com.github.sparkzxl.patterns.strategy.BusinessHandlerChooser;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;
@@ -14,7 +13,6 @@ import com.github.sparkzxl.workflow.application.service.driver.IProcessDriveServ
 import com.github.sparkzxl.workflow.application.service.ext.IExtHiTaskStatusService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessStatusService;
 import com.github.sparkzxl.workflow.domain.model.DriveProcess;
-import com.github.sparkzxl.workflow.dto.WorkflowUserInfo;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessUserRepository;
 import com.github.sparkzxl.workflow.dto.*;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
@@ -41,7 +39,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 /**
@@ -62,13 +59,6 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
     private final IProcessTaskService processTaskService;
     private final BusinessHandlerChooser businessHandlerChooser;
     private final IExtProcessUserRepository processUserRepository;
-
-    private final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2,
-            4,
-            10,
-            TimeUnit.MILLISECONDS,
-            new ArrayBlockingQueue<>(30),
-            new CustomThreadFactory());
 
     @Override
     public DriverResult driveProcess(DriverProcessParam driverProcessParam) {

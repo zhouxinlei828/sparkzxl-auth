@@ -14,12 +14,12 @@ import com.github.sparkzxl.workflow.application.service.driver.IProcessDriveServ
 import com.github.sparkzxl.workflow.application.service.ext.IExtHiTaskStatusService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessStatusService;
 import com.github.sparkzxl.workflow.domain.model.DriveProcess;
+import com.github.sparkzxl.workflow.domain.repository.IExtProcessUserRepository;
 import com.github.sparkzxl.workflow.dto.*;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import com.github.sparkzxl.workflow.infrastructure.convert.ActivitiDriverConvert;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtHiTaskStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessStatus;
-import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessUserRoleMapper;
 import com.github.sparkzxl.workflow.infrastructure.utils.ActivitiUtils;
 import com.github.sparkzxl.workflow.interfaces.dto.process.ProcessNextTaskDTO;
 import com.google.common.collect.Lists;
@@ -60,7 +60,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
     private final IProcessRuntimeService processRuntimeService;
     private final IProcessTaskService processTaskService;
     private final BusinessHandlerChooser businessHandlerChooser;
-    private final ExtProcessUserRoleMapper extProcessUserRoleMapper;
+    private final IExtProcessUserRepository processUserRepository;
 
     private final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2,
             4,
@@ -179,7 +179,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
                             }
                         });
                     }
-                    List<String> userIdList = extProcessUserRoleMapper.findUserIdListByRoleIds(candidateGroupList);
+                    List<String> userIdList = processUserRepository.findUserIdListByRoleIds(candidateGroupList);
                     UserNextTask userNextTask = new UserNextTask();
                     userNextTask.setTaskId(lastTask.getId());
                     userNextTask.setAssignee(ListUtils.listToString(assigneeList));
@@ -197,7 +197,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
                     UserNextTask nextUserTask = getNextUserTask(processInstance.getProcessInstanceId(), WorkflowConstants.WorkflowAction.SUBMIT);
                     UserNextTask nextTask = new UserNextTask();
                     List<String> candidateGroups = nextUserTask.getCandidateGroups();
-                    List<String> accountList = extProcessUserRoleMapper.findUserIdListByRoleIds(candidateGroups);
+                    List<String> accountList = processUserRepository.findUserIdListByRoleIds(candidateGroups);
                     nextTask.setAssignee(ListUtils.listToString(accountList));
                     nextTask.setOwner(nextUserTask.getOwner());
                     nextTask.setPriority(String.valueOf(nextUserTask.getPriority()));

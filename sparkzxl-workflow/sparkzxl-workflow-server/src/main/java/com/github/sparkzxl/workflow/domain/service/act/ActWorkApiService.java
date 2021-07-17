@@ -1,7 +1,6 @@
 package com.github.sparkzxl.workflow.domain.service.act;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
 import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;
@@ -12,6 +11,7 @@ import com.github.sparkzxl.workflow.application.service.ext.IExtProcessStatusSer
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskRuleService;
 import com.github.sparkzxl.workflow.domain.model.DriveProcess;
 import com.github.sparkzxl.workflow.domain.model.DriverData;
+import com.github.sparkzxl.workflow.domain.repository.IExtProcessUserRepository;
 import com.github.sparkzxl.workflow.dto.DriverResult;
 import com.github.sparkzxl.workflow.infrastructure.act.DeleteTaskCmd;
 import com.github.sparkzxl.workflow.infrastructure.act.SetFlowNodeAndGoCmd;
@@ -22,8 +22,6 @@ import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUser;
 import com.github.sparkzxl.workflow.infrastructure.enums.ProcessStatusEnum;
 import com.github.sparkzxl.workflow.infrastructure.enums.TaskStatusEnum;
-import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessUserMapper;
-import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessUserRoleMapper;
 import com.github.sparkzxl.workflow.infrastructure.utils.ActivitiUtils;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -72,10 +70,7 @@ public class ActWorkApiService {
     private IExtProcessTaskRuleService processTaskRuleService;
 
     @Autowired
-    private ExtProcessUserRoleMapper processUserRoleMapper;
-
-    @Autowired
-    private ExtProcessUserMapper extProcessUserMapper;
+    private IExtProcessUserRepository processUserRepository;
 
     @Autowired
     private IdentityService identityService;
@@ -327,13 +322,12 @@ public class ActWorkApiService {
                 return;
             }
             //遍历所有组
-            List<String> userIdList = processUserRoleMapper.findUserIdListByRoleIds(listGroup);
+            List<String> userIdList = processUserRepository.findUserIdListByRoleIds(listGroup);
             if (userIdList.contains(userId)) {
                 return;
             }
         }
-        ExtProcessUser extProcessUser = extProcessUserMapper.selectOne(new LambdaQueryWrapper<ExtProcessUser>()
-                .eq(ExtProcessUser::getId, userId).last("limit 1"));
+        ExtProcessUser extProcessUser = processUserRepository.findUserById(userId);
         BizExceptionAssert.businessFail("当前节点审批人[" + extProcessUser.getName() + "]无权限审批！");
     }
 

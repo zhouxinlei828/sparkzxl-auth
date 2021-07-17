@@ -22,6 +22,6 @@ public class ProcessUserRoleSaveDTO {
     private Long roleId;
 
     @ApiModelProperty(value = "用户id列表")
-    private List<Long> userIdList;
+    private List<Long> userIds;
 
 }

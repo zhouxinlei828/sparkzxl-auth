@@ -42,7 +42,7 @@ public class ExtProcessRoleServiceImpl extends SuperCacheServiceImpl<ExtProcessR
 
     @Override
     public boolean saveRoleUser(ProcessUserRoleSaveDTO processUserRole) {
-        return processRoleRepository.saveRoleUser(processUserRole.getRoleId(), processUserRole.getUserIdList());
+        return processRoleRepository.saveRoleUser(processUserRole.getRoleId(), processUserRole.getUserIds());
     }
 
     @Override

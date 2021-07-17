@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * description: 流程实例实体类
  *
  * @author charles.zhou
- * @date   2020-07-27 10:04:02
+ * @date 2020-07-27 10:04:02
  */
 @Data
 @ApiModel(value = "流程实例对象", description = "")
@@ -42,6 +42,9 @@ public class ProcessInstance implements Serializable {
 
     @ApiModelProperty(value = "业务发起人")
     private String originator;
+
+    @ApiModelProperty(value = "业务发起人姓名")
+    private String originatorName;
 
     @ApiModelProperty(value = "完成时间")
     private LocalDateTime finishTime;

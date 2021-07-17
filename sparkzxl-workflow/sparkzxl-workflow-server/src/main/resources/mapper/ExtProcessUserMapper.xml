@@ -2,4 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessUserMapper">
 
+    <select id="findUserByRoleIds" resultType="com.github.sparkzxl.workflow.dto.WorkflowUserInfo">
+        SELECT
+        epur.user_id,
+        epu.`name`
+        FROM
+        ext_process_user_role epur
+        LEFT JOIN ext_process_user epu ON epu.id = epur.user_id
+        WHERE epur.role_id in
+        <foreach collection="roleIds" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

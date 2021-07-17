@@ -11,7 +11,7 @@ import java.util.List;
  * description: 用户任务详情
  *
  * @author charles.zhou
- * @date   2020-07-22 18:14:38
+ * @date 2020-07-22 18:14:38
  */
 @Data
 @ApiModel("用户任务详情")
@@ -33,6 +33,9 @@ public class UserNextTask {
     protected Date dueDate;
 
     protected String businessCalendarName;
+
+    @ApiModelProperty("任务候选人信息")
+    protected List<WorkflowUserInfo> candidateUserInfos;
 
     @ApiModelProperty("任务候选人")
     protected List<String> candidateUsers;

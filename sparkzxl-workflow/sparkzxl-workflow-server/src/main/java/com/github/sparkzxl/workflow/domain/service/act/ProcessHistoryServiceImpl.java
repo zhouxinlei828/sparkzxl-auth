@@ -11,6 +11,7 @@ import com.github.sparkzxl.workflow.application.service.act.IProcessRuntimeServi
 import com.github.sparkzxl.workflow.application.service.act.IProcessTaskService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtHiTaskStatusService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessStatusService;
+import com.github.sparkzxl.workflow.domain.repository.IExtProcessUserRepository;
 import com.github.sparkzxl.workflow.dto.ProcessHistory;
 import com.github.sparkzxl.workflow.dto.ProcessHistoryParam;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
@@ -51,7 +52,7 @@ import java.util.stream.Collectors;
  * description: 历史流程 服务实现类
  *
  * @author charles.zhou
- * @date   2020-07-17 15:21:22
+ * @date 2020-07-17 15:21:22
  */
 @Service
 @Slf4j
@@ -84,6 +85,9 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
 
     @Autowired
     private IExtProcessStatusService processTaskStatusService;
+
+    @Autowired
+    private IExtProcessUserRepository processUserRepository;
 
     @Override
     public HistoricProcessInstance getHistoricProcessInstance(String processInstanceId) {
@@ -121,7 +125,7 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
                 }
             });
         }
-        return processHistories;
+        return buildHistoryUserName(processHistories);
     }
 
     private List<ProcessHistory> getProcessHistories(String processInstanceId) throws InterruptedException, ExecutionException {
@@ -139,7 +143,15 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
     }
 
     private List<ProcessHistory> getProcessHistoryByProcessInstanceId(String processInstanceId) throws ExecutionException, InterruptedException {
-        return getProcessHistories(processInstanceId);
+        List<ProcessHistory> processHistories = getProcessHistories(processInstanceId);
+        return buildHistoryUserName(processHistories);
+    }
+
+    private List<ProcessHistory> buildHistoryUserName(List<ProcessHistory> processHistories) {
+        List<String> userIdList = processHistories.stream().map(ProcessHistory::getAssignee).collect(Collectors.toList());
+        Map<String, String> userMap = processUserRepository.findUserByIds(userIdList);
+        processHistories.forEach(processHistory -> processHistory.setAssigneeName(userMap.get(processHistory.getAssignee())));
+        return processHistories;
     }
 
     private List<ProcessHistory> buildTaskProcessHistory(String processInstanceId) {
@@ -159,14 +171,14 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
             List<HistoricTaskInstance> historicTaskInstances = hiTakInsCompletableFuture.get();
             List<Comment> commentList = completableFuture.get();
             historicTaskInstances.forEach(historicTaskInstance -> {
-
+                String assignee = historicTaskInstance.getAssignee();
                 ProcessHistory processHistory = ProcessHistory.builder()
                         .processInstanceId(processInstanceId)
                         .taskName(historicTaskInstance.getName())
                         .startTime(historicTaskInstance.getStartTime())
                         .endTime(historicTaskInstance.getEndTime())
                         .duration(historicTaskInstance.getDurationInMillis())
-                        .assignee(historicTaskInstance.getAssignee())
+                        .assignee(assignee)
                         .dueDate(historicTaskInstance.getDueDate())
                         .build();
                 if (ObjectUtils.isNotEmpty(historicTaskInstance.getDurationInMillis())) {

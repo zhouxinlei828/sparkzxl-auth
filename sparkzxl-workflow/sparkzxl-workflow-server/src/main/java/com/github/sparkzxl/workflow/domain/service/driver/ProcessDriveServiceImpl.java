@@ -14,6 +14,7 @@ import com.github.sparkzxl.workflow.application.service.driver.IProcessDriveServ
 import com.github.sparkzxl.workflow.application.service.ext.IExtHiTaskStatusService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessStatusService;
 import com.github.sparkzxl.workflow.domain.model.DriveProcess;
+import com.github.sparkzxl.workflow.dto.WorkflowUserInfo;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessUserRepository;
 import com.github.sparkzxl.workflow.dto.*;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
@@ -106,7 +107,10 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
                         DateUtils.formatDate(x, DatePattern.NORM_DATETIME_PATTERN)));
                 userNextTask.setBusinessCalendarName(item.getBusinessCalendarName());
                 userNextTask.setCandidateUsers(item.getCandidateUsers());
-                userNextTask.setCandidateGroups(item.getCandidateGroups());
+                List<String> candidateGroups = item.getCandidateGroups();
+                userNextTask.setCandidateGroups(candidateGroups);
+                List<WorkflowUserInfo> userList = processUserRepository.findUserByRoleIds(candidateGroups);
+                userNextTask.setCandidateUserInfos(userList);
                 userNextTask.setTaskDefKey(item.getId());
                 userNextTask.setTaskName(item.getName());
                 userNextTasks.add(userNextTask);
@@ -163,56 +167,32 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
             actionMap.put(WorkflowConstants.WorkflowAction.REJECTED, "驳回");
             actionMap.put(WorkflowConstants.WorkflowAction.ROLLBACK, "回退");
             actionMap.put(WorkflowConstants.WorkflowAction.END, "结束");
-            try {
-                UserNextTask currentUserTask = CompletableFuture.supplyAsync(() -> {
-                    Task lastTask = processTaskService.getLatestTaskByProInstId(processInstance.getProcessInstanceId());
-                    List<IdentityLink> identityLinks = processTaskService.getIdentityLinksForTask(lastTask.getId());
-                    List<String> candidateGroupList = Lists.newArrayList();
-                    List<String> assigneeList = Lists.newArrayList();
-                    if (CollectionUtils.isNotEmpty(identityLinks)) {
-                        identityLinks.forEach(identityLink -> {
-                            if (StringUtils.isNoneEmpty(identityLink.getGroupId())) {
-                                candidateGroupList.add(identityLink.getGroupId());
-                            }
-                            if (StringUtils.isNoneEmpty(identityLink.getUserId())) {
-                                assigneeList.add(identityLink.getUserId());
-                            }
-                        });
+            Task lastTask = processTaskService.getLatestTaskByProInstId(processInstance.getProcessInstanceId());
+            List<IdentityLink> identityLinks = processTaskService.getIdentityLinksForTask(lastTask.getId());
+            List<String> candidateGroupList = Lists.newArrayList();
+            List<String> assigneeList = Lists.newArrayList();
+            if (CollectionUtils.isNotEmpty(identityLinks)) {
+                identityLinks.forEach(identityLink -> {
+                    if (StringUtils.isNoneEmpty(identityLink.getGroupId())) {
+                        candidateGroupList.add(identityLink.getGroupId());
                     }
-                    List<String> userIdList = processUserRepository.findUserIdListByRoleIds(candidateGroupList);
-                    UserNextTask userNextTask = new UserNextTask();
-                    userNextTask.setTaskId(lastTask.getId());
-                    userNextTask.setAssignee(ListUtils.listToString(assigneeList));
-                    userNextTask.setOwner(lastTask.getOwner());
-                    userNextTask.setPriority(String.valueOf(lastTask.getPriority()));
-                    userNextTask.setDueDate(lastTask.getDueDate());
-                    userNextTask.setCandidateUsers(userIdList);
-                    userNextTask.setCandidateGroups(candidateGroupList);
-                    userNextTask.setTaskDefKey(lastTask.getTaskDefinitionKey());
-                    userNextTask.setTaskName(lastTask.getName());
-                    return userNextTask;
-                }, threadPoolExecutor).get();
-
-                UserNextTask userNextTask = CompletableFuture.supplyAsync(() -> {
-                    UserNextTask nextUserTask = getNextUserTask(processInstance.getProcessInstanceId(), WorkflowConstants.WorkflowAction.SUBMIT);
-                    UserNextTask nextTask = new UserNextTask();
-                    List<String> candidateGroups = nextUserTask.getCandidateGroups();
-                    List<String> accountList = processUserRepository.findUserIdListByRoleIds(candidateGroups);
-                    nextTask.setAssignee(ListUtils.listToString(accountList));
-                    nextTask.setOwner(nextUserTask.getOwner());
-                    nextTask.setPriority(String.valueOf(nextUserTask.getPriority()));
-                    nextTask.setDueDate(nextUserTask.getDueDate());
-                    nextTask.setCandidateUsers(accountList);
-                    nextTask.setCandidateGroups(candidateGroups);
-                    nextTask.setTaskDefKey(nextUserTask.getTaskDefKey());
-                    nextTask.setTaskName(nextUserTask.getTaskName());
-                    return nextTask;
-                }).get();
-                busTaskInfo.setCurrentUserTask(currentUserTask);
-                busTaskInfo.setUserNextTask(userNextTask);
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
+                    if (StringUtils.isNoneEmpty(identityLink.getUserId())) {
+                        assigneeList.add(identityLink.getUserId());
+                    }
+                });
             }
+            List<WorkflowUserInfo> userList = processUserRepository.findUserByRoleIds(candidateGroupList);
+            UserNextTask userNextTask = new UserNextTask();
+            userNextTask.setTaskId(lastTask.getId());
+            userNextTask.setAssignee(ListUtils.listToString(assigneeList));
+            userNextTask.setOwner(lastTask.getOwner());
+            userNextTask.setPriority(String.valueOf(lastTask.getPriority()));
+            userNextTask.setDueDate(lastTask.getDueDate());
+            userNextTask.setCandidateUserInfos(userList);
+            userNextTask.setCandidateGroups(candidateGroupList);
+            userNextTask.setTaskDefKey(lastTask.getTaskDefinitionKey());
+            userNextTask.setTaskName(lastTask.getName());
+            busTaskInfo.setCurrentUserTask(userNextTask);
         } else {
             actionMap.put(WorkflowConstants.WorkflowAction.START, "启动");
         }

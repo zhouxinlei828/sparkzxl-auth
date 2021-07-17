@@ -46,6 +46,9 @@ public class ProcessHistory implements Serializable {
     @ApiModelProperty(value = "处理人")
     private String assignee;
 
+    @ApiModelProperty(value = "处理人")
+    private String assigneeName;
+
     @ApiModelProperty(value = "到期时间")
     private Date dueDate;
 

@@ -25,11 +25,8 @@ public class BusTaskInfo {
     @ApiModelProperty(value = "流程动作类型")
     private Map<Object, Object> actTypeMap;
 
-    @ApiModelProperty(value = "下一步任务")
+    @ApiModelProperty(value = "用户任务")
     private UserNextTask currentUserTask;
-
-    @ApiModelProperty(value = "下一步任务")
-    private UserNextTask userNextTask;
 
     @ApiModelProperty(value = "当前用户是否有审批权限")
     private boolean approvalAuthority;

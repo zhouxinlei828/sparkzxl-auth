@@ -35,6 +35,11 @@ public class ExtProcessRoleServiceImpl extends SuperCacheServiceImpl<ExtProcessR
         this.processRoleRepository = processRoleRepository;
     }
 
+    @Autowired
+    public void setProcessUserRoleMapper(ExtProcessUserRoleMapper processUserRoleMapper) {
+        this.processUserRoleMapper = processUserRoleMapper;
+    }
+
     @Override
     public boolean saveRoleUser(ProcessUserRoleSaveDTO processUserRole) {
         return processRoleRepository.saveRoleUser(processUserRole.getRoleId(), processUserRole.getUserIdList());

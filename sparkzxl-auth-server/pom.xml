@@ -86,11 +86,6 @@
             <artifactId>sparkzxl-auth-api</artifactId>
             <version>1.0.RELEASE</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.sparkzxl</groupId>
-            <artifactId>sparkzxl-tenant-api</artifactId>
-            <version>1.0.RELEASE</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>

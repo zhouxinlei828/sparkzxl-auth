@@ -35,7 +35,7 @@ import java.util.List;
  * description: activiti在线流程设计 服务实现类
  *
  * @author charles.zhou
- * @date   2020-07-28 14:09:37
+ * @date 2020-07-28 14:09:37
  */
 @Service
 @Slf4j
@@ -141,10 +141,10 @@ public class ModelServiceImpl implements IModelService {
 
     @Override
     public JSONObject getProcessJson() {
-        InputStream stencilsetStream = this.getClass().getClassLoader().getResourceAsStream("stencilset.json");
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("stencilset.json");
         try {
-            assert stencilsetStream != null;
-            return JSONObject.parseObject(IOUtils.toString(stencilsetStream, StandardCharsets.UTF_8));
+            assert inputStream != null;
+            return JSONObject.parseObject(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
         } catch (Exception e) {
             log.error("Error while loading stencil set", e);
             BizExceptionAssert.businessFail("Error while loading stencil set");

@@ -85,6 +85,16 @@ public class ProcessTaskServiceImpl implements IProcessTaskService {
     }
 
     @Override
+    public List<Comment> getProcessInstanceComments(String processInstanceId) {
+        return taskService.getProcessInstanceComments(processInstanceId);
+    }
+
+    @Override
+    public List<Comment> getProcessInstanceComments(String processInstanceId, String type) {
+        return taskService.getProcessInstanceComments(processInstanceId, type);
+    }
+
+    @Override
     public Task getTaskByTaskId(String taskId) {
         return taskService.createTaskQuery().taskId(taskId).singleResult();
     }

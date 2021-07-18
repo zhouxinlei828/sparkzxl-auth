@@ -45,7 +45,7 @@ public interface IProcessTaskService {
     /**
      * 添加任务候选人组
      *
-     * @param taskId 任务id
+     * @param taskId  任务id
      * @param groupId 用户组id
      */
     void addCandidateGroup(String taskId, String groupId);
@@ -102,6 +102,23 @@ public interface IProcessTaskService {
      * @return List<Comment>
      */
     List<Comment> getTaskComments(String taskId, String type);
+
+    /**
+     * 根据流程实例id查询历史评论信息
+     *
+     * @param processInstanceId 流程实例id
+     * @return List<Comment>
+     */
+    List<Comment> getProcessInstanceComments(String processInstanceId);
+
+    /**
+     * 根据流程实例id查询历史评论信息
+     *
+     * @param processInstanceId 流程实例id
+     * @param type 意见记录类型: event（事件） comment（意见）
+     * @return List<Comment>
+     */
+    List<Comment> getProcessInstanceComments(String processInstanceId, String type);
 
     /**
      * 根据任务id获取任务实例

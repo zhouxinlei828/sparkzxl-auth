@@ -3,7 +3,6 @@ package com.github.sparkzxl.workflow.domain.service.act;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.date.DatePattern;
 import com.github.sparkzxl.core.utils.DateUtils;
-import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.database.factory.CustomThreadFactory;
 import com.github.sparkzxl.workflow.application.service.act.IProcessHistoryService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;
@@ -31,7 +30,6 @@ import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.task.Comment;
-import org.activiti.engine.task.TaskInfo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -159,17 +157,19 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
         try {
             // 异步获取历史任务状态
             CompletableFuture<List<ExtHiTaskStatus>> hiTaskStatusCompletableFuture =
-                    CompletableFuture.supplyAsync(() -> actHiTaskStatusService.getProcessHistory(processInstanceId));
+                    CompletableFuture.supplyAsync(() -> actHiTaskStatusService.getProcessHistory(processInstanceId), threadPoolExecutor);
+            // 获取历史任务列表
             CompletableFuture<List<HistoricTaskInstance>> hiTakInsCompletableFuture =
-                    CompletableFuture.supplyAsync(() -> getHistoricTasksByProcessInstanceId(processInstanceId));
-            CompletableFuture<List<Comment>> completableFuture =
-                    hiTakInsCompletableFuture(processInstanceId).thenCompose(historicTaskInstance -> {
-                        List<String> taskIds = historicTaskInstance.stream().map(TaskInfo::getId).collect(Collectors.toList());
-                        return hiCommentCompletableFuture(taskIds, "comment");
-                    });
+                    CompletableFuture.supplyAsync(() -> getHistoricTasksByProcessInstanceId(processInstanceId), threadPoolExecutor);
+            // 获取历史评论列表
+            CompletableFuture<List<Comment>> hiCommentCompletableFuture = CompletableFuture.supplyAsync(() -> processTaskService
+                    .getProcessInstanceComments(processInstanceId, "comment"), threadPoolExecutor);
             List<ExtHiTaskStatus> actHiTaskStatusList = hiTaskStatusCompletableFuture.get();
+            Map<String, String> actHiTaskStatusMap = actHiTaskStatusList.stream().collect(Collectors.toMap(ExtHiTaskStatus::getTaskId, ExtHiTaskStatus::getTaskStatus));
             List<HistoricTaskInstance> historicTaskInstances = hiTakInsCompletableFuture.get();
-            List<Comment> commentList = completableFuture.get();
+            List<Comment> commentList = hiCommentCompletableFuture.get();
+            Map<String, String> commentMap = commentList.stream().collect(Collectors.toMap(Comment::getTaskId, Comment::getFullMessage));
+            // 组装流程历史数据
             historicTaskInstances.forEach(historicTaskInstance -> {
                 String assignee = historicTaskInstance.getAssignee();
                 ProcessHistory processHistory = ProcessHistory.builder()
@@ -188,9 +188,8 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
                             actHiTaskStatusList.stream().filter(item -> StringUtils.equals(historicTaskInstance.getId(),
                                     item.getTaskId())).findFirst();
                     actHiTaskStatusOptional.ifPresent(value -> processHistory.setTaskStatus(value.getTaskStatus()));
-                    if (ListUtils.isNotEmpty(commentList)) {
-                        processHistory.setComment(commentList.stream().filter(item -> historicTaskInstance.getId().equals(item.getTaskId())).map(Comment::getFullMessage).collect(Collectors.toList()));
-                    }
+                    processHistory.setTaskStatus(actHiTaskStatusMap.get(historicTaskInstance.getId()));
+                    processHistory.setComment(commentMap.get(historicTaskInstance.getId()));
                 } else {
                     processHistory.setTaskStatus(TaskStatusEnum.IN_HAND.getDesc());
                 }
@@ -200,14 +199,6 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
             log.error("查询任务历史发生异常 Exception {}", e.getMessage());
         }
         return processHistories;
-    }
-
-    public CompletableFuture<List<HistoricTaskInstance>> hiTakInsCompletableFuture(String processInstanceId) {
-        return CompletableFuture.supplyAsync(() -> getHistoricTasksByProcessInstanceId(processInstanceId), threadPoolExecutor);
-    }
-
-    public CompletableFuture<List<Comment>> hiCommentCompletableFuture(List<String> taskIds, String type) {
-        return CompletableFuture.supplyAsync(() -> processTaskService.getTaskComments(taskIds, type), threadPoolExecutor);
     }
 
     private List<ProcessHistory> buildActivityProcessHistory(String processInstanceId) {

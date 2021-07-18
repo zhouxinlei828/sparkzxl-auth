@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @date 2020-07-27 10:04:02
  */
 @Data
-@ApiModel(value = "流程实例对象", description = "")
+@ApiModel(value = "ProcessInstance对象", description = "流程实例对象")
 public class ProcessInstance implements Serializable {
 
     private static final long serialVersionUID = -960121899283253114L;

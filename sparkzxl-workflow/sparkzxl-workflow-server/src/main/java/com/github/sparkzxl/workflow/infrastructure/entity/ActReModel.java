@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,11 +16,11 @@ import java.time.LocalDateTime;
  * description: 模型对象
  *
  * @author charles.zhou
- * @date   2020-07-25 11:12:50
+ * @date 2020-07-25 11:12:50
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@TableName("ACT_RE_MODEL")
+@EqualsAndHashCode
+@TableName(value = "ACT_RE_MODEL", autoResultMap = true)
 @ApiModel(value = "ActReModel对象", description = "模型对象")
 public class ActReModel implements Serializable {
 
@@ -49,8 +50,8 @@ public class ActReModel implements Serializable {
     @TableField("VERSION_")
     private Integer version;
 
-    @TableField("META_INFO_")
-    private String metaInfo;
+    @TableField(value = "META_INFO_", typeHandler = JacksonTypeHandler.class)
+    private MetaInfo metaInfo;
 
     @TableField("DEPLOYMENT_ID_")
     private String deploymentId;
@@ -65,12 +66,6 @@ public class ActReModel implements Serializable {
     private String tenantId;
 
     @TableField(exist = false)
-    private boolean status;
-
-    @TableField(exist = false)
     private String deployed;
-
-    @TableField(exist = false)
-    private String description;
 
 }

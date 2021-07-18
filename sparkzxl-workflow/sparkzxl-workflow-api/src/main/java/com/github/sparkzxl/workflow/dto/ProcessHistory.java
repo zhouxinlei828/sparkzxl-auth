@@ -7,13 +7,12 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * description: 流程历史
  *
  * @author charles.zhou
- * @date   2020-07-23 14:14:49
+ * @date 2020-07-23 14:14:49
  */
 @Data
 @Builder
@@ -56,6 +55,6 @@ public class ProcessHistory implements Serializable {
     private String taskStatus;
 
     @ApiModelProperty(value = "备注/意见")
-    private List<String> comment;
+    private String comment;
 
 }

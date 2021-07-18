@@ -11,7 +11,7 @@ import java.util.List;
  * description: 流程状态 仓储类
  *
  * @author charles.zhou
- * @date   2020-07-23 13:58:34
+ * @date 2020-07-23 13:58:34
  */
 public interface IExtProcessStatusRepository {
 
@@ -26,12 +26,12 @@ public interface IExtProcessStatusRepository {
     /**
      * 查询流程实例列表
      *
-     * @param pageNum  当前页
-     * @param pageSize 分页大小
-     * @param name     流程名称
+     * @param pageNum           当前页
+     * @param pageSize          分页大小
+     * @param processInstanceId 流程实例id
      * @return PageInfo<ProcessInstance>
      */
-    PageInfo<ProcessInstance> getProcessInstanceList(int pageNum, int pageSize, String name);
+    PageInfo<ProcessInstance> getProcessInstanceList(int pageNum, int pageSize, String processInstanceId);
 
     /**
      * 获取流程状态
@@ -45,6 +45,7 @@ public interface IExtProcessStatusRepository {
 
     /**
      * 流程统计总览
+     *
      * @return InstanceOverviewCount
      */
     InstanceOverviewCount instanceOverview();

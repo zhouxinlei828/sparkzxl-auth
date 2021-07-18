@@ -43,9 +43,9 @@ public class ExtProcessStatusRepositoryImpl implements IExtProcessStatusReposito
     }
 
     @Override
-    public PageInfo<ProcessInstance> getProcessInstanceList(int pageNum, int pageSize, String name) {
+    public PageInfo<ProcessInstance> getProcessInstanceList(int pageNum, int pageSize, String processInstanceId) {
         PageHelper.startPage(pageNum, pageSize);
-        return PageInfoUtils.pageInfo(extProcessStatusMapper.getProcessInstanceList(name));
+        return PageInfoUtils.pageInfo(extProcessStatusMapper.getProcessInstanceList(processInstanceId));
     }
 
     @Override

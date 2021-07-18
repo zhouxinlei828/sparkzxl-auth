@@ -31,7 +31,7 @@ public class ProcessRollbackBusinessHandler implements BusinessHandler<DriverRes
     @RedisLock(prefix = "act_driver")
     public DriverResult businessHandler(DriveProcess driveProcess) {
         log.info("流程回退业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
-        return actWorkApiService.jumpProcess(driveProcess);
+        return actWorkApiService.jumpProcess(driveProcess, null);
     }
 
 }

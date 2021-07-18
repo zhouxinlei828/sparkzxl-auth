@@ -104,19 +104,29 @@ public class ProcessRuntimeServiceImpl implements IProcessRuntimeService {
     }
 
     @Override
-    public boolean suspendProcess(String businessId) {
+    public void suspendProcess(String businessId) {
         ProcessInstance processInstance = getProcessInstanceByBusinessId(businessId);
         if (ObjectUtils.isNotEmpty(processInstance)) {
             runtimeService.suspendProcessInstanceById(processInstance.getProcessInstanceId());
-            return true;
         }
-        return false;
     }
 
     @Override
-    public boolean suspendProcessInstanceById(String processInstanceId) {
+    public void suspendProcessInstanceById(String processInstanceId) {
         runtimeService.suspendProcessInstanceById(processInstanceId);
-        return false;
+    }
+
+    @Override
+    public void activateProcessInstanceByBusinessId(String businessId) {
+        ProcessInstance processInstance = getProcessInstanceByBusinessId(businessId);
+        if (ObjectUtils.isNotEmpty(processInstance)) {
+            runtimeService.activateProcessInstanceById(processInstance.getProcessInstanceId());
+        }
+    }
+
+    @Override
+    public void activateProcessInstanceByProcInsId(String processInstanceId) {
+        runtimeService.activateProcessInstanceById(processInstanceId);
     }
 
     @Override

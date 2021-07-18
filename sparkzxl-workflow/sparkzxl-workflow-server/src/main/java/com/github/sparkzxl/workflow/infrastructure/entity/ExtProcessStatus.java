@@ -36,6 +36,10 @@ public class ExtProcessStatus {
     @TableField("process_instance_id")
     private String processInstanceId;
 
+    @ApiModelProperty(value = "业务流程名称")
+    @TableField("process_name")
+    private String processName;
+
     @ApiModelProperty(value = "流程状态")
     @TableField("status")
     private String status;

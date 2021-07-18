@@ -23,6 +23,11 @@ public class DriveProcess {
     private String processDefinitionKey;
 
     /**
+     * 流程名称
+     */
+    String processName;
+
+    /**
      * 业务主键
      */
     @RedisLockParam(name = "businessId")

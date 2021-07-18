@@ -69,10 +69,8 @@ public class ActWorkApiService {
     private ManagementService managementService;
     @Autowired
     private IExtProcessTaskRuleService processTaskRuleService;
-
     @Autowired
     private IExtProcessUserRepository processUserRepository;
-
     @Autowired
     private IdentityService identityService;
 
@@ -95,23 +93,28 @@ public class ActWorkApiService {
                     businessId,
                     variables);
             String processInstanceId = processInstance.getProcessInstanceId();
-            log.info("启动activiti流程------++++++ProcessInstanceId：{}------++++++", processInstanceId);
             String comment = driveProcess.getComment();
             if (StringUtils.isEmpty(comment)) {
                 comment = "开始节点跳过";
             }
+            ExtProcessUser processUser = processUserRepository.findUserById(userId);
+            String processName = "【".concat(processUser.getName()).concat("】发起").concat(processInstance.getProcessDefinitionName());
+            log.info("启动activiti流程------++++++ProcessInstanceId：{}------++++++", processInstanceId);
+            log.info(processName);
             boolean needJump = driveProcess.isNeedJump();
             if (needJump) {
                 driveProcess.setProcessInstanceId(processInstanceId);
                 driveProcess.setProcessDefinitionKey(processInstance.getProcessDefinitionKey());
+                driveProcess.setProcessName(processName);
                 driveProcess.setActType(WorkflowConstants.WorkflowAction.JUMP);
                 driveProcess.setComment(comment);
-                driverResult = jumpProcess(driveProcess);
+                driverResult = jumpProcess(driveProcess, processName);
             } else {
                 variables.put("actType", WorkflowConstants.WorkflowAction.SUBMIT);
                 DriverData driverData = DriverData.builder()
                         .userId(userId)
                         .processInstanceId(processInstanceId)
+                        .processName(processName)
                         .businessId(businessId)
                         .processDefinitionKey(processInstance.getProcessDefinitionKey())
                         .actType(WorkflowConstants.WorkflowAction.SUBMIT)
@@ -146,7 +149,7 @@ public class ActWorkApiService {
         processTaskService.setAssignee(currentTaskId, userId);
         processTaskService.claimTask(currentTaskId, userId);
         processTaskService.completeTask(currentTaskId, variables);
-        return recordProcessState(processInstanceId, driverData.getBusinessId(), driverData.getActType(), currentTaskId, taskDefinitionKey);
+        return recordProcessState(processInstanceId, driverData.getProcessName(), driverData.getBusinessId(), driverData.getActType(), currentTaskId, taskDefinitionKey);
     }
 
     /**
@@ -159,7 +162,7 @@ public class ActWorkApiService {
      * @param taskDefinitionKey 任务定义key
      * @return DriverResult
      */
-    public DriverResult recordProcessState(String processInstanceId, String businessId,
+    public DriverResult recordProcessState(String processInstanceId, String processName, String businessId,
                                            int actType, String currentTaskId,
                                            String taskDefinitionKey) {
         boolean processIsEnd = processRuntimeService.processIsEnd(processInstanceId);
@@ -174,6 +177,7 @@ public class ActWorkApiService {
         driverResult.setProcessIsEnd(processIsEnd);
         CompletableFuture.runAsync(() -> saveProcessTaskStatus(
                 processInstanceId,
+                processName,
                 businessId,
                 status));
         CompletableFuture.runAsync(() -> saveExtHiTaskStatus(processInstanceId,
@@ -183,7 +187,7 @@ public class ActWorkApiService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public DriverResult jumpProcess(DriveProcess driveProcess) {
+    public DriverResult jumpProcess(DriveProcess driveProcess, String processName) {
         DriverResult driverResult = new DriverResult();
         try {
             String businessId = driveProcess.getBusinessId();
@@ -227,7 +231,7 @@ public class ActWorkApiService {
             managementService.executeCommand(new ExecutionVariableDeleteCmd(executionEntityId));
             // 流程执行到来源节点
             managementService.executeCommand(new SetFlowNodeAndGoCmd(targetNode, executionEntityId));
-            driverResult = recordProcessState(processInstanceId, driveProcess.getBusinessId(), actType, currentTaskId, taskDefinitionKey);
+            driverResult = recordProcessState(processInstanceId, processName, driveProcess.getBusinessId(), actType, currentTaskId, taskDefinitionKey);
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             driverResult.setErrorMsg(e.getMessage());
@@ -261,18 +265,17 @@ public class ActWorkApiService {
      * @param processInstanceId 流程实例id
      * @param status            流程状态
      */
-    public void saveProcessTaskStatus(String processInstanceId, String businessId, String status) {
+    public void saveProcessTaskStatus(String processInstanceId, String processName, String businessId, String status) {
         log.info("记录当前任务流程状态 processInstanceId：{}，businessId：{}", processInstanceId, businessId);
         ExtProcessStatus extProcessStatus = processTaskStatusService.getExtProcessStatus(businessId, processInstanceId);
         //记录当前任务流程状态
-        if (ObjectUtils.isNotEmpty(extProcessStatus)) {
-            extProcessStatus.setStatus(status);
-        } else {
+        if (!ObjectUtils.isNotEmpty(extProcessStatus)) {
             extProcessStatus = new ExtProcessStatus();
             extProcessStatus.setProcessInstanceId(processInstanceId);
             extProcessStatus.setBusinessId(businessId);
-            extProcessStatus.setStatus(status);
+            extProcessStatus.setProcessName(processName);
         }
+        extProcessStatus.setStatus(status);
         processTaskStatusService.saveOrUpdate(extProcessStatus);
     }
 

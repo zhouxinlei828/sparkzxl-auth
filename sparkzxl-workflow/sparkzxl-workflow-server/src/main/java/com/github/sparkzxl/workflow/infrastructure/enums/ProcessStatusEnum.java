@@ -9,7 +9,7 @@ import lombok.Getter;
  * description: 流程状态枚举类
  *
  * @author charles.zhou
- * @date   2020-07-23 13:09:34
+ * @date 2020-07-23 13:09:34
  */
 @Getter
 @AllArgsConstructor
@@ -19,7 +19,8 @@ public enum ProcessStatusEnum {
      * 流程状态
      */
     RUN_TIME(1, "运行中"),
-    END(-2,"结束");
+    SUSPEND(2, "挂起"),
+    END(-2, "结束");
 
     @EnumValue
     @JsonValue

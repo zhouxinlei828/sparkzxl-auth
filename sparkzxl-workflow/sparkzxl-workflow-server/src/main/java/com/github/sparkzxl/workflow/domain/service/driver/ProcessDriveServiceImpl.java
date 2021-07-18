@@ -19,6 +19,7 @@ import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import com.github.sparkzxl.workflow.infrastructure.convert.ActivitiDriverConvert;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtHiTaskStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessStatus;
+import com.github.sparkzxl.workflow.infrastructure.enums.ProcessStatusEnum;
 import com.github.sparkzxl.workflow.infrastructure.utils.ActivitiUtils;
 import com.github.sparkzxl.workflow.interfaces.dto.process.ProcessNextTaskDTO;
 import com.google.common.collect.Lists;
@@ -100,7 +101,9 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
                 List<String> candidateGroups = item.getCandidateGroups();
                 userNextTask.setCandidateGroups(candidateGroups);
                 List<WorkflowUserInfo> userList = processUserRepository.findUserByRoleIds(candidateGroups);
+                String candidateUserNames = userList.stream().map(WorkflowUserInfo::getName).collect(Collectors.joining("/"));
                 userNextTask.setCandidateUserInfos(userList);
+                userNextTask.setCandidateUserNames(candidateUserNames);
                 userNextTask.setTaskDefKey(item.getId());
                 userNextTask.setTaskName(item.getName());
                 userNextTasks.add(userNextTask);
@@ -172,6 +175,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
                 });
             }
             List<WorkflowUserInfo> userList = processUserRepository.findUserByRoleIds(candidateGroupList);
+            String candidateUserNames = userList.stream().map(WorkflowUserInfo::getName).collect(Collectors.joining("/"));
             UserNextTask userNextTask = new UserNextTask();
             userNextTask.setTaskId(lastTask.getId());
             userNextTask.setAssignee(ListUtils.listToString(assigneeList));
@@ -179,6 +183,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
             userNextTask.setPriority(String.valueOf(lastTask.getPriority()));
             userNextTask.setDueDate(lastTask.getDueDate());
             userNextTask.setCandidateUserInfos(userList);
+            userNextTask.setCandidateUserNames(candidateUserNames);
             userNextTask.setCandidateGroups(candidateGroupList);
             userNextTask.setTaskDefKey(lastTask.getTaskDefinitionKey());
             userNextTask.setTaskName(lastTask.getName());
@@ -191,7 +196,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
     }
 
     @Override
-    public List<BusTaskInfo> busTaskInfoList(List<String> businessIds, String processDefinitionKey) {
+    public List<BusTaskInfo> busTaskInfoList(String processDefinitionKey, List<String> businessIds) {
         List<BusTaskInfo> busTaskInfoList = Lists.newArrayList();
         businessIds.forEach(x -> busTaskInfoList.add(busTaskInfo(x, processDefinitionKey)));
         return busTaskInfoList;
@@ -200,11 +205,17 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean suspendProcess(SuspendProcessDTO suspendProcessDTO) {
+        LambdaUpdateWrapper<ExtProcessStatus> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.set(ExtProcessStatus::getStatus, ProcessStatusEnum.SUSPEND.getDesc());
         if (suspendProcessDTO.getType().equals(1)) {
-            return processRuntimeService.suspendProcess(suspendProcessDTO.getBusinessId());
+            lambdaUpdateWrapper.eq(ExtProcessStatus::getBusinessId, suspendProcessDTO.getBusinessId());
+            processRuntimeService.suspendProcess(suspendProcessDTO.getBusinessId());
         } else {
-            return processRuntimeService.suspendProcessInstanceById(suspendProcessDTO.getProcessInstanceId());
+            lambdaUpdateWrapper.eq(ExtProcessStatus::getProcessInstanceId, suspendProcessDTO.getProcessInstanceId());
+            processRuntimeService.suspendProcessInstanceById(suspendProcessDTO.getProcessInstanceId());
         }
+        extProcessStatusService.update(lambdaUpdateWrapper);
+        return true;
     }
 
     @Override

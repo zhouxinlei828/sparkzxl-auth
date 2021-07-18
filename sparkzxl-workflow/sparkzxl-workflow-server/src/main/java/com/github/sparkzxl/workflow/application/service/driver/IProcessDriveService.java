@@ -9,7 +9,7 @@ import java.util.List;
  * description: 流程驱动 服务类
  *
  * @author charles.zhou
- * @date   2020-07-17 16:26:54
+ * @date 2020-07-17 16:26:54
  */
 public interface IProcessDriveService {
 
@@ -25,10 +25,10 @@ public interface IProcessDriveService {
      * 获取下一步任务详情
      *
      * @param processInstanceId 流程实例id
-     * @param actType 流程动作类型
+     * @param actType           流程动作类型
      * @return List<UserNextTask>
      */
-    UserNextTask getNextUserTask(String processInstanceId,Integer actType);
+    UserNextTask getNextUserTask(String processInstanceId, Integer actType);
 
     /**
      * 获取下一步任务详情
@@ -50,11 +50,11 @@ public interface IProcessDriveService {
     /**
      * 查询业务任务批量数据
      *
-     * @param businessIds          业务主键
      * @param processDefinitionKey 流程定义key
+     * @param businessIds          业务主键
      * @return List<BusTaskInfo>
      */
-    List<BusTaskInfo> busTaskInfoList(List<String> businessIds, String processDefinitionKey);
+    List<BusTaskInfo> busTaskInfoList(String processDefinitionKey, List<String> businessIds);
 
     /**
      * 挂起流程

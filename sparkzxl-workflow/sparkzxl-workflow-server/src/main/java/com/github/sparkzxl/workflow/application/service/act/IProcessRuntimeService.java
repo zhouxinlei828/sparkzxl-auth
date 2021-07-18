@@ -11,7 +11,7 @@ import java.util.Map;
  * description: 运行中的流程 服务类
  *
  * @author charles.zhou
- * @date   2020-07-17 15:26:42
+ * @date 2020-07-17 15:26:42
  */
 public interface IProcessRuntimeService {
 
@@ -127,16 +127,30 @@ public interface IProcessRuntimeService {
      * 挂起流程
      *
      * @param businessId 业务主键
-     * @return boolean
      */
-    boolean suspendProcess(String businessId);
+    void suspendProcess(String businessId);
 
     /**
      * 根据流程实例id挂起流程
+     *
      * @param processInstanceId 流程实例id
-     * @return boolean
      */
-    boolean suspendProcessInstanceById(String processInstanceId);
+    void suspendProcessInstanceById(String processInstanceId);
+
+    /**
+     * 根据业务主键激活流程
+     *
+     * @param businessId 业务主键
+     */
+    void activateProcessInstanceByBusinessId(String businessId);
+
+    /**
+     * 根据流程实例id激活流程
+     *
+     * @param processInstanceId 流程实例id
+     */
+    void activateProcessInstanceByProcInsId(String processInstanceId);
+
     /**
      * 删除流程实例
      *

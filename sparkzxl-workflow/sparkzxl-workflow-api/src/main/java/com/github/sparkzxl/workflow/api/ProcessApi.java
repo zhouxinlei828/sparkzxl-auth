@@ -40,8 +40,8 @@ public interface ProcessApi {
     /**
      * 查询业务批量任务数据
      *
+     * @param processDefinitionKey  流程定义key
      * @param businessIds 业务主键
-     * @param procDefKey  流程定义key
      * @return List<BusTaskInfo>
      */
     @ApiOperation("查询业务批量任务数据")
@@ -50,8 +50,8 @@ public interface ProcessApi {
             @ApiImplicitParam(name = "procDefKey", value = "流程定义key", required = true)
     })
     @RequestMapping(method = RequestMethod.GET, value = "/busTaskInfoList")
-    List<BusTaskInfo> busTaskInfoList(@RequestParam("businessIds") List<String> businessIds,
-                                      @RequestParam("procDefKey") String procDefKey);
+    List<BusTaskInfo> busTaskInfoList(@RequestParam("processDefinitionKey") String processDefinitionKey,
+            @RequestParam("businessIds") List<String> businessIds);
 
 
     /**

@@ -1,5 +1,6 @@
 package com.github.sparkzxl.workflow.infrastructure.entity;
 
+import com.github.sparkzxl.workflow.dto.BusTaskInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -57,4 +58,13 @@ public class ProcessInstance implements Serializable {
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
+
+    @ApiModelProperty(value = "当前任务")
+    private BusTaskInfo busTaskInfo;
+
+    @ApiModelProperty(value = "任务节点")
+    private String taskName;
+
+    @ApiModelProperty(value = "任务候选人")
+    private String candidateUserNames;
 }

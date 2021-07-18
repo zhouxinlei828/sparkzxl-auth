@@ -12,7 +12,7 @@ import java.util.List;
  * description: 流程状态记录Mapper 接口
  *
  * @author charles.zhou
- * @date   2020-07-17 13:18:25
+ * @date 2020-07-17 13:18:25
  */
 @Repository
 public interface ExtProcessStatusMapper extends SuperMapper<ExtProcessStatus> {
@@ -20,9 +20,9 @@ public interface ExtProcessStatusMapper extends SuperMapper<ExtProcessStatus> {
     /**
      * 查询流程实例列表
      *
-     * @param name 流程名称
+     * @param processInstanceId 流程实例id
      * @return List<ProcessInstance>
      */
-    List<ProcessInstance> getProcessInstanceList(@Param("name") String name);
+    List<ProcessInstance> getProcessInstanceList(@Param("processInstanceId") String processInstanceId);
 
 }

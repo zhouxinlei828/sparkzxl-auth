@@ -26,6 +26,11 @@ public class DriverData {
     String processDefinitionKey;
 
     /**
+     * 流程名称
+     */
+    String processName;
+
+    /**
      * 流程动作类型
      */
     private int actType;

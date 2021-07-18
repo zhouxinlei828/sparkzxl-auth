@@ -14,6 +14,7 @@ import com.github.sparkzxl.workflow.domain.model.DriverData;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessUserRepository;
 import com.github.sparkzxl.workflow.dto.DriverResult;
 import com.github.sparkzxl.workflow.infrastructure.act.DeleteTaskCmd;
+import com.github.sparkzxl.workflow.infrastructure.act.ExecutionVariableDeleteCmd;
 import com.github.sparkzxl.workflow.infrastructure.act.SetFlowNodeAndGoCmd;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtHiTaskStatus;
@@ -163,17 +164,12 @@ public class ActWorkApiService {
                                            String taskDefinitionKey) {
         boolean processIsEnd = processRuntimeService.processIsEnd(processInstanceId);
         String status;
-        String taskStatus;
-        if (WorkflowConstants.WorkflowAction.ROLLBACK == actType) {
-            status = ProcessStatusEnum.getValue(actType);
-            taskStatus = TaskStatusEnum.getValue(actType);
-        } else if (processIsEnd) {
+        if (processIsEnd) {
             status = ProcessStatusEnum.END.getDesc();
-            taskStatus = TaskStatusEnum.AGREE.getDesc();
         } else {
             status = ProcessStatusEnum.RUN_TIME.getDesc();
-            taskStatus = TaskStatusEnum.AGREE.getDesc();
         }
+        String taskStatus = TaskStatusEnum.getValue(actType);
         DriverResult driverResult = new DriverResult();
         driverResult.setProcessIsEnd(processIsEnd);
         CompletableFuture.runAsync(() -> saveProcessTaskStatus(
@@ -227,6 +223,8 @@ public class ActWorkApiService {
             FlowNode targetNode = (FlowNode) process.getFlowElement(flowElement.getId());
             // 删除当前运行任务，同时返回执行id，该id在并发情况下也是唯一的
             String executionEntityId = managementService.executeCommand(new DeleteTaskCmd(currentTaskId));
+            //删除变量
+            managementService.executeCommand(new ExecutionVariableDeleteCmd(executionEntityId));
             // 流程执行到来源节点
             managementService.executeCommand(new SetFlowNodeAndGoCmd(targetNode, executionEntityId));
             driverResult = recordProcessState(processInstanceId, driveProcess.getBusinessId(), actType, currentTaskId, taskDefinitionKey);

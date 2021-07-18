@@ -19,7 +19,6 @@ public enum ProcessStatusEnum {
      * 流程状态
      */
     RUN_TIME(1, "运行中"),
-    ROLLBACK(-1, "驳回"),
     END(-2,"结束");
 
     @EnumValue

@@ -12,6 +12,7 @@ import com.github.sparkzxl.workflow.infrastructure.convert.ProcessUserConvert;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUser;
 import com.github.sparkzxl.workflow.interfaces.dto.user.ProcessUserQueryDTO;
 import com.github.sparkzxl.workflow.interfaces.dto.user.ProcessUserSaveDTO;
+import com.github.sparkzxl.workflow.interfaces.dto.user.ProcessUserUpdateDTO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/process/user")
 public class ExtProcessUserController extends SuperCacheController<IExtProcessUserService, Long, ExtProcessUser,
-        ProcessUserSaveDTO, ProcessUserQueryDTO, ProcessUserQueryDTO, ProcessUserExcel> {
+        ProcessUserSaveDTO, ProcessUserUpdateDTO, ProcessUserQueryDTO, ProcessUserExcel> {
 
     private ImportUserDataListener importUserDataListener;
 

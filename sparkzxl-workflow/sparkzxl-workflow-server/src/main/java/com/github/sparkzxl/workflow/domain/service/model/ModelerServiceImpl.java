@@ -29,17 +29,17 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
  * description:模型控制 服务实现类
  *
  * @author charles.zhou
- * @date   2020-07-17 14:55:23
+ * @date 2020-07-17 14:55:23
  */
 @Service
 @Slf4j
-@Transactional(rollbackFor = Exception.class)
 public class ModelerServiceImpl implements IModelerService {
 
     @Autowired
@@ -95,6 +95,7 @@ public class ModelerServiceImpl implements IModelerService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean publishProcess(String modelId) {
         try {
             Model modelData = repositoryService.getModel(modelId);
@@ -110,19 +111,26 @@ public class ModelerServiceImpl implements IModelerService {
                     .addBpmnModel(modelData.getKey() + ".bpmn20.xml", model)
                     .deploy();
             modelData.setDeploymentId(deployment.getId());
+            AtomicInteger atomicInteger = new AtomicInteger(modelData.getVersion());
+            modelData.setVersion(atomicInteger.incrementAndGet());
             repositoryService.saveModel(modelData);
             return true;
         } catch (Exception e) {
             log.error("部署modelId:{}模型服务异常：{}", modelId, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
         return false;
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean revokePublish(String modelId) {
         Model modelData = repositoryService.getModel(modelId);
         if (null != modelData) {
             try {
+                AtomicInteger atomicInteger = new AtomicInteger(modelData.getVersion());
+                modelData.setVersion(atomicInteger.decrementAndGet());
+                repositoryService.saveModel(modelData);
                 //参数不加true:为普通删除，如果当前规则下有正在执行的流程，则抛异常
                 //参数加true:为级联删除,会删除和当前规则相关的所有信息，包括历史
                 if (StringUtils.isNotEmpty(modelData.getDeploymentId())) {
@@ -131,6 +139,7 @@ public class ModelerServiceImpl implements IModelerService {
                 return true;
             } catch (Exception e) {
                 log.error("撤销已部署流程服务异常：{}", e.getMessage());
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             }
         }
         return false;

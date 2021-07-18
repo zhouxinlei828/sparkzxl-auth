@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -76,6 +77,7 @@ public class ModelServiceImpl implements IModelService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean saveModel(String modelId, String name, String description, String jsonXml, String svgXml) {
         try {
             Model model = repositoryService.getModel(modelId);
@@ -100,6 +102,7 @@ public class ModelServiceImpl implements IModelService {
             outStream.close();
         } catch (Exception e) {
             log.error("Error saving model", e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             BizExceptionAssert.businessFail("Error saving model");
         }
         return true;

@@ -7,14 +7,14 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 /**
- * description:挂起流程入参
+ * description:流程状态操作入参
  *
  * @author charles.zhou
  * @date 2020-10-01 19:52:24
  */
 @Data
-@ApiModel("挂起流程入参")
-public class SuspendProcessDTO {
+@ApiModel(value = "ModifyProcessDTO对象", description = "流程状态操作入参")
+public class ModifyProcessDTO {
 
     @ApiModelProperty("业务主键")
     private String businessId;

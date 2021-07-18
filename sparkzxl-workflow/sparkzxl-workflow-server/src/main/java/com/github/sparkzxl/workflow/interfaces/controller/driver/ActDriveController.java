@@ -7,7 +7,7 @@ import com.github.sparkzxl.workflow.application.service.driver.IProcessDriveServ
 import com.github.sparkzxl.workflow.dto.DriverProcessParam;
 import com.github.sparkzxl.workflow.dto.DriverResult;
 import com.github.sparkzxl.workflow.dto.ProcessInstanceDeleteDTO;
-import com.github.sparkzxl.workflow.dto.SuspendProcessDTO;
+import com.github.sparkzxl.workflow.dto.ModifyProcessDTO;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * description: 流程驱动管理
  *
  * @author charles.zhou
- * @date   2020-07-17 16:29:54
+ * @date 2020-07-17 16:29:54
  */
 @AllArgsConstructor
 @RestController
@@ -36,8 +36,13 @@ public class ActDriveController implements ProcessDriveApi {
     }
 
     @Override
-    public boolean suspendProcess(@RequestBody SuspendProcessDTO suspendProcessDTO) {
-        return processDriveService.suspendProcess(suspendProcessDTO);
+    public boolean suspendProcess(@RequestBody ModifyProcessDTO modifyProcessDTO) {
+        return processDriveService.suspendProcess(modifyProcessDTO);
+    }
+
+    @Override
+    public boolean activateProcessInstance(ModifyProcessDTO modifyProcessDTO) {
+        return processDriveService.activateProcessInstance(modifyProcessDTO);
     }
 
     @Override

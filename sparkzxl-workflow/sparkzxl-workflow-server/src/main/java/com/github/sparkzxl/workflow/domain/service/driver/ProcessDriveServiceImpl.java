@@ -204,15 +204,31 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean suspendProcess(SuspendProcessDTO suspendProcessDTO) {
+    public boolean suspendProcess(ModifyProcessDTO modifyProcessDTO) {
         LambdaUpdateWrapper<ExtProcessStatus> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.set(ExtProcessStatus::getStatus, ProcessStatusEnum.SUSPEND.getDesc());
-        if (suspendProcessDTO.getType().equals(1)) {
-            lambdaUpdateWrapper.eq(ExtProcessStatus::getBusinessId, suspendProcessDTO.getBusinessId());
-            processRuntimeService.suspendProcess(suspendProcessDTO.getBusinessId());
+        if (modifyProcessDTO.getType().equals(1)) {
+            lambdaUpdateWrapper.eq(ExtProcessStatus::getBusinessId, modifyProcessDTO.getBusinessId());
+            processRuntimeService.suspendProcess(modifyProcessDTO.getBusinessId());
         } else {
-            lambdaUpdateWrapper.eq(ExtProcessStatus::getProcessInstanceId, suspendProcessDTO.getProcessInstanceId());
-            processRuntimeService.suspendProcessInstanceById(suspendProcessDTO.getProcessInstanceId());
+            lambdaUpdateWrapper.eq(ExtProcessStatus::getProcessInstanceId, modifyProcessDTO.getProcessInstanceId());
+            processRuntimeService.suspendProcessInstanceById(modifyProcessDTO.getProcessInstanceId());
+        }
+        extProcessStatusService.update(lambdaUpdateWrapper);
+        return true;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean activateProcessInstance(ModifyProcessDTO modifyProcessDTO) {
+        LambdaUpdateWrapper<ExtProcessStatus> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.set(ExtProcessStatus::getStatus, ProcessStatusEnum.RUN_TIME.getDesc());
+        if (modifyProcessDTO.getType().equals(1)) {
+            lambdaUpdateWrapper.eq(ExtProcessStatus::getBusinessId, modifyProcessDTO.getBusinessId());
+            processRuntimeService.activateProcessInstanceByBusinessId(modifyProcessDTO.getBusinessId());
+        } else {
+            lambdaUpdateWrapper.eq(ExtProcessStatus::getProcessInstanceId, modifyProcessDTO.getProcessInstanceId());
+            processRuntimeService.activateProcessInstanceByProcInsId(modifyProcessDTO.getProcessInstanceId());
         }
         extProcessStatusService.update(lambdaUpdateWrapper);
         return true;

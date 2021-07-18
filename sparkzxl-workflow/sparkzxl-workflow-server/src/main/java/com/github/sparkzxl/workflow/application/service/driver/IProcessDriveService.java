@@ -59,10 +59,18 @@ public interface IProcessDriveService {
     /**
      * 挂起流程
      *
-     * @param suspendProcessDTO 挂起流程入参
+     * @param modifyProcessDTO 流程状态操作入参
      * @return boolean
      */
-    boolean suspendProcess(SuspendProcessDTO suspendProcessDTO);
+    boolean suspendProcess(ModifyProcessDTO modifyProcessDTO);
+
+    /**
+     * 激活流程
+     *
+     * @param modifyProcessDTO 流程状态操作入参
+     * @return boolean
+     */
+    boolean activateProcessInstance(ModifyProcessDTO modifyProcessDTO);
 
     /**
      * 删除流程实例

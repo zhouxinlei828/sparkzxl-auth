@@ -3,7 +3,7 @@ package com.github.sparkzxl.workflow.api;
 import com.github.sparkzxl.workflow.dto.DriverProcessParam;
 import com.github.sparkzxl.workflow.dto.DriverResult;
 import com.github.sparkzxl.workflow.dto.ProcessInstanceDeleteDTO;
-import com.github.sparkzxl.workflow.dto.SuspendProcessDTO;
+import com.github.sparkzxl.workflow.dto.ModifyProcessDTO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * description: activiti驱动API接口
  *
  * @author charles.zhou
- * @date   2020-10-01 19:42:13
+ * @date 2020-10-01 19:42:13
  */
 public interface ProcessDriveApi {
 
@@ -31,12 +31,22 @@ public interface ProcessDriveApi {
     /**
      * 流程挂起
      *
-     * @param suspendProcessDTO 挂起流程入参
+     * @param modifyProcessDTO 挂起流程入参
      * @return boolean
      */
     @ApiOperation("挂起流程")
     @RequestMapping(method = RequestMethod.POST, value = "/process/suspend")
-    boolean suspendProcess(@RequestBody SuspendProcessDTO suspendProcessDTO);
+    boolean suspendProcess(@RequestBody ModifyProcessDTO modifyProcessDTO);
+
+    /**
+     * 激活流程
+     *
+     * @param modifyProcessDTO 挂起流程入参
+     * @return boolean
+     */
+    @ApiOperation("激活流程")
+    @RequestMapping(method = RequestMethod.POST, value = "/process/activate")
+    boolean activateProcessInstance(@RequestBody ModifyProcessDTO modifyProcessDTO);
 
     /**
      * 删除流程

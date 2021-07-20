@@ -61,7 +61,7 @@ public class AuthUser extends Entity<Long> {
 
     @ApiModelProperty(value = "岗位ID")
     @TableField("station_id")
-    @EchoField(api = STATION_ID_CLASS, method = FIND_BY_IDS, beanClass = CoreStation.class)
+    @EchoField(api = STATION_ID_CLASS, beanClass = CoreStation.class)
     private RemoteData<Long, CoreStation> station;
 
     @ApiModelProperty(value = "邮箱")
@@ -106,10 +106,6 @@ public class AuthUser extends Entity<Long> {
     @ApiModelProperty(value = "最后登录时间")
     @TableField("last_login_time")
     private LocalDateTime lastLoginTime;
-
-    @ApiModelProperty(value = "密码")
-    @TableField(exist = false)
-    private String originalPassword;
 
     @ApiModelProperty(value = "状态 1启用 0禁用")
     @TableField("status")

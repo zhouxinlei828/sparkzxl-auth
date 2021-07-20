@@ -1,5 +1,6 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
+import cn.hutool.core.util.DesensitizedUtil;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.auth.api.IAuthUserApi;
@@ -68,6 +69,11 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
     @Override
     public boolean delete(DeleteDTO<Long> deleteDTO) {
         return baseService.deleteAuthUser(deleteDTO.getIds());
+    }
+
+    @Override
+    public void handlerEntity(AuthUser entity) {
+        entity.setPassword(DesensitizedUtil.password(entity.getPassword()));
     }
 
     @ApiOperation(value = "用户路由菜单", notes = "用户路由菜单")

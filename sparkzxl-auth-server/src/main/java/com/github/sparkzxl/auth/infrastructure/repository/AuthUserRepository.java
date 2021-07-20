@@ -3,6 +3,7 @@ package com.github.sparkzxl.auth.infrastructure.repository;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.DesensitizedUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -112,7 +113,9 @@ public class AuthUserRepository implements IAuthUserRepository {
         if (ObjectUtils.isNotEmpty(authUser.getOrg()) && ObjectUtils.isNotEmpty(authUser.getOrg().getKey())) {
             queryWrapper.eq(AuthUser::getOrg, authUser.getOrg().getKey());
         }
-        return authUserMapper.selectList(queryWrapper);
+        List<AuthUser> authUsers = authUserMapper.selectList(queryWrapper);
+        authUsers.forEach(user -> user.setPassword(DesensitizedUtil.password(user.getPassword())));
+        return authUsers;
     }
 
     @Override

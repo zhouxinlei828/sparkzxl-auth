@@ -1,5 +1,6 @@
 package com.github.sparkzxl.auth.infrastructure.repository;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.domain.repository.IAuthApplicationRepository;
@@ -10,6 +11,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.infrastructure.entity.OauthClientDetails;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthApplicationMapper;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
+import com.github.sparkzxl.entity.data.SuperEntity;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -64,7 +66,10 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
     @Override
     public PageInfo<AuthApplication> listPage(int pageNum, int pageSize, String clientId, String appName) {
         PageHelper.startPage(pageNum, pageSize);
-        List<AuthApplication> authApplications = authApplicationMapper.listPage(clientId, appName);
+        LambdaQueryWrapper<AuthApplication> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(StringUtils.isNotEmpty(clientId), AuthApplication::getClientId, clientId)
+                .likeRight(StringUtils.isNotEmpty(appName), AuthApplication::getAppTypeName, appName).orderByDesc(SuperEntity::getCreateTime);
+        List<AuthApplication> authApplications = authApplicationMapper.selectList(lambdaQueryWrapper);
         PageInfo<AuthApplication> authApplicationPageInfo = PageInfoUtils.pageInfo(authApplications);
         List<AuthApplication> applicationList = authApplicationPageInfo.getList();
         if (CollectionUtils.isNotEmpty(applicationList)) {

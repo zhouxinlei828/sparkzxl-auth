@@ -1,5 +1,6 @@
 package com.github.sparkzxl.auth.domain.service;
 
+import cn.hutool.core.bean.OptionalBean;
 import cn.hutool.extra.pinyin.PinyinUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.excel.EasyExcel;
@@ -86,12 +87,12 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
             authUserRoles.add(BizConstant.USER_CODE);
             authUserInfo.setAuthorityList(authUserRoles);
             Map<String, Object> extraInfo = Maps.newHashMap();
-            extraInfo.put("org", authUser.getOrg().getData());
-            extraInfo.put("station", authUser.getStation());
+            extraInfo.put("org", OptionalBean.ofNullable(authUser.getOrg()).getBean(RemoteData::getData).get());
+            extraInfo.put("station", OptionalBean.ofNullable(authUser.getStation()).getBean(RemoteData::getData).get());
             extraInfo.put("mobile", authUser.getMobile());
             extraInfo.put("email", authUser.getEmail());
-            extraInfo.put("education", authUser.getEducation());
-            extraInfo.put("positionStatus", authUser.getPositionStatus());
+            extraInfo.put("education", OptionalBean.ofNullable(authUser.getEducation()).getBean(RemoteData::getData).get());
+            extraInfo.put("positionStatus", OptionalBean.ofNullable(authUser.getPositionStatus()).getBean(RemoteData::getData).get());
             authUserInfo.setExtraInfo(extraInfo);
             return authUserInfo;
         }

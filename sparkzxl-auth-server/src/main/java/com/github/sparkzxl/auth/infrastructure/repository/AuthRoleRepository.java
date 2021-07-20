@@ -65,12 +65,8 @@ public class AuthRoleRepository implements IAuthRoleRepository {
     @Override
     public PageInfo<AuthRole> getPageList(int pageNum, int pageSize, String code, String name) {
         LambdaUpdateWrapper<AuthRole> roleLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        if (StringUtils.isNotEmpty(code)) {
-            roleLambdaUpdateWrapper.eq(AuthRole::getCode, code);
-        }
-        if (StringUtils.isNotEmpty(name)) {
-            roleLambdaUpdateWrapper.likeRight(AuthRole::getName, name);
-        }
+        roleLambdaUpdateWrapper.eq(StringUtils.isNotEmpty(code), AuthRole::getCode, code)
+                .likeRight(StringUtils.isNotEmpty(name), AuthRole::getName, name);
         PageHelper.startPage(pageNum, pageSize);
         List<AuthRole> roleList = authRoleMapper.selectList(roleLambdaUpdateWrapper);
         return PageInfoUtils.pageInfo(roleList);

@@ -90,10 +90,9 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
 
     @Override
     public CoreOrg getCoreOrgByName(String name) {
-        LambdaQueryWrapper<CoreOrg> orgQueryWrapper = new LambdaQueryWrapper<>();
-        orgQueryWrapper.eq(TreeEntity::getLabel, name);
-        orgQueryWrapper.eq(CoreOrg::getStatus, true).last("limit 1");
-        return getOne(orgQueryWrapper);
+        return getOne(new LambdaQueryWrapper<CoreOrg>().eq(TreeEntity::getLabel, name)
+                .eq(CoreOrg::getStatus, true)
+                .last("limit 1"));
     }
 
     @Override
@@ -102,7 +101,7 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
         boolean result = coreOrgRepository.saveCoreOrg(coreOrg);
         Long orgId = coreOrg.getId();
         Map<String, Object> orgAttributeMap = coreOrg.getAttribute();
-        if (MapUtils.isNotEmpty(orgAttributeMap)){
+        if (MapUtils.isNotEmpty(orgAttributeMap)) {
             orgAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(orgId));
             esOrgAttributeService.saveDoc(BizConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId), orgAttributeMap);
         }

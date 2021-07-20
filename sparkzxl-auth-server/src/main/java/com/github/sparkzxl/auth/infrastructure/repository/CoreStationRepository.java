@@ -1,9 +1,9 @@
 package com.github.sparkzxl.auth.infrastructure.repository;
 
 
+import cn.hutool.core.bean.OptionalBean;
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.sparkzxl.annotation.echo.EchoResult;
 import com.github.sparkzxl.auth.domain.repository.ICoreStationRepository;
@@ -53,13 +53,14 @@ public class CoreStationRepository implements ICoreStationRepository {
             return Collections.emptyList();
         }
         List<Long> idList = ids.stream().mapToLong(Convert::toLong).boxed().collect(Collectors.toList());
-
         List<CoreStation> list;
         int size = 1000;
         if (idList.size() <= size) {
-            list = idList.stream().map(this.coreStationMapper::selectById).filter(Objects::nonNull).collect(Collectors.toList());
+            list = idList.stream().map(coreStationMapper::selectById).filter(Objects::nonNull).collect(Collectors.toList());
         } else {
-            list = this.coreStationMapper.selectList(new QueryWrapper<CoreStation>().lambda().in(CoreStation::getId, idList).eq(CoreStation::getStatus, true));
+            list = coreStationMapper.selectList(new LambdaQueryWrapper<CoreStation>()
+                    .in(CoreStation::getId, idList)
+                    .eq(CoreStation::getStatus, true));
         }
         return list;
     }
@@ -68,12 +69,9 @@ public class CoreStationRepository implements ICoreStationRepository {
     @EchoResult
     public List<CoreStation> getStationPageList(int pageNum, int pageSize, String name, RemoteData<Long, CoreOrg> org) {
         LambdaQueryWrapper<CoreStation> stationQueryWrapper = new LambdaQueryWrapper<>();
-        if (StringUtils.isNotEmpty(name)) {
-            stationQueryWrapper.likeRight(CoreStation::getName, name);
-        }
-        if (ObjectUtils.isNotEmpty(org) && ObjectUtils.isNotEmpty(org.getKey())) {
-            stationQueryWrapper.eq(CoreStation::getOrg, org);
-        }
+        Long orgId = OptionalBean.ofNullable(org).getBean(RemoteData::getKey).get();
+        stationQueryWrapper.likeRight(StringUtils.isNotEmpty(name), CoreStation::getName, name)
+                .eq(ObjectUtils.isNotEmpty(orgId), CoreStation::getOrg, org);
         PageHelper.startPage(pageNum, pageSize);
         return coreStationMapper.selectList(stationQueryWrapper);
     }

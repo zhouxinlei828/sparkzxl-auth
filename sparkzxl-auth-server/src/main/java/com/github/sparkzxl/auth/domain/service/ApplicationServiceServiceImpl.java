@@ -20,7 +20,7 @@ import java.util.List;
  * description: 租户信息客户端服务实现类
  *
  * @author charles.zhou
- * @date   2021-02-20 09:44:43
+ * @date 2021-02-20 09:44:43
  */
 @Service
 public class ApplicationServiceServiceImpl extends SuperCacheServiceImpl<AuthApplicationMapper, AuthApplication> implements IApplicationService {
@@ -31,8 +31,8 @@ public class ApplicationServiceServiceImpl extends SuperCacheServiceImpl<AuthApp
 
     @Override
     public boolean saveApplication(AuthApplicationSaveDTO authApplicationSaveDTO) {
-        AuthApplication authApplication = AuthApplicationConvert.INSTANCE.convertAuthApplication(authApplicationSaveDTO);
-        return authApplicationRepository.saveAuthApplication(authApplication);
+        return authApplicationRepository.saveAuthApplication(AuthApplicationConvert.INSTANCE
+                .convertAuthApplication(authApplicationSaveDTO));
     }
 
     @Override
@@ -53,8 +53,8 @@ public class ApplicationServiceServiceImpl extends SuperCacheServiceImpl<AuthApp
 
     @Override
     public boolean updateApplication(AuthApplicationUpdateDTO authApplicationUpdateDTO) {
-        AuthApplication authApplication = AuthApplicationConvert.INSTANCE.convertAuthApplication(authApplicationUpdateDTO);
-        return authApplicationRepository.updateAuthApplication(authApplication);
+        return authApplicationRepository.updateAuthApplication(AuthApplicationConvert.INSTANCE
+                .convertAuthApplication(authApplicationUpdateDTO));
     }
 
     @Override

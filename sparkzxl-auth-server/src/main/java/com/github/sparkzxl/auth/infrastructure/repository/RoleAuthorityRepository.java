@@ -11,6 +11,7 @@ import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo;
+import com.github.sparkzxl.auth.infrastructure.enums.AuthorityTypeEnum;
 import com.github.sparkzxl.auth.infrastructure.enums.OperationEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
@@ -76,7 +77,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
                 RoleAuthority roleAuthority = new RoleAuthority();
                 roleAuthority.setRoleId(roleId);
                 roleAuthority.setAuthorityId(authorityId);
-                roleAuthority.setAuthorityType("RESOURCE");
+                roleAuthority.setAuthorityType(AuthorityTypeEnum.RESOURCE.name());
                 roleAuthorities.add(roleAuthority);
             });
         }
@@ -85,7 +86,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
                 RoleAuthority roleAuthority = new RoleAuthority();
                 roleAuthority.setRoleId(roleId);
                 roleAuthority.setAuthorityId(menuId);
-                roleAuthority.setAuthorityType("MENU");
+                roleAuthority.setAuthorityType(AuthorityTypeEnum.MENU.name());
                 roleAuthorities.add(roleAuthority);
             });
         }
@@ -105,12 +106,12 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
         List<Long> authMenus = Lists.newArrayList();
         List<Long> authResources = Lists.newArrayList();
         Map<String, List<RoleAuthority>> roleAuthorityMap = roleAuthorities.stream().collect(Collectors.groupingBy(RoleAuthority::getAuthorityType));
-        List<RoleAuthority> resourceList = roleAuthorityMap.get("RESOURCE");
+        List<RoleAuthority> resourceList = roleAuthorityMap.get(AuthorityTypeEnum.RESOURCE.name());
         if (CollectionUtils.isNotEmpty(resourceList)) {
             authResources = resourceList.stream().map(RoleAuthority::getAuthorityId).collect(Collectors.toList());
         }
         roleResource.setAuthResources(authResources);
-        List<RoleAuthority> menuList = roleAuthorityMap.get("MENU");
+        List<RoleAuthority> menuList = roleAuthorityMap.get(AuthorityTypeEnum.MENU.name());
         if (CollectionUtils.isNotEmpty(menuList)) {
             authMenus = menuList.stream().map(RoleAuthority::getAuthorityId).collect(Collectors.toList());
         }

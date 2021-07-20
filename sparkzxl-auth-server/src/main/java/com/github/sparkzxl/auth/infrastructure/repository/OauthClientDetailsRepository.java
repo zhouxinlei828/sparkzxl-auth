@@ -3,6 +3,7 @@ package com.github.sparkzxl.auth.infrastructure.repository;
 import com.github.sparkzxl.auth.domain.repository.IOauthClientDetailsRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.OauthClientDetails;
 import com.github.sparkzxl.auth.infrastructure.mapper.OauthClientDetailsMapper;
+import com.github.sparkzxl.core.base.result.ApiResponseStatus;
 import com.github.sparkzxl.core.support.BizExceptionAssert;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
@@ -19,7 +20,7 @@ import java.util.List;
  * description: 客户端 仓储实现类
  *
  * @author charles.zhou
- * @date   2021-02-20 09:54:44
+ * @date 2021-02-20 09:54:44
  */
 @Repository
 public class OauthClientDetailsRepository implements IOauthClientDetailsRepository {
@@ -33,19 +34,19 @@ public class OauthClientDetailsRepository implements IOauthClientDetailsReposito
     @Transactional(rollbackFor = Exception.class)
     public void saveOauthClientDetails(OauthClientDetails oauthClientDetails) {
         if (StringUtils.isEmpty(oauthClientDetails.getClientId())) {
-            BizExceptionAssert.businessFail(400, "客户端id不能为空");
+            BizExceptionAssert.businessFail(ApiResponseStatus.PARAM_MISS.getCode(), "客户端id不能为空");
         }
         if (StringUtils.isEmpty(oauthClientDetails.getClientSecret())) {
-            BizExceptionAssert.businessFail(400, "客户端id不能为空");
+            BizExceptionAssert.businessFail(ApiResponseStatus.PARAM_MISS.getCode(), "客户端id不能为空");
         }
         if (StringUtils.isEmpty(oauthClientDetails.getAuthorizedGrantTypes())) {
-            BizExceptionAssert.businessFail(400, "授权类型不能为空");
+            BizExceptionAssert.businessFail(ApiResponseStatus.PARAM_MISS.getCode(), "授权类型不能为空");
         }
         if (ObjectUtils.isEmpty(oauthClientDetails.getAccessTokenValidity())) {
-            BizExceptionAssert.businessFail(400, "令牌时效不能为空");
+            BizExceptionAssert.businessFail(ApiResponseStatus.PARAM_MISS.getCode(), "令牌时效不能为空");
         }
         if (ObjectUtils.isEmpty(oauthClientDetails.getRefreshTokenValidity())) {
-            BizExceptionAssert.businessFail(400, "令牌刷新时效不能为空");
+            BizExceptionAssert.businessFail(ApiResponseStatus.PARAM_MISS.getCode(), "令牌刷新时效不能为空");
         }
         String clientSecret = oauthClientDetails.getClientSecret();
         String encryptClientSecret = passwordEncoder.encode(clientSecret);
@@ -70,7 +71,7 @@ public class OauthClientDetailsRepository implements IOauthClientDetailsReposito
     @Override
     public void updateOauthClientDetails(OauthClientDetails oauthClientDetails) {
         if (StringUtils.isEmpty(oauthClientDetails.getClientId())) {
-            BizExceptionAssert.businessFail(400, "客户端id不能为空");
+            BizExceptionAssert.businessFail(ApiResponseStatus.PARAM_MISS.getCode(), "客户端id不能为空");
         }
         OauthClientDetails clientDetails = clientDetailsMapper.selectById(oauthClientDetails.getClientId());
         String clientSecret = oauthClientDetails.getClientSecret();

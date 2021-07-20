@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * description:
@@ -41,9 +42,7 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
             baseClientDetails.setAdditionalInformation(additionalInformationMap);
         }
         String scopes = oauthClientDetails.getAutoApprove();
-        if (scopes != null) {
-            baseClientDetails.setAutoApproveScopes(ListUtils.stringToList(scopes));
-        }
+        Optional.ofNullable(oauthClientDetails.getAutoApprove()).ifPresent(value -> baseClientDetails.setAutoApproveScopes(ListUtils.stringToList(scopes)));
         return baseClientDetails;
     }
 }

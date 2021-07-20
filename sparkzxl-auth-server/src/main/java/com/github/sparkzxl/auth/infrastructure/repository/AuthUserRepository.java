@@ -1,11 +1,11 @@
 package com.github.sparkzxl.auth.infrastructure.repository;
 
+import cn.hutool.core.bean.OptionalBean;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.DesensitizedUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.sparkzxl.annotation.echo.EchoResult;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
@@ -17,6 +17,8 @@ import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.*;
+import com.github.sparkzxl.auth.infrastructure.enums.AuthorityTypeEnum;
+import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.*;
 import com.github.sparkzxl.core.tree.TreeUtils;
 import com.github.sparkzxl.entity.data.RemoteData;
@@ -62,14 +64,11 @@ public class AuthUserRepository implements IAuthUserRepository {
     @Override
     @EchoResult
     public AuthUser selectByAccount(String account) {
-        QueryWrapper<AuthUser> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<AuthUser> queryWrapper = new LambdaQueryWrapper<>();
         boolean mobile = Validator.isMobile(account);
-        if (mobile) {
-            queryWrapper.lambda().eq(AuthUser::getMobile, account);
-        } else {
-            queryWrapper.lambda().eq(AuthUser::getAccount, account);
-        }
-        queryWrapper.lambda().eq(AuthUser::getStatus, true);
+        queryWrapper.eq(mobile, AuthUser::getMobile, account)
+                .eq(!mobile, AuthUser::getAccount, account)
+                .eq(AuthUser::getStatus, true);
         return authUserMapper.selectOne(queryWrapper);
     }
 
@@ -91,28 +90,18 @@ public class AuthUserRepository implements IAuthUserRepository {
     @Override
     @EchoResult
     public List<AuthUser> getAuthUserList(AuthUser authUser, List<Long> userIdList) {
+        Integer sexCode = OptionalBean.ofNullable(authUser.getSex()).getBean(SexEnum::getCode).get();
+        String nationCode = OptionalBean.ofNullable(authUser.getNation()).getBean(RemoteData::getKey).get();
+        Long orgId = OptionalBean.ofNullable(authUser.getOrg()).getBean(RemoteData::getKey).get();
         LambdaQueryWrapper<AuthUser> queryWrapper = new LambdaQueryWrapper<>();
-        if (CollectionUtils.isNotEmpty(userIdList)) {
-            queryWrapper.in(SuperEntity::getId, userIdList);
-        }
-        if (StringUtils.isNotEmpty(authUser.getAccount())) {
-            queryWrapper.like(AuthUser::getAccount, authUser.getAccount());
-        }
-        if (StringUtils.isNotEmpty(authUser.getName())) {
-            queryWrapper.like(AuthUser::getName, authUser.getName());
-        }
-        if (ObjectUtils.isNotEmpty(authUser.getStatus())) {
-            queryWrapper.eq(AuthUser::getStatus, authUser.getStatus());
-        }
-        if (ObjectUtils.isNotEmpty(authUser.getSex()) && ObjectUtils.isNotEmpty(authUser.getSex().getCode())) {
-            queryWrapper.eq(AuthUser::getSex, authUser.getSex());
-        }
-        if (ObjectUtils.isNotEmpty(authUser.getNation()) && StringUtils.isNotEmpty(authUser.getNation().getKey())) {
-            queryWrapper.eq(AuthUser::getNation, authUser.getNation());
-        }
-        if (ObjectUtils.isNotEmpty(authUser.getOrg()) && ObjectUtils.isNotEmpty(authUser.getOrg().getKey())) {
-            queryWrapper.eq(AuthUser::getOrg, authUser.getOrg().getKey());
-        }
+        queryWrapper.in(CollectionUtils.isNotEmpty(userIdList), SuperEntity::getId, userIdList)
+                .likeRight(StringUtils.isNotEmpty(authUser.getAccount()), AuthUser::getAccount, authUser.getAccount())
+                .likeRight(StringUtils.isNotEmpty(authUser.getName()), AuthUser::getName, authUser.getName())
+                .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
+                .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
+                .eq(ObjectUtils.isNotEmpty(sexCode), AuthUser::getSex, sexCode)
+                .eq(StringUtils.isNotEmpty(nationCode), AuthUser::getNation, nationCode)
+                .eq(ObjectUtils.isNotEmpty(orgId), AuthUser::getOrg, orgId);
         List<AuthUser> authUsers = authUserMapper.selectList(queryWrapper);
         authUsers.forEach(user -> user.setPassword(DesensitizedUtil.password(user.getPassword())));
         return authUsers;
@@ -122,21 +111,18 @@ public class AuthUserRepository implements IAuthUserRepository {
     public AuthUserBasicInfo getAuthUserBasicInfo(Long userId) {
         AuthUser authUser = authUserMapper.getById(userId);
         AuthUserBasicInfo authUserBasicInfo = AuthUserConvert.INSTANCE.convertAuthUserBasicInfo(authUser);
-        RemoteData<Long, CoreOrg> org = authUser.getOrg();
         List<OrgBasicInfo> orgTreeList = CollUtil.newArrayList();
+        CoreOrg org = OptionalBean.ofNullable(authUser.getOrg().getData()).get();
         if (ObjectUtils.isNotEmpty(org)) {
-            CoreOrg data = org.getData();
-            if (ObjectUtils.isNotEmpty(data)) {
-                orgTreeList.add(buildOrgBasicInfo(data));
-                if (data.getParentId() != 0) {
-                    CoreOrg coreOrg = coreOrgMapper.selectById(data.getParentId());
-                    orgTreeList.add(buildOrgBasicInfo(coreOrg));
-                    authUserBasicInfo.setOrgName(coreOrg.getLabel().concat("-").concat(data.getLabel()));
-                } else {
-                    authUserBasicInfo.setOrgName(data.getLabel());
-                }
-                authUserBasicInfo.setOrg(TreeUtils.buildTree(orgTreeList));
+            orgTreeList.add(buildOrgBasicInfo(org));
+            if (org.getParentId() != 0) {
+                CoreOrg coreOrg = coreOrgMapper.selectById(org.getParentId());
+                orgTreeList.add(buildOrgBasicInfo(coreOrg));
+                authUserBasicInfo.setOrgName(coreOrg.getLabel().concat("-").concat(org.getLabel()));
+            } else {
+                authUserBasicInfo.setOrgName(org.getLabel());
             }
+            authUserBasicInfo.setOrg(TreeUtils.buildTree(orgTreeList));
         }
 
         List<Long> roleIds =
@@ -151,11 +137,12 @@ public class AuthUserRepository implements IAuthUserRepository {
             roleBasicInfo.setName("普通用户");
             roleBasicInfos.add(roleBasicInfo);
             authUserBasicInfo.setRoleBasicInfos(roleBasicInfos);
+            LambdaQueryWrapper<RoleAuthority> roleAuthorityLambdaQueryWrapper = new LambdaQueryWrapper<RoleAuthority>()
+                    .in(RoleAuthority::getRoleId, roleIds)
+                    .eq(RoleAuthority::getAuthorityType, AuthorityTypeEnum.RESOURCE.name());
             List<RoleAuthority> roleAuthorities =
-                    roleAuthorityMapper.selectList(new LambdaQueryWrapper<RoleAuthority>().in(RoleAuthority::getRoleId, roleIds)
-                            .eq(RoleAuthority::getAuthorityType, "RESOURCE")
-                            .groupBy(RoleAuthority::getAuthorityId, RoleAuthority::getRoleId));
-            List<Long> authorityIds = roleAuthorities.stream().map(RoleAuthority::getAuthorityId).collect(Collectors.toList());
+                    roleAuthorityMapper.selectList(roleAuthorityLambdaQueryWrapper);
+            List<Long> authorityIds = roleAuthorities.stream().distinct().map(RoleAuthority::getAuthorityId).collect(Collectors.toList());
             Map<Long, Long> roleAuthorityIdMap =
                     roleAuthorities.stream().collect(Collectors.toMap(RoleAuthority::getAuthorityId, RoleAuthority::getRoleId));
             List<ResourceBasicInfo> resourceBasicInfos = Lists.newArrayList();

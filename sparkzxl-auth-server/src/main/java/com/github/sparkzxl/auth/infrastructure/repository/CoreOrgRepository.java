@@ -7,10 +7,11 @@ import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreOrgMapper;
 import com.github.sparkzxl.entity.data.TreeEntity;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * description: 组织 仓储层实现类
@@ -46,8 +47,8 @@ public class CoreOrgRepository implements ICoreOrgRepository {
     @Override
     public List<CoreOrg> getCoreOrgList(String name, Boolean status) {
         LambdaQueryWrapper<CoreOrg> orgQueryWrapper = new LambdaQueryWrapper<>();
-        Optional.ofNullable(name).ifPresent(value -> orgQueryWrapper.likeRight(TreeEntity::getLabel, value));
-        Optional.ofNullable(status).ifPresent(value -> orgQueryWrapper.eq(CoreOrg::getStatus, value));
+        orgQueryWrapper.likeRight(StringUtils.isNotEmpty(name), TreeEntity::getLabel, name)
+                .eq(ObjectUtils.isNotEmpty(status), CoreOrg::getStatus, status);
         return coreOrgMapper.selectList(orgQueryWrapper);
     }
 }

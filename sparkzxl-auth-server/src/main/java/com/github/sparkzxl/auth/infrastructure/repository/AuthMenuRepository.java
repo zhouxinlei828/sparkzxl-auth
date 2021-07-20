@@ -10,6 +10,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthMenu;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.entity.UserRole;
+import com.github.sparkzxl.auth.infrastructure.enums.AuthorityTypeEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthMenuMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.UserRoleMapper;
@@ -52,13 +53,14 @@ public class AuthMenuRepository implements IAuthMenuRepository {
     public List<MenuBasicInfo> getAuthMenuList(Long userId) {
         List<MenuBasicInfo> menuBasicInfoList = Lists.newArrayList();
         List<Long> roleIds =
-                userRoleMapper.selectList(new LambdaUpdateWrapper<UserRole>().eq(UserRole::getUserId, userId)).stream().map(UserRole::getRoleId)
+                userRoleMapper.selectList(new LambdaUpdateWrapper<UserRole>()
+                        .eq(UserRole::getUserId, userId)).stream().map(UserRole::getRoleId)
                         .collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(roleIds)) {
             List<RoleAuthority> roleAuthorities =
-                    roleAuthorityMapper.selectList(new LambdaQueryWrapper<RoleAuthority>().in(RoleAuthority::getRoleId, roleIds)
-                            .groupBy(RoleAuthority::getAuthorityId, RoleAuthority::getAuthorityType, RoleAuthority::getRoleId));
-            List<Long> menuIds = roleAuthorities.stream().filter(x -> "MENU".equals(x.getAuthorityType()))
+                    roleAuthorityMapper.selectList(new LambdaQueryWrapper<RoleAuthority>().in(RoleAuthority::getRoleId, roleIds));
+            List<Long> menuIds = roleAuthorities.stream().filter(x -> AuthorityTypeEnum.MENU.name().equals(x.getAuthorityType()))
+                    .distinct()
                     .map(RoleAuthority::getAuthorityId).collect(Collectors.toList());
 
             if (CollectionUtils.isNotEmpty(menuIds)) {
@@ -112,10 +114,8 @@ public class AuthMenuRepository implements IAuthMenuRepository {
     @Override
     public List<AuthMenu> findMenuTree(String label) {
         LambdaQueryWrapper<AuthMenu> menuLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        if (StringUtils.isNotEmpty(label)) {
-            menuLambdaQueryWrapper.likeLeft(TreeEntity::getLabel, label);
-        }
-        menuLambdaQueryWrapper.orderByAsc(TreeEntity::getSortValue);
+        menuLambdaQueryWrapper.likeLeft(StringUtils.isNotEmpty(label), TreeEntity::getLabel, label)
+                .orderByAsc(TreeEntity::getSortValue);
         List<AuthMenu> authMenuList = authMenuMapper.selectList(menuLambdaQueryWrapper);
         if (CollectionUtils.isNotEmpty(authMenuList)) {
             List<Long> menuIdList = authMenuList.stream().map(SuperEntity::getId).collect(Collectors.toList());

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public class UserRoleRepository implements IUserRoleRepository {
 
     @Override
     public boolean deleteAuthRoleUser(Long id, Set<Serializable> userIds) {
-        userIds.forEach(userId -> userRoleMapper.delete(new UpdateWrapper<UserRole>().lambda().eq(UserRole::getRoleId, id).eq(UserRole::getUserId, userId)));
+        userRoleMapper.delete(new UpdateWrapper<UserRole>().lambda().eq(UserRole::getRoleId, id).in(UserRole::getUserId, userIds));
         return true;
     }
 
@@ -57,7 +58,7 @@ public class UserRoleRepository implements IUserRoleRepository {
     public List<AuthUser> getRoleUserList(Long roleId) {
         List<UserRole> userRoles = userRoleMapper.selectList(new LambdaQueryWrapper<UserRole>()
                 .eq(UserRole::getRoleId, roleId));
-        List<Long> userIds = userRoles.stream().filter(x -> x.getUserId() != null).map(UserRole::getUserId).distinct()
+        List<Long> userIds = userRoles.stream().map(UserRole::getUserId).filter(Objects::nonNull).distinct()
                 .collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(userIds)) {
             return authUserMapper.selectBatchIds(userIds);

@@ -23,6 +23,7 @@ public class SysParameterServiceImpl extends SuperCacheServiceImpl<SysParameterM
 
     @Override
     public SysParameter getSysParameterByCode(String code) {
-        return getOne(new LambdaQueryWrapper<SysParameter>().eq(SysParameter::getCode, code).eq(SysParameter::getStatus, true).last("limit 1"));
+        return getOne(new LambdaQueryWrapper<SysParameter>().eq(SysParameter::getCode, code)
+                .eq(SysParameter::getStatus, true).last("limit 1"));
     }
 }

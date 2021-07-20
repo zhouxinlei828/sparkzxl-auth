@@ -212,25 +212,25 @@ public class OauthServiceImpl implements IOauthService {
                 Case($(), new ArithmeticCaptcha(115, 42))
         );
         captcha.setCharType(2);
-        String simpleUUID = IdUtil.simpleUUID();
-        captchaInfo.setKey(simpleUUID);
+        String simpleUuid = IdUtil.simpleUUID();
+        captchaInfo.setKey(simpleUuid);
         captchaInfo.setData(captcha.toBase64());
-        generalCacheService.set(BuildKeyUtils.generateKey(BizConstant.CAPTCHA, simpleUUID), captcha.text().toLowerCase(), 60L, TimeUnit.SECONDS);
+        generalCacheService.set(BuildKeyUtils.generateKey(BizConstant.CAPTCHA, simpleUuid), captcha.text().toLowerCase(), 60L, TimeUnit.SECONDS);
         return captchaInfo;
     }
 
     @Override
     public boolean checkCaptcha(String key, String value) {
         if (StrUtil.isBlank(value)) {
-            BizExceptionAssert.businessFail(400, "请输入验证码");
+            BizExceptionAssert.businessFail(ApiResponseStatus.PARAM_VALID_ERROR.getCode(), "请输入验证码");
         }
         String cacheKey = BuildKeyUtils.generateKey(BizConstant.CAPTCHA, key);
         String captchaData = generalCacheService.get(cacheKey);
         if (StringUtils.isEmpty(captchaData)) {
-            BizExceptionAssert.businessFail(400, "验证码已过期");
+            BizExceptionAssert.businessFail(ApiResponseStatus.PARAM_VALID_ERROR.getCode(), "验证码已过期");
         }
         if (!StrUtil.equalsIgnoreCase(value, captchaData)) {
-            BizExceptionAssert.businessFail(400, "验证码不正确");
+            BizExceptionAssert.businessFail(ApiResponseStatus.PARAM_VALID_ERROR.getCode(), "验证码不正确");
         }
         generalCacheService.remove(cacheKey);
         return true;

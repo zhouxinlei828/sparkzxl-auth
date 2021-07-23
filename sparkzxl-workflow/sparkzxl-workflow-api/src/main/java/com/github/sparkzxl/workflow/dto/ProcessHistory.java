@@ -52,7 +52,10 @@ public class ProcessHistory implements Serializable {
     private Date dueDate;
 
     @ApiModelProperty(value = "任务处理状态")
-    private String taskStatus;
+    private Integer taskStatus;
+
+    @ApiModelProperty(value = "任务处理状态名称")
+    private String taskStatusName;
 
     @ApiModelProperty(value = "备注/意见")
     private String comment;

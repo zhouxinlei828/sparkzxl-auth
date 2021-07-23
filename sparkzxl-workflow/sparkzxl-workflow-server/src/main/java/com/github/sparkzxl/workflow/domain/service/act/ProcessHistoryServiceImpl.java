@@ -165,7 +165,7 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
             CompletableFuture<List<Comment>> hiCommentCompletableFuture = CompletableFuture.supplyAsync(() -> processTaskService
                     .getProcessInstanceComments(processInstanceId, "comment"), threadPoolExecutor);
             List<ExtHiTaskStatus> actHiTaskStatusList = hiTaskStatusCompletableFuture.get();
-            Map<String, String> actHiTaskStatusMap = actHiTaskStatusList.stream().collect(Collectors.toMap(ExtHiTaskStatus::getTaskId, ExtHiTaskStatus::getTaskStatus));
+            Map<String, Integer> actHiTaskStatusMap = actHiTaskStatusList.stream().collect(Collectors.toMap(ExtHiTaskStatus::getTaskId, ExtHiTaskStatus::getTaskStatus));
             List<HistoricTaskInstance> historicTaskInstances = hiTakInsCompletableFuture.get();
             List<Comment> commentList = hiCommentCompletableFuture.get();
             Map<String, String> commentMap = commentList.stream().collect(Collectors.toMap(Comment::getTaskId, Comment::getFullMessage));
@@ -188,10 +188,15 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
                             actHiTaskStatusList.stream().filter(item -> StringUtils.equals(historicTaskInstance.getId(),
                                     item.getTaskId())).findFirst();
                     actHiTaskStatusOptional.ifPresent(value -> processHistory.setTaskStatus(value.getTaskStatus()));
-                    processHistory.setTaskStatus(actHiTaskStatusMap.get(historicTaskInstance.getId()));
+                    TaskStatusEnum taskStatusEnum = TaskStatusEnum.get(actHiTaskStatusMap.get(historicTaskInstance.getId()));
+                    if (taskStatusEnum != null) {
+                        processHistory.setTaskStatus(taskStatusEnum.getCode());
+                        processHistory.setTaskStatusName(taskStatusEnum.getDesc());
+                    }
                     processHistory.setComment(commentMap.get(historicTaskInstance.getId()));
                 } else {
-                    processHistory.setTaskStatus(TaskStatusEnum.IN_HAND.getDesc());
+                    processHistory.setTaskStatus(TaskStatusEnum.IN_HAND.getCode());
+                    processHistory.setTaskStatusName(TaskStatusEnum.IN_HAND.getDesc());
                 }
                 processHistories.add(processHistory);
             });
@@ -202,6 +207,7 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
     }
 
     private List<ProcessHistory> buildActivityProcessHistory(String processInstanceId) {
+        HistoricProcessInstance historicProcessInstance = getHistoricProcessInstance(processInstanceId);
         List<ProcessHistory> processHistories = Lists.newArrayList();
         List<HistoricActivityInstance> historicActivityInstances = getHistoricActivityInstance(processInstanceId);
         List<HistoricActivityInstance> specialHistoricActivityInstances =
@@ -214,15 +220,21 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
                     .startTime(historicActivityInstance.getStartTime())
                     .endTime(historicActivityInstance.getEndTime())
                     .duration(historicActivityInstance.getDurationInMillis())
-                    .assignee(historicActivityInstance.getAssignee())
                     .build();
+
             if (WorkflowConstants.ActType.START_EVENT.equals(historicActivityInstance.getActivityType())) {
-                processHistory.setTaskStatus(TaskStatusEnum.START.getDesc());
+                processHistory.setAssignee(historicProcessInstance.getStartUserId());
+                processHistory.setTaskStatus(TaskStatusEnum.START.getCode());
+                processHistory.setTaskStatusName(TaskStatusEnum.START.getDesc());
                 processHistory.setTaskName("启动流程");
                 processHistory.setDurationTime(DateUtils.formatBetween(historicActivityInstance.getStartTime(), historicActivityInstance.getEndTime()));
             }
             if (WorkflowConstants.ActType.END_EVENT.equals(historicActivityInstance.getActivityType())) {
-                processHistory.setTaskStatus(TaskStatusEnum.END.getDesc());
+                if (historicActivityInstances.size() > 1 && ObjectUtils.isNotEmpty(historicActivityInstances.get(historicActivityInstances.size() - 1))) {
+                    processHistory.setAssignee(historicActivityInstances.get(historicActivityInstances.size() - 1).getAssignee());
+                }
+                processHistory.setTaskStatus(TaskStatusEnum.END.getCode());
+                processHistory.setTaskStatusName(TaskStatusEnum.END.getDesc());
                 processHistory.setTaskName("完成流程");
                 processHistory.setDurationTime(DateUtils.formatBetween(historicActivityInstance.getStartTime(), historicActivityInstance.getEndTime()));
             }
@@ -239,7 +251,7 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
     @Override
     public String getProcessImage(String processInstanceId) {
         InputStream imageStream = null;
-        String imageBase64 = "";
+        String imageBase64;
         try {
             if (StringUtils.isBlank(processInstanceId)) {
                 log.error("参数为空");

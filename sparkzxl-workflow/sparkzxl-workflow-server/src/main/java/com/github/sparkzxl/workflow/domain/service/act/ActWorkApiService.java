@@ -172,7 +172,6 @@ public class ActWorkApiService {
         } else {
             status = ProcessStatusEnum.RUN_TIME.getDesc();
         }
-        String taskStatus = TaskStatusEnum.getValue(actType);
         DriverResult driverResult = new DriverResult();
         driverResult.setProcessIsEnd(processIsEnd);
         CompletableFuture.runAsync(() -> saveProcessTaskStatus(
@@ -181,7 +180,7 @@ public class ActWorkApiService {
                 businessId,
                 status));
         CompletableFuture.runAsync(() -> saveExtHiTaskStatus(processInstanceId,
-                currentTaskId, taskDefinitionKey, taskStatus));
+                currentTaskId, taskDefinitionKey, TaskStatusEnum.get(actType)));
         driverResult.setOperateSuccess(true);
         return driverResult;
     }
@@ -249,13 +248,14 @@ public class ActWorkApiService {
      * @param taskStatus        任务状态
      */
     public void saveExtHiTaskStatus(String processInstanceId, String taskId,
-                                    String taskDefinitionKey, String taskStatus) {
+                                    String taskDefinitionKey, TaskStatusEnum taskStatus) {
         log.info("保存任务历史记录 processInstanceId：{}，taskId：{}", processInstanceId, taskId);
         ExtHiTaskStatus actHiTaskStatus = new ExtHiTaskStatus();
         actHiTaskStatus.setProcessInstanceId(processInstanceId);
         actHiTaskStatus.setTaskId(taskId);
         actHiTaskStatus.setTaskDefKey(taskDefinitionKey);
-        actHiTaskStatus.setTaskStatus(taskStatus);
+        actHiTaskStatus.setTaskStatus(taskStatus.getCode());
+        actHiTaskStatus.setTaskStatusName(taskStatus.getDesc());
         actHiTaskStatusService.save(actHiTaskStatus);
     }
 

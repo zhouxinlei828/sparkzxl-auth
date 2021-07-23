@@ -42,7 +42,11 @@ public class ExtHiTaskStatus {
 
     @ApiModelProperty(value = "任务状态")
     @TableField("task_status")
-    private String taskStatus;
+    private Integer taskStatus;
+
+    @ApiModelProperty(value = "任务状态名称")
+    @TableField("task_status_name")
+    private String taskStatusName;
 
     @TableField(value = EntityConstant.COLUMN_UPDATE_TIME, fill = FieldFill.INSERT_UPDATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

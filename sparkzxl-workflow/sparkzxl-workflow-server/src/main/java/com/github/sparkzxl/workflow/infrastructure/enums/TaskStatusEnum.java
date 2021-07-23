@@ -40,4 +40,13 @@ public enum TaskStatusEnum {
         }
         return null;
     }
+
+    public static TaskStatusEnum get(int code) {
+        for (TaskStatusEnum ele : values()) {
+            if (ele.getCode() == code) {
+                return ele;
+            }
+        }
+        return null;
+    }
 }

@@ -1,5 +1,6 @@
 package com.github.sparkzxl.gateway.infrastructure.handler;
 
+import cn.hutool.core.text.StrFormatter;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,13 +23,14 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * description: 异常处理（json）
  *
  * @author charles.zhou
- * @date   2020-12-10 11:17:23
-*/
+ * @date 2020-12-10 11:17:23
+ */
 @Slf4j
 public class JsonExceptionHandler implements ErrorWebExceptionHandler {
 
@@ -76,12 +78,12 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
             body = responseStatusException.getMessage();
         } else {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-            body = buildMessage(request,ex);
+            body = buildMessage(request, ex);
         }
 
-        Map<String, Object> result = response(httpStatus.value(),body);
+        Map<String, Object> result = response(httpStatus.value(), body);
         //错误记录
-        log.error("[全局异常处理]异常请求路径:{},记录异常信息:{}", request.getPath(), ex.getMessage());
+        log.error("全局异常处理异常请求路径:[{}],记录异常信息:[{}]", request.getPath(), ex.getMessage());
         //参考AbstractErrorWebExceptionHandler
         if (exchange.getResponse().isCommitted()) {
             return Mono.error(ex);
@@ -98,6 +100,7 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
     /**
      * 参考DefaultErrorWebExceptionHandler
      */
+
     protected Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
         Map<String, Object> errorAttributes = exceptionHandlerResult.get();
         Integer status = (Integer) errorAttributes.get("status");
@@ -142,20 +145,11 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
      * 构建异常信息
      *
      * @param request
-     * @param ex
+     * @param ex 异常
      * @return
      */
     private String buildMessage(ServerHttpRequest request, Throwable ex) {
-        StringBuilder message = new StringBuilder("Failed to handle request [");
-        message.append(request.getMethod().name());
-        message.append(" ");
-        message.append(request.getPath());
-        message.append("]");
-        if (ex != null) {
-            message.append(": ");
-            message.append(ex.getMessage());
-        }
-        return message.toString();
+        return StrFormatter.format("Failed to handle request [{}] {} :[{}]", Objects.requireNonNull(request.getMethod()).name(), request.getPath(), ex.getMessage());
     }
 
     /**

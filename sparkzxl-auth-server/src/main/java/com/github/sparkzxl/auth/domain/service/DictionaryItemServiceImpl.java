@@ -36,10 +36,7 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
     @Override
     public Map<Serializable, Object> findNameByIds(Set<Serializable> codes) {
         Set<String> types = codes.stream().filter(Objects::nonNull)
-                .map((item) -> {
-                    String s = StrUtil.split(String.valueOf(item), customMybatisProperties.getEcho().getDictSeparator())[0];
-                    return s;
-                }).collect(Collectors.toSet());
+                .map((item) -> StrUtil.split(String.valueOf(item), customMybatisProperties.getEcho().getDictSeparator())[0]).collect(Collectors.toSet());
 
         // 1. 根据 字典编码查询可用的字典列表
         LambdaQueryWrapper<DictionaryItem> dictionaryItemLambdaQueryWrapper = new LambdaQueryWrapper<>();

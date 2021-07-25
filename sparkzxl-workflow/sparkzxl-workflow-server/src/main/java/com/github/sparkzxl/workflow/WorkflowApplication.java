@@ -1,6 +1,5 @@
 package com.github.sparkzxl.workflow;
 
-import com.github.sparkzxl.boot.SparkBootApplication;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.spring.boot.SecurityAutoConfiguration;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @Slf4j
 @SpringBootApplication(scanBasePackages = {"com.github.sparkzxl.workflow"}, exclude = SecurityAutoConfiguration.class)
-public class WorkflowApplication extends SparkBootApplication {
+public class WorkflowApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WorkflowApplication.class, args);

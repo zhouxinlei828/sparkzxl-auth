@@ -27,16 +27,16 @@ spring:
         file-extension: yaml
         prefix: ${spring.application.name}
         shared-configs:
-          - dataId: mysql.yaml
+          - dataId: dynamic-mysql.yaml
             group: DEFAULT_GROUP
+            refresh: true
           - dataId: redis.yaml
             group: DEFAULT_GROUP
-            refresh: false
+            refresh: true
           - dataId: common.yaml
             group: DEFAULT_GROUP
-            refresh: false
+            refresh: true
         enable-remote-sync-config: true
-        refresh-enabled: true
   redis:
     redisson: redisson-dev.yaml
 logging:

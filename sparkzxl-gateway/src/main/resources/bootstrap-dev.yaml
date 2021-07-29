@@ -23,9 +23,9 @@ spring:
         shared-configs:
           - dataId: redis.yaml
             group: DEFAULT_GROUP
-            refresh: false
+            refresh: true
           - dataId: common.yaml
             group: DEFAULT_GROUP
-            refresh: false
+            refresh: true
         enable-remote-sync-config: true
         refresh-enabled: true

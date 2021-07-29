@@ -82,6 +82,10 @@
             <groupId>com.github.sparkzxl</groupId>
             <artifactId>sparkzxl-workflow-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.sparkzxl</groupId>
+            <artifactId>sparkzxl-file-api</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <resources>

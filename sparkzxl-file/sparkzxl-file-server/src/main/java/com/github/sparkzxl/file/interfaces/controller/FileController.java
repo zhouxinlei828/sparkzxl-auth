@@ -11,6 +11,7 @@ import com.github.sparkzxl.file.interfaces.dto.FileMaterialPageDTO;
 import com.github.sparkzxl.log.annotation.WebLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -57,8 +58,9 @@ public class FileController implements FileApi {
         return fileService.getHtml(fileDTO);
     }
 
+    @SneakyThrows
     @Override
     public FileDTO getPdf(FileDTO fileDTO) {
-        return null;
+        throw new Exception("文件发生异常");
     }
 }

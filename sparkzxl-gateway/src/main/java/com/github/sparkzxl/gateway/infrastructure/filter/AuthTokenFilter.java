@@ -3,7 +3,7 @@ package com.github.sparkzxl.gateway.infrastructure.filter;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
 import com.github.sparkzxl.core.support.BaseException;
-import com.github.sparkzxl.core.support.BizExceptionAssert;
+import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.entity.core.JwtUserInfo;
 import com.github.sparkzxl.gateway.filter.AbstractJwtAuthorizationFilter;
 import com.github.sparkzxl.jwt.service.JwtTokenService;
@@ -52,10 +52,11 @@ public class AuthTokenFilter extends AbstractJwtAuthorizationFilter {
             return jwtTokenService.getAuthJwtInfo(token);
         } catch (Exception e) {
             e.printStackTrace();
-            BizExceptionAssert.businessFail(ApiResponseStatus.JSON_PARSE_ERROR);
+            ExceptionAssert.failure(ApiResponseStatus.JSON_PARSE_ERROR);
             return null;
         }
     }
+
     @Override
     protected Mono<Void> handleTokenEmpty(ServerWebExchange exchange, GatewayFilterChain chain, String token) {
         return chain.filter(exchange);

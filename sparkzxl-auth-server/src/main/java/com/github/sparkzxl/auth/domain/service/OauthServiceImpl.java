@@ -15,7 +15,7 @@ import com.github.sparkzxl.cache.template.GeneralCacheService;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
 import com.github.sparkzxl.core.spring.SpringContextUtils;
-import com.github.sparkzxl.core.support.BizExceptionAssert;
+import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.core.utils.BuildKeyUtils;
 import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
@@ -127,7 +127,7 @@ public class OauthServiceImpl implements IOauthService {
                     authUserInfo.getName())));
             return oAuth2AccessToken;
         }
-        BizExceptionAssert.businessFail(ApiResponseStatus.AUTHORIZED_FAIL);
+        ExceptionAssert.failure(ApiResponseStatus.AUTHORIZED_FAIL);
         return null;
     }
 
@@ -201,7 +201,7 @@ public class OauthServiceImpl implements IOauthService {
     @Override
     public CaptchaInfo createCaptcha(String type) {
         if (StrUtil.isBlank(type)) {
-            BizExceptionAssert.businessFail("验证码类型不能为空");
+            ExceptionAssert.failure("验证码类型不能为空");
         }
         CaptchaInfo captchaInfo = new CaptchaInfo();
         Captcha captcha;
@@ -222,15 +222,15 @@ public class OauthServiceImpl implements IOauthService {
     @Override
     public boolean checkCaptcha(String key, String value) {
         if (StrUtil.isBlank(value)) {
-            BizExceptionAssert.businessFail(ApiResponseStatus.PARAM_VALID_ERROR.getCode(), "请输入验证码");
+            ExceptionAssert.failure(ApiResponseStatus.PARAM_VALID_ERROR.getCode(), "请输入验证码");
         }
         String cacheKey = BuildKeyUtils.generateKey(BizConstant.CAPTCHA, key);
         String captchaData = generalCacheService.get(cacheKey);
         if (StringUtils.isEmpty(captchaData)) {
-            BizExceptionAssert.businessFail(ApiResponseStatus.PARAM_VALID_ERROR.getCode(), "验证码已过期");
+            ExceptionAssert.failure(ApiResponseStatus.PARAM_VALID_ERROR.getCode(), "验证码已过期");
         }
         if (!StrUtil.equalsIgnoreCase(value, captchaData)) {
-            BizExceptionAssert.businessFail(ApiResponseStatus.PARAM_VALID_ERROR.getCode(), "验证码不正确");
+            ExceptionAssert.failure(ApiResponseStatus.PARAM_VALID_ERROR.getCode(), "验证码不正确");
         }
         generalCacheService.remove(cacheKey);
         return true;

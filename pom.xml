@@ -37,6 +37,7 @@
         <module>sparkzxl-tenant</module>
         <module>sparkzxl-auth-api</module>
         <module>hibernate-re</module>
+        <module>sparkzxl-file</module>
     </modules>
 
     <repositories>
@@ -72,6 +73,11 @@
                 <groupId>com.github.javafaker</groupId>
                 <artifactId>javafaker</artifactId>
                 <version>${javafaker.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.sparkzxl</groupId>
+                <artifactId>sparkzxl-file-api</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

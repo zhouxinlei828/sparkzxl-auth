@@ -1,7 +1,7 @@
 package com.github.sparkzxl.tenant.interfaces.controller;
 
 import com.github.sparkzxl.annotation.result.ResponseResult;
-import com.github.sparkzxl.core.support.BizExceptionAssert;
+import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.entity.security.AuthRequest;
 import com.github.sparkzxl.entity.security.AuthToken;
@@ -41,10 +41,10 @@ public class LoginController {
             return loginService.login(authRequest);
         } catch (AccountNotFoundException e) {
             e.printStackTrace();
-            BizExceptionAssert.businessFail("账户不能为空");
+            ExceptionAssert.failure("账户不能为空");
         } catch (PasswordException e) {
             e.printStackTrace();
-            BizExceptionAssert.businessFail("密码错误");
+            ExceptionAssert.failure("密码错误");
         }
         return null;
     }

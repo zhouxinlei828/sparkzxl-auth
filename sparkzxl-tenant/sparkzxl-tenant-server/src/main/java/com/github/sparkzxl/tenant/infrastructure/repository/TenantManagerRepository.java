@@ -2,7 +2,7 @@ package com.github.sparkzxl.tenant.infrastructure.repository;
 
 import cn.hutool.core.lang.Validator;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.sparkzxl.core.support.BizExceptionAssert;
+import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.entity.security.SecurityUserDetail;
 import com.github.sparkzxl.tenant.domain.repository.ITenantManagerRepository;
@@ -63,7 +63,7 @@ public class TenantManagerRepository implements ITenantManagerRepository {
         }
         Integer count = tenantManagerMapper.selectCount(tenantManagerLambdaQueryWrapper);
         if (count > 0) {
-            BizExceptionAssert.businessFail("账户重复，请勿重复注册");
+            ExceptionAssert.failure("账户重复，请勿重复注册");
         }
         tenantManager.setName(account);
         tenantManager.setStatus(true);

@@ -2,7 +2,7 @@ package com.github.sparkzxl.workflow.domain.service.act;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
-import com.github.sparkzxl.core.support.BizExceptionAssert;
+import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRuntimeService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessTaskService;
@@ -83,7 +83,7 @@ public class ActWorkApiService {
             //查询是否存在已有流程，如果有，则不能进行启动工作流操作
             ProcessInstance originalProcessInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
             if (ObjectUtils.isNotEmpty(originalProcessInstance)) {
-                BizExceptionAssert.businessFail("流程已存在，请勿重复启动");
+                ExceptionAssert.failure("流程已存在，请勿重复启动");
             }
             Map<String, Object> variables = Maps.newHashMap();
             variables.put("assignee", driveProcess.getNextTaskApproveUserId());
@@ -194,7 +194,7 @@ public class ActWorkApiService {
             int actType = driveProcess.getActType();
             ProcessInstance processInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
             if (ObjectUtils.isEmpty(processInstance)) {
-                BizExceptionAssert.businessFail("流程实例为空，请检查参数是否正确");
+                ExceptionAssert.failure("流程实例为空，请检查参数是否正确");
             }
             String processInstanceId = processInstance.getProcessInstanceId();
             String comment = driveProcess.getComment();
@@ -217,7 +217,7 @@ public class ActWorkApiService {
             ExtProcessTaskRule actRuTaskRule = processTaskRuleService.findActRuTaskRule(driveProcess.getProcessDefinitionKey(),
                     taskDefinitionKey, driveProcess.getActType());
             if (ObjectUtils.isEmpty(actRuTaskRule)) {
-                BizExceptionAssert.businessFail("请设置流程跳转规则");
+                ExceptionAssert.failure("请设置流程跳转规则");
             }
             String taskDefKey = actRuTaskRule.getTaskDefKey();
             FlowElement flowElement = ActivitiUtils.getFlowElementById(taskDefKey, flowElements);
@@ -293,7 +293,7 @@ public class ActWorkApiService {
             variables.put("actType", driveProcess.getActType());
             ProcessInstance processInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
             if (ObjectUtils.isEmpty(processInstance)) {
-                BizExceptionAssert.businessFail("流程实例为空，请检查参数是否正确");
+                ExceptionAssert.failure("流程实例为空，请检查参数是否正确");
             }
             DriverData driverData = DriverData.builder()
                     .userId(userId)
@@ -329,7 +329,7 @@ public class ActWorkApiService {
             }
         }
         ExtProcessUser extProcessUser = processUserRepository.findUserById(userId);
-        BizExceptionAssert.businessFail("当前节点审批人[" + extProcessUser.getName() + "]无权限审批！");
+        ExceptionAssert.failure("当前节点审批人[" + extProcessUser.getName() + "]无权限审批！");
     }
 
     private FlowElement getThisNodeByInsId(Task task) {

@@ -46,7 +46,6 @@ public class DynamicDataSourceChangeListener implements ApplicationListener<Envi
 
     @Override
     public void onApplicationEvent(EnvironmentChangeEvent event) {
-        Map<String, DataSourceProperty> dataSourceKeyMap = Maps.newHashMap();
         Map<String, DataSourceProperty> dataSourceMap = dynamicDataSourceProperties.getDatasource();
         Map<String, ListenerEventEnum> dataSourceEventMap = Maps.newHashMap();
         for (String key : event.getKeys()) {
@@ -68,7 +67,7 @@ public class DynamicDataSourceChangeListener implements ApplicationListener<Envi
             }
             log.info("\n[key({}) 最新 value 为 {}]", key, configurableEnvironment.getProperty(key));
         }
-        log.info("\nMap {}", JSONUtil.toJsonPrettyStr(dataSourceKeyMap));
+        log.info("\nMap {}", JSONUtil.toJsonPrettyStr(dataSourceMap));
         DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
         for (String key : dataSourceEventMap.keySet()) {
             ListenerEventEnum listenerEventEnum = dataSourceEventMap.get(key);
@@ -80,9 +79,7 @@ public class DynamicDataSourceChangeListener implements ApplicationListener<Envi
             }
         }
         Map<String, DataSource> dataSources = ds.getDataSources();
-        for (String key : dataSources.keySet()) {
-            System.out.println(key);
-        }
+        dynamicDataSourceProperties.setDatasource(dataSourceMap);
     }
 
     public void createDataSourceProperty(DataSourceProperty dataSourceProperty, String dataSourcePropertyName, String property) {

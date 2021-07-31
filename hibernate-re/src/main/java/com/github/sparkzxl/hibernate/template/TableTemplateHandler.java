@@ -20,7 +20,7 @@ import java.util.Map;
  * @date 2021-07-25 12:33:42
  */
 @Slf4j
-public class TemplateConfig {
+public class TableTemplateHandler {
 
     private static final Configuration CONFIGURATION;
 
@@ -58,12 +58,12 @@ public class TemplateConfig {
         }
         dataModel.put("columns", mapList);
         dataModel.put("itl_table_name", "auth_ser");
-        System.out.println(TemplateConfig.getTemplate("tableTemplate.ftl", dataModel));
+        System.out.println(TableTemplateHandler.getTemplate("tableTemplate.ftl", dataModel));
     }
 
     static {
         CONFIGURATION = new Configuration(Configuration.VERSION_2_3_28);
         CONFIGURATION.setNumberFormat("0.#####################");
-        CONFIGURATION.setClassForTemplateLoading(TemplateConfig.class, "/");
+        CONFIGURATION.setClassForTemplateLoading(TableTemplateHandler.class, "/");
     }
 }

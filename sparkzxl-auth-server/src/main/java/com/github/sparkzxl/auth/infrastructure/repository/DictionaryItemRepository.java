@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * description: 字典项仓储实现类
  *
  * @author charles.zhou
- * @date   2021-03-06 21:02:51
+ * @date 2021-03-06 21:02:51
  */
 @Repository
 public class DictionaryItemRepository implements IDictionaryItemRepository {

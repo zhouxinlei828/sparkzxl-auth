@@ -17,7 +17,7 @@ public interface IAuthMenuRepository {
     /**
      * 获取菜单列表
      *
-     * @param userId    用户id
+     * @param userId 用户id
      * @return List<MenuBasicInfo>
      */
     List<MenuBasicInfo> getAuthMenuList(Long userId);

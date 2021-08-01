@@ -40,6 +40,7 @@ public interface AuthRoleConvert {
 
     /**
      * 角色资源领域对象转换显示层对象
+     *
      * @param roleResource 角色资源领域对象
      * @return RoleResourceVO
      */

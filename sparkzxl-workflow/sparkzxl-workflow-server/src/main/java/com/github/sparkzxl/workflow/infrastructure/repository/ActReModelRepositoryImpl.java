@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * description: 模型 仓储实现类
  *
  * @author charles.zhou
- * @date   2020-07-25 11:17:47
+ * @date 2020-07-25 11:17:47
  */
 @Repository
 public class ActReModelRepositoryImpl implements IActReModelRepository {
@@ -25,11 +25,11 @@ public class ActReModelRepositoryImpl implements IActReModelRepository {
     @Override
     public PageInfo<ActReModel> actReModelList(String key, String name) {
         LambdaQueryWrapper<ActReModel> modelQueryWrapper = new LambdaQueryWrapper<>();
-        if (StringUtils.isNotBlank(key)){
-            modelQueryWrapper.eq(ActReModel::getKey,key);
+        if (StringUtils.isNotBlank(key)) {
+            modelQueryWrapper.eq(ActReModel::getKey, key);
         }
-        if (StringUtils.isNotBlank(name)){
-            modelQueryWrapper.eq(ActReModel::getName,name);
+        if (StringUtils.isNotBlank(name)) {
+            modelQueryWrapper.eq(ActReModel::getName, name);
         }
         return PageInfoUtils.pageInfo(actReModelMapper.selectList(modelQueryWrapper));
     }

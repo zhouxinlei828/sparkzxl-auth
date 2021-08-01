@@ -50,7 +50,7 @@ public class ActInstancesController implements ProcessApi {
 
     @Override
     public List<BusTaskInfo> busTaskInfoList(String processDefinitionKey, List<String> businessIds) {
-        return processDriveService.busTaskInfoList(processDefinitionKey,businessIds);
+        return processDriveService.busTaskInfoList(processDefinitionKey, businessIds);
     }
 
     @ApiOperation(value = "获取下一步任务详情")

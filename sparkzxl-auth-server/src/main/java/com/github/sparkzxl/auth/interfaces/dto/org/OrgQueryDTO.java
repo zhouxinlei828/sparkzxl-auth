@@ -11,7 +11,7 @@ import java.util.Map;
  * description: 组织查询对象
  *
  * @author charles.zhou
- * @date   2020-07-28 10:21:46
+ * @date 2020-07-28 10:21:46
  */
 @Data
 @ApiModel("组织查询对象")

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * description: 应用客户端管理
  *
  * @author charles.zhou
- * @date   2021-02-02 11:31:18
+ * @date 2021-02-02 11:31:18
  */
 @RestController
 @Api(tags = "应用客户端管理")

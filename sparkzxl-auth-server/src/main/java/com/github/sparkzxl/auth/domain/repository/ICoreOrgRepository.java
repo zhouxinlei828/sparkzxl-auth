@@ -32,6 +32,7 @@ public interface ICoreOrgRepository {
 
     /**
      * 批量删除组织信息
+     *
      * @param ids 组织信息ids
      * @return boolean
      */
@@ -39,7 +40,8 @@ public interface ICoreOrgRepository {
 
     /**
      * 获取组织信息列表
-     * @param name 组织名称
+     *
+     * @param name   组织名称
      * @param status 状态
      * @return List<CoreOrg>
      */

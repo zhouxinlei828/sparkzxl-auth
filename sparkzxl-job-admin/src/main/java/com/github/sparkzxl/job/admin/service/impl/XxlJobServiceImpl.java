@@ -31,13 +31,12 @@ import java.util.*;
 @Service
 public class XxlJobServiceImpl implements XxlJobService {
     private static final Logger logger = LoggerFactory.getLogger(XxlJobServiceImpl.class);
-
+    @Resource
+    public XxlJobLogDao xxlJobLogDao;
     @Resource
     private XxlJobGroupDao xxlJobGroupDao;
     @Resource
     private XxlJobInfoDao xxlJobInfoDao;
-    @Resource
-    public XxlJobLogDao xxlJobLogDao;
     @Resource
     private XxlJobLogGlueDao xxlJobLogGlueDao;
     @Resource

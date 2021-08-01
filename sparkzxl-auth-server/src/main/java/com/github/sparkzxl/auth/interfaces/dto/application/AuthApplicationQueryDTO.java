@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  * description: 应用分页DTO
  *
  * @author charles.zhou
- * @date   2021-02-02 14:53:04
+ * @date 2021-02-02 14:53:04
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

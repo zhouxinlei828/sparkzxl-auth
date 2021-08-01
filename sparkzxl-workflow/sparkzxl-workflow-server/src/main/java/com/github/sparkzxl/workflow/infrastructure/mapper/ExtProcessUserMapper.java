@@ -12,13 +12,14 @@ import java.util.List;
  * description: 流程用户 Mapper 接口
  *
  * @author charles.zhou
- * @date   2021-01-08 16:51:21
+ * @date 2021-01-08 16:51:21
  */
 @Repository
 public interface ExtProcessUserMapper extends SuperMapper<ExtProcessUser> {
 
     /**
      * 根据角色id列表查询用户信息
+     *
      * @param roleIds 角色id列表
      * @return List<UserInfo>
      */

@@ -115,7 +115,7 @@ public interface IProcessTaskService {
      * 根据流程实例id查询历史评论信息
      *
      * @param processInstanceId 流程实例id
-     * @param type 意见记录类型: event（事件） comment（意见）
+     * @param type              意见记录类型: event（事件） comment（意见）
      * @return List<Comment>
      */
     List<Comment> getProcessInstanceComments(String processInstanceId, String type);

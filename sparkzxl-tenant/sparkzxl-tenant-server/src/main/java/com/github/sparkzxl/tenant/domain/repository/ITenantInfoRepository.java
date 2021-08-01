@@ -16,11 +16,11 @@ public interface ITenantInfoRepository {
     /**
      * 查询租户信息列表
      *
-     * @param pageNum     当前页
-     * @param pageSize    分页大小
+     * @param pageNum      当前页
+     * @param pageSize     分页大小
      * @param tenantUserId 租户用户id
-     * @param code        租户信息编码
-     * @param name        租户信息名称
+     * @param code         租户信息编码
+     * @param name         租户信息名称
      * @return PageInfo<TenantInfo>
      */
     PageInfo<TenantInfo> getTenantInfoPageList(int pageNum, int pageSize, Long tenantUserId, String code, String name);

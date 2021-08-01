@@ -19,7 +19,7 @@ public interface IResourceService extends SuperCacheService<AuthResource> {
     /**
      * 查询用户可用的所有资源
      *
-     * @param userId   用户id
+     * @param userId           用户id
      * @param resourceQueryDTO 资源查询对象
      * @return List<AuthResource>
      */

@@ -9,7 +9,7 @@ import lombok.Data;
  * description: 应用客户端DTO
  *
  * @author charles.zhou
- * @date   2021-02-02 14:53:04
+ * @date 2021-02-02 14:53:04
  */
 @Data
 @ApiModel("应用客户端DTO")

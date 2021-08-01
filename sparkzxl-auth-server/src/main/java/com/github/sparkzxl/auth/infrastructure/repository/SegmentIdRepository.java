@@ -15,7 +15,7 @@ import java.util.Date;
  * description: 序列生成仓储实现类
  *
  * @author charles.zhou
- * @date   2021-02-20 17:38:32
+ * @date 2021-02-20 17:38:32
  */
 @Repository
 public class SegmentIdRepository implements ISegmentIdRepository {

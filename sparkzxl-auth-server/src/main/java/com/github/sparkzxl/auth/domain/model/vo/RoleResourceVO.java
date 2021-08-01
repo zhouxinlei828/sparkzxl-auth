@@ -10,8 +10,8 @@ import java.util.List;
  * description: 角色资源显示层对象
  *
  * @author charles.zhou
- * @date   2020-12-01 14:21:38
-*/
+ * @date 2020-12-01 14:21:38
+ */
 @Data
 @ApiModel("角色资源显示层对象")
 public class RoleResourceVO {

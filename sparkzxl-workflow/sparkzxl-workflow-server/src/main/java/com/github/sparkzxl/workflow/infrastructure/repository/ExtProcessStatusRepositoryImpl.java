@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * description:流程状态 仓储实现类
  *
  * @author charles.zhou
- * @date   2020-07-23 13:59:16
+ * @date 2020-07-23 13:59:16
  */
 @Repository
 public class ExtProcessStatusRepositoryImpl implements IExtProcessStatusRepository {
@@ -69,9 +69,9 @@ public class ExtProcessStatusRepositoryImpl implements IExtProcessStatusReposito
             }
             ProcessStatusEnum processStatus = ProcessStatusEnum.getEnum(processInstance.getStatus());
             assert processStatus != null;
-            if (processStatus.equals(ProcessStatusEnum.END)){
+            if (processStatus.equals(ProcessStatusEnum.END)) {
                 finishCount.getAndIncrement();
-            }else {
+            } else {
                 unFinishCount.getAndIncrement();
             }
         });

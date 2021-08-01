@@ -1,4 +1,3 @@
-
 package com.github.sparkzxl.gateway.infrastructure.config;
 
 import com.alibaba.fastjson.JSONArray;

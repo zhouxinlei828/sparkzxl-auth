@@ -11,7 +11,7 @@ import java.util.List;
  * description: 地区表 服务类
  *
  * @author charles.zhou
- * @date   2020-07-28 19:41:37
+ * @date 2020-07-28 19:41:37
  */
 public interface IAreaService extends SuperCacheService<Area> {
 
@@ -25,6 +25,7 @@ public interface IAreaService extends SuperCacheService<Area> {
 
     /**
      * 导入城市数据信息
+     *
      * @param multipartFile 文件信息
      * @return boolean
      */

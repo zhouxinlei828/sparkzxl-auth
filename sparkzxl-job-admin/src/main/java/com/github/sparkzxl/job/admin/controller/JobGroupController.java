@@ -34,6 +34,25 @@ public class JobGroupController {
     @Resource
     private XxlJobRegistryDao xxlJobRegistryDao;
 
+    public static void buildJobRegistry(HashMap<String, List<String>> appAddressMap, List<XxlJobRegistry> list) {
+        if (list != null) {
+            for (XxlJobRegistry item : list) {
+                if (RegistryConfig.RegistType.EXECUTOR.name().equals(item.getRegistryGroup())) {
+                    String appName = item.getRegistryKey();
+                    List<String> registryList = appAddressMap.get(appName);
+                    if (registryList == null) {
+                        registryList = new ArrayList<String>();
+                    }
+
+                    if (!registryList.contains(item.getRegistryValue())) {
+                        registryList.add(item.getRegistryValue());
+                    }
+                    appAddressMap.put(appName, registryList);
+                }
+            }
+        }
+    }
+
     @RequestMapping
     public String index(Model model) {
         return "jobgroup/jobgroup.index";
@@ -155,25 +174,6 @@ public class JobGroupController {
         List<XxlJobRegistry> list = xxlJobRegistryDao.findAll(RegistryConfig.DEAD_TIMEOUT, new Date());
         buildJobRegistry(appAddressMap, list);
         return appAddressMap.get(appnameParam);
-    }
-
-    public static void buildJobRegistry(HashMap<String, List<String>> appAddressMap, List<XxlJobRegistry> list) {
-        if (list != null) {
-            for (XxlJobRegistry item : list) {
-                if (RegistryConfig.RegistType.EXECUTOR.name().equals(item.getRegistryGroup())) {
-                    String appName = item.getRegistryKey();
-                    List<String> registryList = appAddressMap.get(appName);
-                    if (registryList == null) {
-                        registryList = new ArrayList<String>();
-                    }
-
-                    if (!registryList.contains(item.getRegistryValue())) {
-                        registryList.add(item.getRegistryValue());
-                    }
-                    appAddressMap.put(appName, registryList);
-                }
-            }
-        }
     }
 
     @RequestMapping("/remove")

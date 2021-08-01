@@ -9,7 +9,7 @@ import java.util.List;
  * description: 任务历史状态记录 服务类
  *
  * @author charles.zhou
- * @date   2020-07-23 14:40:51
+ * @date 2020-07-23 14:40:51
  */
 public interface IExtHiTaskStatusService extends SuperCacheService<ExtHiTaskStatus> {
     /**

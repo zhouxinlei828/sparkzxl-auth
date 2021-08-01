@@ -60,7 +60,7 @@ public class OauthController {
             @ApiImplicitParam(name = "Authorization", value = "Basic Auth", paramType = "header", defaultValue = "Basic c3Bhcmt6eGw6MTIzNDU2")
     )
     @ResponseBody
-    public OAuth2AccessToken postAccessToken(@RequestHeader(value = "Authorization",required = false) String authorization,
+    public OAuth2AccessToken postAccessToken(@RequestHeader(value = "Authorization", required = false) String authorization,
                                              @ApiIgnore Principal principal,
                                              @RequestParam Map<String, String> parameters)
             throws HttpRequestMethodNotSupportedException {

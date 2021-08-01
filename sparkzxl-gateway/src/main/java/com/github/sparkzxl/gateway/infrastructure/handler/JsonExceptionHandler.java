@@ -63,6 +63,23 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
         this.viewResolvers = viewResolvers;
     }
 
+    /**
+     * 构建返回的JSON数据格式
+     *
+     * @param status       状态码
+     * @param errorMessage 异常信息
+     * @return Map<String, Object>
+     */
+    public static Map<String, Object> response(int status, String errorMessage) {
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("code", status);
+        map.put("msg", errorMessage);
+        map.put("data", null);
+        map.put("success", status == 200);
+        log.error(map.toString());
+        return map;
+    }
+
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
         ServerHttpRequest request = exchange.getRequest();
@@ -125,6 +142,17 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
     }
 
     /**
+     * 构建异常信息
+     *
+     * @param request
+     * @param ex      异常
+     * @return
+     */
+    private String buildMessage(ServerHttpRequest request, Throwable ex) {
+        return StrFormatter.format("Failed to handle request [{}] {} :[{}]", Objects.requireNonNull(request.getMethod()).name(), request.getPath(), ex.getMessage());
+    }
+
+    /**
      * 参考AbstractErrorWebExceptionHandler
      */
     private class ResponseContext implements ServerResponse.Context {
@@ -139,33 +167,5 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
             return JsonExceptionHandler.this.viewResolvers;
         }
 
-    }
-
-    /**
-     * 构建异常信息
-     *
-     * @param request
-     * @param ex 异常
-     * @return
-     */
-    private String buildMessage(ServerHttpRequest request, Throwable ex) {
-        return StrFormatter.format("Failed to handle request [{}] {} :[{}]", Objects.requireNonNull(request.getMethod()).name(), request.getPath(), ex.getMessage());
-    }
-
-    /**
-     * 构建返回的JSON数据格式
-     *
-     * @param status       状态码
-     * @param errorMessage 异常信息
-     * @return Map<String, Object>
-     */
-    public static Map<String, Object> response(int status, String errorMessage) {
-        Map<String, Object> map = Maps.newHashMap();
-        map.put("code", status);
-        map.put("msg", errorMessage);
-        map.put("data", null);
-        map.put("success", status == 200);
-        log.error(map.toString());
-        return map;
     }
 }

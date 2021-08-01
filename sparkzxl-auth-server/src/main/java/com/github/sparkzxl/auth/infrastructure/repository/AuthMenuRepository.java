@@ -54,7 +54,7 @@ public class AuthMenuRepository implements IAuthMenuRepository {
         List<MenuBasicInfo> menuBasicInfoList = Lists.newArrayList();
         List<Long> roleIds =
                 userRoleMapper.selectList(new LambdaUpdateWrapper<UserRole>()
-                        .eq(UserRole::getUserId, userId)).stream().map(UserRole::getRoleId)
+                                .eq(UserRole::getUserId, userId)).stream().map(UserRole::getRoleId)
                         .collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(roleIds)) {
             List<RoleAuthority> roleAuthorities =

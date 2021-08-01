@@ -17,14 +17,12 @@ import javax.validation.constraints.NotNull;
 @ApiModel("流程驱动入参")
 public class DriverProcessParam {
 
-    @ApiModelProperty(value = "流程定义key", required = true)
-    @NotEmpty(message = "流程定义key不能为空")
-    private String processDefinitionKey;
-
     @ApiModelProperty(value = "业务主键", required = true)
     @NotEmpty(message = "业务主键不能为空")
     protected String businessId;
-
+    @ApiModelProperty(value = "流程定义key", required = true)
+    @NotEmpty(message = "流程定义key不能为空")
+    private String processDefinitionKey;
     @ApiModelProperty(value = "流程动作类型", required = true, notes = "0:启动流程，1：提交审批，2：同意，3：跳转，-1：驳回")
     @NotNull(message = "流程动作类型不能为空")
     private Integer actType;

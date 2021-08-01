@@ -20,21 +20,28 @@ import java.util.concurrent.TimeUnit;
  * @author xuxueli 2019-05-21
  */
 public class JobScheduleHelper {
+    public static final long PRE_READ_MS = 5000;
     private static final Logger logger = LoggerFactory.getLogger(JobScheduleHelper.class);
-
     private static final JobScheduleHelper INSTANCE = new JobScheduleHelper();
+    private static final Map<Integer, List<Integer>> RING_DATA = new ConcurrentHashMap<>();
+    private Thread scheduleThread;
+    private Thread ringThread;
+    private volatile boolean scheduleThreadToStop = false;
+    private volatile boolean ringThreadToStop = false;
 
     public static JobScheduleHelper getInstance() {
         return INSTANCE;
     }
 
-    public static final long PRE_READ_MS = 5000;
-
-    private Thread scheduleThread;
-    private Thread ringThread;
-    private volatile boolean scheduleThreadToStop = false;
-    private volatile boolean ringThreadToStop = false;
-    private static final Map<Integer, List<Integer>> RING_DATA = new ConcurrentHashMap<>();
+    public static Date generateNextValidTime(XxlJobInfo jobInfo, Date fromTime) throws Exception {
+        ScheduleTypeEnum scheduleTypeEnum = ScheduleTypeEnum.match(jobInfo.getScheduleType(), null);
+        if (ScheduleTypeEnum.CRON == scheduleTypeEnum) {
+            return new CronExpression(jobInfo.getScheduleConf()).getNextValidTimeAfter(fromTime);
+        } else if (ScheduleTypeEnum.FIX_RATE == scheduleTypeEnum) {
+            return new Date(fromTime.getTime() + Integer.parseInt(jobInfo.getScheduleConf()) * 1000L);
+        }
+        return null;
+    }
 
     public void start() {
 
@@ -343,17 +350,6 @@ public class JobScheduleHelper {
         }
 
         logger.info(">>>>>>>>>>> xxl-job, JobScheduleHelper stop");
-    }
-
-
-    public static Date generateNextValidTime(XxlJobInfo jobInfo, Date fromTime) throws Exception {
-        ScheduleTypeEnum scheduleTypeEnum = ScheduleTypeEnum.match(jobInfo.getScheduleType(), null);
-        if (ScheduleTypeEnum.CRON == scheduleTypeEnum) {
-            return new CronExpression(jobInfo.getScheduleConf()).getNextValidTimeAfter(fromTime);
-        } else if (ScheduleTypeEnum.FIX_RATE == scheduleTypeEnum) {
-            return new Date(fromTime.getTime() + Integer.parseInt(jobInfo.getScheduleConf()) * 1000L);
-        }
-        return null;
     }
 
 }

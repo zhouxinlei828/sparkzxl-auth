@@ -11,7 +11,7 @@ import java.util.List;
  * description: 流程跳转控制 服务类
  *
  * @author charles.zhou
- * @date   2020-07-17 13:20:37
+ * @date 2020-07-17 13:20:37
  */
 public interface IExtProcessTaskRuleService extends SuperCacheService<ExtProcessTaskRule> {
 
@@ -37,8 +37,8 @@ public interface IExtProcessTaskRuleService extends SuperCacheService<ExtProcess
     /**
      * 查询流程跳转规则
      *
-     * @param processDefinitionKey  流程定义key
-     * @param taskDefKey 任务定义key
+     * @param processDefinitionKey 流程定义key
+     * @param taskDefKey           任务定义key
      * @return List<ProcessTaskRule>
      */
     List<ExtProcessTaskRule> getProcessTaskRule(String processDefinitionKey, String taskDefKey);

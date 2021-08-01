@@ -44,134 +44,134 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	
-	private SecurityProperties securityProperties;
-	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
-	
-	@Autowired
-	public void setSecurityProperties(SecurityProperties securityProperties) {
-		this.securityProperties = securityProperties;
-	}
-	
-	@Autowired
-	public void setSmsCodeAuthenticationSecurityConfig(SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig) {
-		this.smsCodeAuthenticationSecurityConfig = smsCodeAuthenticationSecurityConfig;
-	}
-	
-	@Override
-	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
-	
-	@Bean
-	public TenantLoginPreFilter tenantLoginPreFilter() {
-		return new TenantLoginPreFilter();
-	}
-	
-	@Bean
-	public LogoutSuccessHandler logoutSuccessHandler() {
-		return new CustomizeLogoutSuccessHandler();
-	}
-	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	@Bean
-	public PermitAuthenticationFilter permitAuthenticationFilter() {
-		return new PermitAuthenticationFilter();
-	}
-	
-	@Bean
-	public PermitAllSecurityConfig permitAllSecurityConfig() {
-		PermitAllSecurityConfig permitAllSecurityConfig = new PermitAllSecurityConfig();
-		permitAllSecurityConfig.setPermitAuthenticationFilter(permitAuthenticationFilter());
-		return permitAllSecurityConfig;
-		
-	}
-	
-	@Override
-	@Bean
-	public UserDetailsService userDetailsService() {
-		return new UserDetailsServiceImpl();
-	}
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
-	}
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		RestfulAccessDeniedHandler restfulAccessDeniedHandler = new RestfulAccessDeniedHandler();
-		List<String> ignorePatternList = Lists.newArrayList(
-				SecurityConstants.DEFAULT_LOGIN_URL,
-				SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,
-				SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE,
-				SecurityConstants.DEFAULT_SIGN_IN_URL_MOBILE_PAGE,
-				SecurityConstants.DEFAULT_REGISTER_URL,
-				SecurityConstants.DEFAULT_SIGN_IN_TOKEN_REQUEST, SecurityConstants.MOCK_REQUEST);
-		ignorePatternList.addAll(securityProperties.getIgnorePatterns());
-		if (CollectionUtils.isNotEmpty(ignorePatternList)) {
-			http.authorizeRequests()
-					.antMatchers(ArrayUtil.toArray(ignorePatternList, String.class)).permitAll();
-		}
-		http.authorizeRequests()
-				.requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll();
-		if (!securityProperties.isCsrf()) {
-			http.csrf().disable();
-		}
-		http.apply(smsCodeAuthenticationSecurityConfig)
-				.and()
-				.logout().logoutUrl("/logout")
-				.logoutSuccessHandler(logoutSuccessHandler())
-				.deleteCookies("JSESSIONID")
-				.clearAuthentication(true)
-				.invalidateHttpSession(true)
-				.permitAll()
-				.and().authorizeRequests()
-				.anyRequest().authenticated()
-				.and()
-				.formLogin()
-				.loginPage(SecurityConstants.DEFAULT_LOGIN_URL)
-				.loginProcessingUrl(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM)
-				.permitAll()
-				.and()
-				.httpBasic()
-				.and()
-				.exceptionHandling()
-				.accessDeniedHandler(restfulAccessDeniedHandler)
-				.and()
-				.addFilterBefore(tenantLoginPreFilter(), UsernamePasswordAuthenticationFilter.class);
-	}
-	
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.addAllowedOrigin("*");
-		configuration.addAllowedMethod("*");
-		configuration.addAllowedHeader("*");
-		configuration.setAllowCredentials(true);
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
-	}
-	
-	@Override
-	public void configure(WebSecurity web) {
-		List<String> ignoreStaticPatterns = Lists.newArrayList();
-		ignoreStaticPatterns.addAll(SwaggerStaticResource.EXCLUDE_STATIC_PATTERNS);
-		List<String> staticPatterns = securityProperties.getIgnoreStaticPatterns();
-		if (CollectionUtils.isNotEmpty(staticPatterns)) {
-			ignoreStaticPatterns.addAll(staticPatterns);
-		}
-		web.ignoring().antMatchers(ArrayUtil.toArray(ignoreStaticPatterns, String.class));
-		StrictHttpFirewall firewall = new StrictHttpFirewall();
-		firewall.setAllowUrlEncodedSlash(true);
-		web.httpFirewall(firewall);
-	}
-	
+
+
+    private SecurityProperties securityProperties;
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    @Autowired
+    public void setSecurityProperties(SecurityProperties securityProperties) {
+        this.securityProperties = securityProperties;
+    }
+
+    @Autowired
+    public void setSmsCodeAuthenticationSecurityConfig(SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig) {
+        this.smsCodeAuthenticationSecurityConfig = smsCodeAuthenticationSecurityConfig;
+    }
+
+    @Override
+    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public TenantLoginPreFilter tenantLoginPreFilter() {
+        return new TenantLoginPreFilter();
+    }
+
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new CustomizeLogoutSuccessHandler();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public PermitAuthenticationFilter permitAuthenticationFilter() {
+        return new PermitAuthenticationFilter();
+    }
+
+    @Bean
+    public PermitAllSecurityConfig permitAllSecurityConfig() {
+        PermitAllSecurityConfig permitAllSecurityConfig = new PermitAllSecurityConfig();
+        permitAllSecurityConfig.setPermitAuthenticationFilter(permitAuthenticationFilter());
+        return permitAllSecurityConfig;
+
+    }
+
+    @Override
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsServiceImpl();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        RestfulAccessDeniedHandler restfulAccessDeniedHandler = new RestfulAccessDeniedHandler();
+        List<String> ignorePatternList = Lists.newArrayList(
+                SecurityConstants.DEFAULT_LOGIN_URL,
+                SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,
+                SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE,
+                SecurityConstants.DEFAULT_SIGN_IN_URL_MOBILE_PAGE,
+                SecurityConstants.DEFAULT_REGISTER_URL,
+                SecurityConstants.DEFAULT_SIGN_IN_TOKEN_REQUEST, SecurityConstants.MOCK_REQUEST);
+        ignorePatternList.addAll(securityProperties.getIgnorePatterns());
+        if (CollectionUtils.isNotEmpty(ignorePatternList)) {
+            http.authorizeRequests()
+                    .antMatchers(ArrayUtil.toArray(ignorePatternList, String.class)).permitAll();
+        }
+        http.authorizeRequests()
+                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll();
+        if (!securityProperties.isCsrf()) {
+            http.csrf().disable();
+        }
+        http.apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+                .logout().logoutUrl("/logout")
+                .logoutSuccessHandler(logoutSuccessHandler())
+                .deleteCookies("JSESSIONID")
+                .clearAuthentication(true)
+                .invalidateHttpSession(true)
+                .permitAll()
+                .and().authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage(SecurityConstants.DEFAULT_LOGIN_URL)
+                .loginProcessingUrl(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM)
+                .permitAll()
+                .and()
+                .httpBasic()
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(restfulAccessDeniedHandler)
+                .and()
+                .addFilterBefore(tenantLoginPreFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    @Override
+    public void configure(WebSecurity web) {
+        List<String> ignoreStaticPatterns = Lists.newArrayList();
+        ignoreStaticPatterns.addAll(SwaggerStaticResource.EXCLUDE_STATIC_PATTERNS);
+        List<String> staticPatterns = securityProperties.getIgnoreStaticPatterns();
+        if (CollectionUtils.isNotEmpty(staticPatterns)) {
+            ignoreStaticPatterns.addAll(staticPatterns);
+        }
+        web.ignoring().antMatchers(ArrayUtil.toArray(ignoreStaticPatterns, String.class));
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowUrlEncodedSlash(true);
+        web.httpFirewall(firewall);
+    }
+
 }

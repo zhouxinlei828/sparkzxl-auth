@@ -20,7 +20,7 @@ import java.util.Map;
  * description: 不走端点token获取
  *
  * @author charles.zhou
- * @date   2021-02-24 12:17:37
+ * @date 2021-02-24 12:17:37
  */
 @Slf4j
 public class CustomTokenGrantService {

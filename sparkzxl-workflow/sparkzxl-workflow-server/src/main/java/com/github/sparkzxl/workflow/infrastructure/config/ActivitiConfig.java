@@ -1,4 +1,3 @@
-
 package com.github.sparkzxl.workflow.infrastructure.config;
 
 import com.github.sparkzxl.workflow.infrastructure.diagram.ICustomProcessDiagramGenerator;

@@ -4,17 +4,17 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.github.sparkzxl.auth.infrastructure.entity.SysParameter">
-        <id column="id" property="id" />
-        <result column="code" property="code" />
-        <result column="name" property="name" />
-        <result column="value" property="value" />
-        <result column="describe_" property="describe" />
-        <result column="status" property="status" />
-        <result column="readonly" property="readonly" />
-        <result column="create_user" property="createUser" />
-        <result column="create_time" property="createTime" />
-        <result column="update_user" property="updateUser" />
-        <result column="update_time" property="updateTime" />
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="value" property="value"/>
+        <result column="describe_" property="describe"/>
+        <result column="status" property="status"/>
+        <result column="readonly" property="readonly"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
 
 </mapper>

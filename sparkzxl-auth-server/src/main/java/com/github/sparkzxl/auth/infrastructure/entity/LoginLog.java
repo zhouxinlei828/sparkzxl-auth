@@ -57,7 +57,7 @@ public class LoginLog extends SuperEntity<Long> {
     private String description;
 
     @ApiModelProperty(value = "登录时间")
-    @TableField(value = "login_date",fill = FieldFill.INSERT)
+    @TableField(value = "login_date", fill = FieldFill.INSERT)
     private LocalDateTime loginDate;
 
     @ApiModelProperty(value = "浏览器请求头")
@@ -83,8 +83,6 @@ public class LoginLog extends SuperEntity<Long> {
     @Length(max = 50, message = "登录地点长度不能超过50")
     @TableField(value = "location", condition = LIKE)
     private String location;
-
-    
 
 
     @Builder

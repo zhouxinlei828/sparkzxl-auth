@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  * description:ProcessDetail显示层对象
  *
  * @author charles.zhou
- * @date   2020-07-21 14:56:57
+ * @date 2020-07-21 14:56:57
  */
 
 @Data

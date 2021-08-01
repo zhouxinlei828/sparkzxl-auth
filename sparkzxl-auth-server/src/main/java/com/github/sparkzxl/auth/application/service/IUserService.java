@@ -25,7 +25,7 @@ public interface IUserService extends SuperCacheService<AuthUser> {
     /**
      * 获取全局用户信息
      *
-     * @param username     用户账户
+     * @param username 用户账户
      * @return AuthUserInfo<Long>
      */
     AuthUserInfo<Long> getAuthUserInfo(String username);
@@ -87,7 +87,7 @@ public interface IUserService extends SuperCacheService<AuthUser> {
     /**
      * 用户菜单
      *
-     * @param userId   用户id
+     * @param userId 用户id
      * @return List<MenuBasicInfo>
      */
     List<MenuBasicInfo> routers(Long userId);

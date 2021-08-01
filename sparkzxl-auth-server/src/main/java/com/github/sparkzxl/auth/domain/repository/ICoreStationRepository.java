@@ -29,6 +29,7 @@ public interface ICoreStationRepository extends LoadService {
 
     /**
      * 删除岗位
+     *
      * @param ids 岗位ids
      * @return boolean
      */

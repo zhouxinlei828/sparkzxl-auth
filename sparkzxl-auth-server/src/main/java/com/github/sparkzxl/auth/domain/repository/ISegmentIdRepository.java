@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * description: 序列生成仓储类
  *
  * @author charles.zhou
- * @date   2021-02-20 17:38:32
+ * @date 2021-02-20 17:38:32
  */
 public interface ISegmentIdRepository {
 

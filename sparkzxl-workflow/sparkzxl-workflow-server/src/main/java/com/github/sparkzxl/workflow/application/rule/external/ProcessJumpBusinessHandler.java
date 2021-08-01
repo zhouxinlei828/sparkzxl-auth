@@ -31,7 +31,7 @@ public class ProcessJumpBusinessHandler implements BusinessHandler<DriverResult,
     @RedisLock(prefix = "act_driver")
     public DriverResult businessHandler(DriveProcess driveProcess) {
         log.info("流程跳转业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
-        return actWorkApiService.jumpProcess(driveProcess,null);
+        return actWorkApiService.jumpProcess(driveProcess, null);
     }
 
 }

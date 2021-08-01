@@ -25,19 +25,16 @@ import java.text.AttributedString;
  * description: 流程图渲染
  *
  * @author charles.zhou
- * @date   2020-07-17 14:01:20
+ * @date 2020-07-17 14:01:20
  */
 public class CustomProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
 
-    protected static Color LABEL_COLOR = new Color(0, 0, 0);
-
     private final static String ASSOCIATION = "association";
-
+    protected static Color LABEL_COLOR = new Color(0, 0, 0);
+    private static volatile boolean flag = false;
     protected String activityFontName = "宋体";
     protected String labelFontName = "宋体";
     protected String annotationFontName = "宋体";
-
-    private static volatile boolean flag = false;
 
     public CustomProcessDiagramCanvas(int width, int height, int minX, int minY, String imageType) {
         super(width, height, minX, minY, imageType);

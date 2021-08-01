@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
  * description: activiti驱动convert
  *
  * @author charles.zhou
- * @date   2020-10-01 22:10:00
+ * @date 2020-10-01 22:10:00
  */
 @Mapper
 public interface ActivitiDriverConvert {

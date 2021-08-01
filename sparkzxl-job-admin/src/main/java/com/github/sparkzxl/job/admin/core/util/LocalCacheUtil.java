@@ -15,46 +15,6 @@ public class LocalCacheUtil {
      */
     private static final ConcurrentMap<String, LocalCacheData> CACHE_REPOSITORY = new ConcurrentHashMap<>();
 
-    private static class LocalCacheData {
-        private String key;
-        private Object val;
-        private long timeoutTime;
-
-        public LocalCacheData() {
-        }
-
-        public LocalCacheData(String key, Object val, long timeoutTime) {
-            this.key = key;
-            this.val = val;
-            this.timeoutTime = timeoutTime;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public Object getVal() {
-            return val;
-        }
-
-        public void setVal(Object val) {
-            this.val = val;
-        }
-
-        public long getTimeoutTime() {
-            return timeoutTime;
-        }
-
-        public void setTimeoutTime(long timeoutTime) {
-            this.timeoutTime = timeoutTime;
-        }
-    }
-
-
     /**
      * set cache
      *
@@ -128,6 +88,45 @@ public class LocalCacheUtil {
                     CACHE_REPOSITORY.remove(key);
                 }
             }
+        }
+    }
+
+    private static class LocalCacheData {
+        private String key;
+        private Object val;
+        private long timeoutTime;
+
+        public LocalCacheData() {
+        }
+
+        public LocalCacheData(String key, Object val, long timeoutTime) {
+            this.key = key;
+            this.val = val;
+            this.timeoutTime = timeoutTime;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public Object getVal() {
+            return val;
+        }
+
+        public void setVal(Object val) {
+            this.val = val;
+        }
+
+        public long getTimeoutTime() {
+            return timeoutTime;
+        }
+
+        public void setTimeoutTime(long timeoutTime) {
+            this.timeoutTime = timeoutTime;
         }
     }
 

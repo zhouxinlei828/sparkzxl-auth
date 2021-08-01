@@ -9,7 +9,7 @@ import com.github.sparkzxl.workflow.interfaces.dto.act.ModelPageDTO;
  * description: 模型 服务类
  *
  * @author charles.zhou
- * @date   2020-07-25 11:14:40
+ * @date 2020-07-25 11:14:40
  */
 public interface IActReModelService extends SuperCacheService<ActReModel> {
 

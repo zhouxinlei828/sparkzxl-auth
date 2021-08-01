@@ -10,7 +10,7 @@ import java.util.Collection;
  *
  * @author zhouxinlei
  * @date 2021-07-02 13:14:39
-*/
+ */
 public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
     private static final long serialVersionUID = 2383092775910246006L;
 
@@ -21,6 +21,7 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 
     /**
      * SmsCodeAuthenticationFilter中构建的未认证的Authentication
+     *
      * @param mobile
      */
     public SmsCodeAuthenticationToken(String mobile) {
@@ -31,6 +32,7 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 
     /**
      * SmsCodeAuthenticationProvider中构建已认证的Authentication
+     *
      * @param principal
      * @param authorities
      */

@@ -26,14 +26,13 @@ public class JobRegistryHelper {
     private static final Logger logger = LoggerFactory.getLogger(JobRegistryHelper.class);
 
     private static final JobRegistryHelper INSTANCE = new JobRegistryHelper();
+    private ThreadPoolExecutor registryOrRemoveThreadPool = null;
+    private Thread registryMonitorThread;
+    private volatile boolean toStop = false;
 
     public static JobRegistryHelper getInstance() {
         return INSTANCE;
     }
-
-    private ThreadPoolExecutor registryOrRemoveThreadPool = null;
-    private Thread registryMonitorThread;
-    private volatile boolean toStop = false;
 
     public void start() {
 

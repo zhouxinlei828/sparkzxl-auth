@@ -19,20 +19,11 @@ public enum ExecutorRouteStrategyEnum {
     BUSYOVER(I18nUtil.getString("jobconf_route_busyover"), new ExecutorRouteBusyover()),
     SHARDING_BROADCAST(I18nUtil.getString("jobconf_route_shard"), null);
 
+    private String title;
+    private ExecutorRouter router;
     ExecutorRouteStrategyEnum(String title, ExecutorRouter router) {
         this.title = title;
         this.router = router;
-    }
-
-    private String title;
-    private ExecutorRouter router;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public ExecutorRouter getRouter() {
-        return router;
     }
 
     public static ExecutorRouteStrategyEnum match(String name, ExecutorRouteStrategyEnum defaultItem) {
@@ -44,6 +35,14 @@ public enum ExecutorRouteStrategyEnum {
             }
         }
         return defaultItem;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public ExecutorRouter getRouter() {
+        return router;
     }
 
 }

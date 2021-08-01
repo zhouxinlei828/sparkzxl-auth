@@ -59,12 +59,12 @@ public interface ILoginLogRepository {
     /**
      * 分页查询登录日志列表
      *
-     * @param pageNum     当前页
-     * @param pageSize    分页大小
-     * @param userId 领域管理员账号
-     * @param account     账户
-     * @param startTime   开始时间
-     * @param endTime     结束时间
+     * @param pageNum   当前页
+     * @param pageSize  分页大小
+     * @param userId    领域管理员账号
+     * @param account   账户
+     * @param startTime 开始时间
+     * @param endTime   结束时间
      * @return PageInfo<LoginLog>
      */
     PageInfo<LoginLog> getLoginLogPage(int pageNum, int pageSize, Long userId, String account, Date startTime,

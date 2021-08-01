@@ -80,7 +80,7 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<AuthRoleMapper, AuthR
         boolean result = authRoleRepository.saveRole(authRole);
         Long roleId = authRole.getId();
         Map<String, Object> roleAttributeMap = authRole.getAttribute();
-        if (MapUtils.isNotEmpty(roleAttributeMap)){
+        if (MapUtils.isNotEmpty(roleAttributeMap)) {
             roleAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(roleId));
             esRoleAttributeService.saveDoc(BizConstant.INDEX_ROLE_ATTRIBUTE, String.valueOf(roleId), roleAttributeMap);
         }

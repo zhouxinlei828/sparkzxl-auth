@@ -19,7 +19,7 @@ public class JwtTokenEnhancer implements TokenEnhancer {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {
-        if (oAuth2Authentication.getPrincipal() instanceof AuthUserDetail){
+        if (oAuth2Authentication.getPrincipal() instanceof AuthUserDetail) {
             AuthUserDetail userDetails = (AuthUserDetail) oAuth2Authentication.getPrincipal();
             Map<String, Object> additionalInfo = Maps.newLinkedHashMap();
             additionalInfo.put("id", userDetails.getId());

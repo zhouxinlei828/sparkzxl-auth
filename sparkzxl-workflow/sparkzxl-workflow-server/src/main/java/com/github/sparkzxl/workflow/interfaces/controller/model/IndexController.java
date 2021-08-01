@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Api(tags = "页面管理")
 @Controller
 public class IndexController {
-	
-	@ApiOperation("流程图设计页")
-	@GetMapping("editor")
-	public String editor() {
-		return "index";
-	}
+
+    @ApiOperation("流程图设计页")
+    @GetMapping("editor")
+    public String editor() {
+        return "index";
+    }
 }

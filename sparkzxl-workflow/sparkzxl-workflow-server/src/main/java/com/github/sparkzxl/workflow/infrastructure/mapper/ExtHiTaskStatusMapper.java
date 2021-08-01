@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * description: 任务状态记录Mapper 接口
  *
  * @author charles.zhou
- * @date   2020-07-17 13:18:25
+ * @date 2020-07-17 13:18:25
  */
 @Repository
 public interface ExtHiTaskStatusMapper extends SuperMapper<ExtHiTaskStatus> {

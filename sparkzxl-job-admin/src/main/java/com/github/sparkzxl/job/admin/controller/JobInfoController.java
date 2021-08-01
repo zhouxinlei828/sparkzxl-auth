@@ -46,6 +46,10 @@ public class JobInfoController {
     @Resource
     private XxlJobService xxlJobService;
 
+    public static List<XxlJobGroup> filterJobGroupByRole(HttpServletRequest request, List<XxlJobGroup> jobGroupListAll) {
+        return jobGroupListAll;
+    }
+
     @RequestMapping
     public String index(HttpServletRequest request, Model model, @RequestParam(required = false, defaultValue = "-1") int jobGroup) {
 
@@ -72,10 +76,6 @@ public class JobInfoController {
         model.addAttribute("JobGroupList", jobGroupList);
         model.addAttribute("jobGroup", jobGroup);
         return "jobinfo/jobinfo.index";
-    }
-
-    public static List<XxlJobGroup> filterJobGroupByRole(HttpServletRequest request, List<XxlJobGroup> jobGroupListAll) {
-        return jobGroupListAll;
     }
 
     @RequestMapping("/pageList")

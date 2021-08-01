@@ -20,7 +20,7 @@ import java.util.Set;
  * 思路：只需定义一个比OAuth2AuthenticationProcessingFilter更早的过滤器拦截指定请求，去除header中的Authorization Bearer xxxx即可
  *
  * @author charles.zhou
- * @date   2021-02-24 09:29:28
+ * @date 2021-02-24 09:29:28
  */
 @Slf4j
 public class PermitAuthenticationFilter extends OncePerRequestFilter {
@@ -31,6 +31,7 @@ public class PermitAuthenticationFilter extends OncePerRequestFilter {
         if (filterUrl.equals(request.getRequestURI())) {
             request = new HttpServletRequestWrapper(request) {
                 private Set<String> headerNameSet;
+
                 @Override
                 public Enumeration<String> getHeaderNames() {
                     if (headerNameSet == null) {

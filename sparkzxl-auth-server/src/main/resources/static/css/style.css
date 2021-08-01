@@ -62,11 +62,12 @@ a {
     text-align: center;
 }
 
-.warning-message{
+.warning-message {
     text-align: left;
     width: 100%;
     color: red;
 }
+
 .social-container {
     margin: 20px 0;
 }

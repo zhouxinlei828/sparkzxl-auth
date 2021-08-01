@@ -7,8 +7,8 @@ import org.activiti.engine.delegate.TaskListener;
  * description: 候选人任务监听
  *
  * @author charles.zhou
- * @date   2020-12-24 11:04:43
-*/
+ * @date 2020-12-24 11:04:43
+ */
 public class MangerTaskHandlerCandidateUsers implements TaskListener {
 
     @Override

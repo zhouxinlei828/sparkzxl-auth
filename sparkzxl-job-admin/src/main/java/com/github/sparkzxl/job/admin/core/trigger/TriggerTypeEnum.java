@@ -16,11 +16,11 @@ public enum TriggerTypeEnum {
     API(I18nUtil.getString("jobconf_trigger_type_api")),
     MISFIRE(I18nUtil.getString("jobconf_trigger_type_misfire"));
 
+    private String title;
+
     private TriggerTypeEnum(String title) {
         this.title = title;
     }
-
-    private String title;
 
     public String getTitle() {
         return title;

@@ -12,7 +12,7 @@ import java.util.List;
  * description: 流程跳转规则Mapper 接口
  *
  * @author charles.zhou
- * @date   2020-07-17 13:16:16
+ * @date 2020-07-17 13:16:16
  */
 @Repository
 public interface ExtProcessTaskRuleMapper extends SuperMapper<ExtProcessTaskRule> {
@@ -36,8 +36,8 @@ public interface ExtProcessTaskRuleMapper extends SuperMapper<ExtProcessTaskRule
     /**
      * 查询流程跳转规则
      *
-     * @param processDefinitionKey  流程定义key
-     * @param taskDefKey 任务定义key
+     * @param processDefinitionKey 流程定义key
+     * @param taskDefKey           任务定义key
      * @return List<ProcessTaskRule>
      */
     @Select("SELECT pd.process_definition_key, pd.process_name, pd.task_def_key sourceTaskDefKey,pd.task_name sourceTaskName, ptr.id,"

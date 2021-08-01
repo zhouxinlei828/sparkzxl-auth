@@ -15,7 +15,7 @@ public class XxlJobGroupDaoTest {
     private XxlJobGroupDao xxlJobGroupDao;
 
     @Test
-    public void test(){
+    public void test() {
         List<XxlJobGroup> list = xxlJobGroupDao.findAll();
 
         List<XxlJobGroup> list2 = xxlJobGroupDao.findByAddressType(0);

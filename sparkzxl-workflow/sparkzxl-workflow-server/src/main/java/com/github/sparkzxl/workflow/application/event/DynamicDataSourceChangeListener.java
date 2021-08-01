@@ -32,17 +32,40 @@ import java.util.Map;
 @Slf4j
 public class DynamicDataSourceChangeListener implements ApplicationListener<EnvironmentChangeEvent> {
 
+    private final String datasourcePrefix = DynamicDataSourceProperties.PREFIX.concat(".datasource.");
     @Autowired
     private ConfigurableEnvironment configurableEnvironment;
     @Autowired
     private DynamicDataSourceProperties dynamicDataSourceProperties;
     @Autowired
     private DataSource dataSource;
-
     @Autowired
     private DefaultDataSourceCreator dataSourceCreator;
 
-    private final String datasourcePrefix = DynamicDataSourceProperties.PREFIX.concat(".datasource.");
+    private static String underscoreToCamelCase(String str) {
+        List<String> split = StrSpliter.split(str, "-", 0, true, true);
+        StringBuilder stringBuilder = new StringBuilder();
+        if (CollectionUtils.isNotEmpty(split)) {
+            int index = 0;
+            for (String s : split) {
+                if (index == 0) {
+                    stringBuilder.append(s);
+                } else {
+                    // 进行字母的ascii编码前移，效率要高于截取字符串进行转换的操作
+                    char[] cs = s.toCharArray();
+                    cs[0] -= 32;
+                    stringBuilder.append(String.valueOf(cs));
+                }
+                index++;
+            }
+        } else {
+            // 进行字母的ascii编码前移，效率要高于截取字符串进行转换的操作
+            char[] cs = str.toCharArray();
+            cs[0] -= 32;
+            stringBuilder.append(String.valueOf(cs));
+        }
+        return stringBuilder.toString();
+    }
 
     @Override
     public void onApplicationEvent(EnvironmentChangeEvent event) {
@@ -85,31 +108,6 @@ public class DynamicDataSourceChangeListener implements ApplicationListener<Envi
     public void createDataSourceProperty(DataSourceProperty dataSourceProperty, String dataSourcePropertyName, String property) {
         String fieldName = underscoreToCamelCase(dataSourcePropertyName);
         ReflectUtil.setFieldValue(dataSourceProperty, fieldName, property);
-    }
-
-    private static String underscoreToCamelCase(String str) {
-        List<String> split = StrSpliter.split(str, "-", 0, true, true);
-        StringBuilder stringBuilder = new StringBuilder();
-        if (CollectionUtils.isNotEmpty(split)) {
-            int index = 0;
-            for (String s : split) {
-                if (index == 0) {
-                    stringBuilder.append(s);
-                } else {
-                    // 进行字母的ascii编码前移，效率要高于截取字符串进行转换的操作
-                    char[] cs = s.toCharArray();
-                    cs[0] -= 32;
-                    stringBuilder.append(String.valueOf(cs));
-                }
-                index++;
-            }
-        } else {
-            // 进行字母的ascii编码前移，效率要高于截取字符串进行转换的操作
-            char[] cs = str.toCharArray();
-            cs[0] -= 32;
-            stringBuilder.append(String.valueOf(cs));
-        }
-        return stringBuilder.toString();
     }
 
 }

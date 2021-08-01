@@ -22,7 +22,7 @@ public class ExecutorRouteRound extends ExecutorRouter {
         // cache clear
         if (System.currentTimeMillis() > CACHE_VALID_TIME) {
             ROUTE_COUNT_EACH_JOB.clear();
-            CACHE_VALID_TIME = System.currentTimeMillis() + 1000*60*60*24;
+            CACHE_VALID_TIME = System.currentTimeMillis() + 1000 * 60 * 60 * 24;
         }
 
         AtomicInteger count = ROUTE_COUNT_EACH_JOB.get(jobId);
@@ -39,7 +39,7 @@ public class ExecutorRouteRound extends ExecutorRouter {
 
     @Override
     public ReturnT<String> route(TriggerParam triggerParam, List<String> addressList) {
-        String address = addressList.get(count(triggerParam.getJobId())%addressList.size());
+        String address = addressList.get(count(triggerParam.getJobId()) % addressList.size());
         return new ReturnT<>(address);
     }
 

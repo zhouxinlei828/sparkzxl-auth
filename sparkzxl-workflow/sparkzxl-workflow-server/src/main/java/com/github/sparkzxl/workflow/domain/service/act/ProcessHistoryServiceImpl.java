@@ -212,7 +212,7 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
         List<HistoricActivityInstance> historicActivityInstances = getHistoricActivityInstance(processInstanceId);
         List<HistoricActivityInstance> specialHistoricActivityInstances =
                 historicActivityInstances.stream().filter(item -> WorkflowConstants.ActType.START_EVENT.equals(item.getActivityType())
-                        || WorkflowConstants.ActType.END_EVENT.equals(item.getActivityType()))
+                                || WorkflowConstants.ActType.END_EVENT.equals(item.getActivityType()))
                         .collect(Collectors.toList());
         specialHistoricActivityInstances.forEach(historicActivityInstance -> {
             ProcessHistory processHistory = ProcessHistory.builder()

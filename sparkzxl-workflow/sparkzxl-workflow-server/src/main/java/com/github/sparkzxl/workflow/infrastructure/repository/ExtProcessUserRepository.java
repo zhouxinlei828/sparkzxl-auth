@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.infrastructure.repository;
 
-import com.github.sparkzxl.workflow.dto.WorkflowUserInfo;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessUserRepository;
+import com.github.sparkzxl.workflow.dto.WorkflowUserInfo;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUser;
 import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessUserMapper;
 import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessUserRoleMapper;

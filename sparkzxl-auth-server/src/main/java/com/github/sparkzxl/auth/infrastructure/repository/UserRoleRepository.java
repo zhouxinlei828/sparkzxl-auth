@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * description:账户角色绑定 仓储实现类
  *
  * @author charles.zhou
- * @date   2020-07-19 21:19:03
+ * @date 2020-07-19 21:19:03
  */
 @AllArgsConstructor
 @Repository
@@ -35,8 +35,8 @@ public class UserRoleRepository implements IUserRoleRepository {
     @Override
     public boolean saveAuthRoleUser(Long roleId, List<Long> userIds) {
         List<UserRole> userRoles = new ArrayList<>(userIds.size());
-        userRoleMapper.delete(new LambdaUpdateWrapper<UserRole>().eq(UserRole::getRoleId,roleId));
-        if (CollectionUtils.isNotEmpty(userIds)){
+        userRoleMapper.delete(new LambdaUpdateWrapper<UserRole>().eq(UserRole::getRoleId, roleId));
+        if (CollectionUtils.isNotEmpty(userIds)) {
             userIds.forEach(userId -> {
                 UserRole userRole = new UserRole();
                 userRole.setRoleId(roleId);

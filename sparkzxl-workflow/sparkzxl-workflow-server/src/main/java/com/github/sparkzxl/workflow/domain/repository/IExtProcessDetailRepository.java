@@ -10,7 +10,7 @@ import java.util.List;
  * description: 流程详细节点 仓储类
  *
  * @author charles.zhou
- * @date   2020-07-21 15:33:56
+ * @date 2020-07-21 15:33:56
  */
 public interface IExtProcessDetailRepository {
 

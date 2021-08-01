@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  *
  * @author zhoux
  * @date 2021-06-14 09:28:33
-*/
+ */
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
     private UserDetailsService userDetailsService;

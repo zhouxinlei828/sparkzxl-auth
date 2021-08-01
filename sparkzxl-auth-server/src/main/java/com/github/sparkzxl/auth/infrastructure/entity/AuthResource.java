@@ -26,11 +26,11 @@ public class AuthResource extends Entity<Long> {
     private static final long serialVersionUID = -6295580114270886981L;
 
     @ApiModelProperty(value = "编码规则： 链接： 数据列： 按钮：")
-    @TableField(value = "code",condition = SqlCondition.LIKE)
+    @TableField(value = "code", condition = SqlCondition.LIKE)
     private String code;
 
     @ApiModelProperty(value = "名称")
-    @TableField(value = "name",condition = SqlCondition.LIKE)
+    @TableField(value = "name", condition = SqlCondition.LIKE)
     private String name;
 
     @ApiModelProperty(value = "菜单ID")

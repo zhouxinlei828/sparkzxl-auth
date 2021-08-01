@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/mock")
 @RequiredArgsConstructor
 public class MockController {
-	
-	private final IUserService userService;
-	
-	@ApiOperation("生成用户测试数据")
-	@GetMapping("/mockData")
-	public boolean mockUserData() {
-		return userService.mockUserData();
-	}
-	
+
+    private final IUserService userService;
+
+    @ApiOperation("生成用户测试数据")
+    @GetMapping("/mockData")
+    public boolean mockUserData() {
+        return userService.mockUserData();
+    }
+
 }

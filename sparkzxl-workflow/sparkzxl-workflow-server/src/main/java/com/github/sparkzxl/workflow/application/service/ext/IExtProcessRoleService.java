@@ -24,6 +24,7 @@ public interface IExtProcessRoleService extends SuperCacheService<ExtProcessRole
 
     /**
      * 查询角色用户id列表
+     *
      * @param roleId 角色id
      * @return List<Long>
      */

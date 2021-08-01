@@ -40,13 +40,12 @@ import java.util.Map;
 @RequestMapping("/joblog")
 public class JobLogController {
     private static final Logger logger = LoggerFactory.getLogger(JobLogController.class);
-
-    @Resource
-    private XxlJobGroupDao xxlJobGroupDao;
     @Resource
     public XxlJobInfoDao xxlJobInfoDao;
     @Resource
     public XxlJobLogDao xxlJobLogDao;
+    @Resource
+    private XxlJobGroupDao xxlJobGroupDao;
 
     @RequestMapping
     public String index(HttpServletRequest request, Model model, @RequestParam(required = false, defaultValue = "0") Integer jobId) {

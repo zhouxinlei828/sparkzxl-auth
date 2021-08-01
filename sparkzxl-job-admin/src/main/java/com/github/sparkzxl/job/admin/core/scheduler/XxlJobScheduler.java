@@ -18,7 +18,32 @@ import java.util.concurrent.ConcurrentMap;
 
 public class XxlJobScheduler {
     private static final Logger logger = LoggerFactory.getLogger(XxlJobScheduler.class);
+    /**
+     * executor-client
+     */
+    private static final ConcurrentMap<String, ExecutorBiz> EXECUTOR_BIZ_REPOSITORY = new ConcurrentHashMap<>();
 
+    public static ExecutorBiz getExecutorBiz(String address) throws Exception {
+        // valid
+        if (address == null || address.trim().length() == 0) {
+            return null;
+        }
+
+        // load-cache
+        address = address.trim();
+        ExecutorBiz executorBiz = EXECUTOR_BIZ_REPOSITORY.get(address);
+        if (executorBiz != null) {
+            return executorBiz;
+        }
+
+        // set-cache
+        executorBiz = new ExecutorBizClient(address, XxlJobAdminConfig.getAdminConfig().getAccessToken());
+
+        EXECUTOR_BIZ_REPOSITORY.put(address, executorBiz);
+        return executorBiz;
+    }
+
+    // ---------------------- I18n ----------------------
 
     public void init() throws Exception {
         // init i18n
@@ -45,7 +70,6 @@ public class XxlJobScheduler {
         logger.info(">>>>>>>>> init xxl-job admin success.");
     }
 
-
     public void destroy() throws Exception {
 
         // stop-schedule
@@ -68,37 +92,10 @@ public class XxlJobScheduler {
 
     }
 
-    // ---------------------- I18n ----------------------
-
     private void initI18n() {
         for (ExecutorBlockStrategyEnum item : ExecutorBlockStrategyEnum.values()) {
             item.setTitle(I18nUtil.getString("jobconf_block_".concat(item.name())));
         }
-    }
-
-    /**
-     * executor-client
-     */
-    private static final ConcurrentMap<String, ExecutorBiz> EXECUTOR_BIZ_REPOSITORY = new ConcurrentHashMap<>();
-
-    public static ExecutorBiz getExecutorBiz(String address) throws Exception {
-        // valid
-        if (address == null || address.trim().length() == 0) {
-            return null;
-        }
-
-        // load-cache
-        address = address.trim();
-        ExecutorBiz executorBiz = EXECUTOR_BIZ_REPOSITORY.get(address);
-        if (executorBiz != null) {
-            return executorBiz;
-        }
-
-        // set-cache
-        executorBiz = new ExecutorBizClient(address, XxlJobAdminConfig.getAdminConfig().getAccessToken());
-
-        EXECUTOR_BIZ_REPOSITORY.put(address, executorBiz);
-        return executorBiz;
     }
 
 }

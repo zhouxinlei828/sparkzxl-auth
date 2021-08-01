@@ -20,15 +20,14 @@ public class JobFailMonitorHelper {
     private static final Logger logger = LoggerFactory.getLogger(JobFailMonitorHelper.class);
 
     private static final JobFailMonitorHelper INSTANCE = new JobFailMonitorHelper();
+    private Thread monitorThread;
+
+    // ---------------------- monitor ----------------------
+    private volatile boolean toStop = false;
 
     public static JobFailMonitorHelper getInstance() {
         return INSTANCE;
     }
-
-    // ---------------------- monitor ----------------------
-
-    private Thread monitorThread;
-    private volatile boolean toStop = false;
 
     public void start() {
         monitorThread = new Thread(() -> {

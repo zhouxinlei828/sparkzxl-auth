@@ -44,10 +44,11 @@ public interface IFileMaterialRepository {
     FileMaterial selectByFilePath(String filePath);
 
     /**
-     *  分页查询附件列表
-     * @param pageNum 当前页
-     * @param pageSize 页面大小
-     * @param fileName 文件名
+     * 分页查询附件列表
+     *
+     * @param pageNum     当前页
+     * @param pageSize    页面大小
+     * @param fileName    文件名
      * @param contentType 媒体类型
      * @return PageInfo<FileMaterial>
      */

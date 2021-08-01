@@ -16,12 +16,10 @@ import java.util.Map;
 @ApiModel("业务任务数据")
 public class BusTaskInfo {
 
-    @ApiModelProperty(value = "流程定义key")
-    private String processDefinitionKey;
-
     @ApiModelProperty(value = "业务主键")
     protected String businessId;
-
+    @ApiModelProperty(value = "流程定义key")
+    private String processDefinitionKey;
     @ApiModelProperty(value = "流程动作类型")
     private Map<Object, Object> actTypeMap;
 

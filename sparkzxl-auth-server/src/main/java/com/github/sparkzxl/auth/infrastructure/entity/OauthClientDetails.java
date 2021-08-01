@@ -15,7 +15,7 @@ import java.io.Serializable;
  * description: 应用客户端
  *
  * @author charles.zhou
- * @date   2021-02-02 11:34:07
+ * @date 2021-02-02 11:34:07
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

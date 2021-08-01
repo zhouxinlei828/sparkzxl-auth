@@ -9,7 +9,7 @@ import java.util.Map;
  * description: 驱动参数
  *
  * @author charles.zhou
- * @date   2020-12-04 20:46:15
+ * @date 2020-12-04 20:46:15
  */
 @Data
 @Builder
@@ -29,30 +29,25 @@ public class DriverData {
      * 流程名称
      */
     String processName;
-
-    /**
-     * 流程动作类型
-     */
-    private int actType;
-
-    /**
-     * 流程变量
-     */
-    private Map<String, Object> variables;
-
     /**
      * 业务主键
      */
     String businessId;
-
     /**
      * 用户id
      */
     String userId;
-
     /**
      * 审核意见
      */
     String comment;
+    /**
+     * 流程动作类型
+     */
+    private int actType;
+    /**
+     * 流程变量
+     */
+    private Map<String, Object> variables;
 
 }

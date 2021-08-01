@@ -20,7 +20,7 @@ import java.util.List;
  * description:
  *
  * @author charles.zhou
- * @date   2020-08-15 09:05:50
+ * @date 2020-08-15 09:05:50
  */
 @Configuration
 @EnableConfigurationProperties({ServerProperties.class, ResourceProperties.class})

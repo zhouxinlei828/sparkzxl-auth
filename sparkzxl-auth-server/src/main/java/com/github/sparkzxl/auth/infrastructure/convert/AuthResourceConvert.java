@@ -15,6 +15,7 @@ import org.mapstruct.factory.Mappers;
 public interface AuthResourceConvert {
 
     AuthResourceConvert INSTANCE = Mappers.getMapper(AuthResourceConvert.class);
+
     /**
      * authResourceUpdateDTO 转化为 AuthResource
      *

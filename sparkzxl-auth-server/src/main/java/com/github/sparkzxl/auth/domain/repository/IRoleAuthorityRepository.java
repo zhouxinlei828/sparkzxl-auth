@@ -33,8 +33,8 @@ public interface IRoleAuthorityRepository {
 
     /**
      * 刷新角色权限
-     * @param tenantId 租户id
      *
+     * @param tenantId 租户id
      * @return boolean
      */
     boolean refreshAuthorityList(String tenantId);

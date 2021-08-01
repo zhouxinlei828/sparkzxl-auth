@@ -190,8 +190,7 @@ import java.util.*;
  */
 public final class CronExpression implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = 12423409423L;
-
+    public static final int MAX_YEAR = Calendar.getInstance().get(Calendar.YEAR) + 100;
     protected static final int SECOND = 0;
     protected static final int MINUTE = 1;
     protected static final int HOUR = 2;
@@ -206,6 +205,7 @@ public final class CronExpression implements Serializable, Cloneable {
 
     protected static final Map<String, Integer> monthMap = new HashMap<String, Integer>(20);
     protected static final Map<String, Integer> dayMap = new HashMap<String, Integer>(60);
+    private static final long serialVersionUID = 12423409423L;
 
     static {
         monthMap.put("JAN", 0);
@@ -231,7 +231,6 @@ public final class CronExpression implements Serializable, Cloneable {
     }
 
     private final String cronExpression;
-    private TimeZone timeZone = null;
     protected transient TreeSet<Integer> seconds;
     protected transient TreeSet<Integer> minutes;
     protected transient TreeSet<Integer> hours;
@@ -246,8 +245,7 @@ public final class CronExpression implements Serializable, Cloneable {
     protected transient boolean nearestWeekday = false;
     protected transient int lastdayOffset = 0;
     protected transient boolean expressionParsed = false;
-
-    public static final int MAX_YEAR = Calendar.getInstance().get(Calendar.YEAR) + 100;
+    private TimeZone timeZone = null;
 
     /**
      * Constructs a new <CODE>CronExpression</CODE> based on the specified
@@ -289,6 +287,30 @@ public final class CronExpression implements Serializable, Cloneable {
         if (expression.getTimeZone() != null) {
             setTimeZone((TimeZone) expression.getTimeZone().clone());
         }
+    }
+
+    /**
+     * Indicates whether the specified cron expression can be parsed into a
+     * valid cron expression
+     *
+     * @param cronExpression the expression to evaluate
+     * @return a boolean indicating whether the given expression is a valid cron
+     * expression
+     */
+    public static boolean isValidExpression(String cronExpression) {
+
+        try {
+            new CronExpression(cronExpression);
+        } catch (ParseException pe) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static void validateExpression(String cronExpression) throws ParseException {
+
+        new CronExpression(cronExpression);
     }
 
     /**
@@ -392,30 +414,6 @@ public final class CronExpression implements Serializable, Cloneable {
     @Override
     public String toString() {
         return cronExpression;
-    }
-
-    /**
-     * Indicates whether the specified cron expression can be parsed into a
-     * valid cron expression
-     *
-     * @param cronExpression the expression to evaluate
-     * @return a boolean indicating whether the given expression is a valid cron
-     * expression
-     */
-    public static boolean isValidExpression(String cronExpression) {
-
-        try {
-            new CronExpression(cronExpression);
-        } catch (ParseException pe) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static void validateExpression(String cronExpression) throws ParseException {
-
-        new CronExpression(cronExpression);
     }
 
 

@@ -74,16 +74,15 @@ public class MybatisPlusGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://sparkzxl.mysql.rds.aliyuncs" +
-                ".com/sparkzxl_auth?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://47.114.40.129:3340/sparkzxl_workflow?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("zhouxinlei");
-        dsc.setPassword("Zxl298828");
+        dsc.setUsername("root");
+        dsc.setPassword("123456");
         mpg.setDataSource(dsc);
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.github.sparkzxl.auth");
+        pc.setParent("com.github.sparkzxl.workflow");
         pc.setController("interfaces.controller");
         pc.setService("application.service");
         pc.setServiceImpl("domain.service");

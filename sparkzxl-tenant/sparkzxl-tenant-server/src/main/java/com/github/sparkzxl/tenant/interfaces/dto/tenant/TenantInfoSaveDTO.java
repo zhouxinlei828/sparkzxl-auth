@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
  * description: 租户信息保存对象
  *
  * @author charles.zhou
- * @date   2020-07-27 19:49:46
+ * @date 2020-07-27 19:49:46
  */
 @Data
 @ApiModel(value = "租户信息保存对象")

@@ -14,7 +14,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE_RIGHT;
  * description: 字典类型
  *
  * @author charles.zhou
- * @date   2020-07-28 19:38:31
+ * @date 2020-07-28 19:38:31
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -29,7 +29,7 @@ public class Dictionary extends Entity<Long> {
     private String type;
 
     @ApiModelProperty(value = "名称")
-    @TableField(value = "name",condition = LIKE_RIGHT)
+    @TableField(value = "name", condition = LIKE_RIGHT)
     private String name;
 
     @ApiModelProperty(value = "描述")

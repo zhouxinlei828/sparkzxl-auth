@@ -27,6 +27,7 @@ public interface TenantManagerConvert {
 
     /**
      * 转换用户信息
+     *
      * @param tenantManager 租户管理员
      * @return AuthUserInfo<Long>
      */

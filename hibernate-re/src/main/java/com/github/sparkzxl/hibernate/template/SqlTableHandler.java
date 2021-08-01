@@ -8,11 +8,8 @@ import com.alibaba.druid.sql.ast.expr.SQLCharExpr;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
 import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.mysql.ast.MySqlPrimaryKey;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -25,18 +22,8 @@ import java.util.Map;
 @Slf4j
 public class SqlTableHandler {
 
-    private static final Configuration CONFIGURATION;
-
     public static String getCreateTableSql(String name, String encoding, Map<String, Object> dataModel) {
-        try {
-            StringWriter var3 = new StringWriter();
-            Template template = CONFIGURATION.getTemplate(name, encoding);
-            template.process(dataModel, var3);
-            return var3.toString();
-        } catch (Exception var5) {
-            log.error(var5.getMessage(), var5);
-            return var5.toString();
-        }
+        return null;
     }
 
     public static void main(String[] args) {
@@ -73,11 +60,5 @@ public class SqlTableHandler {
         tableOptions.add(new SQLAssignItem(new SQLIdentifierExpr("ENGINE"), new SQLIdentifierExpr("InnoDB")));
         tableOptions.add(new SQLAssignItem(new SQLIdentifierExpr("CHARSET"), new SQLIdentifierExpr("utf8mb4")));
         System.out.println(SQLUtils.toMySqlString(sqlCreateTableStatement));
-    }
-
-    static {
-        CONFIGURATION = new Configuration(Configuration.VERSION_2_3_28);
-        CONFIGURATION.setNumberFormat("0.#####################");
-        CONFIGURATION.setClassForTemplateLoading(SqlTableHandler.class, "/");
     }
 }

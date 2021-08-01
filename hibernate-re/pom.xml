@@ -35,5 +35,10 @@
             <artifactId>mybatis-plus-core</artifactId>
             <version>3.4.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.2.6</version>
+        </dependency>
     </dependencies>
 </project>

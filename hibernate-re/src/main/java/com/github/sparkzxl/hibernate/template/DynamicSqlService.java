@@ -1,9 +1,10 @@
 package com.github.sparkzxl.hibernate.template;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 /**
  * description: 动态SQL服务类
@@ -14,26 +15,26 @@ import java.util.Map;
 public interface DynamicSqlService {
 
 
-    int insert(String tableName, Map<String, Object> parameters);
+    int insert(String tableName, JSONObject parameters);
 
     int deleteById(String tableName, Serializable id);
 
-    int delete(String tableName, Map<String, Object> conditionMap);
+    int delete(String tableName, JSONObject conditionMap);
 
     int deleteBatchIds(String tableName, Collection<? extends Serializable> idList);
 
-    int updateById(String tableName, Map<String, Object> parameters, Serializable id);
+    int updateById(String tableName, JSONObject parameters, Serializable id);
 
-    int update(String tableName, Map<String, Object> parameters, Map<String, Object> conditionMap);
+    int update(String tableName, JSONObject parameters, JSONObject conditionMap);
 
-    Map<String, Object> selectById(String tableName, Serializable id);
+    JSONObject selectById(String tableName, Serializable id);
 
-    List<Map<String, Object>> selectBatchIds(String tableName, Collection<? extends Serializable> idList);
+    JSONArray selectBatchIds(String tableName, Collection<? extends Serializable> idList);
 
-    Map<String, Object> selectOne(String tableName, Map<String, Object> conditionMap);
+    JSONObject selectOne(String tableName, JSONObject conditionMap);
 
-    Integer selectCount(String tableName, Map<String, Object> conditionMap);
+    Integer selectCount(String tableName, JSONObject conditionMap);
 
-    List<Map<String, Object>> selectList(String tableName, Map<String, Object> conditionMap);
+    JSONArray selectList(String tableName, JSONObject conditionMap);
 
 }

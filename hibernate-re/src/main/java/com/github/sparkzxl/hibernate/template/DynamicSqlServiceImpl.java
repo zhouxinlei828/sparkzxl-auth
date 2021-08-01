@@ -1,11 +1,11 @@
 package com.github.sparkzxl.hibernate.template;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 /**
  * description: 动态SQL服务实现类
@@ -17,7 +17,7 @@ import java.util.Map;
 public class DynamicSqlServiceImpl implements DynamicSqlService {
 
     @Override
-    public int insert(String tableName, Map<String, Object> parameters) {
+    public int insert(String tableName, JSONObject parameters) {
         return 0;
     }
 
@@ -27,7 +27,7 @@ public class DynamicSqlServiceImpl implements DynamicSqlService {
     }
 
     @Override
-    public int delete(String tableName, Map<String, Object> conditionMap) {
+    public int delete(String tableName, JSONObject conditionMap) {
         return 0;
     }
 
@@ -37,37 +37,37 @@ public class DynamicSqlServiceImpl implements DynamicSqlService {
     }
 
     @Override
-    public int updateById(String tableName, Map<String, Object> parameters, Serializable id) {
+    public int updateById(String tableName, JSONObject parameters, Serializable id) {
         return 0;
     }
 
     @Override
-    public int update(String tableName, Map<String, Object> parameters, Map<String, Object> conditionMap) {
+    public int update(String tableName, JSONObject parameters, JSONObject conditionMap) {
         return 0;
     }
 
     @Override
-    public Map<String, Object> selectById(String tableName, Serializable id) {
+    public JSONObject selectById(String tableName, Serializable id) {
         return null;
     }
 
     @Override
-    public List<Map<String, Object>> selectBatchIds(String tableName, Collection<? extends Serializable> idList) {
+    public JSONArray selectBatchIds(String tableName, Collection<? extends Serializable> idList) {
         return null;
     }
 
     @Override
-    public Map<String, Object> selectOne(String tableName, Map<String, Object> conditionMap) {
+    public JSONObject selectOne(String tableName, JSONObject conditionMap) {
         return null;
     }
 
     @Override
-    public Integer selectCount(String tableName, Map<String, Object> conditionMap) {
+    public Integer selectCount(String tableName, JSONObject conditionMap) {
         return null;
     }
 
     @Override
-    public List<Map<String, Object>> selectList(String tableName, Map<String, Object> conditionMap) {
+    public JSONArray selectList(String tableName, JSONObject conditionMap) {
         return null;
     }
 }

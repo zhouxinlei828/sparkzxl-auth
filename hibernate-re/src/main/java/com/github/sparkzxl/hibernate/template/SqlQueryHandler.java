@@ -1,6 +1,8 @@
 package com.github.sparkzxl.hibernate.template;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.text.StrFormatter;
+import cn.hutool.core.util.IdUtil;
 import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
@@ -10,10 +12,9 @@ import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
 import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlCharExpr;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlInsertStatement;
-import com.google.common.collect.Maps;
+import com.alibaba.fastjson.JSONObject;
+import com.github.sparkzxl.core.utils.StrPool;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.Map;
 
 /**
  * description: sql查询模板
@@ -23,12 +24,50 @@ import java.util.Map;
  */
 public class SqlQueryHandler {
 
-    public static String getSelectListSql(Map<String, String> columnFieldMap, String tableName, Map<String, String> conditionMap) {
+
+    public static String getInsertSql(String tableName, JSONObject columnFieldJsonObject) {
+        SQLInsertInto sqlInsertInto = new MySqlInsertStatement();
+        sqlInsertInto.setTableSource(new SQLExprTableSource(tableName));
+        SQLInsertStatement.ValuesClause valuesClause = new SQLInsertStatement.ValuesClause();
+        for (String key : columnFieldJsonObject.keySet()) {
+            String val = columnFieldJsonObject.getString(key);
+            SQLIdentifierExpr sqlIdentifierExpr = new SQLIdentifierExpr(key);
+            sqlInsertInto.addColumn(sqlIdentifierExpr);
+            valuesClause.addValue(new MySqlCharExpr(val));
+        }
+        sqlInsertInto.addValueCause(valuesClause);
+        return SQLUtils.toSQLString(sqlInsertInto, DbType.mysql);
+    }
+
+    public static String getDeleteSql(String tableName, JSONObject conditionJsonObject) {
+        String deleteSql = "delete from {} where {}";
+        StringBuilder whereClause = new StringBuilder();
+        int index = 0;
+        for (String key : conditionJsonObject.keySet()) {
+            String val = conditionJsonObject.getString(key);
+            if (index == conditionJsonObject.size() - 1) {
+                whereClause.append(key)
+                        .append(StrPool.EQUALS)
+                        .append(val);
+            } else {
+                whereClause.append(key)
+                        .append(StrPool.EQUALS)
+                        .append(val)
+                        .append(StrPool.SPACE)
+                        .append(StrPool.AND)
+                        .append(StrPool.SPACE);
+            }
+            index++;
+        }
+        return StrFormatter.format(deleteSql, tableName, whereClause.toString());
+    }
+
+    public static String getSelectSql(JSONObject columnFieldJsonObject, String tableName, JSONObject conditionJsonObject) {
         SQLSelect sqlSelect = new SQLSelect();
         SQLSelectQueryBlock queryBlock = new SQLSelectQueryBlock();
-        if (MapUtil.isNotEmpty(columnFieldMap)) {
-            for (String key : columnFieldMap.keySet()) {
-                String val = columnFieldMap.get(key);
+        if (MapUtil.isNotEmpty(columnFieldJsonObject)) {
+            for (String key : columnFieldJsonObject.keySet()) {
+                String val = columnFieldJsonObject.getString(key);
                 SQLIdentifierExpr sqlIdentifierExpr = new SQLIdentifierExpr(key);
                 if (StringUtils.isNotEmpty(val)) {
                     queryBlock.addSelectItem(sqlIdentifierExpr, val);
@@ -38,10 +77,10 @@ public class SqlQueryHandler {
             }
         }
         queryBlock.setFrom(new SQLExprTableSource(new SQLIdentifierExpr(tableName)));
-        if (MapUtil.isNotEmpty(conditionMap)) {
-            for (String key : conditionMap.keySet()) {
+        if (MapUtil.isNotEmpty(conditionJsonObject)) {
+            for (String key : conditionJsonObject.keySet()) {
                 SQLBinaryOpExpr sqlBinaryOpExpr = new SQLBinaryOpExpr(new SQLIdentifierExpr(key), SQLBinaryOperator.Equality,
-                        new SQLCharExpr(conditionMap.get(key)));
+                        new SQLCharExpr(conditionJsonObject.getString(key)));
                 queryBlock.addCondition(sqlBinaryOpExpr);
             }
         }
@@ -50,30 +89,24 @@ public class SqlQueryHandler {
     }
 
     public static void main(String[] args) {
-        Map<String, String> whereCondition = Maps.newHashMap();
+        JSONObject whereCondition = new JSONObject(true);
         whereCondition.put("user_id", "1");
         whereCondition.put("username", "admin");
-        Map<String, String> columnFieldMap = Maps.newHashMap();
+        JSONObject columnFieldMap = new JSONObject(true);
         columnFieldMap.put("user_id", "userId");
         columnFieldMap.put("username", null);
         columnFieldMap.put("sex", null);
         columnFieldMap.put("name", null);
-        System.out.println(SqlQueryHandler.getSelectListSql(columnFieldMap, "user_basic_info", whereCondition));
+        System.out.println(SqlQueryHandler.getSelectSql(columnFieldMap, "user_basic_info", whereCondition));
+        System.out.println("=================");
+        JSONObject insertColumnFieldMap = new JSONObject(true);
+        insertColumnFieldMap.put("user_id", IdUtil.objectId());
+        insertColumnFieldMap.put("username", "zhouxinlei");
+        insertColumnFieldMap.put("sex", "1");
+        insertColumnFieldMap.put("name", "周鑫磊");
+        System.out.println(SqlQueryHandler.getInsertSql("user_basic_info", insertColumnFieldMap));
 
-
-        // insert into
-        SQLInsertInto sqlInsertInto = new MySqlInsertStatement();
-        sqlInsertInto.setTableSource(new SQLExprTableSource("user_info"));
-        sqlInsertInto.addColumn(new SQLIdentifierExpr("user_id"));
-        sqlInsertInto.addColumn(new SQLIdentifierExpr("username"));
-        sqlInsertInto.addColumn(new SQLIdentifierExpr("sex"));
-        sqlInsertInto.addColumn(new SQLIdentifierExpr("name"));
-        SQLInsertStatement.ValuesClause valuesClause = new SQLInsertStatement.ValuesClause();
-        valuesClause.addValue(new MySqlCharExpr("234234234"));
-        valuesClause.addValue(new MySqlCharExpr("zhouxinlei"));
-        valuesClause.addValue(new MySqlCharExpr("0"));
-        valuesClause.addValue(new MySqlCharExpr("周鑫磊"));
-        sqlInsertInto.addValueCause(valuesClause);
-        System.out.println(SQLUtils.toSQLString(sqlInsertInto, DbType.mysql));
+        System.out.println("=================");
+        System.out.println(SqlQueryHandler.getDeleteSql("user_basic_info", whereCondition));
     }
 }

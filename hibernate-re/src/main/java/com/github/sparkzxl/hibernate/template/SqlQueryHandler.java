@@ -7,9 +7,9 @@ import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
 import com.alibaba.druid.sql.ast.expr.SQLBinaryOperator;
 import com.alibaba.druid.sql.ast.expr.SQLCharExpr;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
-import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
-import com.alibaba.druid.sql.ast.statement.SQLSelect;
-import com.alibaba.druid.sql.ast.statement.SQLSelectQueryBlock;
+import com.alibaba.druid.sql.ast.statement.*;
+import com.alibaba.druid.sql.dialect.mysql.ast.expr.MySqlCharExpr;
+import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlInsertStatement;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 
@@ -59,5 +59,21 @@ public class SqlQueryHandler {
         columnFieldMap.put("sex", null);
         columnFieldMap.put("name", null);
         System.out.println(SqlQueryHandler.getSelectListSql(columnFieldMap, "user_basic_info", whereCondition));
+
+
+        // insert into
+        SQLInsertInto sqlInsertInto = new MySqlInsertStatement();
+        sqlInsertInto.setTableSource(new SQLExprTableSource("user_info"));
+        sqlInsertInto.addColumn(new SQLIdentifierExpr("user_id"));
+        sqlInsertInto.addColumn(new SQLIdentifierExpr("username"));
+        sqlInsertInto.addColumn(new SQLIdentifierExpr("sex"));
+        sqlInsertInto.addColumn(new SQLIdentifierExpr("name"));
+        SQLInsertStatement.ValuesClause valuesClause = new SQLInsertStatement.ValuesClause();
+        valuesClause.addValue(new MySqlCharExpr("234234234"));
+        valuesClause.addValue(new MySqlCharExpr("zhouxinlei"));
+        valuesClause.addValue(new MySqlCharExpr("0"));
+        valuesClause.addValue(new MySqlCharExpr("周鑫磊"));
+        sqlInsertInto.addValueCause(valuesClause);
+        System.out.println(SQLUtils.toSQLString(sqlInsertInto, DbType.mysql));
     }
 }

@@ -42,7 +42,7 @@ public class FileServiceImpl implements IFileService {
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = FileUtil.mainName(Objects.requireNonNull(originalFilename));
         String extension = FileUtil.extName(originalFilename);
-        fileMaterial = fileMaterialRepository.selectByFileName(fileName);
+        fileMaterial = fileMaterialRepository.selectByFileName(originalFilename);
         if (ObjectUtils.isEmpty(fileMaterial)) {
             fileMaterial = new FileMaterial();
             String objectName = "images".concat("/").concat(originalFilename);

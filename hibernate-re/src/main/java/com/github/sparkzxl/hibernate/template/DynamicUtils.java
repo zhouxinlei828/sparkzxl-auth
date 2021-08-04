@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * @author zhouxinlei
  * @date 2021-08-02 10:25:08
  */
-public class SqlHandlerUtils {
+public class DynamicUtils {
 
     public static SQLExpr getSqlExpr(String sqlDataType, Object val) {
         SQLExpr sqlExpr = null;

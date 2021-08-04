@@ -39,7 +39,7 @@ public class DynamicSqlOps {
         for (DynamicColumn column : columnList) {
             SQLIdentifierExpr sqlIdentifierExpr = new SQLIdentifierExpr(column.getKey());
             sqlInsertInto.addColumn(sqlIdentifierExpr);
-            SQLExpr sqlExpr = SqlHandlerUtils.getSqlExpr(column.getType(), column.getVal());
+            SQLExpr sqlExpr = DynamicUtils.getSqlExpr(column.getType(), column.getVal());
             valuesClause.addValue(sqlExpr);
         }
         sqlInsertInto.addValueCause(valuesClause);
@@ -57,7 +57,7 @@ public class DynamicSqlOps {
         SQLDeleteStatement statement = new SQLDeleteStatement();
         statement.setTableSource(new SQLExprTableSource(tableName));
         for (Condition condition : whereConditionList) {
-            SQLBinaryOpExpr sqlBinaryOpExpr = SqlHandlerUtils.getSqlBinaryOpExpr(condition);
+            SQLBinaryOpExpr sqlBinaryOpExpr = DynamicUtils.getSqlBinaryOpExpr(condition);
             statement.addCondition(sqlBinaryOpExpr);
         }
         return SQLUtils.toSQLString(statement, DbType.mysql);
@@ -77,12 +77,12 @@ public class DynamicSqlOps {
         for (DynamicColumn column : columnList) {
             SQLUpdateSetItem sqlUpdateSetItem = new SQLUpdateSetItem();
             sqlUpdateSetItem.setColumn(new SQLIdentifierExpr(column.getKey()));
-            SQLExpr sqlExpr = SqlHandlerUtils.getSqlExpr(column.getType(), column.getVal());
+            SQLExpr sqlExpr = DynamicUtils.getSqlExpr(column.getType(), column.getVal());
             sqlUpdateSetItem.setValue(sqlExpr);
             updateStatement.addItem(sqlUpdateSetItem);
         }
         for (Condition condition : whereConditionList) {
-            SQLBinaryOpExpr sqlBinaryOpExpr = SqlHandlerUtils.getSqlBinaryOpExpr(condition);
+            SQLBinaryOpExpr sqlBinaryOpExpr = DynamicUtils.getSqlBinaryOpExpr(condition);
             updateStatement.addCondition(sqlBinaryOpExpr);
         }
         return SQLUtils.toSQLString(updateStatement, DbType.mysql);
@@ -115,7 +115,7 @@ public class DynamicSqlOps {
         queryBlock.setFrom(new SQLExprTableSource(tableName));
         if (CollectionUtils.isNotEmpty(whereConditionList)) {
             for (Condition condition : whereConditionList) {
-                SQLBinaryOpExpr sqlBinaryOpExpr = SqlHandlerUtils.getSqlBinaryOpExpr(condition);
+                SQLBinaryOpExpr sqlBinaryOpExpr = DynamicUtils.getSqlBinaryOpExpr(condition);
                 queryBlock.addCondition(sqlBinaryOpExpr);
             }
         }

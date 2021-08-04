@@ -2,6 +2,7 @@ package com.github.sparkzxl.file.interfaces.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.core.support.BizException;
 import com.github.sparkzxl.file.api.FileApi;
 import com.github.sparkzxl.file.application.service.IFileService;
 import com.github.sparkzxl.file.dto.FileDTO;
@@ -11,7 +12,6 @@ import com.github.sparkzxl.file.interfaces.dto.FileMaterialPageDTO;
 import com.github.sparkzxl.log.annotation.WebLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,9 +58,8 @@ public class FileController implements FileApi {
         return fileService.getHtml(fileDTO);
     }
 
-    @SneakyThrows
     @Override
     public FileDTO getPdf(FileDTO fileDTO) {
-        throw new Exception("文件发生异常");
+        throw new BizException(500,"文件发生异常");
     }
 }

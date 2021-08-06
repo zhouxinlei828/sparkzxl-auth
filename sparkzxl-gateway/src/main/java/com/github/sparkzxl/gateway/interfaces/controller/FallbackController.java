@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FallbackController {
 
     @GetMapping("/fallback")
-    public ApiResult fallback() {
+    public ApiResult<?> fallback() {
         log.info("fallback 降级========>{}", "响应超时熔断处理器");
         return ApiResult.timeOut();
     }

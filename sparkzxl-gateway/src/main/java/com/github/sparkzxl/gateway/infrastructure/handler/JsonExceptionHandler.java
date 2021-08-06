@@ -88,7 +88,7 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
         String body;
         if (ex instanceof NotFoundException) {
             httpStatus = HttpStatus.NOT_FOUND;
-            body = "Service Not Found";
+            body = "找不到对应服务";
         } else if (ex instanceof ResponseStatusException) {
             ResponseStatusException responseStatusException = (ResponseStatusException) ex;
             httpStatus = responseStatusException.getStatus();

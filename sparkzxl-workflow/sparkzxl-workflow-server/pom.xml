@@ -80,6 +80,10 @@
         </dependency>
         <dependency>
             <groupId>com.github.sparkzxl</groupId>
+            <artifactId>sparkzxl-drools-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.sparkzxl</groupId>
             <artifactId>sparkzxl-file-api</artifactId>
         </dependency>
     </dependencies>

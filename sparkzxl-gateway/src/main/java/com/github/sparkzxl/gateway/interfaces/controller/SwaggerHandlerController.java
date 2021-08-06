@@ -19,17 +19,26 @@ import java.util.Optional;
 @RestController
 public class SwaggerHandlerController {
 
-    private final SwaggerResourcesProvider swaggerResources;
-    @Autowired(required = false)
+    private SwaggerResourcesProvider swaggerResources;
+
     private SecurityConfiguration securityConfiguration;
-    @Autowired(required = false)
+
     private UiConfiguration uiConfiguration;
 
     @Autowired
-    public SwaggerHandlerController(SwaggerResourcesProvider swaggerResources) {
+    public void setSwaggerResources(SwaggerResourcesProvider swaggerResources) {
         this.swaggerResources = swaggerResources;
     }
 
+    @Autowired(required = false)
+    public void setSecurityConfiguration(SecurityConfiguration securityConfiguration) {
+        this.securityConfiguration = securityConfiguration;
+    }
+
+    @Autowired(required = false)
+    public void setUiConfiguration(UiConfiguration uiConfiguration) {
+        this.uiConfiguration = uiConfiguration;
+    }
 
     @GetMapping("/swagger-resources/configuration/security")
     public Mono<ResponseEntity<SecurityConfiguration>> securityConfiguration() {

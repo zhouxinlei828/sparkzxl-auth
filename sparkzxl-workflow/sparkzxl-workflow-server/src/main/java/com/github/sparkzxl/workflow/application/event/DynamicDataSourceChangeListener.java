@@ -33,13 +33,14 @@ import java.util.Map;
 public class DynamicDataSourceChangeListener implements ApplicationListener<EnvironmentChangeEvent> {
 
     private final String datasourcePrefix = DynamicDataSourceProperties.PREFIX.concat(".datasource.");
+
     @Autowired
     private ConfigurableEnvironment configurableEnvironment;
-    @Autowired
+    @Autowired(required = false)
     private DynamicDataSourceProperties dynamicDataSourceProperties;
-    @Autowired
+    @Autowired(required = false)
     private DataSource dataSource;
-    @Autowired
+    @Autowired(required = false)
     private DefaultDataSourceCreator dataSourceCreator;
 
     private static String underscoreToCamelCase(String str) {

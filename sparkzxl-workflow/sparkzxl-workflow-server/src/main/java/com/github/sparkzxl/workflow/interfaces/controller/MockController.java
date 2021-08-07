@@ -29,7 +29,7 @@ import java.util.Map;
 @RefreshScope
 public class MockController {
 
-    @Autowired
+    @Autowired(required = false)
     private DynamicDataSourceProperties dynamicDataSourceProperties;
 
     @Autowired

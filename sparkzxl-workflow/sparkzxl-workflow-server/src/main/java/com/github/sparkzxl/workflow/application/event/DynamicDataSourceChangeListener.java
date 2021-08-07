@@ -7,10 +7,10 @@ import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
+import com.github.sparkzxl.core.utils.StringHandlerUtils;
 import com.github.sparkzxl.workflow.infrastructure.enums.ListenerEventEnum;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.environment.EnvironmentChangeEvent;
@@ -42,31 +42,6 @@ public class DynamicDataSourceChangeListener implements ApplicationListener<Envi
     private DataSource dataSource;
     @Autowired(required = false)
     private DefaultDataSourceCreator dataSourceCreator;
-
-    private static String underscoreToCamelCase(String str) {
-        List<String> split = StrSpliter.split(str, "-", 0, true, true);
-        StringBuilder stringBuilder = new StringBuilder();
-        if (CollectionUtils.isNotEmpty(split)) {
-            int index = 0;
-            for (String s : split) {
-                if (index == 0) {
-                    stringBuilder.append(s);
-                } else {
-                    // 进行字母的ascii编码前移，效率要高于截取字符串进行转换的操作
-                    char[] cs = s.toCharArray();
-                    cs[0] -= 32;
-                    stringBuilder.append(String.valueOf(cs));
-                }
-                index++;
-            }
-        } else {
-            // 进行字母的ascii编码前移，效率要高于截取字符串进行转换的操作
-            char[] cs = str.toCharArray();
-            cs[0] -= 32;
-            stringBuilder.append(String.valueOf(cs));
-        }
-        return stringBuilder.toString();
-    }
 
     @Override
     public void onApplicationEvent(EnvironmentChangeEvent event) {
@@ -107,7 +82,7 @@ public class DynamicDataSourceChangeListener implements ApplicationListener<Envi
     }
 
     public void createDataSourceProperty(DataSourceProperty dataSourceProperty, String dataSourcePropertyName, String property) {
-        String fieldName = underscoreToCamelCase(dataSourcePropertyName);
+        String fieldName = StringHandlerUtils.underscoreToCamelCase(dataSourcePropertyName);
         ReflectUtil.setFieldValue(dataSourceProperty, fieldName, property);
     }
 

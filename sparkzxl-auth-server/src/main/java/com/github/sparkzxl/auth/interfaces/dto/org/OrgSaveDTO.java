@@ -45,8 +45,8 @@ public class OrgSaveDTO {
     @Length(max = 255, message = "描述长度不能超过255")
     private String describe;
 
-    @ApiModelProperty(value = "组织属性")
-    private Map<String, Object> attribute;
+    @ApiModelProperty(value = "扩展信息")
+    private Map<String, Object> extendInfo;
 
 
 }

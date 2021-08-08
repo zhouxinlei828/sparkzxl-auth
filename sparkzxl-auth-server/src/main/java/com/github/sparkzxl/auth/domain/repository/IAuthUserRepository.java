@@ -58,10 +58,9 @@ public interface IAuthUserRepository {
      * 分页查询用户列表
      *
      * @param authUser   查询对象
-     * @param userIdList 用户id列表
      * @return PageInfo<AuthUser>
      */
-    List<AuthUser> getAuthUserList(AuthUser authUser, List<Long> userIdList);
+    List<AuthUser> getAuthUserList(AuthUser authUser);
 
     /**
      * 根据用户id获取用户全量信息

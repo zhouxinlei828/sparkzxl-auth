@@ -2,11 +2,14 @@ package com.github.sparkzxl.auth.infrastructure.repository;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.sparkzxl.auth.domain.repository.ICoreOrgRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreOrgMapper;
+import com.github.sparkzxl.entity.data.SuperEntity;
 import com.github.sparkzxl.entity.data.TreeEntity;
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
@@ -35,7 +38,12 @@ public class CoreOrgRepository implements ICoreOrgRepository {
 
     @Override
     public boolean updateCoreOrg(CoreOrg coreOrg) {
-        return coreOrgMapper.updateById(coreOrg) == 1;
+        LambdaUpdateWrapper<CoreOrg> updateWrapper = new LambdaUpdateWrapper<>();
+        if (MapUtils.isEmpty(coreOrg.getExtendInfo())) {
+            updateWrapper.set(CoreOrg::getExtendInfo, null);
+        }
+        updateWrapper.eq(SuperEntity::getId, coreOrg.getId());
+        return coreOrgMapper.update(coreOrg, updateWrapper) == 1;
     }
 
     @Override

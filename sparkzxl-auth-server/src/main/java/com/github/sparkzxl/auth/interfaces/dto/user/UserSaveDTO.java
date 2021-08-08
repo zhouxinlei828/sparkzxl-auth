@@ -66,8 +66,8 @@ public class UserSaveDTO {
     @ApiModelProperty(value = "状态 1启用 0禁用")
     private Boolean status;
 
-    @ApiModelProperty(value = "用户自定义属性")
-    private Map<String, Object> attribute;
+    @ApiModelProperty(value = "扩展信息")
+    private Map<String, Object> extendInfo;
 
 
 }

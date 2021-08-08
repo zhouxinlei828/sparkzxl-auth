@@ -1,6 +1,8 @@
 package com.github.sparkzxl.auth.interfaces.dto.user;
 
+import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.database.dto.PageDTO;
+import com.github.sparkzxl.entity.data.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -35,10 +37,10 @@ public class UserQueryDTO extends PageDTO {
     @ApiModelProperty(value = "民族")
     private String nation;
 
-    @ApiModelProperty(value = "组织id")
-    private Long orgId;
+    @ApiModelProperty(value = "组织")
+    private RemoteData<Long, CoreOrg> org;
 
-    @ApiModelProperty(value = "用户自定义属性")
-    private Map<String, Object> attribute;
+    @ApiModelProperty(value = "扩展信息")
+    private Map<String, Object> extendInfo;
 
 }

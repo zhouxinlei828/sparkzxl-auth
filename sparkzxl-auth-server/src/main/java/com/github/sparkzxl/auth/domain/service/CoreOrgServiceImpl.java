@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.sparkzxl.auth.application.service.ICoreOrgService;
 import com.github.sparkzxl.auth.application.service.IUserService;
-import com.github.sparkzxl.auth.application.service.es.IEsOrgAttributeService;
 import com.github.sparkzxl.auth.domain.repository.ICoreOrgRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.CoreOrgConvert;
@@ -13,13 +12,10 @@ import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreOrgMapper;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
-import com.github.sparkzxl.constant.EntityConstant;
 import com.github.sparkzxl.core.utils.MapHelper;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.utils.TreeUtil;
 import com.github.sparkzxl.entity.data.TreeEntity;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +36,6 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
     private IUserService authUserService;
     @Autowired
     private ICoreOrgRepository coreOrgRepository;
-    @Autowired
-    private IEsOrgAttributeService esOrgAttributeService;
 
 
     @Override
@@ -74,17 +68,6 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
     @Override
     public List<CoreOrg> getCoreOrgTree(String name, Boolean status) {
         List<CoreOrg> coreOrgList = coreOrgRepository.getCoreOrgList(name, status);
-        if (CollectionUtils.isNotEmpty(coreOrgList)) {
-            List<String> orgIdStrList = coreOrgList.stream().map(x -> String.valueOf(x.getId())).collect(Collectors.toList());
-            Map<String, Map> searchOrgAttribute = esOrgAttributeService.searchDocsMapByIdList(BizConstant.INDEX_ORG_ATTRIBUTE, orgIdStrList, Map.class);
-            coreOrgList.forEach(org -> {
-                Map map = searchOrgAttribute.get(String.valueOf(org.getId()));
-                if (MapUtils.isNotEmpty(map)) {
-                    map.remove(EntityConstant.COLUMN_ID);
-                    org.setAttribute(map);
-                }
-            });
-        }
         return TreeUtil.buildTree(coreOrgList);
     }
 
@@ -98,37 +81,19 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
     @Override
     public boolean saveCoreOrg(OrgSaveDTO orgSaveDTO) {
         CoreOrg coreOrg = CoreOrgConvert.INSTANCE.convertCoreOrg(orgSaveDTO);
-        boolean result = coreOrgRepository.saveCoreOrg(coreOrg);
-        Long orgId = coreOrg.getId();
-        Map<String, Object> orgAttributeMap = coreOrg.getAttribute();
-        if (MapUtils.isNotEmpty(orgAttributeMap)) {
-            orgAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(orgId));
-            esOrgAttributeService.saveDoc(BizConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId), orgAttributeMap);
-        }
-        return result;
+        return coreOrgRepository.saveCoreOrg(coreOrg);
     }
 
     @Override
     public boolean updateCoreOrg(OrgUpdateDTO orgUpdateDTO) {
         CoreOrg coreOrg = CoreOrgConvert.INSTANCE.convertCoreOrg(orgUpdateDTO);
-        boolean result = coreOrgRepository.updateCoreOrg(coreOrg);
-        Map<String, Object> orgAttributeMap = coreOrg.getAttribute();
-        Long orgId = coreOrg.getId();
-        esOrgAttributeService.deleteDocById(BizConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId));
-        if (MapUtils.isNotEmpty(orgAttributeMap)) {
-            orgAttributeMap.put(EntityConstant.COLUMN_ID, String.valueOf(orgId));
-            esOrgAttributeService.saveDoc(BizConstant.INDEX_ORG_ATTRIBUTE, String.valueOf(orgId), orgAttributeMap);
-        }
-        return result;
+        return coreOrgRepository.updateCoreOrg(coreOrg);
     }
 
     @Override
     public boolean deleteBatchCoreOrg(List<Long> ids) {
         coreOrgRepository.deleteBatchCoreOrg(ids);
         authUserService.deleteOrgIds(ids);
-        if (CollectionUtils.isNotEmpty(ids)) {
-            esOrgAttributeService.deleteDocByIds(BizConstant.INDEX_ORG_ATTRIBUTE, ids.stream().map(String::valueOf).collect(Collectors.toList()));
-        }
         return true;
     }
 

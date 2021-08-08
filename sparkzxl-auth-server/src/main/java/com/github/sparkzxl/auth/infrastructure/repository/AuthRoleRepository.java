@@ -12,6 +12,8 @@ import com.github.sparkzxl.auth.infrastructure.mapper.AuthRoleMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.UserRoleMapper;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
+import com.github.sparkzxl.entity.data.SuperEntity;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -59,7 +61,12 @@ public class AuthRoleRepository implements IAuthRoleRepository {
 
     @Override
     public boolean updateRole(AuthRole authRole) {
-        return authRoleMapper.updateById(authRole) == 1;
+        LambdaUpdateWrapper<AuthRole> updateWrapper = new LambdaUpdateWrapper<>();
+        if (MapUtils.isEmpty(authRole.getExtendInfo())){
+            updateWrapper.set(AuthRole::getExtendInfo, null);
+        }
+        updateWrapper.eq(SuperEntity::getId, authRole.getId());
+        return authRoleMapper.update(authRole, updateWrapper) == 1;
     }
 
     @Override

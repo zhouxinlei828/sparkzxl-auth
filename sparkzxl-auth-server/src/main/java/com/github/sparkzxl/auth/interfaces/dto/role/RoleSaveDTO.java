@@ -31,7 +31,7 @@ public class RoleSaveDTO {
     @ApiModelProperty(value = "状态")
     private Boolean status;
 
-    @ApiModelProperty(value = "角色属性")
-    private Map<String, Object> attribute;
+    @ApiModelProperty(value = "扩展信息")
+    private Map<String, Object> extendInfo;
 
 }

@@ -2,6 +2,7 @@ package com.github.sparkzxl.gateway.infrastructure.handler;
 
 import cn.hutool.core.text.StrFormatter;
 import com.google.common.collect.Maps;
+import io.lettuce.core.RedisException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -93,6 +94,9 @@ public class JsonExceptionHandler implements ErrorWebExceptionHandler {
             ResponseStatusException responseStatusException = (ResponseStatusException) ex;
             httpStatus = responseStatusException.getStatus();
             body = responseStatusException.getMessage();
+        } else if (ex instanceof RedisException) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+            body = "redis连接失败";
         } else {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             body = buildMessage(request, ex);

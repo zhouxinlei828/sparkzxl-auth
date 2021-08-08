@@ -27,6 +27,7 @@ import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -89,13 +90,12 @@ public class AuthUserRepository implements IAuthUserRepository {
 
     @Override
     @EchoResult
-    public List<AuthUser> getAuthUserList(AuthUser authUser, List<Long> userIdList) {
+    public List<AuthUser> getAuthUserList(AuthUser authUser) {
         Integer sexCode = OptionalBean.ofNullable(authUser.getSex()).getBean(SexEnum::getCode).get();
         String nationCode = OptionalBean.ofNullable(authUser.getNation()).getBean(RemoteData::getKey).get();
         Long orgId = OptionalBean.ofNullable(authUser.getOrg()).getBean(RemoteData::getKey).get();
         LambdaQueryWrapper<AuthUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.in(CollectionUtils.isNotEmpty(userIdList), SuperEntity::getId, userIdList)
-                .likeRight(StringUtils.isNotEmpty(authUser.getAccount()), AuthUser::getAccount, authUser.getAccount())
+        queryWrapper.likeRight(StringUtils.isNotEmpty(authUser.getAccount()), AuthUser::getAccount, authUser.getAccount())
                 .likeRight(StringUtils.isNotEmpty(authUser.getName()), AuthUser::getName, authUser.getName())
                 .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
                 .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
@@ -197,6 +197,11 @@ public class AuthUserRepository implements IAuthUserRepository {
 
     @Override
     public boolean updateAuthUser(AuthUser authUser) {
-        return authUserMapper.updateById(authUser) == 1;
+        LambdaUpdateWrapper<AuthUser> updateWrapper = new LambdaUpdateWrapper<>();
+        if (MapUtils.isEmpty(authUser.getExtendInfo())) {
+            updateWrapper.set(AuthUser::getExtendInfo, null);
+        }
+        updateWrapper.eq(SuperEntity::getId, authUser.getId());
+        return authUserMapper.update(authUser, updateWrapper) == 1;
     }
 }

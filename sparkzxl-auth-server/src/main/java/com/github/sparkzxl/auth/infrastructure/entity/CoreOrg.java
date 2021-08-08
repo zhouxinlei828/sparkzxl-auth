@@ -2,6 +2,7 @@ package com.github.sparkzxl.auth.infrastructure.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.github.sparkzxl.entity.data.TreeEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,7 +21,7 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("core_org")
+@TableName(value = "core_org", autoResultMap = true)
 @ApiModel(value = "CCoreOrgDO对象", description = "组织")
 public class CoreOrg extends TreeEntity<CoreOrg, Long> {
 
@@ -42,8 +43,8 @@ public class CoreOrg extends TreeEntity<CoreOrg, Long> {
     @TableField("describe_")
     private String describe;
 
-    @ApiModelProperty(value = "组织属性")
-    @TableField(exist = false)
-    private Map<String, Object> attribute;
+    @ApiModelProperty(value = "扩展信息")
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Map<String, Object> extendInfo;
 
 }

@@ -2,6 +2,7 @@ package com.github.sparkzxl.auth.infrastructure.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.sparkzxl.annotation.echo.EchoField;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
@@ -31,7 +32,7 @@ import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstant.*;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName(value = "auth_user", resultMap = "")
+@TableName(value = "auth_user", autoResultMap = true)
 @ApiModel(value = "AuthUser对象", description = "用户")
 public class AuthUser extends Entity<Long> {
 
@@ -111,7 +112,7 @@ public class AuthUser extends Entity<Long> {
     @TableField("status")
     private Boolean status;
 
-    @ApiModelProperty(value = "用户自定义属性")
-    @TableField(exist = false)
-    private Map<String, Object> attribute;
+    @ApiModelProperty(value = "扩展信息")
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Map<String, Object> extendInfo;
 }

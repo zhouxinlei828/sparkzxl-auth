@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.github.sparkzxl.entity.data.Entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -22,7 +23,7 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("auth_role")
+@TableName(value = "auth_role", autoResultMap = true)
 @ApiModel(value = "CAuthRoleDO对象", description = "角色")
 public class AuthRole extends Entity<Long> {
 
@@ -47,8 +48,8 @@ public class AuthRole extends Entity<Long> {
     @TableField("status")
     private Boolean status;
 
-    @ApiModelProperty(value = "角色属性")
-    @TableField(exist = false)
-    private Map<String, Object> attribute;
+    @ApiModelProperty(value = "扩展信息")
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Map<String, Object> extendInfo;
 
 }

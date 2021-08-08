@@ -82,7 +82,6 @@ public interface AuthUserConvert {
     @Mappings({
             @Mapping(target = "sex", expression = "java(convertSex(userQueryDTO.getSex()))"),
             @Mapping(target = "nation", expression = "java(convertRemoteData(userQueryDTO.getNation()))"),
-            @Mapping(target = "org", expression = "java(convertRemoteData(userQueryDTO.getOrgId()))"),
     })
     AuthUser convertAuthUser(UserQueryDTO userQueryDTO);
 

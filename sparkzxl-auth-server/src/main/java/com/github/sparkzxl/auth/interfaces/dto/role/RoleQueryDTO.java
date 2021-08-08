@@ -23,7 +23,7 @@ public class RoleQueryDTO {
     @ApiModelProperty(value = "角色名称")
     private String name;
 
-    @ApiModelProperty(value = "角色属性")
-    private Map<String, Object> attribute;
+    @ApiModelProperty(value = "扩展信息")
+    private Map<String, Object> extendInfo;
 
 }

@@ -4,6 +4,7 @@ package com.github.sparkzxl.auth.application.service;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
+import com.github.sparkzxl.auth.interfaces.dto.org.OrgUserSaveDTO;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
 import com.github.sparkzxl.database.echo.core.LoadService;
 
@@ -57,4 +58,12 @@ public interface ICoreOrgService extends SuperCacheService<CoreOrg>, LoadService
      * @return boolean
      */
     boolean deleteBatchCoreOrg(List<Long> ids);
+
+    /**
+     * 更新组织用户
+     *
+     * @param orgUserSaveDTO 组织用户保存DTO
+     * @return boolean
+     */
+    boolean updateOrgUser(OrgUserSaveDTO orgUserSaveDTO);
 }

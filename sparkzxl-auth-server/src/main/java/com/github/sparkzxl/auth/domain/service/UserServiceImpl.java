@@ -115,14 +115,6 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     }
 
     @Override
-    public void deleteOrgIds(List<Long> orgIds) {
-        LambdaUpdateWrapper<AuthUser> userUpdateWrapper = new LambdaUpdateWrapper<>();
-        userUpdateWrapper.set(AuthUser::getOrg, null);
-        userUpdateWrapper.in(AuthUser::getOrg, orgIds);
-        update(userUpdateWrapper);
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean mockUserData() {
         Faker faker = new Faker(Locale.CHINA);

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.sparkzxl.auth.application.service.ICoreOrgService;
 import com.github.sparkzxl.auth.application.service.IUserService;
+import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.domain.repository.ICoreOrgRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.CoreOrgConvert;
@@ -12,6 +13,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreOrgMapper;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
+import com.github.sparkzxl.auth.interfaces.dto.org.OrgUserSaveDTO;
 import com.github.sparkzxl.core.utils.MapHelper;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.utils.TreeUtil;
@@ -33,7 +35,7 @@ import java.util.stream.Collectors;
 public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, CoreOrg> implements ICoreOrgService {
 
     @Autowired
-    private IUserService authUserService;
+    private IAuthUserRepository userRepository;
     @Autowired
     private ICoreOrgRepository coreOrgRepository;
 
@@ -93,8 +95,13 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
     @Override
     public boolean deleteBatchCoreOrg(List<Long> ids) {
         coreOrgRepository.deleteBatchCoreOrg(ids);
-        authUserService.deleteOrgIds(ids);
+        userRepository.deleteOrgIds(ids);
         return true;
+    }
+
+    @Override
+    public boolean updateOrgUser(OrgUserSaveDTO orgUserSaveDTO) {
+        return userRepository.updateOrgUser(orgUserSaveDTO.getOrgId(),orgUserSaveDTO.getUserIds());
     }
 
     @Override

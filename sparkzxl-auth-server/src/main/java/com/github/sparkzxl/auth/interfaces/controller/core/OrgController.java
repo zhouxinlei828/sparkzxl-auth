@@ -7,15 +7,14 @@ import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
+import com.github.sparkzxl.auth.interfaces.dto.org.OrgUserSaveDTO;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.log.annotation.WebLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,6 +49,11 @@ public class OrgController extends SuperCacheController<ICoreOrgService, Long,
         return baseService.updateCoreOrg(orgUpdateDTO);
     }
 
+    @ApiOperation("更新组织用户")
+    @PostMapping("users")
+    public boolean updateOrgUser(@RequestBody @Validated OrgUserSaveDTO orgUserSaveDTO) {
+        return baseService.updateOrgUser(orgUserSaveDTO);
+    }
     @Override
     public boolean delete(DeleteDTO<Long> deleteDTO) {
         return baseService.deleteBatchCoreOrg(deleteDTO.getIds());

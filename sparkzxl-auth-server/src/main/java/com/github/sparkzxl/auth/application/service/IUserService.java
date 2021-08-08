@@ -63,13 +63,6 @@ public interface IUserService extends SuperCacheService<AuthUser> {
     boolean updateAuthUser(UserUpdateDTO userUpdateDTO);
 
     /**
-     * 批量更新用户组织
-     *
-     * @param orgIds 组织ids
-     */
-    void deleteOrgIds(List<Long> orgIds);
-
-    /**
      * 生成仿真数据
      *
      * @return boolean

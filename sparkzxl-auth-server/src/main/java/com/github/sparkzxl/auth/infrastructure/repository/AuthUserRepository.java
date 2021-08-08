@@ -204,4 +204,30 @@ public class AuthUserRepository implements IAuthUserRepository {
         updateWrapper.eq(SuperEntity::getId, authUser.getId());
         return authUserMapper.update(authUser, updateWrapper) == 1;
     }
+
+    @Override
+    public void deleteOrgIds(List<Long> ids) {
+        LambdaUpdateWrapper<AuthUser> userUpdateWrapper = new LambdaUpdateWrapper<>();
+        userUpdateWrapper.set(AuthUser::getOrg, null);
+        userUpdateWrapper.in(AuthUser::getOrg, ids);
+        authUserMapper.update(null, userUpdateWrapper);
+    }
+
+    @Override
+    public boolean updateOrgUser(Long orgId, List<Long> userIds) {
+        if (CollectionUtils.isNotEmpty(userIds)) {
+            userIds.forEach(userId -> {
+                AuthUser authUser = new AuthUser();
+                authUser.setId(userId);
+                authUser.setOrg(new RemoteData<>(orgId, null));
+                authUserMapper.updateById(authUser);
+            });
+        } else {
+            LambdaUpdateWrapper<AuthUser> userUpdateWrapper = new LambdaUpdateWrapper<>();
+            userUpdateWrapper.set(AuthUser::getOrg, null);
+            userUpdateWrapper.eq(AuthUser::getOrg, orgId);
+            authUserMapper.update(null, userUpdateWrapper);
+        }
+        return true;
+    }
 }

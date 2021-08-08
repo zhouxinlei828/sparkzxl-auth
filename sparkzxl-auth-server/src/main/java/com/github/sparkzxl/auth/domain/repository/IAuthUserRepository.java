@@ -57,7 +57,7 @@ public interface IAuthUserRepository {
     /**
      * 分页查询用户列表
      *
-     * @param authUser   查询对象
+     * @param authUser 查询对象
      * @return PageInfo<AuthUser>
      */
     List<AuthUser> getAuthUserList(AuthUser authUser);
@@ -93,4 +93,20 @@ public interface IAuthUserRepository {
      * @return boolean
      */
     boolean updateAuthUser(AuthUser authUser);
+
+    /**
+     * 删除组织关联关系
+     *
+     * @param ids 组织id列表
+     */
+    void deleteOrgIds(List<Long> ids);
+
+    /**
+     * 更新组织用户
+     *
+     * @param orgId   组织id
+     * @param userIds 用户id列表
+     * @return boolean
+     */
+    boolean updateOrgUser(Long orgId, List<Long> userIds);
 }

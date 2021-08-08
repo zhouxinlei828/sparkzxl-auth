@@ -27,7 +27,7 @@ spring:
         file-extension: yaml
         prefix: ${spring.application.name}
         shared-configs:
-          - dataId: dynamic-mysql.yaml
+          - dataId: mysql.yaml
             group: DEFAULT_GROUP
             refresh: true
           - dataId: redis.yaml

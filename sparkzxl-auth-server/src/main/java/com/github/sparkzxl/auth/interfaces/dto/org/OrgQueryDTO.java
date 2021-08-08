@@ -21,7 +21,7 @@ public class OrgQueryDTO {
     @Length(max = 255, message = "名称长度不能超过255")
     private String label;
 
-    @ApiModelProperty(value = "组织属性")
-    private Map<String, Object> attribute;
+    @ApiModelProperty(value = "扩展信息")
+    private Map<String, Object> extendInfo;
 
 }

@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 /**
- * description: 组织保存实体类
+ * description: 组织更新实体类
  *
  * @author charles.zhou
  * @date 2020-07-28 10:21:46
@@ -49,7 +49,7 @@ public class OrgUpdateDTO {
     @Length(max = 255, message = "描述长度不能超过255")
     private String describe;
 
-    @ApiModelProperty(value = "组织属性")
-    private Map<String, Object> attribute;
+    @ApiModelProperty(value = "扩展信息")
+    private Map<String, Object> extendInfo;
 
 }

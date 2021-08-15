@@ -2,7 +2,9 @@ package com.github.sparkzxl.auth.infrastructure.security.logout;
 
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.constant.BaseContextConstants;
+import com.github.sparkzxl.core.context.AppContextHolder;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
+import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
 import com.github.sparkzxl.core.utils.ResponseResultUtil;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +52,7 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
         String token = httpServletRequest.getHeader("token");
+        AppContextHolder.setTenant(RequestContextHolderUtils.getHeader(BaseContextConstants.TENANT));
         log.info("退出登录成功：{}", token);
         token = StringUtils.removeStartIgnoreCase(token, BaseContextConstants.BEARER_TOKEN);
         if (token != null) {

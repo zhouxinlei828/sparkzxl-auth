@@ -8,7 +8,6 @@ import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
 import com.github.sparkzxl.database.factory.CustomThreadFactory;
 import com.github.sparkzxl.file.dto.FileDTO;
 import com.github.sparkzxl.log.annotation.WebLog;
-import com.github.sparkzxl.workflow.dto.ProcessHistory;
 import com.github.sparkzxl.workflow.infrastructure.client.FileClient;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CompletableFuture;

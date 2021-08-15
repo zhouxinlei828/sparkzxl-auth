@@ -2,7 +2,6 @@ package com.github.sparkzxl.file.interfaces.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.annotation.result.ResponseResult;
-import com.github.sparkzxl.core.support.BizException;
 import com.github.sparkzxl.file.api.FileApi;
 import com.github.sparkzxl.file.application.service.IFileService;
 import com.github.sparkzxl.file.dto.FileDTO;

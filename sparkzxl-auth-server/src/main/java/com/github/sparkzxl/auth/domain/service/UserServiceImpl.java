@@ -4,7 +4,6 @@ import cn.hutool.core.bean.OptionalBean;
 import cn.hutool.extra.pinyin.PinyinUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.excel.EasyExcel;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.javafaker.Faker;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;

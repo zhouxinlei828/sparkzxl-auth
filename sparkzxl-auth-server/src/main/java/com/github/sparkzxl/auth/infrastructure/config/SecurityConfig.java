@@ -9,7 +9,7 @@ import com.github.sparkzxl.auth.infrastructure.security.filter.PermitAuthenticat
 import com.github.sparkzxl.auth.infrastructure.security.filter.TenantLoginPreFilter;
 import com.github.sparkzxl.auth.infrastructure.security.filter.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.github.sparkzxl.auth.infrastructure.security.logout.CustomizeLogoutSuccessHandler;
-import com.github.sparkzxl.core.resource.SwaggerStaticResource;
+import com.github.sparkzxl.core.utils.SwaggerStaticResource;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;

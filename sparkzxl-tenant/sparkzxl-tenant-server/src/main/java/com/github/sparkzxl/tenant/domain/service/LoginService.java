@@ -1,6 +1,6 @@
 package com.github.sparkzxl.tenant.domain.service;
 
-import com.github.sparkzxl.constant.BaseContextConstants;
+import com.github.sparkzxl.constant.AppContextConstants;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.entity.security.AuthRequest;
@@ -57,7 +57,7 @@ public class LoginService extends AbstractSecurityLoginService<Long> {
 
     @Override
     public void accessToken(AuthToken authToken, AuthUserInfo authUserInfo) {
-        String authUserInfoKey = BuildKeyUtil.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
+        String authUserInfoKey = BuildKeyUtil.generateKey(AppContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
         redisTemplate.opsForHash().put(authUserInfoKey, authToken.getAccessToken(), authUserInfo);
         redisTemplate.expire(authUserInfoKey, authToken.getExpiration(), TimeUnit.SECONDS);
     }

@@ -1,6 +1,6 @@
 package com.github.sparkzxl.gateway.infrastructure.authorization;
 
-import com.github.sparkzxl.constant.BaseContextConstants;
+import com.github.sparkzxl.constant.AppContextConstants;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.gateway.infrastructure.constant.BizConstant;
@@ -57,7 +57,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             path[0] = path[0].replace(prefix, "");
         });
         String routePath = path[0];
-        String tenant = WebFluxUtils.getHeader(BaseContextConstants.TENANT, request);
+        String tenant = WebFluxUtils.getHeader(AppContextConstants.TENANT, request);
         List<String> authorities = Lists.newArrayList();
         String cacheKey = BuildKeyUtil.generateKey(RESOURCE_ROLES_MAP, tenant);
         if (BizConstant.USER_PATH.equals(routePath) || BizConstant.USER_ROUTER_PATH.equals(routePath)) {
@@ -68,7 +68,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             List<String> stringList = ListUtils.stringToList(obj);
             authorities.addAll(stringList);
         }
-        authorities = authorities.stream().map(i -> i = BaseContextConstants.AUTHORITY_PREFIX + i).collect(Collectors.toList());
+        authorities = authorities.stream().map(i -> i = AppContextConstants.AUTHORITY_PREFIX + i).collect(Collectors.toList());
         //认证通过且角色匹配的用户可访问当前路径
         return mono
                 .filter(Authentication::isAuthenticated)

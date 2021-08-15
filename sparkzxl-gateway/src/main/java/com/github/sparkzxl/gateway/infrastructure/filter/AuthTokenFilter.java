@@ -1,6 +1,6 @@
 package com.github.sparkzxl.gateway.infrastructure.filter;
 
-import com.github.sparkzxl.constant.BaseContextConstants;
+import com.github.sparkzxl.constant.AppContextConstants;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
 import com.github.sparkzxl.core.support.BaseException;
 import com.github.sparkzxl.core.support.ExceptionAssert;
@@ -38,7 +38,7 @@ public class AuthTokenFilter extends AbstractJwtAuthorizationFilter {
 
     @Override
     public String getHeaderKey() {
-        return BaseContextConstants.JWT_TOKEN_HEADER;
+        return AppContextConstants.JWT_TOKEN_HEADER;
     }
 
     @Override

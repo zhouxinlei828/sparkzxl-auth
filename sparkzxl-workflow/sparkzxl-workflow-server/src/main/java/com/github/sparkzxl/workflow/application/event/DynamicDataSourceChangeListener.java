@@ -7,7 +7,7 @@ import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
-import com.github.sparkzxl.core.utils.StringHandlerUtils;
+import com.github.sparkzxl.core.utils.StringHandlerUtil;
 import com.github.sparkzxl.workflow.infrastructure.enums.ListenerEventEnum;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -82,7 +82,7 @@ public class DynamicDataSourceChangeListener implements ApplicationListener<Envi
     }
 
     public void createDataSourceProperty(DataSourceProperty dataSourceProperty, String dataSourcePropertyName, String property) {
-        String fieldName = StringHandlerUtils.underscoreToCamelCase(dataSourcePropertyName);
+        String fieldName = StringHandlerUtil.underscoreToCamelCase(dataSourcePropertyName);
         ReflectUtil.setFieldValue(dataSourceProperty, fieldName, property);
     }
 

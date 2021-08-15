@@ -2,8 +2,8 @@ package com.github.sparkzxl.auth.infrastructure.security.logout;
 
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.constant.BaseContextConstants;
-import com.github.sparkzxl.core.utils.BuildKeyUtils;
-import com.github.sparkzxl.core.utils.ResponseResultUtils;
+import com.github.sparkzxl.core.utils.BuildKeyUtil;
+import com.github.sparkzxl.core.utils.ResponseResultUtil;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -60,10 +60,10 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
                 Map<String, Object> additionalInformation = accessToken.getAdditionalInformation();
                 String username = (String) additionalInformation.get("username");
                 AuthUserInfo<Long> authUserInfo = userService.getAuthUserInfo(username);
-                String authUserInfoKey = BuildKeyUtils.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
+                String authUserInfoKey = BuildKeyUtil.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
                 redisTemplate.opsForHash().delete(authUserInfoKey, accessToken.getValue());
             }
         }
-        ResponseResultUtils.writeResponseOutMsg(httpServletResponse, 200, "退出登录成功", true);
+        ResponseResultUtil.writeResponseOutMsg(httpServletResponse, 200, "退出登录成功", true);
     }
 }

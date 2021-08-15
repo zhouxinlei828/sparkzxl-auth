@@ -1,7 +1,7 @@
 package com.github.sparkzxl.gateway.infrastructure.authorization;
 
 import com.github.sparkzxl.constant.BaseContextConstants;
-import com.github.sparkzxl.core.utils.BuildKeyUtils;
+import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.gateway.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.gateway.utils.WebFluxUtils;
@@ -59,7 +59,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         String routePath = path[0];
         String tenant = WebFluxUtils.getHeader(BaseContextConstants.TENANT, request);
         List<String> authorities = Lists.newArrayList();
-        String cacheKey = BuildKeyUtils.generateKey(RESOURCE_ROLES_MAP, tenant);
+        String cacheKey = BuildKeyUtil.generateKey(RESOURCE_ROLES_MAP, tenant);
         if (BizConstant.USER_PATH.equals(routePath) || BizConstant.USER_ROUTER_PATH.equals(routePath)) {
             authorities.add(BizConstant.USER_CODE);
         }

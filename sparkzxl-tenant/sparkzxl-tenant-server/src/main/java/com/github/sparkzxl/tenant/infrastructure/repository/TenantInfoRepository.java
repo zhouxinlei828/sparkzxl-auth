@@ -4,7 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.core.context.BaseContextHolder;
+import com.github.sparkzxl.core.context.AppContextHolder;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
 import com.github.sparkzxl.tenant.domain.repository.ITenantInfoRepository;
 import com.github.sparkzxl.tenant.infrastructure.entity.TenantInfo;
@@ -59,7 +59,7 @@ public class TenantInfoRepository implements ITenantInfoRepository {
     @Transactional(rollbackFor = Exception.class)
     public boolean saveTenantInfo(TenantInfo tenantInfo) {
         String tenantId = IdUtil.objectId();
-        Long userId = BaseContextHolder.getUserId(Long.TYPE);
+        Long userId = AppContextHolder.getUserId(Long.TYPE);
         tenantInfo.setTenantUserId(userId);
         tenantInfo.setCode(tenantId);
         TenantInfoMapper.insert(tenantInfo);
@@ -68,7 +68,7 @@ public class TenantInfoRepository implements ITenantInfoRepository {
     }
 
     public void initTenantInfoData(String tenantId) {
-        BaseContextHolder.setTenant(tenantId);
+        AppContextHolder.setTenant(tenantId);
     }
 
     @Override

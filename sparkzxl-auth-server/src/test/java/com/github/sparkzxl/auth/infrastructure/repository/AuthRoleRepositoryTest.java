@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.sparkzxl.auth.AuthServerApplication;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthRoleMapper;
-import com.github.sparkzxl.core.context.BaseContextHolder;
+import com.github.sparkzxl.core.context.AppContextHolder;
 import com.github.sparkzxl.core.jackson.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +31,7 @@ class AuthRoleRepositoryTest {
     void test() {
         String code = null;
         String name = "管理员";
-        BaseContextHolder.setTenant("hz");
+        AppContextHolder.setTenant("hz");
         LambdaUpdateWrapper<AuthRole> roleLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         roleLambdaUpdateWrapper.eq(StringUtils.isNotEmpty(code), AuthRole::getCode, code)
                 .likeRight(StringUtils.isNotEmpty(name), AuthRole::getName, name);

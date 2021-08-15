@@ -8,7 +8,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthResourceMapper;
 import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceUpdateDTO;
-import com.github.sparkzxl.core.utils.BuildKeyUtils;
+import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.ObjectUtils;
@@ -42,7 +42,7 @@ public class ResourceServiceImpl extends SuperCacheServiceImpl<AuthResourceMappe
         if (ObjectUtils.isNotEmpty(resourceQueryDTO.getUserId())) {
             userId = resourceQueryDTO.getUserId();
         }
-        String userResourceKey = BuildKeyUtils.generateKey(getRegion(), userId);
+        String userResourceKey = BuildKeyUtil.generateKey(getRegion(), userId);
         List<AuthResource> visibleResource = Lists.newArrayList();
         Long finalUserId = userId;
         generalCacheService.get(userResourceKey, (key) -> {

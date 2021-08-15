@@ -16,7 +16,7 @@ import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
 import com.github.sparkzxl.core.spring.SpringContextUtils;
 import com.github.sparkzxl.core.support.ExceptionAssert;
-import com.github.sparkzxl.core.utils.BuildKeyUtils;
+import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
@@ -170,7 +170,7 @@ public class OauthServiceImpl implements IOauthService {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
         String username = (String) additionalInformation.get("username");
         AuthUserInfo<Long> authUserInfo = userService.getAuthUserInfo(username);
-        String authUserInfoKey = BuildKeyUtils.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
+        String authUserInfoKey = BuildKeyUtil.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
         redisTemplate.opsForHash().put(authUserInfoKey, oAuth2AccessToken.getValue(), authUserInfo);
         redisTemplate.expire(authUserInfoKey, oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);
         return authUserInfo;
@@ -215,7 +215,7 @@ public class OauthServiceImpl implements IOauthService {
         String simpleUuid = IdUtil.simpleUUID();
         captchaInfo.setKey(simpleUuid);
         captchaInfo.setData(captcha.toBase64());
-        generalCacheService.set(BuildKeyUtils.generateKey(BizConstant.CAPTCHA, simpleUuid), captcha.text().toLowerCase(), 60L, TimeUnit.SECONDS);
+        generalCacheService.set(BuildKeyUtil.generateKey(BizConstant.CAPTCHA, simpleUuid), captcha.text().toLowerCase(), 60L, TimeUnit.SECONDS);
         return captchaInfo;
     }
 
@@ -224,7 +224,7 @@ public class OauthServiceImpl implements IOauthService {
         if (StrUtil.isBlank(value)) {
             ExceptionAssert.failure(ApiResponseStatus.PARAM_VALID_ERROR.getCode(), "请输入验证码");
         }
-        String cacheKey = BuildKeyUtils.generateKey(BizConstant.CAPTCHA, key);
+        String cacheKey = BuildKeyUtil.generateKey(BizConstant.CAPTCHA, key);
         String captchaData = generalCacheService.get(cacheKey);
         if (StringUtils.isEmpty(captchaData)) {
             ExceptionAssert.failure(ApiResponseStatus.PARAM_VALID_ERROR.getCode(), "验证码已过期");
@@ -254,7 +254,7 @@ public class OauthServiceImpl implements IOauthService {
         if (StringUtils.isNotEmpty(referer)) {
             UrlBuilder builder = UrlBuilder.ofHttp(referer, CharsetUtil.CHARSET_UTF_8);
             builder.setPath(UrlPath.of("jump", StandardCharsets.UTF_8));
-            String frontStateKey = BuildKeyUtils.generateKey(BizConstant.FRONT_STATE, state);
+            String frontStateKey = BuildKeyUtil.generateKey(BizConstant.FRONT_STATE, state);
             generalCacheService.set(frontStateKey, builder.build(), 5L, TimeUnit.MINUTES);
         }
         return EscapeUtil.safeUnescape(authorizeUrl);
@@ -262,7 +262,7 @@ public class OauthServiceImpl implements IOauthService {
 
     @Override
     public AccessTokenInfo authorizationCodeCallBack(String authorizationCode, String loginState) {
-        String frontStateKey = BuildKeyUtils.generateKey(BizConstant.FRONT_STATE, loginState);
+        String frontStateKey = BuildKeyUtil.generateKey(BizConstant.FRONT_STATE, loginState);
         String frontUrl = generalCacheService.get(frontStateKey);
         if (StringUtils.isEmpty(frontUrl)) {
             return null;

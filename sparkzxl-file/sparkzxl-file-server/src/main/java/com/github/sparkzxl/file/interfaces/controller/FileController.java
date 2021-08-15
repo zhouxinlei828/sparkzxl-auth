@@ -60,6 +60,6 @@ public class FileController implements FileApi {
 
     @Override
     public FileDTO getPdf(FileDTO fileDTO) {
-        throw new BizException(500,"文件发生异常");
+        return fileDTO;
     }
 }

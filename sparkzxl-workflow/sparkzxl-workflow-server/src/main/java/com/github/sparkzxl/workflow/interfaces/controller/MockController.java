@@ -6,6 +6,7 @@ import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.core.context.AppContextHolder;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
 import com.github.sparkzxl.database.factory.CustomThreadFactory;
+import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.file.dto.FileDTO;
 import com.github.sparkzxl.log.annotation.WebLog;
 import com.github.sparkzxl.workflow.infrastructure.client.FileClient;
@@ -51,6 +52,7 @@ public class MockController {
 
     @GetMapping("/testDynamicDataSource")
     public Map<String, DataSourceProperty> testDynamicDataSource() {
+        ExceptionAssert.failure("test全局异常");
         return dynamicDataSourceProperties.getDatasource();
     }
 

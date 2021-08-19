@@ -58,7 +58,7 @@ public class ExceptionHandlerConfig {
 
 
     @Bean
-    public GateWayExceptionHandlerStrategy exceptionHandlerChooser(List<ExceptionHandlerAdvice> exceptionHandlerAdviceList) {
+    public GateWayExceptionHandlerStrategy gateWayExceptionHandlerStrategy(List<ExceptionHandlerAdvice> exceptionHandlerAdviceList) {
         GateWayExceptionHandlerStrategy gateWayExceptionHandlerStrategy = new GateWayExceptionHandlerStrategy();
         gateWayExceptionHandlerStrategy.setExceptionHandlerAdviceMap(exceptionHandlerAdviceList);
         return gateWayExceptionHandlerStrategy;
@@ -67,13 +67,13 @@ public class ExceptionHandlerConfig {
     @Bean
     @ConditionalOnMissingBean(value = ErrorWebExceptionHandler.class, search = SearchStrategy.CURRENT)
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public ErrorWebExceptionHandler errorWebExceptionHandler(ErrorAttributes errorAttributes, GateWayExceptionHandlerStrategy exceptionHandlerChooser) {
+    public ErrorWebExceptionHandler errorWebExceptionHandler(ErrorAttributes errorAttributes, GateWayExceptionHandlerStrategy gateWayExceptionHandlerStrategy) {
         JsonExceptionHandler exceptionHandler = new JsonExceptionHandler(
                 errorAttributes,
                 resourceProperties,
                 this.serverProperties.getError(),
                 applicationContext,
-                exceptionHandlerChooser);
+                gateWayExceptionHandlerStrategy);
         exceptionHandler.setViewResolvers(this.viewResolvers);
         exceptionHandler.setMessageWriters(this.serverCodecConfigurer.getWriters());
         exceptionHandler.setMessageReaders(this.serverCodecConfigurer.getReaders());

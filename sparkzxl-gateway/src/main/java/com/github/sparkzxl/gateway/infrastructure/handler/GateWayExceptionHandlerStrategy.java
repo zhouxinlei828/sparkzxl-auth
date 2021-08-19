@@ -9,7 +9,6 @@ import com.github.sparkzxl.gateway.infrastructure.annotation.WebfluxExceptionHan
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
  * @author zhouxinlei
  * @date 2021-08-18 13:18:47
  */
-@Component
 @Slf4j
 public class GateWayExceptionHandlerStrategy {
 

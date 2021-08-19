@@ -3,6 +3,8 @@ server:
   servlet:
     context-path: /xxl-job-admin
 spring:
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:

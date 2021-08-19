@@ -1,6 +1,6 @@
 package com.github.sparkzxl.workflow.application.event;
 
-import cn.hutool.core.text.StrSpliter;
+import cn.hutool.core.text.StrSplitter;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
@@ -50,7 +50,7 @@ public class DynamicDataSourceChangeListener implements ApplicationListener<Envi
         for (String key : event.getKeys()) {
             if (StringUtils.startsWith(key, datasourcePrefix)) {
                 String substringAfter = StringUtils.removeStartIgnoreCase(key, datasourcePrefix);
-                List<String> split = StrSpliter.split(substringAfter, '.', 0, true, true);
+                List<String> split = StrSplitter.split(substringAfter, '.', 0, true, true);
                 String dataSourceKey = split.get(0);
                 System.out.println(dataSourceKey);
                 String property = configurableEnvironment.getProperty(key);

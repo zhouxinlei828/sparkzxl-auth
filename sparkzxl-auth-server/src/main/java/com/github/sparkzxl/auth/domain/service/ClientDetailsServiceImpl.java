@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * description:
+ * description: oauth 客户端应用管理
  *
  * @author zhouxinlei
  * @date 2021-07-03 15:28:51
@@ -38,7 +38,7 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
         baseClientDetails.setRefreshTokenValiditySeconds(oauthClientDetails.getRefreshTokenValidity());
         String additionalInformation = oauthClientDetails.getAdditionalInformation();
         if (StringUtils.isNotBlank(additionalInformation)) {
-            Map<String, Object> additionalInformationMap = JsonUtil.toMap(additionalInformation);
+            Map<String, Object> additionalInformationMap = JsonUtil.toMap(additionalInformation,Object.class);
             baseClientDetails.setAdditionalInformation(additionalInformationMap);
         }
         String scopes = oauthClientDetails.getAutoApprove();

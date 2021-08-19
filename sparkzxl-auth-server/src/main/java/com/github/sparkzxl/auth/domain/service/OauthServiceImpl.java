@@ -14,6 +14,7 @@ import com.github.sparkzxl.auth.infrastructure.oauth2.OpenProperties;
 import com.github.sparkzxl.cache.template.GeneralCacheService;
 import com.github.sparkzxl.constant.AppContextConstants;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
+import com.github.sparkzxl.core.context.AppContextHolder;
 import com.github.sparkzxl.core.spring.SpringContextUtils;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
@@ -119,7 +120,7 @@ public class OauthServiceImpl implements IOauthService {
             OAuth2AccessToken oAuth2AccessToken = oAuth2AccessTokenResponseEntity.getBody();
             assert oAuth2AccessToken != null;
             String grantType = parameters.get("grant_type");
-            if (grantType.equals("client_credentials")) {
+            if ("client_credentials".equals(grantType)) {
                 return oAuth2AccessToken;
             }
             AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken);
@@ -249,6 +250,7 @@ public class OauthServiceImpl implements IOauthService {
                 .addQuery("redirect_uri", redirectUriList.get(0))
                 .addQuery("response_type", "code")
                 .addQuery("state", state)
+                .addQuery(AppContextConstants.TENANT, AppContextHolder.getTenant())
                 .build();
         String referer = request.getHeader("Referer");
         if (StringUtils.isNotEmpty(referer)) {

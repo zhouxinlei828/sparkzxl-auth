@@ -2,8 +2,11 @@ package com.github.sparkzxl.auth.domain.service;
 
 import com.github.sparkzxl.auth.domain.repository.IOauthClientDetailsRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.OauthClientDetails;
+import com.github.sparkzxl.constant.AppContextConstants;
+import com.github.sparkzxl.core.context.AppContextHolder;
 import com.github.sparkzxl.core.jackson.JsonUtil;
 import com.github.sparkzxl.core.utils.ListUtils;
+import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -29,6 +32,10 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
+        String tenant = AppContextHolder.getTenant();
+        if (StringUtils.isBlank(tenant)) {
+            AppContextHolder.setTenant(RequestContextHolderUtils.getRequest().getHeader(AppContextConstants.TENANT));
+        }
         OauthClientDetails oauthClientDetails = oauthClientDetailsRepository.findById(clientId);
         BaseClientDetails baseClientDetails = new BaseClientDetails(oauthClientDetails.getClientId(), oauthClientDetails.getResourceIds(),
                 oauthClientDetails.getScope(), oauthClientDetails.getAuthorizedGrantTypes(), oauthClientDetails.getAuthorities(),
@@ -38,7 +45,7 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
         baseClientDetails.setRefreshTokenValiditySeconds(oauthClientDetails.getRefreshTokenValidity());
         String additionalInformation = oauthClientDetails.getAdditionalInformation();
         if (StringUtils.isNotBlank(additionalInformation)) {
-            Map<String, Object> additionalInformationMap = JsonUtil.toMap(additionalInformation,Object.class);
+            Map<String, Object> additionalInformationMap = JsonUtil.toMap(additionalInformation, Object.class);
             baseClientDetails.setAdditionalInformation(additionalInformationMap);
         }
         String scopes = oauthClientDetails.getAutoApprove();

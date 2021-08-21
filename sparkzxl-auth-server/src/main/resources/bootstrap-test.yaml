@@ -40,3 +40,4 @@ logging:
   level:
     com.github.sparkzxl.auth.infrastructure.client: debug
     com.github.sparkzxl.auth.infrastructure.mapper: debug
+  enable-alarm: true

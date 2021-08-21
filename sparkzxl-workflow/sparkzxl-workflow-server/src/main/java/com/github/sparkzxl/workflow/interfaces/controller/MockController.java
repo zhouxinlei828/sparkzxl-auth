@@ -4,6 +4,7 @@ import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourcePrope
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
 import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.core.context.AppContextHolder;
+import com.github.sparkzxl.core.support.TenantException;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
 import com.github.sparkzxl.database.factory.CustomThreadFactory;
 import com.github.sparkzxl.core.support.ExceptionAssert;
@@ -73,5 +74,10 @@ public class MockController {
             System.out.println("全局租户id".concat(AppContextHolder.getTenant()));
         }, threadPoolExecutor);
         return tenantId;
+    }
+
+    @GetMapping("/testException")
+    public String testException() {
+        throw new TenantException("无此租户");
     }
 }

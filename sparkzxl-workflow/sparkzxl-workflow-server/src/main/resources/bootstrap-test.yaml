@@ -43,7 +43,7 @@ spring:
 logging:
   level:
     com.github.sparkzxl.workflow.infrastructure.mapper: debug
-  enable-alarm: true
+  enable-alarm: false
 management:
   metrics:
     tags:

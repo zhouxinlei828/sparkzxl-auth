@@ -42,4 +42,4 @@ logging:
     com.github.sparkzxl.auth.infrastructure.mapper: debug
   file:
     enable: true
-  enable-alarm: true
+  enable-alarm: false

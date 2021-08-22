@@ -1,5 +1,6 @@
 package com.github.sparkzxl.auth.infrastructure.convert;
 
+import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.StationBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
@@ -36,10 +37,18 @@ public interface AuthUserConvert {
     /**
      * AuthUser转化为AuthUserInfo
      *
-     * @param authUser
+     * @param authUser 用户
      * @return AuthUserInfo
      */
     AuthUserInfo<Long> convertAuthUserInfo(AuthUser authUser);
+
+    /**
+     * AuthUser转化为UserDetailInfo
+     *
+     * @param authUser 用户
+     * @return AuthUserInfo
+     */
+    UserDetailInfo convertUserDetailInfo(AuthUser authUser);
 
     /**
      * AuthUserSaveDTO转化为 AuthUser

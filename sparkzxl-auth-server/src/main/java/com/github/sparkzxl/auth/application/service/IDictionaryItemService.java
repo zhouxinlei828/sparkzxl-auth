@@ -1,11 +1,14 @@
 package com.github.sparkzxl.auth.application.service;
 
+import com.github.sparkzxl.auth.api.dto.DictionaryItemDTO;
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemQueryDTO;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
 import com.github.sparkzxl.database.echo.core.LoadService;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * description: 字典项 服务类
@@ -30,4 +33,13 @@ public interface IDictionaryItemService extends SuperCacheService<DictionaryItem
      * @return DictionaryItem
      */
     DictionaryItem getDictionaryItemByName(String name);
+
+    /**
+     * 查询字典项列表
+     *
+     * @param dictionaryType 字典类型
+     * @param codes          字典code
+     * @return Map<String, DictionaryItemDTO>
+     */
+    Map<String, DictionaryItemDTO> findDictionaryItemMap(String dictionaryType, Set<String> codes);
 }

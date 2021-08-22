@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title th:text="${systemName}"></title>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+    <meta content="webkit" name="renderer">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
+          name="viewport">
+    <link rel="icon" th:href="@{/images/logo.png}"/>
+    <link media="all" rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+    <link media="all" rel="stylesheet" th:href="@{/css/iconfont.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/message.css}">
+</head>
+<body>
+<input id="contextPath" name="contextPath" th:value="${#request.getContextPath()}" type="hidden">
+<div class="dowebok" id="dowebok">
+    <div class="form-container sign-up-container">
+        <form action="#">
+            <div style="line-height: 40px">
+                <img style="height: 40px" th:src="@{/images/logo.png}"/>
+                <span class="title" th:text="${systemName}"></span>
+                <br/>
+                <span>填写注册人信息</span>
+            </div>
+            <input id="tenantId" name="tenantId" placeholder="租户" type="text">
+            <input id="account" name="account" placeholder="账号" type="text">
+            <input placeholder="密码" type="password">
+            <button>注册</button>
+        </form>
+    </div>
+    <div class="form-container sign-in-container">
+        <form action="/authentication/form" method="post">
+            <div style="line-height: 40px">
+                <img style="height: 40px" th:src="@{/images/logo.png}"/>
+                <span class="title" th:text="${systemName}"></span>
+                <br/>
+                <span>使用帐号登录</span>
+            </div>
+            <input id="tenant" name="tenant" placeholder="租户" type="text">
+            <input id="username" name="username" placeholder="账户" type="text">
+            <input id="password" name="password" placeholder="密码" type="password">
+            <a href="#">忘记密码？</a>
+            <button id="login" type="submit">登录</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>已有帐号？</h1>
+                <p>请使用您的帐号进行登录</p>
+                <button class="ghost" id="signIn">登录</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>没有帐号？</h1>
+                <p>立即注册加入我们，和我们一起开始旅程吧</p>
+                <button class="ghost" id="signUp">注册</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/jquery/jquery.min.js}"></script>
+<script th:src="@{/js/message.js}"></script>
+<script charset="utf-8" th:src="@{/js/index.js}"></script>
+<script th:src="@{/js/loadingAjax.js}" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        const contextPath = $("#contextPath").val();
+        $('#login').click(function (e) {
+            return true
+        });
+
+        function getParameter(data) {
+            const url = contextPath + '/base/parameter/getByCode';
+            const parameter = {
+                code: data
+            };
+            const responseData = loadingAjaxJsonData('get', url, parameter);
+            if (responseData.code !== 200) {
+                Qmsg.error({
+                    content: responseData.msg,
+                    timeout: 3000
+                });
+                return false;
+            } else {
+                const result = responseData.data;
+                $("#systemName1").text(result.value)
+                $("#systemName").text(result.value)
+            }
+        }
+    });
+</script>
+</body>
+
+</html>

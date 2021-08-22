@@ -1,6 +1,7 @@
 package com.github.sparkzxl.auth.application.service;
 
 import com.github.pagehelper.PageInfo;
+import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.domain.model.vo.AuthUserBasicVO;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
@@ -116,4 +117,12 @@ public interface IUserService extends SuperCacheService<AuthUser> {
      * @return List<String>
      */
     List<String> getAuthUserRoles(Long id);
+
+    /**
+     * 获取用户详细信息
+     *
+     * @param username 用户名
+     * @return UserDetailInfo
+     */
+    UserDetailInfo getUserDetailInfo(String username);
 }

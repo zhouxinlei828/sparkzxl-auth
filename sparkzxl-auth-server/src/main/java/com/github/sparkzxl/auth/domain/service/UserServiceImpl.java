@@ -6,6 +6,7 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.excel.EasyExcel;
 import com.github.javafaker.Faker;
 import com.github.pagehelper.PageInfo;
+import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
 import com.github.sparkzxl.auth.application.service.*;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
@@ -206,6 +207,19 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     @Override
     public List<String> getAuthUserRoles(Long id) {
         return authUserRepository.getAuthUserRoles(id);
+    }
+
+    @Override
+    public UserDetailInfo getUserDetailInfo(String username) {
+        AuthUser authUser = authUserRepository.selectByAccount(username);
+        if (ObjectUtils.isNotEmpty(authUser)) {
+            UserDetailInfo authUserInfo = AuthUserConvert.INSTANCE.convertUserDetailInfo(authUser);
+            List<String> authUserRoles = getAuthUserRoles(authUser.getId());
+            authUserRoles.add(BizConstant.USER_CODE);
+            authUserInfo.setAuthorityList(authUserRoles);
+            return authUserInfo;
+        }
+        return null;
     }
 
     @Override

@@ -4,6 +4,7 @@ import cn.hutool.core.util.DesensitizedUtil;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.auth.api.IAuthUserApi;
+import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
@@ -82,11 +83,22 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
         return baseService.routers(authUserInfo.getId());
     }
 
+    @Override
+    public UserDetailInfo getUserDetailInfo(String username) {
+        return baseService.getUserDetailInfo(username);
+    }
+
+    @Override
+    public AuthUserInfo<Long> getAuthUserInfo(String username) {
+        return baseService.getAuthUserInfo(username);
+    }
+
     @ApiOperation("获取用户基本信息")
     @GetMapping("/userinfo")
     public AuthUserBasicVO getAuthUserBasicInfo(@ApiIgnore AuthUserInfo<Long> authUserInfo) {
         return baseService.getAuthUserBasicInfo(authUserInfo);
     }
+
 
     @Override
     public boolean handlerExcelQueryList(UserQueryDTO userQueryDTO, List<AuthUser> authUsers) {

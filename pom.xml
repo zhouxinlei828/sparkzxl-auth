@@ -39,6 +39,7 @@
         <module>hibernate-re</module>
         <module>sparkzxl-file</module>
         <module>sparkzxl-oauth-server</module>
+        <module>sparkzxl-ids-server</module>
     </modules>
 
     <dependencies>

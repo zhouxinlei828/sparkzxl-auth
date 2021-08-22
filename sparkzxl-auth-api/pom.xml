@@ -23,8 +23,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
+            <groupId>com.github.sparkzxl</groupId>
+            <artifactId>sparkzxl-annotation</artifactId>
+            <version>${sparkzxl-dependencies.version}</version>
         </dependency>
     </dependencies>
     <build>

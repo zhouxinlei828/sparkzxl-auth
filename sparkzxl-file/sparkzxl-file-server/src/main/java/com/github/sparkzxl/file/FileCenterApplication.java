@@ -13,7 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication(scanBasePackages = {"com.github.sparkzxl.file"})
 @EnableDiscoveryClient
-@EnableFeignExceptionHandler
+@EnableFeignExceptionHandler(transferException = true)
 public class FileCenterApplication {
 
     public static void main(String[] args) {

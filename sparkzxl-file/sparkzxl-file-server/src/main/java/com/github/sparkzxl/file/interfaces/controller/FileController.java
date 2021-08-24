@@ -2,6 +2,7 @@ package com.github.sparkzxl.file.interfaces.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.file.api.FileApi;
 import com.github.sparkzxl.file.application.service.IFileService;
 import com.github.sparkzxl.file.dto.FileDTO;
@@ -59,6 +60,7 @@ public class FileController implements FileApi {
 
     @Override
     public FileDTO getPdf(FileDTO fileDTO) {
+        ExceptionAssert.failure("调用失败");
         return fileDTO;
     }
 }

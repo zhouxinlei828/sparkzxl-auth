@@ -44,7 +44,6 @@ logging:
     com.github.sparkzxl.workflow.infrastructure.mapper: debug
   file:
     enable: true
-  enable-alarm: true
 management:
   metrics:
     tags:

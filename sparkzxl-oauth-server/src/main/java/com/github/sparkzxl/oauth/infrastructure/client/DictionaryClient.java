@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @author zhoux
  * @date 2021-08-22 12:07:48
  */
-@FeignClient(value = "sparkzxl-auth-server", fallback = DictionaryFallback.class)
+@FeignClient(value = "sparkzxl-auth-server", path = "/base/dictionaryItem", fallback = DictionaryFallback.class)
 @Component
 public interface DictionaryClient extends IDictionaryApi {
 }

@@ -5,7 +5,7 @@ import com.github.sparkzxl.constant.AppContextConstants;
 import com.github.sparkzxl.core.context.AppContextHolder;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
-import com.github.sparkzxl.core.utils.ResponseResultUtil;
+import com.github.sparkzxl.core.context.ResponseContextHolder;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -67,6 +67,6 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
                 redisTemplate.opsForHash().delete(authUserInfoKey, accessToken.getValue());
             }
         }
-        ResponseResultUtil.writeResponseOutMsg(httpServletResponse, 200, "退出登录成功", true);
+        ResponseContextHolder.writeResponseOutMsg(httpServletResponse, 200, "退出登录成功", true);
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @author zhoux
  * @date 2021-08-22 12:07:48
  */
-@FeignClient(value = "sparkzxl-auth-server", fallback = UserInfoFallback.class)
+@FeignClient(value = "sparkzxl-auth-server", path = "/user", fallback = UserInfoFallback.class)
 @Component
 public interface UserInfoClient extends IAuthUserApi {
 }

@@ -8,9 +8,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.cache.template.GeneralCacheService;
 import com.github.sparkzxl.constant.AppContextConstants;
-import com.github.sparkzxl.core.base.result.ApiResponseStatus;
 import com.github.sparkzxl.core.context.AppContextHolder;
-import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
@@ -29,7 +27,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -102,35 +99,29 @@ public class OauthServiceImpl implements IOauthService {
     @Override
     public OAuth2AccessToken getAccessToken(Principal principal, Map<String, String> parameters) {
         ResponseEntity<OAuth2AccessToken> oAuth2AccessTokenResponseEntity = tokenEndpoint.getAccessToken(principal, parameters);
-        return loginEventAndBack(parameters, oAuth2AccessTokenResponseEntity);
+        return loginEventAndBack(parameters, oAuth2AccessTokenResponseEntity.getBody());
     }
 
-    private OAuth2AccessToken loginEventAndBack(Map<String, String> parameters, ResponseEntity<OAuth2AccessToken> oAuth2AccessTokenResponseEntity) {
-        if (oAuth2AccessTokenResponseEntity.getStatusCode().is2xxSuccessful()) {
-            OAuth2AccessToken oAuth2AccessToken = oAuth2AccessTokenResponseEntity.getBody();
-            assert oAuth2AccessToken != null;
-            String grantType = parameters.get("grant_type");
-            if ("client_credentials".equals(grantType)) {
-                return oAuth2AccessToken;
-            }
-            AuthUserInfo<Long> authUserInfo = buildGlobalUserInfo(oAuth2AccessToken);
+    private OAuth2AccessToken loginEventAndBack(Map<String, String> parameters, OAuth2AccessToken oAuth2AccessToken) {
+        String grantType = parameters.get("grant_type");
+        if ("client_credentials".equals(grantType)) {
             return oAuth2AccessToken;
         }
-        ExceptionAssert.failure(ApiResponseStatus.AUTHORIZED_FAIL);
-        return null;
+        buildGlobalUserInfo(oAuth2AccessToken);
+        return oAuth2AccessToken;
     }
 
     @SneakyThrows
     @Override
     public OAuth2AccessToken postAccessToken(Principal principal, Map<String, String> parameters) {
         ResponseEntity<OAuth2AccessToken> oAuth2AccessTokenResponseEntity = tokenEndpoint.postAccessToken(principal, parameters);
-        return loginEventAndBack(parameters, oAuth2AccessTokenResponseEntity);
+        return loginEventAndBack(parameters, oAuth2AccessTokenResponseEntity.getBody());
     }
 
     @Override
     public AccessTokenInfo getAccessToken(AuthorizationRequest authorizationRequest) {
         Map<String, String> parameters = builderAccessTokenParameters(authorizationRequest);
-        return buildAccessToken(customTokenGrantService.getAccessToken(parameters));
+        return createAccessToken(parameters);
     }
 
     @Override
@@ -138,12 +129,14 @@ public class OauthServiceImpl implements IOauthService {
         return getAccessToken(authorizationRequest);
     }
 
-    private AccessTokenInfo buildAccessToken(OAuth2AccessToken oAuth2AccessToken) {
+    private AccessTokenInfo createAccessToken(Map<String, String> parameters) {
+        OAuth2AccessToken accessToken = customTokenGrantService.getAccessToken(parameters);
         AccessTokenInfo accessTokenInfo = new AccessTokenInfo();
-        accessTokenInfo.setAccessToken(oAuth2AccessToken.getValue());
-        accessTokenInfo.setTokenType(oAuth2AccessToken.getTokenType());
-        accessTokenInfo.setRefreshToken(oAuth2AccessToken.getRefreshToken().getValue());
-        accessTokenInfo.setExpiration(oAuth2AccessToken.getExpiration());
+        accessTokenInfo.setAccessToken(accessToken.getValue());
+        accessTokenInfo.setTokenType(accessToken.getTokenType());
+        accessTokenInfo.setRefreshToken(accessToken.getRefreshToken().getValue());
+        accessTokenInfo.setExpiration(accessToken.getExpiration());
+        loginEventAndBack(parameters, accessToken);
         return accessTokenInfo;
     }
 
@@ -152,7 +145,7 @@ public class OauthServiceImpl implements IOauthService {
      *
      * @param oAuth2AccessToken 认证token
      */
-    private AuthUserInfo<Long> buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken) {
+    private void buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken) {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
         String username = (String) additionalInformation.get("username");
         String tenant = (String) additionalInformation.get(AppContextConstants.TENANT);
@@ -161,7 +154,6 @@ public class OauthServiceImpl implements IOauthService {
         String authUserInfoKey = BuildKeyUtil.generateKey(AppContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
         redisTemplate.opsForHash().put(authUserInfoKey, oAuth2AccessToken.getValue(), authUserInfo);
         redisTemplate.expire(authUserInfoKey, oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);
-        return authUserInfo;
     }
 
     /**
@@ -230,8 +222,7 @@ public class OauthServiceImpl implements IOauthService {
         parameters.put("client_secret", clientDetails.getClientSecret());
         List<String> redirectUriList = ListUtils.setToList(clientDetails.getRegisteredRedirectUri());
         parameters.put("redirect_uri", redirectUriList.get(0));
-        DefaultOAuth2AccessToken oAuth2AccessToken = (DefaultOAuth2AccessToken) customTokenGrantService.getAccessToken(parameters);
-        return buildAccessToken(oAuth2AccessToken);
+        return createAccessToken(parameters);
     }
 
     @Override

@@ -56,7 +56,7 @@ public class TokenController {
 
 
     @ApiOperation("获取用户基本信息")
-    @GetMapping("/oauth/userinfo")
+    @GetMapping("/user/userinfo")
     @ResponseBody
     @ResponseResult
     public AuthUserBasicVO getAuthUserBasicInfo(@ApiIgnore AuthUserInfo<Long> authUserInfo) {

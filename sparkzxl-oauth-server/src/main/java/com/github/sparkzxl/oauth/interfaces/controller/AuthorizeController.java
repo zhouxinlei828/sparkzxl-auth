@@ -26,18 +26,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class AuthorizeController {
 
-    private AuthorizationEndpoint authorizationEndpoint;
-
     private IOauthService oauthService;
 
     @Autowired
     public void setOauthService(IOauthService oauthService) {
         this.oauthService = oauthService;
-    }
-
-    @Autowired
-    public void setAuthorizationEndpoint(AuthorizationEndpoint authorizationEndpoint) {
-        this.authorizationEndpoint = authorizationEndpoint;
     }
 
     @ApiOperation(value = "授权地址端点")

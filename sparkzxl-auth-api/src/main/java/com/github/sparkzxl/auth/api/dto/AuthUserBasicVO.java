@@ -1,10 +1,5 @@
-package com.github.sparkzxl.auth.domain.model.vo;
+package com.github.sparkzxl.auth.api.dto;
 
-import com.github.sparkzxl.auth.domain.model.aggregates.OrgBasicInfo;
-import com.github.sparkzxl.auth.domain.model.aggregates.ResourceBasicInfo;
-import com.github.sparkzxl.auth.domain.model.aggregates.RoleBasicInfo;
-import com.github.sparkzxl.auth.domain.model.aggregates.StationBasicInfo;
-import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -46,7 +41,7 @@ public class AuthUserBasicVO {
     private String mobile;
 
     @ApiModelProperty(value = "性别")
-    private SexEnum sex;
+    private String sex;
 
     @ApiModelProperty(value = "头像")
     private String avatar;

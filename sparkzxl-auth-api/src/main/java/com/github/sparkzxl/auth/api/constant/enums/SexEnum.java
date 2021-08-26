@@ -1,4 +1,4 @@
-package com.github.sparkzxl.auth.infrastructure.enums;
+package com.github.sparkzxl.auth.api.constant.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;

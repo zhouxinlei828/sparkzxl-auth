@@ -6,24 +6,25 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.excel.EasyExcel;
 import com.github.javafaker.Faker;
 import com.github.pagehelper.PageInfo;
+import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
+import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
 import com.github.sparkzxl.auth.application.service.*;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
-import com.github.sparkzxl.auth.domain.model.vo.AuthUserBasicVO;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
-import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
+import com.github.sparkzxl.core.context.AppContextHolder;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
@@ -70,6 +71,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
 
     @Override
     public AuthUserInfo<Long> getAuthUserInfo(String username) {
+        String tenant = AppContextHolder.getTenant();
         AuthUser authUser = authUserRepository.selectByAccount(username);
         if (ObjectUtils.isNotEmpty(authUser)) {
             AuthUserInfo<Long> authUserInfo = AuthUserConvert.INSTANCE.convertAuthUserInfo(authUser);
@@ -84,6 +86,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
             extraInfo.put("education", OptionalBean.ofNullable(authUser.getEducation()).getBean(RemoteData::getData).get());
             extraInfo.put("positionStatus", OptionalBean.ofNullable(authUser.getPositionStatus()).getBean(RemoteData::getData).get());
             authUserInfo.setExtraInfo(extraInfo);
+            authUserInfo.setTenant(tenant);
             return authUserInfo;
         }
         return null;
@@ -163,8 +166,8 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     }
 
     @Override
-    public AuthUserBasicVO getAuthUserBasicInfo(AuthUserInfo<Long> authUserInfo) {
-        AuthUserBasicInfo authUserBasicInfo = authUserRepository.getAuthUserBasicInfo(authUserInfo.getId());
+    public AuthUserBasicVO getAuthUserBasicInfo(Long userId) {
+        AuthUserBasicInfo authUserBasicInfo = authUserRepository.getAuthUserBasicInfo(userId);
         return AuthUserConvert.INSTANCE.convertAuthUserBasicVO(authUserBasicInfo);
     }
 
@@ -211,12 +214,14 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
 
     @Override
     public UserDetailInfo getUserDetailInfo(String username) {
+        String tenant = AppContextHolder.getTenant();
         AuthUser authUser = authUserRepository.selectByAccount(username);
         if (ObjectUtils.isNotEmpty(authUser)) {
             UserDetailInfo authUserInfo = AuthUserConvert.INSTANCE.convertUserDetailInfo(authUser);
             List<String> authUserRoles = getAuthUserRoles(authUser.getId());
             authUserRoles.add(BizConstant.USER_CODE);
             authUserInfo.setAuthorityList(authUserRoles);
+            authUserInfo.setTenant(tenant);
             return authUserInfo;
         }
         return null;

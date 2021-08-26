@@ -3,3 +3,5 @@ spring:
     active: dev #默认为开发环境
   main:
     allow-bean-definition-overriding: true
+web:
+  transfer-exception: true

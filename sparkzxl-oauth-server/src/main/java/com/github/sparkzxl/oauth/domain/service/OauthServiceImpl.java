@@ -5,6 +5,7 @@ import cn.hutool.core.net.url.UrlPath;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.EscapeUtil;
 import cn.hutool.core.util.RandomUtil;
+import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.cache.template.GeneralCacheService;
 import com.github.sparkzxl.constant.AppContextConstants;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
@@ -154,6 +155,8 @@ public class OauthServiceImpl implements IOauthService {
     private AuthUserInfo<Long> buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken) {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
         String username = (String) additionalInformation.get("username");
+        String tenant = (String) additionalInformation.get(AppContextConstants.TENANT);
+        AppContextHolder.setTenant(tenant);
         AuthUserInfo<Long> authUserInfo = userInfoClient.getAuthUserInfo(username);
         String authUserInfoKey = BuildKeyUtil.generateKey(AppContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
         redisTemplate.opsForHash().put(authUserInfoKey, oAuth2AccessToken.getValue(), authUserInfo);
@@ -229,5 +232,12 @@ public class OauthServiceImpl implements IOauthService {
         parameters.put("redirect_uri", redirectUriList.get(0));
         DefaultOAuth2AccessToken oAuth2AccessToken = (DefaultOAuth2AccessToken) customTokenGrantService.getAccessToken(parameters);
         return buildAccessToken(oAuth2AccessToken);
+    }
+
+    @Override
+    public AuthUserBasicVO userinfo(AuthUserInfo<Long> authUserInfo) {
+        AppContextHolder.setTenant(authUserInfo.getTenant());
+        AuthUserBasicVO authUserBasicInfo = userInfoClient.getAuthUserBasicInfo(authUserInfo.getId());
+        return authUserBasicInfo;
     }
 }

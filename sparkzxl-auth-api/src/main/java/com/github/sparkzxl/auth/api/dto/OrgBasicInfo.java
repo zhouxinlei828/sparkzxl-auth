@@ -1,4 +1,4 @@
-package com.github.sparkzxl.auth.domain.model.aggregates;
+package com.github.sparkzxl.auth.api.dto;
 
 import com.github.sparkzxl.core.tree.TreeNode;
 import lombok.Data;

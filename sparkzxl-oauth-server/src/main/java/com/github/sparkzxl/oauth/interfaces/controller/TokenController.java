@@ -1,5 +1,8 @@
 package com.github.sparkzxl.oauth.interfaces.controller;
 
+import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
+import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.log.annotation.WebLog;
 import com.github.sparkzxl.oauth.application.service.IOauthService;
 import io.swagger.annotations.Api;
@@ -11,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
@@ -52,6 +52,15 @@ public class TokenController {
             throws HttpRequestMethodNotSupportedException {
         log.info("Authorization = {}", authorization);
         return oauthService.postAccessToken(principal, parameters);
+    }
+
+
+    @ApiOperation("获取用户基本信息")
+    @GetMapping("/oauth/userinfo")
+    @ResponseBody
+    @ResponseResult
+    public AuthUserBasicVO getAuthUserBasicInfo(@ApiIgnore AuthUserInfo<Long> authUserInfo) {
+        return oauthService.userinfo(authUserInfo);
     }
 
 }

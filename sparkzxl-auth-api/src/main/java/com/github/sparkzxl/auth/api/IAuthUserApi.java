@@ -1,7 +1,9 @@
 package com.github.sparkzxl.auth.api;
 
+import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,4 +32,14 @@ public interface IAuthUserApi {
      */
     @GetMapping("/getAuthUserInfo")
     AuthUserInfo<Long> getAuthUserInfo(@RequestParam("username") String username);
+
+    /**
+     * 获取用户基本信息
+     *
+     * @param userId 用户id
+     * @return AuthUserBasicVO
+     */
+    @ApiOperation("获取用户基本信息")
+    @GetMapping("/userinfo")
+    AuthUserBasicVO getAuthUserBasicInfo(@RequestParam("userId") Long userId);
 }

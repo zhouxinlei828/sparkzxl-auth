@@ -4,12 +4,12 @@ import cn.hutool.core.util.DesensitizedUtil;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.auth.api.IAuthUserApi;
+import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
-import com.github.sparkzxl.auth.domain.model.vo.AuthUserBasicVO;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
@@ -93,10 +93,9 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
         return baseService.getAuthUserInfo(username);
     }
 
-    @ApiOperation("获取用户基本信息")
-    @GetMapping("/userinfo")
-    public AuthUserBasicVO getAuthUserBasicInfo(@ApiIgnore AuthUserInfo<Long> authUserInfo) {
-        return baseService.getAuthUserBasicInfo(authUserInfo);
+    @Override
+    public AuthUserBasicVO getAuthUserBasicInfo(Long userId) {
+        return baseService.getAuthUserBasicInfo(userId);
     }
 
 

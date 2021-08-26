@@ -9,16 +9,16 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.sparkzxl.annotation.echo.EchoResult;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
-import com.github.sparkzxl.auth.domain.model.aggregates.OrgBasicInfo;
-import com.github.sparkzxl.auth.domain.model.aggregates.ResourceBasicInfo;
-import com.github.sparkzxl.auth.domain.model.aggregates.RoleBasicInfo;
+import com.github.sparkzxl.auth.api.dto.OrgBasicInfo;
+import com.github.sparkzxl.auth.api.dto.ResourceBasicInfo;
+import com.github.sparkzxl.auth.api.dto.RoleBasicInfo;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.*;
 import com.github.sparkzxl.auth.infrastructure.enums.AuthorityTypeEnum;
-import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
+import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.*;
 import com.github.sparkzxl.core.tree.TreeUtils;
 import com.github.sparkzxl.entity.data.RemoteData;
@@ -30,6 +30,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -48,14 +49,54 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AuthUserRepository implements IAuthUserRepository {
 
-    private final AuthUserMapper authUserMapper;
-    private final UserRoleMapper userRoleMapper;
-    private final AuthRoleMapper authRoleMapper;
-    private final RoleAuthorityMapper roleAuthorityMapper;
-    private final AuthResourceMapper authResourceMapper;
-    private final CoreOrgMapper coreOrgMapper;
-    private final PasswordEncoder passwordEncoder;
-    private final Snowflake snowflake;
+    private AuthUserMapper authUserMapper;
+    private UserRoleMapper userRoleMapper;
+    private AuthRoleMapper authRoleMapper;
+    private RoleAuthorityMapper roleAuthorityMapper;
+    private AuthResourceMapper authResourceMapper;
+    private CoreOrgMapper coreOrgMapper;
+    private PasswordEncoder passwordEncoder;
+    private Snowflake snowflake;
+
+    @Autowired
+    public void setAuthUserMapper(AuthUserMapper authUserMapper) {
+        this.authUserMapper = authUserMapper;
+    }
+
+    @Autowired
+    public void setUserRoleMapper(UserRoleMapper userRoleMapper) {
+        this.userRoleMapper = userRoleMapper;
+    }
+
+    @Autowired
+    public void setAuthRoleMapper(AuthRoleMapper authRoleMapper) {
+        this.authRoleMapper = authRoleMapper;
+    }
+
+    @Autowired
+    public void setRoleAuthorityMapper(RoleAuthorityMapper roleAuthorityMapper) {
+        this.roleAuthorityMapper = roleAuthorityMapper;
+    }
+
+    @Autowired
+    public void setAuthResourceMapper(AuthResourceMapper authResourceMapper) {
+        this.authResourceMapper = authResourceMapper;
+    }
+
+    @Autowired
+    public void setCoreOrgMapper(CoreOrgMapper coreOrgMapper) {
+        this.coreOrgMapper = coreOrgMapper;
+    }
+
+    @Autowired(required = false)
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Autowired
+    public void setSnowflake(Snowflake snowflake) {
+        this.snowflake = snowflake;
+    }
 
     @Override
     public AuthUser selectById(Long id) {

@@ -1,5 +1,7 @@
 package com.github.sparkzxl.oauth.application.service;
 
+import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
+import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AuthorizationRequest;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -70,4 +72,11 @@ public interface IOauthService {
      */
     AccessTokenInfo authorizationCodeCallBack(String authorizationCode, String loginState);
 
+    /**
+     * 查询用户信息
+     *
+     * @param authUserInfo 全局用户
+     * @return AuthUserBasicVO
+     */
+    AuthUserBasicVO userinfo(AuthUserInfo<Long> authUserInfo);
 }

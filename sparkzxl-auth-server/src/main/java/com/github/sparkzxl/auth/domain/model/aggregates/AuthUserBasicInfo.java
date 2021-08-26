@@ -1,6 +1,10 @@
 package com.github.sparkzxl.auth.domain.model.aggregates;
 
-import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
+import com.github.sparkzxl.auth.api.dto.OrgBasicInfo;
+import com.github.sparkzxl.auth.api.dto.ResourceBasicInfo;
+import com.github.sparkzxl.auth.api.dto.RoleBasicInfo;
+import com.github.sparkzxl.auth.api.dto.StationBasicInfo;
+import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
 import com.github.sparkzxl.entity.data.RemoteData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

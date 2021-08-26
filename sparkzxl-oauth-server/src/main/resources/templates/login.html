@@ -24,7 +24,6 @@
                 <br/>
                 <span>填写注册人信息</span>
             </div>
-            <input id="tenantId" name="tenantId" placeholder="租户" type="text">
             <input id="account" name="account" placeholder="账号" type="text">
             <input placeholder="密码" type="password">
             <button>注册</button>
@@ -38,7 +37,7 @@
                 <br/>
                 <span>使用帐号登录</span>
             </div>
-            <input id="tenant" name="tenant" placeholder="租户" type="text">
+            <input id="tenant" name="tenant" th:value="${tenant}" type="hidden">
             <input id="username" name="username" placeholder="账户" type="text">
             <input id="password" name="password" placeholder="密码" type="password">
             <a href="#">忘记密码？</a>
@@ -71,6 +70,7 @@
             return true
         });
 
+        alert($("#tenant").val());
         function getParameter(data) {
             const url = contextPath + '/base/parameter/getByCode';
             const parameter = {

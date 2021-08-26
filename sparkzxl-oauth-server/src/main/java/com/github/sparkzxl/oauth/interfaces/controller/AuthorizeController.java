@@ -1,8 +1,6 @@
 package com.github.sparkzxl.oauth.interfaces.controller;
 
 import com.github.sparkzxl.annotation.result.ResponseResult;
-import com.github.sparkzxl.constant.AppContextConstants;
-import com.github.sparkzxl.core.context.AppContextHolder;
 import com.github.sparkzxl.log.annotation.WebLog;
 import com.github.sparkzxl.oauth.application.service.IOauthService;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AccessTokenInfo;
@@ -15,11 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.security.Principal;
-import java.util.Map;
 
 /**
  * description: 授权管理
@@ -54,15 +47,6 @@ public class AuthorizeController {
     public String getAuthorizeUrl(@RequestParam(value = "clientId", required = false) String clientId,
                                   @RequestParam(value = "frontUrl", required = false) String frontUrl) {
         return oauthService.getAuthorizeUrl(clientId, frontUrl);
-    }
-
-    @ApiOperation(value = "授权端点")
-    @GetMapping(value = "/oauth/authorize")
-    public ModelAndView authorize(Map<String, Object> model, @RequestParam Map<String, String> parameters,
-                                  SessionStatus sessionStatus, Principal principal) {
-        String tenant = parameters.get(AppContextConstants.TENANT);
-        AppContextHolder.setTenant(tenant);
-        return authorizationEndpoint.authorize(model, parameters, sessionStatus, principal);
     }
 
     @ApiOperation(value = "授权成功回调端点")

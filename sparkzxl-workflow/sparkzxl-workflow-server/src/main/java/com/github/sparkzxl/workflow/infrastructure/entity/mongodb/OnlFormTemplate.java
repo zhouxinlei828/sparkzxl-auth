@@ -1,12 +1,13 @@
-package com.github.sparkzxl.workflow.infrastructure.entity;
+package com.github.sparkzxl.workflow.infrastructure.entity.mongodb;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.github.sparkzxl.entity.data.Entity;
+import com.github.sparkzxl.mongodb.entity.Entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 /**
  * <p>
@@ -18,22 +19,22 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("onl_form_template")
+@Document("onl_form_template")
 @ApiModel(value = "OnlFormTemplate对象", description = "表单设计模板")
 public class OnlFormTemplate extends Entity<Long> {
 
-    private static final long serialVersionUID = 3191268418202630750L;
+    private static final long serialVersionUID = 6568671589913709742L;
 
     @ApiModelProperty(value = "模板code")
-    @TableField("template_code")
+    @Field("template_code")
     private String templateCode;
 
     @ApiModelProperty(value = "模板名称")
-    @TableField("template_name")
+    @Field("template_name")
     private String templateName;
 
     @ApiModelProperty(value = "模板json")
-    @TableField("template_json")
+    @Field("template_json")
     private String templateJson;
 
 }

@@ -1,5 +1,6 @@
 package com.github.sparkzxl.workflow.interfaces.controller.online;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.log.annotation.WebLog;
@@ -84,5 +85,17 @@ public class FormTemplateController {
     @GetMapping("get")
     public OnlFormTemplate getTemplate(@RequestParam("templateId") Long templateId) {
         return formTemplateService.getTemplate(templateId);
+    }
+
+    /**
+     * 查询表单模板
+     *
+     * @param templateCode 模板code
+     * @return OnlFormTemplate
+     */
+    @ApiOperation("查询表单模板JSON")
+    @GetMapping("getJson")
+    public JSONObject getTemplateJson(@RequestParam("templateCode") String templateCode) {
+        return formTemplateService.getTemplateJson(templateCode);
     }
 }

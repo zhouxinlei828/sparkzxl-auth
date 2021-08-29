@@ -1,8 +1,8 @@
 package com.github.sparkzxl.workflow.application.service.online;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.sparkzxl.workflow.infrastructure.entity.mongodb.OnlFormTemplate;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -53,4 +53,11 @@ public interface IOnlFormTemplateService {
      */
     OnlFormTemplate getTemplate(Long templateId);
 
+    /**
+     * 查询模板json
+     *
+     * @param templateCode 模板code
+     * @return JSONObject
+     */
+    JSONObject getTemplateJson(String templateCode);
 }

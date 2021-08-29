@@ -94,10 +94,15 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
     }
 
     @Override
-    public AuthUserBasicVO getAuthUserBasicInfo(Long userId) {
+    public AuthUserBasicVO getUserByUserId(Long userId) {
         return baseService.getAuthUserBasicInfo(userId);
     }
 
+
+    @Override
+    public AuthUserBasicVO getUserByUsername(String username) {
+        return baseService.getUserByUsername(username);
+    }
 
     @Override
     public boolean handlerExcelQueryList(UserQueryDTO userQueryDTO, List<AuthUser> authUsers) {

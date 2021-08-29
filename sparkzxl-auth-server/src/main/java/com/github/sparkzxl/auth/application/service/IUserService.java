@@ -125,4 +125,11 @@ public interface IUserService extends SuperCacheService<AuthUser> {
      * @return UserDetailInfo
      */
     UserDetailInfo getUserDetailInfo(String username);
+
+    /**
+     * 根据用户名获取用户信息
+     * @param username 用户名
+     * @return AuthUserBasicVO
+     */
+    AuthUserBasicVO getUserByUsername(String username);
 }

@@ -19,6 +19,10 @@
     <dependencies>
         <dependency>
             <groupId>com.github.sparkzxl</groupId>
+            <artifactId>sparkzxl-distributed-cloud-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.sparkzxl</groupId>
             <artifactId>sparkzxl-boot-starter</artifactId>
             <exclusions>
                 <exclusion>
@@ -52,6 +56,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.sparkzxl</groupId>
+            <artifactId>sparkzxl-auth-api</artifactId>
+            <version>1.0.RELEASE</version>
         </dependency>
     </dependencies>
     <build>

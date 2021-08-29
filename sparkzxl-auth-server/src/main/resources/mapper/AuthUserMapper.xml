@@ -63,4 +63,29 @@
         WHERE aur.user_id = #{id}
           and ar.request_url IS NOT NULL
     </select>
+    <select id="getByUsername" resultType="com.github.sparkzxl.auth.infrastructure.entity.AuthUser">
+        select id,
+               account,
+               password,
+               `name`,
+               org_id     AS org,
+               station_id AS station,
+               email,
+               mobile,
+               sex,
+               status,
+               avatar,
+               nation,
+               education,
+               position_status,
+               work_describe,
+               password_error_num,
+               last_login_time,
+               update_user,
+               update_time,
+               create_user,
+               create_time
+        from auth_user
+        where account = #{username}
+    </select>
 </mapper>

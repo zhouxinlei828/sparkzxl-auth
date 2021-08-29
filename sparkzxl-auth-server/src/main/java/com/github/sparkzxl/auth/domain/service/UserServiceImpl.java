@@ -228,6 +228,12 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     }
 
     @Override
+    public AuthUserBasicVO getUserByUsername(String username) {
+        AuthUserBasicInfo authUserBasicInfo = authUserRepository.getUserByUsername(username);
+        return AuthUserConvert.INSTANCE.convertAuthUserBasicVO(authUserBasicInfo);
+    }
+
+    @Override
     protected String getRegion() {
         return BizConstant.USER;
     }

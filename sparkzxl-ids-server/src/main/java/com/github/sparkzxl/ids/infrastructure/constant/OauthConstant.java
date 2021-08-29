@@ -12,4 +12,6 @@ public class OauthConstant {
 
     public static final String BUSINESS_PACKAGE = "com.github.sparkzxl.ids";
 
+    public static final String BUSINESS_FEIGN_PACKAGE = "com.github.sparkzxl.ids.infrastructure.client";
+
 }

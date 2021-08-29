@@ -41,5 +41,15 @@ public interface IAuthUserApi {
      */
     @ApiOperation("获取用户基本信息")
     @GetMapping("/userinfo")
-    AuthUserBasicVO getAuthUserBasicInfo(@RequestParam("userId") Long userId);
+    AuthUserBasicVO getUserByUserId(@RequestParam("userId") Long userId);
+
+    /**
+     * 获取用户基本信息
+     *
+     * @param username 用户名
+     * @return AuthUserBasicVO
+     */
+    @ApiOperation("获取用户基本信息")
+    @GetMapping("/getUserByUsername")
+    AuthUserBasicVO getUserByUsername(@RequestParam("username") String username);
 }

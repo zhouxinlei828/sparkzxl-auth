@@ -3,6 +3,7 @@ package com.github.sparkzxl.ids;
 import com.github.sparkzxl.ids.infrastructure.constant.OauthConstant;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * description: oauth2 启动类
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2021-08-22 12:03:39
  */
 @SpringBootApplication(scanBasePackages = {OauthConstant.BUSINESS_PACKAGE})
+@EnableFeignClients(basePackages = OauthConstant.BUSINESS_FEIGN_PACKAGE)
 public class IdsServerApplication {
 
     public static void main(String[] args) {

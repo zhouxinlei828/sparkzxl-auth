@@ -148,71 +148,6 @@ public class AuthUserRepository implements IAuthUserRepository {
         return authUsers;
     }
 
-    @Override
-    public AuthUserBasicInfo getAuthUserBasicInfo(Long userId) {
-        AuthUser authUser = authUserMapper.getById(userId);
-        AuthUserBasicInfo authUserBasicInfo = AuthUserConvert.INSTANCE.convertAuthUserBasicInfo(authUser);
-        List<OrgBasicInfo> orgTreeList = CollUtil.newArrayList();
-        CoreOrg org = OptionalBean.ofNullable(authUser.getOrg().getData()).get();
-        if (ObjectUtils.isNotEmpty(org)) {
-            orgTreeList.add(buildOrgBasicInfo(org));
-            if (org.getParentId() != 0) {
-                CoreOrg coreOrg = coreOrgMapper.selectById(org.getParentId());
-                orgTreeList.add(buildOrgBasicInfo(coreOrg));
-                authUserBasicInfo.setOrgName(coreOrg.getLabel().concat("-").concat(org.getLabel()));
-            } else {
-                authUserBasicInfo.setOrgName(org.getLabel());
-            }
-            authUserBasicInfo.setOrg(TreeUtils.buildTree(orgTreeList));
-        }
-
-        List<Long> roleIds =
-                userRoleMapper.selectList(new LambdaUpdateWrapper<UserRole>().eq(UserRole::getUserId, userId)).stream().map(UserRole::getRoleId)
-                        .collect(Collectors.toList());
-        if (CollectionUtils.isNotEmpty(roleIds)) {
-            List<AuthRole> roleList = authRoleMapper.selectBatchIds(roleIds);
-            List<RoleBasicInfo> roleBasicInfos = AuthRoleConvert.INSTANCE.convertRoleBasicInfo(roleList);
-            RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
-            roleBasicInfo.setId(snowflake.nextId());
-            roleBasicInfo.setCode(BizConstant.USER_CODE);
-            roleBasicInfo.setName("普通用户");
-            roleBasicInfos.add(roleBasicInfo);
-            authUserBasicInfo.setRoleBasicInfos(roleBasicInfos);
-            LambdaQueryWrapper<RoleAuthority> roleAuthorityLambdaQueryWrapper = new LambdaQueryWrapper<RoleAuthority>()
-                    .in(RoleAuthority::getRoleId, roleIds)
-                    .eq(RoleAuthority::getAuthorityType, AuthorityTypeEnum.RESOURCE.name());
-            List<RoleAuthority> roleAuthorities =
-                    roleAuthorityMapper.selectList(roleAuthorityLambdaQueryWrapper);
-            List<Long> authorityIds = roleAuthorities.stream().distinct().map(RoleAuthority::getAuthorityId).collect(Collectors.toList());
-            Map<Long, Long> roleAuthorityIdMap =
-                    roleAuthorities.stream().collect(Collectors.toMap(RoleAuthority::getAuthorityId, RoleAuthority::getRoleId));
-            List<ResourceBasicInfo> resourceBasicInfos = Lists.newArrayList();
-            if (CollectionUtils.isNotEmpty(authorityIds)) {
-                // 获取用户资源列表
-                List<AuthResource> resourceList = authResourceMapper.selectBatchIds(authorityIds);
-                if (CollectionUtils.isNotEmpty(resourceList)) {
-                    resourceList.forEach(resource -> {
-                        ResourceBasicInfo resourceBasicInfo = new ResourceBasicInfo();
-                        resourceBasicInfo.setCode(resource.getCode());
-                        resourceBasicInfo.setName(resource.getName());
-                        resourceBasicInfo.setRoleId(roleAuthorityIdMap.get(resource.getId()));
-                        resourceBasicInfos.add(resourceBasicInfo);
-                    });
-                }
-            }
-            authUserBasicInfo.setResourceBasicInfos(resourceBasicInfos);
-        } else {
-            RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
-            roleBasicInfo.setId(snowflake.nextId());
-            roleBasicInfo.setCode(BizConstant.USER_CODE);
-            roleBasicInfo.setName("普通用户");
-            List<RoleBasicInfo> roleBasicInfos = Lists.newArrayList(roleBasicInfo);
-            authUserBasicInfo.setRoleBasicInfos(roleBasicInfos);
-        }
-        return authUserBasicInfo;
-    }
-
-
     private OrgBasicInfo buildOrgBasicInfo(CoreOrg coreOrg) {
         OrgBasicInfo orgBasicInfo = new OrgBasicInfo();
         orgBasicInfo.setId(coreOrg.getId());
@@ -270,5 +205,79 @@ public class AuthUserRepository implements IAuthUserRepository {
             authUserMapper.update(null, userUpdateWrapper);
         }
         return true;
+    }
+
+    @Override
+    public AuthUserBasicInfo getAuthUserBasicInfo(Long userId) {
+        AuthUser authUser = authUserMapper.getById(userId);
+        return buildAuthUserBasicInfo(authUser);
+    }
+
+    @Override
+    public AuthUserBasicInfo getUserByUsername(String username) {
+        AuthUser authUser = authUserMapper.getByUsername(username);
+        return buildAuthUserBasicInfo(authUser);
+    }
+
+    private AuthUserBasicInfo buildAuthUserBasicInfo(AuthUser authUser) {
+        AuthUserBasicInfo authUserBasicInfo = AuthUserConvert.INSTANCE.convertAuthUserBasicInfo(authUser);
+        List<OrgBasicInfo> orgTreeList = CollUtil.newArrayList();
+        CoreOrg org = OptionalBean.ofNullable(authUser.getOrg().getData()).get();
+        if (ObjectUtils.isNotEmpty(org)) {
+            orgTreeList.add(buildOrgBasicInfo(org));
+            if (org.getParentId() != 0) {
+                CoreOrg coreOrg = coreOrgMapper.selectById(org.getParentId());
+                orgTreeList.add(buildOrgBasicInfo(coreOrg));
+                authUserBasicInfo.setOrgName(coreOrg.getLabel().concat("-").concat(org.getLabel()));
+            } else {
+                authUserBasicInfo.setOrgName(org.getLabel());
+            }
+            authUserBasicInfo.setOrg(TreeUtils.buildTree(orgTreeList));
+        }
+
+        List<Long> roleIds =
+                userRoleMapper.selectList(new LambdaUpdateWrapper<UserRole>().eq(UserRole::getUserId, authUser.getId())).stream().map(UserRole::getRoleId)
+                        .collect(Collectors.toList());
+        if (CollectionUtils.isNotEmpty(roleIds)) {
+            List<AuthRole> roleList = authRoleMapper.selectBatchIds(roleIds);
+            List<RoleBasicInfo> roleBasicInfos = AuthRoleConvert.INSTANCE.convertRoleBasicInfo(roleList);
+            RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
+            roleBasicInfo.setId(snowflake.nextId());
+            roleBasicInfo.setCode(BizConstant.USER_CODE);
+            roleBasicInfo.setName("普通用户");
+            roleBasicInfos.add(roleBasicInfo);
+            authUserBasicInfo.setRoleBasicInfos(roleBasicInfos);
+            LambdaQueryWrapper<RoleAuthority> roleAuthorityLambdaQueryWrapper = new LambdaQueryWrapper<RoleAuthority>()
+                    .in(RoleAuthority::getRoleId, roleIds)
+                    .eq(RoleAuthority::getAuthorityType, AuthorityTypeEnum.RESOURCE.name());
+            List<RoleAuthority> roleAuthorities =
+                    roleAuthorityMapper.selectList(roleAuthorityLambdaQueryWrapper);
+            List<Long> authorityIds = roleAuthorities.stream().distinct().map(RoleAuthority::getAuthorityId).collect(Collectors.toList());
+            Map<Long, Long> roleAuthorityIdMap =
+                    roleAuthorities.stream().collect(Collectors.toMap(RoleAuthority::getAuthorityId, RoleAuthority::getRoleId));
+            List<ResourceBasicInfo> resourceBasicInfos = Lists.newArrayList();
+            if (CollectionUtils.isNotEmpty(authorityIds)) {
+                // 获取用户资源列表
+                List<AuthResource> resourceList = authResourceMapper.selectBatchIds(authorityIds);
+                if (CollectionUtils.isNotEmpty(resourceList)) {
+                    resourceList.forEach(resource -> {
+                        ResourceBasicInfo resourceBasicInfo = new ResourceBasicInfo();
+                        resourceBasicInfo.setCode(resource.getCode());
+                        resourceBasicInfo.setName(resource.getName());
+                        resourceBasicInfo.setRoleId(roleAuthorityIdMap.get(resource.getId()));
+                        resourceBasicInfos.add(resourceBasicInfo);
+                    });
+                }
+            }
+            authUserBasicInfo.setResourceBasicInfos(resourceBasicInfos);
+        } else {
+            RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
+            roleBasicInfo.setId(snowflake.nextId());
+            roleBasicInfo.setCode(BizConstant.USER_CODE);
+            roleBasicInfo.setName("普通用户");
+            List<RoleBasicInfo> roleBasicInfos = Lists.newArrayList(roleBasicInfo);
+            authUserBasicInfo.setRoleBasicInfos(roleBasicInfos);
+        }
+        return authUserBasicInfo;
     }
 }

@@ -1,4 +1,4 @@
-package com.github.sparkzxl.oauth.infrastructure.client;
+package com.github.sparkzxl.ids.infrastructure.client;
 
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;

@@ -56,4 +56,12 @@ public interface AuthUserMapper extends SuperMapper<AuthUser> {
      * @return AuthUser
      */
     AuthUser getById(@Param("id") Long id);
+
+    /**
+     * 根据username查询用户信息
+     *
+     * @param username 用户名
+     * @return AuthUser
+     */
+    AuthUser getByUsername(@Param("username") String username);
 }

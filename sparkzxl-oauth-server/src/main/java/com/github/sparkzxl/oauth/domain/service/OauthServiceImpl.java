@@ -228,7 +228,6 @@ public class OauthServiceImpl implements IOauthService {
     @Override
     public AuthUserBasicVO userinfo(AuthUserInfo<Long> authUserInfo) {
         AppContextHolder.setTenant(authUserInfo.getTenant());
-        AuthUserBasicVO authUserBasicInfo = userInfoClient.getAuthUserBasicInfo(authUserInfo.getId());
-        return authUserBasicInfo;
+        return userInfoClient.getUserByUserId(authUserInfo.getId());
     }
 }

@@ -1,5 +1,6 @@
 package com.github.sparkzxl.ids.infrastructure.config;
 
+import com.fujieid.jap.core.cache.JapCache;
 import com.fujieid.jap.ids.JapIds;
 import com.fujieid.jap.ids.config.IdsConfig;
 import com.fujieid.jap.ids.config.JwtConfig;
@@ -9,6 +10,8 @@ import com.fujieid.jap.ids.pipeline.IdsPipeline;
 import com.fujieid.jap.ids.service.IdsClientDetailService;
 import com.fujieid.jap.ids.service.IdsIdentityService;
 import com.fujieid.jap.ids.service.IdsUserService;
+import com.github.sparkzxl.cache.template.GeneralCacheService;
+import com.github.sparkzxl.ids.application.service.IdsCacheImpl;
 import com.xkcoding.json.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,9 +39,18 @@ public class JapIdsConfiguration implements ApplicationListener<ApplicationStart
     private IdsUserService idsUserService;
     @Autowired
     private IdsIdentityService idsIdentityService;
+    @Autowired
+    private GeneralCacheService generalCacheService;
     @Value("${server.port}")
     private int port;
 
+
+    @Bean
+    public JapCache cache(){
+        IdsCacheImpl idsCache = new IdsCacheImpl();
+        idsCache.setGeneralCacheService(generalCacheService);
+        return idsCache;
+    }
     /**
      * 程序启动完成后，注册 ids 的上下文
      *
@@ -47,11 +59,12 @@ public class JapIdsConfiguration implements ApplicationListener<ApplicationStart
     @Override
     public void onApplicationEvent(ApplicationStartedEvent applicationStartedEvent) {
         // 注册 JAP IDS 上下文
-        String issuer = "http://localhost:" + port;
+        String issuer = "http://127.0.0.1:" + port;
         JapIds.registerContext(new IdsContext()
                         .setUserService(idsUserService)
                         .setClientDetailService(idsClientDetailService)
                         .setIdentityService(idsIdentityService)
+                        .setCache(cache())
                         .setFilterPipeline(new IdsPipeline<Object>() {
                             @Override
                             public void errorHandle(ServletRequest servletRequest, ServletResponse servletResponse, Throwable throwable) {

@@ -15,6 +15,7 @@ import java.util.List;
  */
 @Service
 public class IdsUserServiceImpl implements IdsUserService {
+
     public List<UserInfo> userInfoList = new LinkedList<>();
 
     public IdsUserServiceImpl() {

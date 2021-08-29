@@ -1,8 +1,11 @@
 package com.github.sparkzxl.ids.application.service;
 
 import com.fujieid.jap.core.cache.JapCache;
+import com.github.sparkzxl.cache.template.GeneralCacheService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author yadong.zhang (yadong.zhang0415(a)gmail.com)
@@ -11,6 +14,13 @@ import java.io.Serializable;
  * @since 1.0.0
  */
 public class IdsCacheImpl implements JapCache {
+
+    private GeneralCacheService generalCacheService;
+
+    public void setGeneralCacheService(GeneralCacheService generalCacheService) {
+        this.generalCacheService = generalCacheService;
+    }
+
     /**
      * Set cache
      *
@@ -19,7 +29,7 @@ public class IdsCacheImpl implements JapCache {
      */
     @Override
     public void set(String key, Serializable value) {
-
+        generalCacheService.set(key,value);
     }
 
     /**
@@ -31,7 +41,7 @@ public class IdsCacheImpl implements JapCache {
      */
     @Override
     public void set(String key, Serializable value, long timeout) {
-
+        generalCacheService.set(key,value,timeout, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -42,7 +52,7 @@ public class IdsCacheImpl implements JapCache {
      */
     @Override
     public Serializable get(String key) {
-        return null;
+        return generalCacheService.get(key);
     }
 
     /**
@@ -53,7 +63,7 @@ public class IdsCacheImpl implements JapCache {
      */
     @Override
     public boolean containsKey(String key) {
-        return false;
+        return generalCacheService.exists(key);
     }
 
     /**
@@ -63,6 +73,6 @@ public class IdsCacheImpl implements JapCache {
      */
     @Override
     public void removeKey(String key) {
-
+        generalCacheService.remove(key);
     }
 }

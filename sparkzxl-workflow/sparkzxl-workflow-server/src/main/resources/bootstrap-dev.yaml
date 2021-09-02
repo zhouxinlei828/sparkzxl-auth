@@ -39,16 +39,23 @@ spring:
         enable-remote-sync-config: true
   redis:
     redisson: redisson-dev.yaml
-  data:
+  dynamic:
     mongodb:
-      host: 47.114.40.129
-      port: 27017
-      database: sparkzxl_workflow
-      username: zhouxinlei
-      password: '123456'
+      enabled: true
+      primary: master
+      provider:
+        master:
+          url: mongodb://zhouxinlei:123456@47.114.40.129:27017/sparkzxl_workflow
+        hz:
+          url: mongodb://zhouxinlei:123456@47.114.40.129:27017/sparkzxl_workflow_hz
 logging:
   level:
     com.github.sparkzxl.workflow.infrastructure.mapper: debug
+    org:
+      springframework:
+        data:
+          mongodb:
+            core: debug
   file:
     enable: true
 management:

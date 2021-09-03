@@ -42,12 +42,14 @@ spring:
   dynamic:
     mongodb:
       enabled: true
-      primary: master
+      primary: demo
       provider:
-        master:
-          url: mongodb://zhouxinlei:123456@47.114.40.129:27017/sparkzxl_workflow
-        hz:
-          url: mongodb://zhouxinlei:123456@47.114.40.129:27017/sparkzxl_workflow_hz
+        demo:
+          uri: mongodb://zhouxinlei:123456@47.114.40.129:27017/demo
+        demo0:
+          uri: mongodb://zhouxinlei:123456@47.114.40.129:27017/demo_10010
+        demo1:
+          uri: mongodb://zhouxinlei:123456@47.114.40.129:27017/demo_10011
 logging:
   level:
     com.github.sparkzxl.workflow.infrastructure.mapper: debug

@@ -1,7 +1,9 @@
 package com.github.sparkzxl.workflow.interfaces.controller;
 
+import cn.hutool.http.HtmlUtil;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
+import com.github.sparkzxl.AlarmFactoryExecute;
 import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.core.context.AppContextHolder;
 import com.github.sparkzxl.core.support.TenantException;
@@ -17,6 +19,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -78,6 +81,7 @@ public class MockController {
 
     @GetMapping("/testException")
     public String testException() {
+        CompletableFuture.runAsync(() -> AlarmFactoryExecute.execute("<span style=\"color:red;\">测试单号：</span>JC345345345345"), threadPoolExecutor);
         throw new TenantException("无此租户");
     }
 }

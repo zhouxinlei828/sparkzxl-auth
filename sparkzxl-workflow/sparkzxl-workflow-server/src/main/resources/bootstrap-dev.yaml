@@ -44,6 +44,9 @@ spring:
         enable-remote-sync-config: true
   redis:
     redisson: redisson-dev.yaml
+  data:
+    mongodb:
+      uri: mongodb://zhouxinlei:123456@47.114.40.129:27017/demo
   dynamic:
     mongodb:
       enabled: true

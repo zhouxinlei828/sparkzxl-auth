@@ -9,7 +9,7 @@ import com.github.sparkzxl.file.dto.FileDTO;
 import com.github.sparkzxl.file.infrastructure.entity.FileMaterial;
 import com.github.sparkzxl.file.interfaces.dto.FileMaterialDTO;
 import com.github.sparkzxl.file.interfaces.dto.FileMaterialPageDTO;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2020-05-24 12:40:10
  */
 @RestController
-@WebLog
+@HttpRequestLog
 @Api(tags = "文件管理")
 public class FileController implements FileApi {
 
@@ -35,7 +35,7 @@ public class FileController implements FileApi {
     @ApiOperation("文件上传")
     @ResponseResult
     @PostMapping("/file/upload")
-    public FileMaterialDTO upload(@RequestParam("file") MultipartFile multipartFile) throws Exception {
+    public FileMaterialDTO upload(@RequestParam("file") MultipartFile multipartFile) {
         return fileService.upload(multipartFile);
     }
 

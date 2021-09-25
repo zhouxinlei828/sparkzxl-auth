@@ -3,7 +3,7 @@ package com.github.sparkzxl.oauth.interfaces.controller;
 import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.oauth.application.service.IOauthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -28,7 +28,7 @@ import java.util.Map;
  * @date 2020/6/6 9:08 上午
  */
 @Controller
-@WebLog
+@HttpRequestLog
 @Api(tags = "Token令牌管理")
 @Slf4j
 public class TokenController {

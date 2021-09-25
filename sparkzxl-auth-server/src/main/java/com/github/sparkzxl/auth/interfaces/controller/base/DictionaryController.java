@@ -9,7 +9,7 @@ import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionarySaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryUpdateDTO;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.dto.PageParams;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @ResponseResult
-@WebLog
+@HttpRequestLog
 @Api(tags = "字典类型管理")
 @RequestMapping("/base/dictionary")
 public class DictionaryController extends SuperCacheController<IDictionaryService, Long,

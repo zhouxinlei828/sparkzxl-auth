@@ -5,7 +5,7 @@ import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.entity.security.AuthRequest;
 import com.github.sparkzxl.entity.security.AuthToken;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.tenant.domain.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +27,7 @@ import javax.security.auth.login.AccountNotFoundException;
  */
 @RestController
 @ResponseResult
-@WebLog
+@HttpRequestLog
 @Api(value = "loginController", tags = "登录管理")
 public class LoginController {
 

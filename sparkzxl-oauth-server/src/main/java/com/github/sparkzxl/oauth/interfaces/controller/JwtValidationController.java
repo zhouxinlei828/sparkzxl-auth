@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.interfaces.controller;
 
 import com.github.sparkzxl.jwt.service.JwtTokenService;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.nimbusds.jose.jwk.JWKSet;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @date 2020/6/6 9:08 上午
  */
 @RestController
-@WebLog
+@HttpRequestLog
 @Api(tags = "密钥管理")
 @Slf4j
 public class JwtValidationController {

@@ -10,7 +10,7 @@ import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgUserSaveDTO;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.dto.DeleteDTO;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @ResponseResult
-@WebLog
+@HttpRequestLog
 @Api(tags = "组织管理")
 @RequestMapping("/org")
 public class OrgController extends SuperCacheController<ICoreOrgService, Long,

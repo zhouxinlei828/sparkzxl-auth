@@ -11,7 +11,7 @@ import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemUpdateDTO;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.dto.PageParams;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -32,7 +32,7 @@ import java.util.Set;
 @AllArgsConstructor
 @RestController
 @ResponseResult
-@WebLog
+@HttpRequestLog
 @Api(tags = "字典项管理")
 @RequestMapping("/base/dictionaryItem")
 public class DictionaryItemController extends SuperCacheController<IDictionaryItemService, Long,

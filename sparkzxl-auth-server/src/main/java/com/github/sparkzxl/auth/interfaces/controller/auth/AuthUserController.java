@@ -20,7 +20,7 @@ import com.github.sparkzxl.database.base.listener.ImportDataListener;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @ResponseResult
-@WebLog
+@HttpRequestLog
 @Api(tags = "用户管理")
 public class AuthUserController extends SuperCacheController<IUserService, Long,
         AuthUser, UserSaveDTO, UserUpdateDTO, UserQueryDTO, UserExcel> implements IAuthUserApi {

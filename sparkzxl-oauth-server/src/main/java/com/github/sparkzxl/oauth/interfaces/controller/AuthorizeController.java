@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.interfaces.controller;
 
 import com.github.sparkzxl.annotation.result.ResponseResult;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.oauth.application.service.IOauthService;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AccessTokenInfo;
 import io.swagger.annotations.Api;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2021-08-19 12:31:52
  */
 @Controller
-@WebLog
+@HttpRequestLog
 @Api(tags = "授权管理")
 @Slf4j
 public class AuthorizeController {

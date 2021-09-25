@@ -11,7 +11,7 @@ import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
 import com.github.sparkzxl.database.factory.CustomThreadFactory;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.file.dto.FileDTO;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.infrastructure.client.FileClient;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 @ResponseResult
 @RestController
 @RequestMapping("/mock")
-@WebLog
+@HttpRequestLog
 @Api(tags = "Mock数据管理")
 @RefreshScope
 public class MockController {

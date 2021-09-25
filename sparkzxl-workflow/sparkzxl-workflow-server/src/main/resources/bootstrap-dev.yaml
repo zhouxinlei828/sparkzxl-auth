@@ -61,6 +61,7 @@ spring:
 logging:
   level:
     com.github.sparkzxl.workflow.infrastructure.mapper: debug
+    com.github.sparkzxl.log.event: debug
     org:
       springframework:
         data:

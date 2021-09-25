@@ -3,7 +3,7 @@ package com.github.sparkzxl.workflow.interfaces.controller.online;
 import com.alibaba.fastjson.JSONObject;
 import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.database.dto.DeleteDTO;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.application.service.online.IOnlFormTemplateService;
 import com.github.sparkzxl.workflow.infrastructure.entity.mongodb.OnlFormTemplate;
 import io.swagger.annotations.Api;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/form/template")
 @ResponseResult
-@WebLog
+@HttpRequestLog
 @Api(tags = "表单模板管理")
 public class FormTemplateController {
 

@@ -148,7 +148,7 @@ public class OauthServiceImpl implements IOauthService {
     private void buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken) {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
         String username = (String) additionalInformation.get("username");
-        String tenant = (String) additionalInformation.get(AppContextConstants.TENANT);
+        String tenant = (String) additionalInformation.get(AppContextConstants.TENANT_ID);
         AppContextHolder.setTenant(tenant);
         AuthUserInfo<Long> authUserInfo = userInfoClient.getAuthUserInfo(username);
         String authUserInfoKey = BuildKeyUtil.generateKey(AppContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
@@ -191,7 +191,7 @@ public class OauthServiceImpl implements IOauthService {
                 .addQuery("redirect_uri", redirectUriList.get(0))
                 .addQuery("response_type", "code")
                 .addQuery("state", state)
-                .addQuery(AppContextConstants.TENANT, AppContextHolder.getTenant())
+                .addQuery(AppContextConstants.TENANT_ID, AppContextHolder.getTenant())
                 .build();
         String referer = request.getHeader("Referer");
         if (StringUtils.isNotEmpty(referer)) {
@@ -227,7 +227,7 @@ public class OauthServiceImpl implements IOauthService {
 
     @Override
     public AuthUserBasicVO userinfo(AuthUserInfo<Long> authUserInfo) {
-        AppContextHolder.setTenant(authUserInfo.getTenant());
+        AppContextHolder.setTenant(authUserInfo.getTenantId());
         return userInfoClient.getUserByUserId(authUserInfo.getId());
     }
 }

@@ -27,7 +27,7 @@ public class TenantLoginPreFilter extends OncePerRequestFilter {
                                     FilterChain chain) throws ServletException, IOException {
         String authenticationFormUrl = "/authentication/form";
         if (StringUtils.equals(request.getRequestURI(), authenticationFormUrl)) {
-            String tenantId = request.getParameter(AppContextConstants.TENANT);
+            String tenantId = request.getParameter(AppContextConstants.TENANT_ID);
             AppContextHolder.setTenant(tenantId);
         }
         chain.doFilter(request, response);

@@ -45,7 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     AuthorityUtils.createAuthorityList(ListUtils.listToArray(userDetailInfo.getAuthorityList())));
             authUserDetail.setId(userDetailInfo.getId());
             authUserDetail.setName(userDetailInfo.getName());
-            authUserDetail.setTenant(userDetailInfo.getTenant());
+            authUserDetail.setTenantId(userDetailInfo.getTenantId());
             return authUserDetail;
         }
         return null;

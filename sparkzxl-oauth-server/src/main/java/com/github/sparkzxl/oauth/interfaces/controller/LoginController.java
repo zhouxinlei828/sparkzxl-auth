@@ -39,9 +39,9 @@ public class LoginController {
     public ModelAndView require(HttpServletRequest request, HttpServletResponse response) {
         SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
         ModelAndView model = new ModelAndView("login");
-        String[] parameterValues = savedRequest.getParameterValues(AppContextConstants.TENANT);
+        String[] parameterValues = savedRequest.getParameterValues(AppContextConstants.TENANT_ID);
         if (ArrayUtils.isNotEmpty(parameterValues)) {
-            model.addObject(AppContextConstants.TENANT, parameterValues[0]);
+            model.addObject(AppContextConstants.TENANT_ID, parameterValues[0]);
         }
         model.addObject("systemName", systemProperties.getName());
         return model;

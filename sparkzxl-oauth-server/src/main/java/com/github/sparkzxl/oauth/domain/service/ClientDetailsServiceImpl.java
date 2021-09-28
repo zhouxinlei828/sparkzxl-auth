@@ -38,7 +38,7 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
         String tenant = AppContextHolder.getTenant();
         if (StringUtils.isBlank(tenant)) {
-            AppContextHolder.setTenant(RequestContextHolderUtils.getRequest().getHeader(AppContextConstants.TENANT));
+            AppContextHolder.setTenant(RequestContextHolderUtils.getRequest().getHeader(AppContextConstants.TENANT_ID));
         }
         OauthClientDetails oauthClientDetails = clientDetailsRepository.findById(clientId);
         BaseClientDetails baseClientDetails = new BaseClientDetails(oauthClientDetails.getClientId(), oauthClientDetails.getResourceIds(),

@@ -57,7 +57,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             path[0] = path[0].replace(prefix, "");
         });
         String routePath = path[0];
-        String tenant = WebFluxUtils.getHeader(AppContextConstants.TENANT, request);
+        String tenant = WebFluxUtils.getHeader(AppContextConstants.TENANT_ID, request);
         List<String> authorities = Lists.newArrayList();
         String cacheKey = BuildKeyUtil.generateKey(RESOURCE_ROLES_MAP, tenant);
         if (BizConstant.USER_PATH.equals(routePath) || BizConstant.USER_ROUTER_PATH.equals(routePath)) {

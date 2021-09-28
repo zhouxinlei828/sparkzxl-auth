@@ -86,7 +86,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
             extraInfo.put("education", OptionalBean.ofNullable(authUser.getEducation()).getBean(RemoteData::getData).get());
             extraInfo.put("positionStatus", OptionalBean.ofNullable(authUser.getPositionStatus()).getBean(RemoteData::getData).get());
             authUserInfo.setExtraInfo(extraInfo);
-            authUserInfo.setTenant(tenant);
+            authUserInfo.setTenantId(tenant);
             return authUserInfo;
         }
         return null;
@@ -221,7 +221,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
             List<String> authUserRoles = getAuthUserRoles(authUser.getId());
             authUserRoles.add(BizConstant.USER_CODE);
             authUserInfo.setAuthorityList(authUserRoles);
-            authUserInfo.setTenant(tenant);
+            authUserInfo.setTenantId(tenant);
             return authUserInfo;
         }
         return null;

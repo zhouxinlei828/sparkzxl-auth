@@ -52,7 +52,7 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
         String token = httpServletRequest.getHeader("token");
-        AppContextHolder.setTenant(RequestContextHolderUtils.getHeader(AppContextConstants.TENANT));
+        AppContextHolder.setTenant(RequestContextHolderUtils.getHeader(AppContextConstants.TENANT_ID));
         log.info("退出登录成功：{}", token);
         token = StringUtils.removeStartIgnoreCase(token, AppContextConstants.BEARER_TOKEN);
         if (token != null) {

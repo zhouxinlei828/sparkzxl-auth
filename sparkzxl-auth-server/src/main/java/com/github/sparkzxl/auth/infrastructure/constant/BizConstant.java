@@ -171,9 +171,6 @@ public class BizConstant {
     public static final String FRONT_STATE = "front_state";
 
 
-    public static final String RESOURCE_ROLES_MAP = "auth:resource_roles_map";
-
-
     /*=====================扫包==========================*/
 
     public static final String BUSINESS_PACKAGE = "com.github.sparkzxl.auth";

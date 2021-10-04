@@ -54,6 +54,7 @@ public class OrgController extends SuperCacheController<ICoreOrgService, Long,
     public boolean updateOrgUser(@RequestBody @Validated OrgUserSaveDTO orgUserSaveDTO) {
         return baseService.updateOrgUser(orgUserSaveDTO);
     }
+
     @Override
     public boolean delete(DeleteDTO<Long> deleteDTO) {
         return baseService.deleteBatchCoreOrg(deleteDTO.getIds());

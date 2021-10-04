@@ -26,8 +26,11 @@
         <result column="alarm_status" property="alarmStatus"/>
     </resultMap>
 
-	<sql id="Base_Column_List">
-		t.id,
+    <sql id="Base_Column_List">
+        t
+        .
+        id
+        ,
 		t.job_group,
 		t.job_id,
 		t.executor_address,
@@ -42,7 +45,7 @@
 		t.handle_code,
 		t.handle_msg,
 		t.alarm_status
-	</sql>
+    </sql>
 
     <select id="pageList" resultMap="XxlJobLog">
         SELECT

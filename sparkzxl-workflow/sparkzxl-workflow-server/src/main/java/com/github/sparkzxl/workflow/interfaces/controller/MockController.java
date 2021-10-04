@@ -1,15 +1,14 @@
 package com.github.sparkzxl.workflow.interfaces.controller;
 
-import cn.hutool.http.HtmlUtil;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
 import com.github.sparkzxl.AlarmFactoryExecute;
 import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.core.context.AppContextHolder;
+import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.core.support.TenantException;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
 import com.github.sparkzxl.database.factory.CustomThreadFactory;
-import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.file.dto.FileDTO;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.infrastructure.client.FileClient;
@@ -19,7 +18,6 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.HtmlUtils;
 
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -41,18 +39,16 @@ import java.util.concurrent.TimeUnit;
 @RefreshScope
 public class MockController {
 
-    @Autowired(required = false)
-    private DynamicDataSourceProperties dynamicDataSourceProperties;
-
-    @Autowired
-    private FileClient fileClient;
-
     private final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2,
             4,
             10,
             TimeUnit.MILLISECONDS,
             new ArrayBlockingQueue<>(30),
             new CustomThreadFactory());
+    @Autowired(required = false)
+    private DynamicDataSourceProperties dynamicDataSourceProperties;
+    @Autowired
+    private FileClient fileClient;
 
     @GetMapping("/testDynamicDataSource")
     public Map<String, DataSourceProperty> testDynamicDataSource() {

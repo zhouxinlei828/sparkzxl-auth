@@ -1,6 +1,5 @@
 package com.github.sparkzxl.workflow.infrastructure.entity.mongodb;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.github.sparkzxl.mongodb.entity.Entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -1,14 +1,14 @@
 package com.github.sparkzxl.auth.infrastructure.convert;
 
+import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
+import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
+import com.github.sparkzxl.auth.api.dto.StationBasicInfo;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
-import com.github.sparkzxl.auth.api.dto.StationBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
-import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
-import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;

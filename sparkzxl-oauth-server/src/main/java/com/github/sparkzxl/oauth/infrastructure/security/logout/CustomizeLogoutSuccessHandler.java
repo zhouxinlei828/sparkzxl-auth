@@ -2,9 +2,9 @@ package com.github.sparkzxl.oauth.infrastructure.security.logout;
 
 import com.github.sparkzxl.constant.AppContextConstants;
 import com.github.sparkzxl.core.context.AppContextHolder;
+import com.github.sparkzxl.core.context.ResponseContextHolder;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
-import com.github.sparkzxl.core.context.ResponseContextHolder;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.oauth.infrastructure.client.UserInfoClient;
 import lombok.extern.slf4j.Slf4j;

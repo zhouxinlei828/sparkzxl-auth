@@ -59,6 +59,6 @@ public class DictionaryItemController extends SuperCacheController<IDictionaryIt
 
     @Override
     public Map<String, DictionaryItemDTO> findDictionaryItemMap(String dictionaryType, Set<String> codes) {
-        return baseService.findDictionaryItemMap(dictionaryType,codes);
+        return baseService.findDictionaryItemMap(dictionaryType, codes);
     }
 }

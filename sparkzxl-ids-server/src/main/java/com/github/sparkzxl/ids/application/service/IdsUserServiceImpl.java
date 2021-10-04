@@ -19,10 +19,9 @@ import java.util.List;
 @Service
 public class IdsUserServiceImpl implements IdsUserService {
 
+    public List<UserInfo> userInfoList = new LinkedList<>();
     @Autowired
     private UserInfoClient userInfoClient;
-
-    public List<UserInfo> userInfoList = new LinkedList<>();
 
     public IdsUserServiceImpl() {
         for (int i = 0; i < 10; i++) {

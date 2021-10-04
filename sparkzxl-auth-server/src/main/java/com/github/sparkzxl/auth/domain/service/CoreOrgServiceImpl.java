@@ -100,7 +100,7 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
 
     @Override
     public boolean updateOrgUser(OrgUserSaveDTO orgUserSaveDTO) {
-        return userRepository.updateOrgUser(orgUserSaveDTO.getOrgId(),orgUserSaveDTO.getUserIds());
+        return userRepository.updateOrgUser(orgUserSaveDTO.getOrgId(), orgUserSaveDTO.getUserIds());
     }
 
     @Override

@@ -46,11 +46,12 @@ public class JapIdsConfiguration implements ApplicationListener<ApplicationStart
 
 
     @Bean
-    public JapCache cache(){
+    public JapCache cache() {
         IdsCacheImpl idsCache = new IdsCacheImpl();
         idsCache.setGeneralCacheService(generalCacheService);
         return idsCache;
     }
+
     /**
      * 程序启动完成后，注册 ids 的上下文
      *

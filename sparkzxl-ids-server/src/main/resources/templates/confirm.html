@@ -9,7 +9,8 @@
 </head>
 <body>
 <div id="app">
-    <div aria-labelledby="modalSignupVerticalTitle" aria-modal="true" class="modal fade show portal-container" role="dialog"
+    <div aria-labelledby="modalSignupVerticalTitle" aria-modal="true" class="modal fade show portal-container"
+         role="dialog"
          tabindex="-1">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content border-0">
@@ -32,10 +33,12 @@
                             <ul class="list-group scope-list">
                                 <li class="list-group-item p-2" th:each="scopeInfo : ${scopeInfos}">
                                     <input checked class="mr-2" name="scopes" readonly="readonly"
-                                           style="margin-right: 5px;" th:if="${scopeInfo.selected}" th:value="${scopeInfo.code}"
+                                           style="margin-right: 5px;" th:if="${scopeInfo.selected}"
+                                           th:value="${scopeInfo.code}"
                                            type="checkbox"/>
                                     <input class="mr-2" name="scopes" readonly="readonly"
-                                           style="margin-right: 5px;" th:unless="${scopeInfo.selected}" th:value="${scopeInfo.code}"
+                                           style="margin-right: 5px;" th:unless="${scopeInfo.selected}"
+                                           th:value="${scopeInfo.code}"
                                            type="checkbox"/>
                                     <label class="mb-0"
                                            th:text="${scopeInfo.code} + ' - ' + ${scopeInfo.description}"></label>

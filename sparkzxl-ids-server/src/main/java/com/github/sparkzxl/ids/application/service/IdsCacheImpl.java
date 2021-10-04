@@ -2,7 +2,6 @@ package com.github.sparkzxl.ids.application.service;
 
 import com.fujieid.jap.core.cache.JapCache;
 import com.github.sparkzxl.cache.template.GeneralCacheService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
@@ -29,7 +28,7 @@ public class IdsCacheImpl implements JapCache {
      */
     @Override
     public void set(String key, Serializable value) {
-        generalCacheService.set(key,value);
+        generalCacheService.set(key, value);
     }
 
     /**
@@ -41,7 +40,7 @@ public class IdsCacheImpl implements JapCache {
      */
     @Override
     public void set(String key, Serializable value, long timeout) {
-        generalCacheService.set(key,value,timeout, TimeUnit.MILLISECONDS);
+        generalCacheService.set(key, value, timeout, TimeUnit.MILLISECONDS);
     }
 
     /**

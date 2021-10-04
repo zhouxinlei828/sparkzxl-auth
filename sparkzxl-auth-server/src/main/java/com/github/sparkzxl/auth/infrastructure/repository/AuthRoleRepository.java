@@ -62,7 +62,7 @@ public class AuthRoleRepository implements IAuthRoleRepository {
     @Override
     public boolean updateRole(AuthRole authRole) {
         LambdaUpdateWrapper<AuthRole> updateWrapper = new LambdaUpdateWrapper<>();
-        if (MapUtils.isEmpty(authRole.getExtendInfo())){
+        if (MapUtils.isEmpty(authRole.getExtendInfo())) {
             updateWrapper.set(AuthRole::getExtendInfo, null);
         }
         updateWrapper.eq(SuperEntity::getId, authRole.getId());

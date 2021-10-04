@@ -11,13 +11,16 @@
         <result column="permission" property="permission"/>
     </resultMap>
 
-	<sql id="Base_Column_List">
-		t.id,
+    <sql id="Base_Column_List">
+        t
+        .
+        id
+        ,
 		t.username,
 		t.password,
 		t.role,
 		t.permission
-	</sql>
+    </sql>
 
     <select id="pageList" parameterType="java.util.HashMap" resultMap="XxlJobUser">
         SELECT

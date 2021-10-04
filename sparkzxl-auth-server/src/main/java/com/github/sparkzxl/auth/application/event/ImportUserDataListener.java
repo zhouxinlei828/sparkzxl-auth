@@ -1,6 +1,7 @@
 package com.github.sparkzxl.auth.application.event;
 
 import com.alibaba.excel.context.AnalysisContext;
+import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
 import com.github.sparkzxl.auth.application.service.ICoreOrgService;
 import com.github.sparkzxl.auth.application.service.ICoreStationService;
 import com.github.sparkzxl.auth.application.service.IDictionaryItemService;
@@ -10,7 +11,6 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
-import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
 import com.github.sparkzxl.entity.data.RemoteData;
 import com.google.common.collect.Lists;

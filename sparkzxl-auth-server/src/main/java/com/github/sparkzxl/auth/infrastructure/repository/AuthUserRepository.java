@@ -246,7 +246,7 @@ public class AuthUserRepository implements IAuthUserRepository {
             roleBasicInfo.setCode(BizConstant.USER_CODE);
             roleBasicInfo.setName("普通用户");
             roleBasicInfos.add(roleBasicInfo);
-            authUserBasicInfo.setRoleBasicInfos(roleBasicInfos);
+            authUserBasicInfo.setRoleList(roleBasicInfos);
             LambdaQueryWrapper<RoleAuthority> roleAuthorityLambdaQueryWrapper = new LambdaQueryWrapper<RoleAuthority>()
                     .in(RoleAuthority::getRoleId, roleIds)
                     .eq(RoleAuthority::getAuthorityType, AuthorityTypeEnum.RESOURCE.name());
@@ -269,14 +269,14 @@ public class AuthUserRepository implements IAuthUserRepository {
                     });
                 }
             }
-            authUserBasicInfo.setResourceBasicInfos(resourceBasicInfos);
+            authUserBasicInfo.setResourceList(resourceBasicInfos);
         } else {
             RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
             roleBasicInfo.setId(snowflake.nextId());
             roleBasicInfo.setCode(BizConstant.USER_CODE);
             roleBasicInfo.setName("普通用户");
             List<RoleBasicInfo> roleBasicInfos = Lists.newArrayList(roleBasicInfo);
-            authUserBasicInfo.setRoleBasicInfos(roleBasicInfos);
+            authUserBasicInfo.setRoleList(roleBasicInfos);
         }
         return authUserBasicInfo;
     }

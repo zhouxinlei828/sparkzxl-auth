@@ -34,12 +34,12 @@
         <module>sparkzxl-code-generator</module>
         <module>sparkzxl-job-admin</module>
         <module>sparkzxl-workflow</module>
-        <module>sparkzxl-tenant</module>
+        <!--<module>sparkzxl-tenant</module>-->
         <module>sparkzxl-auth-api</module>
-        <module>hibernate-re</module>
+       <!-- <module>hibernate-re</module>-->
         <module>sparkzxl-file</module>
         <module>sparkzxl-oauth-server</module>
-        <module>sparkzxl-ids-server</module>
+        <!--<module>sparkzxl-ids-server</module>-->
     </modules>
 
     <dependencies>

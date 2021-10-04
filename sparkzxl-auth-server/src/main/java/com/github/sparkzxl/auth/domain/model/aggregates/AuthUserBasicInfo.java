@@ -68,10 +68,10 @@ public class AuthUserBasicInfo {
     private LocalDateTime lastLoginTime;
 
     @ApiModelProperty(value = "角色列表")
-    private List<RoleBasicInfo> roleBasicInfos;
+    private List<RoleBasicInfo> roleList;
 
     @ApiModelProperty(value = "资源树")
-    private List<ResourceBasicInfo> resourceBasicInfos;
+    private List<ResourceBasicInfo> resourceList;
 
     @ApiModelProperty(value = "状态 1启用 0禁用")
     private Boolean status;

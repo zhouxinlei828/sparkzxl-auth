@@ -15,7 +15,7 @@ import lombok.Data;
 public class AreaQueryDTO {
 
     @ApiModelProperty(value = "名称")
-    protected String label;
+    protected String name;
     @ApiModelProperty(value = "编码")
     private String code;
 

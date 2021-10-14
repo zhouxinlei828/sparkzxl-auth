@@ -2,8 +2,8 @@ package com.github.sparkzxl.auth.interfaces.controller.base;
 
 
 import com.github.sparkzxl.annotation.result.ResponseResult;
-import com.github.sparkzxl.auth.application.service.IAreaService;
-import com.github.sparkzxl.auth.infrastructure.entity.Area;
+import com.github.sparkzxl.auth.application.service.SysIAreaService;
+import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaUpdateDTO;
@@ -25,14 +25,20 @@ import java.util.List;
 @ResponseResult
 @Api(tags = "地区管理")
 @RequestMapping("/base/area")
-public class AreaController extends SuperCacheController<IAreaService, Long,
-        Area, AreaSaveDTO, AreaUpdateDTO, AreaQueryDTO, Object> {
+public class AreaController extends SuperCacheController<SysIAreaService, Long,
+        SysArea, AreaSaveDTO, AreaUpdateDTO, AreaQueryDTO, Object> {
 
 
     @ApiOperation("查询地区列表")
     @GetMapping("/tree")
-    public List<Area> getAreaList(AreaQueryDTO areaQueryDTO) {
+    public List<SysArea> getAreaList(AreaQueryDTO areaQueryDTO) {
         return super.baseService.getAreaList(areaQueryDTO);
+    }
+
+    @ApiOperation("实时保存地区数据")
+    @GetMapping("/getActiveArea")
+    public boolean getActiveArea(@RequestParam("subDistrict") Integer subDistrict) {
+        return super.baseService.getActiveArea(subDistrict);
     }
 
     @ApiOperation("导入城市地区信息")

@@ -5643,7 +5643,7 @@
             "header|hgroup|mark|meter|nav|output|progress|section|summary|time|video",
         rinlinejQuery = / jQuery\d+="(?:\d+|null)"/g,
         rleadingWhitespace = /^\s+/,
-        rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/ig,
+        rxhtmlTag = /<(?!sysArea|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/ig,
         rtagName = /<([\w:]+)/,
         rtbody = /<tbody/i,
         rhtml = /<|&#?\w+;/,
@@ -5661,7 +5661,7 @@
             tr: [2, "<table><tbody>", "</tbody></table>"],
             td: [3, "<table><tbody><tr>", "</tr></tbody></table>"],
             col: [2, "<table><tbody></tbody><colgroup>", "</colgroup></table>"],
-            area: [1, "<map>", "</map>"],
+            sysArea: [1, "<map>", "</map>"],
             _default: [0, "", ""]
         },
         safeFragment = createSafeFragment(document);

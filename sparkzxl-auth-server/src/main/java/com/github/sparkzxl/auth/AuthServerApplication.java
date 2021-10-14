@@ -1,5 +1,6 @@
 package com.github.sparkzxl.auth;
 
+import com.github.lianjiatech.retrofit.spring.boot.annotation.RetrofitScan;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication(scanBasePackages = {BizConstant.BUSINESS_PACKAGE})
 @EnableFeignClients(basePackages = BizConstant.BUSINESS_FEIGN_PACKAGE)
 @EnableDiscoveryClient
+@RetrofitScan(basePackages = "com.github.sparkzxl.auth.infrastructure.client")
 public class AuthServerApplication {
 
     public static void main(String[] args) {

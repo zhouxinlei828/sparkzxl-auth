@@ -133,9 +133,11 @@ public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, Sys
             // 保存数据
             SysArea sysArea = SysAreaConvert.INSTANCE.convertSysArea(child);
             sysArea.setSortNumber(sortNumber);
-            if (save(sysArea)) {
-                if (!CollectionUtils.isEmpty(child.getDistricts())) {
-                    recursion(child.getDistricts(), child.getCode());
+            if (!sysArea.getCode().equals(100000L)){
+                if (save(sysArea)) {
+                    if (!CollectionUtils.isEmpty(child.getDistricts())) {
+                        recursion(child.getDistricts(), child.getCode());
+                    }
                 }
             }
         });

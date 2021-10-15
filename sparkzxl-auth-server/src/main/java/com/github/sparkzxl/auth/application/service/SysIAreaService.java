@@ -3,7 +3,6 @@ package com.github.sparkzxl.auth.application.service;
 import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,14 +21,6 @@ public interface SysIAreaService extends SuperCacheService<SysArea> {
      * @return List<Area>
      */
     List<SysArea> getAreaList(AreaQueryDTO areaQueryDTO);
-
-    /**
-     * 导入城市数据信息
-     *
-     * @param multipartFile 文件信息
-     * @return boolean
-     */
-    boolean importAreaJsonData(MultipartFile multipartFile);
 
     /**
      * 实时保存地区数据

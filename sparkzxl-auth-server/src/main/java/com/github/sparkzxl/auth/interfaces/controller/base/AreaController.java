@@ -40,11 +40,4 @@ public class AreaController extends SuperCacheController<SysIAreaService, Long,
     public boolean getActiveArea(@RequestParam("subDistrict") Integer subDistrict) {
         return super.baseService.getActiveArea(subDistrict);
     }
-
-    @ApiOperation("导入城市地区信息")
-    @PostMapping("/importCity")
-    public boolean importAreaJsonData(@RequestParam("jsonFile") MultipartFile multipartFile) {
-        return super.baseService.importAreaJsonData(multipartFile);
-    }
-
 }

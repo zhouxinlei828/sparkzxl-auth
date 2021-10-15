@@ -2,9 +2,7 @@ package com.github.sparkzxl.auth.domain.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.sparkzxl.auth.application.service.SysIAreaService;
-import com.github.sparkzxl.auth.domain.model.aggregates.City;
 import com.github.sparkzxl.auth.infrastructure.client.AreaClient;
 import com.github.sparkzxl.auth.infrastructure.client.result.Area;
 import com.github.sparkzxl.auth.infrastructure.client.result.ResponseEntity;
@@ -13,7 +11,6 @@ import com.github.sparkzxl.auth.infrastructure.convert.SysAreaConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
 import com.github.sparkzxl.auth.infrastructure.mapper.SysAreaMapper;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
-import com.github.sparkzxl.core.jackson.JsonUtil;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -66,22 +60,6 @@ public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, Sys
                 .likeRight(StringUtils.isNotEmpty(areaQueryDTO.getName()), SysArea::getName, areaQueryDTO.getName());
         List<SysArea> sysAreaList = list(areaLambdaQueryWrapper);
         return SysArea.buildTree(sysAreaList);
-    }
-
-    @Override
-    public boolean importAreaJsonData(MultipartFile multipartFile) {
-        try {
-            List<City> cities = JsonUtil.parse(multipartFile.getInputStream(), new TypeReference<List<City>>() {
-                @Override
-                public Type getType() {
-                    return super.getType();
-                }
-            });
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     @Override

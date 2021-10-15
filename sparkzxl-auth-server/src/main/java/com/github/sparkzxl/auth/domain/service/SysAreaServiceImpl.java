@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -84,10 +85,11 @@ public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, Sys
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean getActiveArea(Integer subDistrict) {
         Map<String, Object> queryMap = Maps.newHashMap();
         queryMap.put("keywords", "");
-        queryMap.put("subdistrict", 1);
+        queryMap.put("subdistrict", subDistrict);
         queryMap.put("key", areaKey);
         ResponseEntity responseEntity = areaClient.getAreaList(queryMap);
         List<Area> areaList = responseEntity.getDistricts();
@@ -96,33 +98,39 @@ public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, Sys
             List<Area> provinceList = country.getDistricts();
             // 排序
             provinceList = provinceList.stream().sorted(Comparator.comparing(Area::getCode)).collect(Collectors.toList());
+            AtomicInteger sortNumbers = new AtomicInteger(0);
             provinceList.forEach(province -> {
-                Map<String, Object> queryCity = Maps.newHashMap();
-                queryCity.put("keywords", "");
-                queryCity.put("subdistrict", 3);
-                queryCity.put("key", areaKey);
-                ResponseEntity cityResponse = areaClient.getAreaList(queryCity);
-                List<Area> cityList = cityResponse.getDistricts();
-                recursion(cityList, province.getCode());
+                Integer sortNumber = sortNumbers.getAndIncrement();
+                // 保存数据
+                if (StrUtil.equals(PROVINCE, province.getLevel())) {
+                    province.setParentCode(0L);
+                }
+                SysArea sysArea = SysAreaConvert.INSTANCE.convertSysArea(province);
+                sysArea.setSortNumber(sortNumber);
+                if (save(sysArea)) {
+                    List<Area> cityList = province.getDistricts();
+                    recursion(cityList, province.getCode());
+                }
             });
         });
         return true;
     }
 
-    public void recursion(List<Area> parentList, Long parentCode) {
-        if (CollectionUtils.isEmpty(parentList)) {
+    public void recursion(List<Area> cityList, Long parentCode) {
+        if (CollectionUtils.isEmpty(cityList)) {
             return;
         }
+        cityList = cityList.stream().sorted(Comparator.comparing(Area::getCode)).collect(Collectors.toList());
         // 对街道,乡镇adCode特殊处理
-        for (int i = 0; i < parentList.size(); i++) {
-            Area area = parentList.get(i);
+        for (int i = 0; i < cityList.size(); i++) {
+            Area area = cityList.get(i);
             if (StrUtil.equals(STREET, area.getLevel())) {
                 Long streetId = Long.valueOf(String.valueOf(area.getCode()).concat(String.format("%02d", i + 1)));
                 area.setCode(streetId);
             }
         }
         AtomicInteger sortNumbers = new AtomicInteger(0);
-        parentList.forEach(child -> {
+        cityList.forEach(child -> {
             // 设置父id
             if (StrUtil.equals(PROVINCE, child.getLevel())) {
                 child.setParentCode(0L);
@@ -133,11 +141,9 @@ public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, Sys
             // 保存数据
             SysArea sysArea = SysAreaConvert.INSTANCE.convertSysArea(child);
             sysArea.setSortNumber(sortNumber);
-            if (!sysArea.getCode().equals(100000L)){
-                if (save(sysArea)) {
-                    if (!CollectionUtils.isEmpty(child.getDistricts())) {
-                        recursion(child.getDistricts(), child.getCode());
-                    }
+            if (save(sysArea)) {
+                if (!CollectionUtils.isEmpty(child.getDistricts())) {
+                    recursion(child.getDistricts(), child.getCode());
                 }
             }
         });

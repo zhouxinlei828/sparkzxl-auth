@@ -3,17 +3,16 @@ package com.github.sparkzxl.oauth.domain.service;
 import com.github.sparkzxl.constant.AppContextConstants;
 import com.github.sparkzxl.core.context.AppContextHolder;
 import com.github.sparkzxl.core.jackson.JsonUtil;
-import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
 import com.github.sparkzxl.oauth.domain.repository.IOauthClientDetailsRepository;
 import com.github.sparkzxl.oauth.infrastructure.entity.OauthClientDetails;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Map;
 import java.util.Optional;
@@ -37,7 +36,7 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
         String tenant = AppContextHolder.getTenant();
-        if (StringUtils.isBlank(tenant)) {
+        if (StringUtils.isEmpty(tenant)) {
             AppContextHolder.setTenant(RequestContextHolderUtils.getRequest().getHeader(AppContextConstants.TENANT_ID));
         }
         OauthClientDetails oauthClientDetails = clientDetailsRepository.findById(clientId);
@@ -48,12 +47,12 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
         baseClientDetails.setAccessTokenValiditySeconds(oauthClientDetails.getAccessTokenValidity());
         baseClientDetails.setRefreshTokenValiditySeconds(oauthClientDetails.getRefreshTokenValidity());
         String additionalInformation = oauthClientDetails.getAdditionalInformation();
-        if (StringUtils.isNotBlank(additionalInformation)) {
+        if (!StringUtils.isEmpty(additionalInformation)) {
             Map<String, Object> additionalInformationMap = JsonUtil.toMap(additionalInformation, Object.class);
             baseClientDetails.setAdditionalInformation(additionalInformationMap);
         }
-        String scopes = oauthClientDetails.getAutoApprove();
-        Optional.ofNullable(oauthClientDetails.getAutoApprove()).ifPresent(value -> baseClientDetails.setAutoApproveScopes(ListUtils.stringToList(scopes)));
+        String autoApproveScopes = oauthClientDetails.getAutoApprove();
+        Optional.ofNullable(oauthClientDetails.getAutoApprove()).ifPresent(value -> baseClientDetails.setAutoApproveScopes(StringUtils.commaDelimitedListToSet(autoApproveScopes)));
         return baseClientDetails;
     }
 }

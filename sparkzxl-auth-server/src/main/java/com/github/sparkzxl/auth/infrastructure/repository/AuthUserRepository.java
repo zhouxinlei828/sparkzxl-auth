@@ -153,7 +153,7 @@ public class AuthUserRepository implements IAuthUserRepository {
         orgBasicInfo.setId(coreOrg.getId());
         orgBasicInfo.setLabel(coreOrg.getLabel());
         orgBasicInfo.setParentId(coreOrg.getParentId());
-        orgBasicInfo.setSortValue(coreOrg.getSortValue());
+        orgBasicInfo.setSortNumber(coreOrg.getSortValue());
         return orgBasicInfo;
     }
 

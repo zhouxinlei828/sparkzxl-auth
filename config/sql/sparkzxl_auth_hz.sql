@@ -27,7 +27,7 @@ CREATE TABLE `sysArea`
     `id`          bigint                                                        NOT NULL COMMENT 'id',
     `code`        varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci           DEFAULT '' COMMENT '编码',
     `label`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '名称',
-    `sort_value`  int                                                                    DEFAULT '1' COMMENT '排序',
+    `sort_number`  int                                                                    DEFAULT '1' COMMENT '排序',
     `level`       varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci           DEFAULT '' COMMENT '行政区级\n\n',
     `parent_id`   bigint                                                                 DEFAULT '0' COMMENT '父ID',
     `create_time` datetime                                                               DEFAULT NULL COMMENT '创建时间',
@@ -10522,7 +10522,7 @@ CREATE TABLE `auth_menu`
     `component`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '组件路径',
     `describe_`      varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '描述',
     `parent_id`      bigint                                                        DEFAULT '0' COMMENT '父级菜单ID',
-    `sort_value`     int                                                           DEFAULT '1' COMMENT '排序',
+    `sort_number`     int                                                           DEFAULT '1' COMMENT '排序',
     `is_enable`      bit(1)                                                        DEFAULT b'1' COMMENT '状态',
     `create_user`    bigint                                                        DEFAULT NULL COMMENT '创建人id',
     `create_time`    datetime                                                      DEFAULT NULL COMMENT '创建时间',
@@ -10531,7 +10531,7 @@ CREATE TABLE `auth_menu`
     `tenant_code`    varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  DEFAULT NULL,
     PRIMARY KEY (`id`) USING BTREE,
     KEY              `INX_STATUS` (`is_enable`) USING BTREE,
-    KEY              `INX_SORT` (`sort_value`) USING BTREE
+    KEY              `INX_SORT` (`sort_number`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='菜单';
 
 -- ----------------------------
@@ -11598,7 +11598,7 @@ CREATE TABLE `core_org`
     `abbreviation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci          DEFAULT '' COMMENT '简称',
     `parent_id`    bigint                                                                 DEFAULT '0' COMMENT '父ID',
     `tree_path`    varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci          DEFAULT ',' COMMENT '树结构',
-    `sort_value`   int                                                                    DEFAULT '1' COMMENT '排序',
+    `sort_number`   int                                                                    DEFAULT '1' COMMENT '排序',
     `status`       bit(1)                                                                 DEFAULT b'1' COMMENT '状态',
     `describe_`    varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci          DEFAULT '' COMMENT '描述',
     `create_time`  datetime                                                               DEFAULT NULL,
@@ -11782,7 +11782,7 @@ CREATE TABLE `dictionary_item`
     `name`            varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '名称',
     `status_`         bit(1)                                                                DEFAULT b'1' COMMENT '状态',
     `describe_`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci         DEFAULT '' COMMENT '描述',
-    `sort_value`      int                                                                   DEFAULT '1' COMMENT '排序',
+    `sort_number`      int                                                                   DEFAULT '1' COMMENT '排序',
     `create_user`     bigint                                                                DEFAULT '0' COMMENT '创建人id',
     `create_time`     datetime                                                              DEFAULT NULL COMMENT '创建时间',
     `update_user`     bigint                                                                DEFAULT '0' COMMENT '更新人id',

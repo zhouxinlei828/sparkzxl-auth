@@ -2,7 +2,8 @@ package com.github.sparkzxl.auth.domain.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.sparkzxl.auth.application.service.SysIAreaService;
+import com.github.sparkzxl.auth.application.service.ISysAreaService;
+import com.github.sparkzxl.auth.domain.model.vo.AreaTree;
 import com.github.sparkzxl.auth.infrastructure.client.AreaClient;
 import com.github.sparkzxl.auth.infrastructure.client.result.Area;
 import com.github.sparkzxl.auth.infrastructure.client.result.ResponseEntity;
@@ -11,6 +12,7 @@ import com.github.sparkzxl.auth.infrastructure.convert.SysAreaConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
 import com.github.sparkzxl.auth.infrastructure.mapper.SysAreaMapper;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
+import com.github.sparkzxl.core.tree.TreeUtils;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +37,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, SysArea> implements SysIAreaService {
+public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, SysArea> implements ISysAreaService {
 
     @Autowired
     private AreaClient areaClient;
@@ -54,12 +56,13 @@ public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, Sys
 
 
     @Override
-    public List<SysArea> getAreaList(AreaQueryDTO areaQueryDTO) {
+    public List<AreaTree> getAreaList(AreaQueryDTO areaQueryDTO) {
         LambdaQueryWrapper<SysArea> areaLambdaQueryWrapper = new LambdaQueryWrapper<SysArea>()
                 .eq(StringUtils.isNotEmpty(areaQueryDTO.getCode()), SysArea::getCode, areaQueryDTO.getCode())
                 .likeRight(StringUtils.isNotEmpty(areaQueryDTO.getName()), SysArea::getName, areaQueryDTO.getName());
         List<SysArea> sysAreaList = list(areaLambdaQueryWrapper);
-        return SysArea.buildTree(sysAreaList);
+        List<AreaTree> areaTreeList = SysAreaConvert.INSTANCE.convertSysAreaList(sysAreaList);
+        return TreeUtils.buildTree(areaTreeList);
     }
 
     @Override

@@ -7,8 +7,8 @@ import cn.hutool.core.util.EscapeUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.cache.template.GeneralCacheService;
-import com.github.sparkzxl.constant.AppContextConstants;
-import com.github.sparkzxl.core.context.AppContextHolder;
+import com.github.sparkzxl.constant.BaseContextConstants;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
@@ -148,10 +148,10 @@ public class OauthServiceImpl implements IOauthService {
     private void buildGlobalUserInfo(OAuth2AccessToken oAuth2AccessToken) {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
         String username = (String) additionalInformation.get("username");
-        String tenant = (String) additionalInformation.get(AppContextConstants.TENANT_ID);
-        AppContextHolder.setTenant(tenant);
+        String tenant = (String) additionalInformation.get(BaseContextConstants.TENANT_ID);
+        BaseContextHolder.setTenant(tenant);
         AuthUserInfo<Long> authUserInfo = userInfoClient.getAuthUserInfo(username);
-        String authUserInfoKey = BuildKeyUtil.generateKey(AppContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
+        String authUserInfoKey = BuildKeyUtil.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
         redisTemplate.opsForHash().put(authUserInfoKey, oAuth2AccessToken.getValue(), authUserInfo);
         redisTemplate.expire(authUserInfoKey, oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);
     }
@@ -191,7 +191,7 @@ public class OauthServiceImpl implements IOauthService {
                 .addQuery("redirect_uri", redirectUriList.get(0))
                 .addQuery("response_type", "code")
                 .addQuery("state", state)
-                .addQuery(AppContextConstants.TENANT_ID, AppContextHolder.getTenant())
+                .addQuery(BaseContextConstants.TENANT_ID, BaseContextHolder.getTenant())
                 .build();
         String referer = request.getHeader("Referer");
         if (StringUtils.isNotEmpty(referer)) {
@@ -227,7 +227,7 @@ public class OauthServiceImpl implements IOauthService {
 
     @Override
     public AuthUserBasicVO userinfo(AuthUserInfo<Long> authUserInfo) {
-        AppContextHolder.setTenant(authUserInfo.getTenantId());
+        BaseContextHolder.setTenant(authUserInfo.getTenantId());
         return userInfoClient.getUserByUserId(authUserInfo.getId());
     }
 }

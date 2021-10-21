@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.domain.service;
 
-import com.github.sparkzxl.constant.AppContextConstants;
-import com.github.sparkzxl.core.context.AppContextHolder;
+import com.github.sparkzxl.constant.BaseContextConstants;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.core.jackson.JsonUtil;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
 import com.github.sparkzxl.oauth.domain.repository.IOauthClientDetailsRepository;
@@ -35,9 +35,9 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
-        String tenant = AppContextHolder.getTenant();
+        String tenant = BaseContextHolder.getTenant();
         if (StringUtils.isEmpty(tenant)) {
-            AppContextHolder.setTenant(RequestContextHolderUtils.getRequest().getHeader(AppContextConstants.TENANT_ID));
+            BaseContextHolder.setTenant(RequestContextHolderUtils.getRequest().getHeader(BaseContextConstants.TENANT_ID));
         }
         OauthClientDetails oauthClientDetails = clientDetailsRepository.findById(clientId);
         BaseClientDetails baseClientDetails = new BaseClientDetails(oauthClientDetails.getClientId(), oauthClientDetails.getResourceIds(),

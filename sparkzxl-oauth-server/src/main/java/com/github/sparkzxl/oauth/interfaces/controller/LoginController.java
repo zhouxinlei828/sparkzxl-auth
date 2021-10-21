@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.interfaces.controller;
 
 import com.github.sparkzxl.annotation.result.ResponseResult;
-import com.github.sparkzxl.constant.AppContextConstants;
+import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.oauth.application.service.IOauthService;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AuthorizationRequest;
@@ -39,9 +39,9 @@ public class LoginController {
     public ModelAndView require(HttpServletRequest request, HttpServletResponse response) {
         SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
         ModelAndView model = new ModelAndView("login");
-        String[] parameterValues = savedRequest.getParameterValues(AppContextConstants.TENANT_ID);
+        String[] parameterValues = savedRequest.getParameterValues(BaseContextConstants.TENANT_ID);
         if (ArrayUtils.isNotEmpty(parameterValues)) {
-            model.addObject(AppContextConstants.TENANT_ID, parameterValues[0]);
+            model.addObject(BaseContextConstants.TENANT_ID, parameterValues[0]);
         }
         model.addObject("systemName", systemProperties.getName());
         return model;

@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.infrastructure.security.filter;
 
-import com.github.sparkzxl.constant.AppContextConstants;
-import com.github.sparkzxl.core.context.AppContextHolder;
+import com.github.sparkzxl.constant.BaseContextConstants;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,8 +27,8 @@ public class TenantLoginPreFilter extends OncePerRequestFilter {
                                     FilterChain chain) throws ServletException, IOException {
         String authenticationFormUrl = "/authentication/form";
         if (StringUtils.equals(request.getRequestURI(), authenticationFormUrl)) {
-            String tenantId = request.getParameter(AppContextConstants.TENANT_ID);
-            AppContextHolder.setTenant(tenantId);
+            String tenantId = request.getParameter(BaseContextConstants.TENANT_ID);
+            BaseContextHolder.setTenant(tenantId);
         }
         chain.doFilter(request, response);
     }

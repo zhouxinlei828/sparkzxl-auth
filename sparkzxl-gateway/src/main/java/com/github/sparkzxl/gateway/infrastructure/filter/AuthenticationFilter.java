@@ -1,6 +1,6 @@
 package com.github.sparkzxl.gateway.infrastructure.filter;
 
-import com.github.sparkzxl.constant.AppContextConstants;
+import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.base.result.ApiResponseStatus;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
@@ -50,7 +50,7 @@ public class AuthenticationFilter extends AbstractJwtAuthorizationFilter {
 
     @Override
     public String getHeaderKey() {
-        return AppContextConstants.JWT_TOKEN_HEADER;
+        return BaseContextConstants.JWT_TOKEN_HEADER;
     }
 
     @Override
@@ -86,9 +86,9 @@ public class AuthenticationFilter extends AbstractJwtAuthorizationFilter {
             path[0] = path[0].replace(prefix, "");
         });
         String routePath = path[0];
-        String tenant = WebFluxUtils.getHeader(AppContextConstants.TENANT_ID, request);
+        String tenant = WebFluxUtils.getHeader(BaseContextConstants.TENANT_ID, request);
         List<String> authorities = Lists.newArrayList();
-        String cacheKey = BuildKeyUtil.generateKey(AppContextConstants.RESOURCE_ROLES_MAP, tenant);
+        String cacheKey = BuildKeyUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenant);
         if (BizConstant.USER_PATH.equals(routePath) || BizConstant.USER_ROUTER_PATH.equals(routePath)) {
             authorities.add(BizConstant.USER_CODE);
         }

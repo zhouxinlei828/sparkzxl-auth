@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.infrastructure.security.logout;
 
-import com.github.sparkzxl.constant.AppContextConstants;
-import com.github.sparkzxl.core.context.AppContextHolder;
+import com.github.sparkzxl.constant.BaseContextConstants;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.core.context.ResponseContextHolder;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
@@ -52,9 +52,9 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
         String token = httpServletRequest.getHeader("token");
-        AppContextHolder.setTenant(RequestContextHolderUtils.getHeader(AppContextConstants.TENANT_ID));
+        BaseContextHolder.setTenant(RequestContextHolderUtils.getHeader(BaseContextConstants.TENANT_ID));
         log.info("退出登录成功：{}", token);
-        token = StringUtils.removeStartIgnoreCase(token, AppContextConstants.BEARER_TOKEN);
+        token = StringUtils.removeStartIgnoreCase(token, BaseContextConstants.BEARER_TOKEN);
         if (token != null) {
             OAuth2AccessToken accessToken = tokenStore.readAccessToken(token);
             if (accessToken != null) {
@@ -63,7 +63,7 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
                 Map<String, Object> additionalInformation = accessToken.getAdditionalInformation();
                 String username = (String) additionalInformation.get("username");
                 AuthUserInfo<Long> authUserInfo = userInfoClient.getUserDetailInfo(username);
-                String authUserInfoKey = BuildKeyUtil.generateKey(AppContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
+                String authUserInfoKey = BuildKeyUtil.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
                 redisTemplate.opsForHash().delete(authUserInfoKey, accessToken.getValue());
             }
         }

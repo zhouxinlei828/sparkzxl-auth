@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.domain.repository.mongodb;
 
 import cn.hutool.json.JSONUtil;
-import com.github.sparkzxl.core.context.AppContextHolder;
+import com.github.sparkzxl.core.context.BaseContextHolder;
 import com.github.sparkzxl.core.utils.DateUtils;
 import com.github.sparkzxl.workflow.WorkflowApplication;
 import com.github.sparkzxl.workflow.infrastructure.entity.mongodb.OnlFormTemplate;
@@ -18,7 +18,7 @@ public class OnlFormTemplateRepositoryTest {
 
     @Test
     void test() {
-        AppContextHolder.setUserId("admin");
+        BaseContextHolder.setUserId("admin");
         // 动态数据源切换
         OnlFormTemplate onlFormTemplate = new OnlFormTemplate();
         onlFormTemplate.setTemplateCode("test_template");

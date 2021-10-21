@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.infrastructure.oauth2;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.github.sparkzxl.constant.AppContextConstants;
+import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.base.result.ApiResult;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class Oauth2ExceptionHandler {
 
     public void handleResponseResult() {
         HttpServletRequest servletRequest = RequestContextHolderUtils.getRequest();
-        servletRequest.removeAttribute(AppContextConstants.RESPONSE_RESULT_ANN);
+        servletRequest.removeAttribute(BaseContextConstants.RESPONSE_RESULT_ANN);
     }
 
     @ResponseBody

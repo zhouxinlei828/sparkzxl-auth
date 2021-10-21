@@ -1,6 +1,6 @@
 package com.github.sparkzxl.oauth.infrastructure.security.filter;
 
-import com.github.sparkzxl.constant.AppContextConstants;
+import com.github.sparkzxl.constant.BaseContextConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -40,7 +40,7 @@ public class PermitAuthenticationFilter extends OncePerRequestFilter {
                         Enumeration<String> wrappedHeaderNames = super.getHeaderNames();
                         while (wrappedHeaderNames.hasMoreElements()) {
                             String headerName = wrappedHeaderNames.nextElement();
-                            if (!AppContextConstants.JWT_TOKEN_HEADER.equalsIgnoreCase(headerName)) {
+                            if (!BaseContextConstants.JWT_TOKEN_HEADER.equalsIgnoreCase(headerName)) {
                                 headerNameSet.add(headerName);
                             }
                         }
@@ -50,7 +50,7 @@ public class PermitAuthenticationFilter extends OncePerRequestFilter {
 
                 @Override
                 public Enumeration<String> getHeaders(String name) {
-                    if (AppContextConstants.JWT_TOKEN_HEADER.equalsIgnoreCase(name)) {
+                    if (BaseContextConstants.JWT_TOKEN_HEADER.equalsIgnoreCase(name)) {
                         return Collections.emptyEnumeration();
                     }
                     return super.getHeaders(name);
@@ -58,7 +58,7 @@ public class PermitAuthenticationFilter extends OncePerRequestFilter {
 
                 @Override
                 public String getHeader(String name) {
-                    if (AppContextConstants.JWT_TOKEN_HEADER.equalsIgnoreCase(name)) {
+                    if (BaseContextConstants.JWT_TOKEN_HEADER.equalsIgnoreCase(name)) {
                         return null;
                     }
                     return super.getHeader(name);

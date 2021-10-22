@@ -29,3 +29,6 @@ spring:
             refresh: true
         enable-remote-sync-config: true
         refresh-enabled: true
+ribbon:
+  isolation:
+    enabled: true

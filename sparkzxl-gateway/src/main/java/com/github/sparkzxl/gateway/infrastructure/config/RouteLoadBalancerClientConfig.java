@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * description: 灰度负载模式自动装配
+ * description: 网关路由负载模式自动装配
  *
  * @author zhouxinlei
  * @date 2021-10-22 22:00:19

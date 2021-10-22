@@ -7,6 +7,7 @@ import com.github.sparkzxl.core.base.result.ApiResult;
 import com.github.sparkzxl.core.support.BizException;
 import com.github.sparkzxl.gateway.infrastructure.annotation.WebfluxExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.server.ResponseStatusException;
@@ -36,6 +37,9 @@ public class GateWayExceptionHandlerStrategy {
 
     public ApiResult<?> handleException(Throwable throwable) {
         ExceptionHandlerAdvice exceptionHandlerAdvice = exceptionHandlerAdviceMap.get(throwable.getClass());
+        if (ObjectUtils.isEmpty(exceptionHandlerAdvice)) {
+            return ApiResult.apiResult(500, throwable.getMessage());
+        }
         return exceptionHandlerAdvice.handleException(throwable);
     }
 
@@ -76,7 +80,7 @@ public class GateWayExceptionHandlerStrategy {
 
         @Override
         public ApiResult<?> handleException(Throwable throwable) {
-            return ApiResult.apiResult(500, "无法响应结果");
+            return ApiResult.apiResult(500, "请求响应失败");
         }
     }
 

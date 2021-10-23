@@ -39,21 +39,16 @@ import java.util.stream.Collectors;
 @Service
 public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, SysArea> implements ISysAreaService {
 
-    @Autowired
-    private AreaClient areaClient;
-
-    @Value("${area.key}")
-    private String areaKey;
-
     /**
      * 标识符
      */
     private static final String NONE = "[]";
-
     private static final String STREET = "street";
-
     private static final String PROVINCE = "province";
-
+    @Autowired
+    private AreaClient areaClient;
+    @Value("${area.key}")
+    private String areaKey;
 
     @Override
     public List<AreaTree> getAreaList(AreaQueryDTO areaQueryDTO) {

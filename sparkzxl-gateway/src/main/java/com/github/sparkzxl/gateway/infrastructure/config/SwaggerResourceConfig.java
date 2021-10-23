@@ -39,18 +39,14 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class SwaggerResourceConfig implements SwaggerResourcesProvider {
 
+    private final static String SWAGGER_RESOURCES_URI = "/swagger-resources";
     private final GatewayProperties gatewayProperties;
-
-    @Resource(name = "lbRestTemplate")
-    private RestTemplate restTemplate;
-
-    @Autowired
-    private DiscoveryClient discoveryClient;
-
     private final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1, 1, 0L,
             TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(), new DefaultThreadFactory("swagger-resource-pool"));
-
-    private final static String SWAGGER_RESOURCES_URI = "/swagger-resources";
+    @Resource(name = "lbRestTemplate")
+    private RestTemplate restTemplate;
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     /**
      * 遍历网关的路由，并通过restTemplate访问后端服务的swagger信息，聚合后返回

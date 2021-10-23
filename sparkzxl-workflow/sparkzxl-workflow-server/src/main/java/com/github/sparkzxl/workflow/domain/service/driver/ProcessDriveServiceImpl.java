@@ -4,8 +4,8 @@ import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.sparkzxl.core.utils.DateUtils;
 import com.github.sparkzxl.core.utils.ListUtils;
+import com.github.sparkzxl.patterns.factory.BusinessStrategyFactory;
 import com.github.sparkzxl.patterns.strategy.BusinessHandler;
-import com.github.sparkzxl.patterns.strategy.BusinessHandlerChooser;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRuntimeService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessTaskService;
@@ -58,17 +58,17 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
     private final IProcessRepositoryService processRepositoryService;
     private final IProcessRuntimeService processRuntimeService;
     private final IProcessTaskService processTaskService;
-    private final BusinessHandlerChooser businessHandlerChooser;
+    private final BusinessStrategyFactory businessStrategyFactory;
     private final IExtProcessUserRepository processUserRepository;
 
     @Override
     public DriverResult driveProcess(DriverProcessParam driverProcessParam) {
         int actType = driverProcessParam.getActType();
-        BusinessHandler<DriverResult, DriveProcess> businessHandlerChooser =
-                this.businessHandlerChooser.businessHandlerChooser(WorkflowConstants.BusinessTaskStrategy.BUSINESS_TASK_DRIVER,
+        BusinessHandler<DriverResult, DriveProcess> processBusinessHandler =
+                this.businessStrategyFactory.getStrategy(WorkflowConstants.BusinessTaskStrategy.BUSINESS_TASK_DRIVER,
                         String.valueOf(actType));
         DriveProcess driveProcess = ActivitiDriverConvert.INSTANCE.convertDriveProcess(driverProcessParam);
-        return businessHandlerChooser.businessHandler(driveProcess);
+        return processBusinessHandler.execute(driveProcess);
     }
 
     @Override

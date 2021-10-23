@@ -29,7 +29,7 @@ public class ProcessSubmitBusinessHandler implements BusinessHandler<DriverResul
 
     @Override
     @RedisLock(prefix = "act_driver")
-    public DriverResult businessHandler(DriveProcess driveProcess) {
+    public DriverResult execute(DriveProcess driveProcess) {
         log.info("流程提交业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
         return actWorkApiService.submitProcess(driveProcess);
     }

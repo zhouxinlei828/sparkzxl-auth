@@ -1,15 +1,15 @@
 package com.github.sparkzxl.gateway.infrastructure.filter;
 
 import com.github.sparkzxl.constant.BaseContextConstants;
-import com.github.sparkzxl.core.base.result.ApiResponseStatus;
+import com.github.sparkzxl.core.base.result.ResponseInfoStatus;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.entity.core.JwtUserInfo;
-import com.github.sparkzxl.gateway.filter.AbstractJwtAuthorizationFilter;
+import com.github.sparkzxl.gateway.filter.AbstractAuthorizationFilter;
 import com.github.sparkzxl.gateway.infrastructure.constant.BizConstant;
-import com.github.sparkzxl.gateway.properties.ResourceProperties;
-import com.github.sparkzxl.gateway.support.GatewayAuthenticationException;
+import com.github.sparkzxl.gateway.properties.GatewayResourceProperties;
+import com.github.sparkzxl.gateway.support.GatewayException;
 import com.github.sparkzxl.gateway.utils.WebFluxUtils;
 import com.github.sparkzxl.jwt.service.JwtTokenService;
 import com.google.common.collect.Lists;
@@ -40,9 +40,9 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RefreshScope
-public class AuthenticationFilter extends AbstractJwtAuthorizationFilter {
+public class AuthenticationFilter extends AbstractAuthorizationFilter {
 
-    private final ResourceProperties resourceProperties;
+    private final GatewayResourceProperties resourceProperties;
     private final JwtTokenService jwtTokenService;
     private final RedisTemplate<String, Object> redisTemplate;
     private final GatewayProperties gatewayProperties;
@@ -59,12 +59,12 @@ public class AuthenticationFilter extends AbstractJwtAuthorizationFilter {
     }
 
     @Override
-    public JwtUserInfo getJwtUserInfo(String token) throws GatewayAuthenticationException {
+    public JwtUserInfo getJwtUserInfo(String token) throws GatewayException {
         try {
             return jwtTokenService.getAuthJwtInfo(token);
         } catch (Exception e) {
             e.printStackTrace();
-            ExceptionAssert.failure(ApiResponseStatus.JSON_PARSE_ERROR);
+            ExceptionAssert.failure(ResponseInfoStatus.JSON_PARSE_ERROR);
             return null;
         }
     }
@@ -75,7 +75,7 @@ public class AuthenticationFilter extends AbstractJwtAuthorizationFilter {
     }
 
     @Override
-    protected JwtUserInfo checkTokenAuthority(String token, ServerWebExchange exchange) throws GatewayAuthenticationException {
+    protected JwtUserInfo checkTokenAuthority(String token, ServerWebExchange exchange) throws GatewayException {
         JwtUserInfo jwtUserInfo = super.checkTokenAuthority(token, exchange);
         //从Redis中获取当前路径可访问角色列表
         ServerHttpRequest request = exchange.getRequest();
@@ -100,6 +100,6 @@ public class AuthenticationFilter extends AbstractJwtAuthorizationFilter {
         if (CollectionUtils.containsAny(jwtUserInfo.getAuthorities(), authorities)) {
             return jwtUserInfo;
         }
-        throw new GatewayAuthenticationException(ApiResponseStatus.AUTHORIZED_DENIED);
+        throw new GatewayException(ResponseInfoStatus.AUTHORIZED_DENIED);
     }
 }

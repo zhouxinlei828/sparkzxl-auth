@@ -1,6 +1,6 @@
 package com.github.sparkzxl.gateway.interfaces.controller;
 
-import com.github.sparkzxl.core.base.result.ApiResult;
+import com.github.sparkzxl.core.base.result.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class FallbackController {
 
     @GetMapping("/fallback")
-    public ApiResult<?> fallback() {
+    public ResponseResult<?> fallback() {
         log.info("fallback 降级========>{}", "响应超时熔断处理器");
-        return ApiResult.timeOut();
+        return ResponseResult.timeOut();
     }
 }

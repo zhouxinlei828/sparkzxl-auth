@@ -1,6 +1,6 @@
 package com.github.sparkzxl.oauth.infrastructure.repository;
 
-import com.github.sparkzxl.core.base.result.ApiResponseStatus;
+import com.github.sparkzxl.core.base.result.ResponseInfoStatus;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.oauth.domain.repository.IOauthClientDetailsRepository;
 import com.github.sparkzxl.oauth.infrastructure.entity.OauthClientDetails;
@@ -34,19 +34,19 @@ public class OauthClientDetailsRepository implements IOauthClientDetailsReposito
     @Transactional(rollbackFor = Exception.class)
     public void saveOauthClientDetails(OauthClientDetails oauthClientDetails) {
         if (StringUtils.isEmpty(oauthClientDetails.getClientId())) {
-            ExceptionAssert.failure(ApiResponseStatus.PARAM_MISS.getCode(), "客户端id不能为空");
+            ExceptionAssert.failure(ResponseInfoStatus.PARAM_MISS.getCode(), "客户端id不能为空");
         }
         if (StringUtils.isEmpty(oauthClientDetails.getClientSecret())) {
-            ExceptionAssert.failure(ApiResponseStatus.PARAM_MISS.getCode(), "客户端id不能为空");
+            ExceptionAssert.failure(ResponseInfoStatus.PARAM_MISS.getCode(), "客户端id不能为空");
         }
         if (StringUtils.isEmpty(oauthClientDetails.getAuthorizedGrantTypes())) {
-            ExceptionAssert.failure(ApiResponseStatus.PARAM_MISS.getCode(), "授权类型不能为空");
+            ExceptionAssert.failure(ResponseInfoStatus.PARAM_MISS.getCode(), "授权类型不能为空");
         }
         if (ObjectUtils.isEmpty(oauthClientDetails.getAccessTokenValidity())) {
-            ExceptionAssert.failure(ApiResponseStatus.PARAM_MISS.getCode(), "令牌时效不能为空");
+            ExceptionAssert.failure(ResponseInfoStatus.PARAM_MISS.getCode(), "令牌时效不能为空");
         }
         if (ObjectUtils.isEmpty(oauthClientDetails.getRefreshTokenValidity())) {
-            ExceptionAssert.failure(ApiResponseStatus.PARAM_MISS.getCode(), "令牌刷新时效不能为空");
+            ExceptionAssert.failure(ResponseInfoStatus.PARAM_MISS.getCode(), "令牌刷新时效不能为空");
         }
         String clientSecret = oauthClientDetails.getClientSecret();
         String encryptClientSecret = passwordEncoder.encode(clientSecret);
@@ -71,7 +71,7 @@ public class OauthClientDetailsRepository implements IOauthClientDetailsReposito
     @Override
     public void updateOauthClientDetails(OauthClientDetails oauthClientDetails) {
         if (StringUtils.isEmpty(oauthClientDetails.getClientId())) {
-            ExceptionAssert.failure(ApiResponseStatus.PARAM_MISS.getCode(), "客户端id不能为空");
+            ExceptionAssert.failure(ResponseInfoStatus.PARAM_MISS.getCode(), "客户端id不能为空");
         }
         OauthClientDetails clientDetails = clientDetailsMapper.selectById(oauthClientDetails.getClientId());
         String clientSecret = oauthClientDetails.getClientSecret();

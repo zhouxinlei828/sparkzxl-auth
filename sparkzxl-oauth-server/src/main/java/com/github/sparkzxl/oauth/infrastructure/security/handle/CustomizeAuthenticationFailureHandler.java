@@ -1,6 +1,6 @@
 package com.github.sparkzxl.oauth.infrastructure.security.handle;
 
-import com.github.sparkzxl.core.base.result.ApiResponseStatus;
+import com.github.sparkzxl.core.base.result.ResponseInfoStatus;
 import com.github.sparkzxl.core.context.ResponseContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,7 +26,7 @@ public class CustomizeAuthenticationFailureHandler extends SimpleUrlAuthenticati
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         log.error("登陆失败：{}", exception.getMessage());
-        int code = ApiResponseStatus.PARAM_VALID_ERROR.getCode();
+        int code = ResponseInfoStatus.PARAM_VALID_ERROR.getCode();
         String message = exception.getMessage();
         if (exception instanceof BadCredentialsException) {
             message = "用户名或密码错误";

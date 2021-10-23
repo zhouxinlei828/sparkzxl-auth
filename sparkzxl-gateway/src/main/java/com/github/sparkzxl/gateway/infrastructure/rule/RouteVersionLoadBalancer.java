@@ -8,13 +8,15 @@ import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.github.sparkzxl.constant.BaseContextConstants;
-import com.github.sparkzxl.core.context.BaseContextHolder;
+import com.github.sparkzxl.gateway.rule.RouteLoadBalancer;
+import com.github.sparkzxl.gateway.utils.WebFluxUtils;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -22,6 +24,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * description: 路由版本负载均衡
+ *
+ * @author zhoux
+ * @date 2021-10-23 16:45:51
+ */
+@Component
 @Slf4j
 public class RouteVersionLoadBalancer implements RouteLoadBalancer {
 
@@ -35,11 +44,10 @@ public class RouteVersionLoadBalancer implements RouteLoadBalancer {
         try {
             String clusterName = this.nacosDiscoveryProperties.getClusterName();
             String group = this.nacosDiscoveryProperties.getGroup();
-            String name = serviceId;
             NamingService namingService = this.nacosServiceManager.getNamingService(this.nacosDiscoveryProperties.getNacosProperties());
-            List<Instance> instances = namingService.selectInstances(name, group, true);
+            List<Instance> instances = namingService.selectInstances(serviceId, group, true);
             if (CollectionUtils.isEmpty(instances)) {
-                log.warn("no instance in service {}", name);
+                log.warn("no instance in service {}", serviceId);
                 return null;
             } else {
                 List<Instance> instancesToChoose = instances;
@@ -48,11 +56,11 @@ public class RouteVersionLoadBalancer implements RouteLoadBalancer {
                     if (!CollectionUtils.isEmpty(sameClusterInstances)) {
                         instancesToChoose = sameClusterInstances;
                     } else {
-                        log.warn("A cross-cluster call occurs，name = {}, clusterName = {}, instance = {}", name, clusterName, instances);
+                        log.warn("A cross-cluster call occurs，name = {}, clusterName = {}, instance = {}", serviceId, clusterName, instances);
                     }
                 }
                 List<Instance> targetInstanceList = Lists.newArrayList();
-                String version = BaseContextHolder.getVersion();
+                String version = WebFluxUtils.getHeader(BaseContextConstants.VERSION, request);
                 // 判断版本号是否存在
                 if (StringUtils.isNotBlank(version)) {
                     //取指定版本号的实例
@@ -79,7 +87,7 @@ public class RouteVersionLoadBalancer implements RouteLoadBalancer {
                     boolean secure = Boolean.parseBoolean(metadata.get("secure"));
                     nacosServiceInstance.setSecure(secure);
                 }
-                log.warn("请求实例名 = {}, version = {}, instance = {}", name, version, instance.getIp().concat(":").concat(String.valueOf(instance.getPort())));
+                log.warn("request instance name = {}, version = {}, IP = {}", serviceId, version, instance.getIp().concat(":").concat(String.valueOf(instance.getPort())));
                 return nacosServiceInstance;
 
             }

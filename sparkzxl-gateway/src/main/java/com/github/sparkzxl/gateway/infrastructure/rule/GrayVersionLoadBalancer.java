@@ -8,16 +8,19 @@ import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.github.sparkzxl.constant.BaseContextConstants;
-import com.github.sparkzxl.gateway.rule.RouteLoadBalancer;
+import com.github.sparkzxl.gateway.rule.IReactorServiceInstanceLoadBalancer;
 import com.github.sparkzxl.gateway.utils.WebFluxUtils;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.DefaultResponse;
+import org.springframework.cloud.client.loadbalancer.Response;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
@@ -25,14 +28,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * description: 路由版本负载均衡
+ * description: 灰度版本负载均衡
  *
  * @author zhoux
  * @date 2021-10-23 16:45:51
  */
 @Component
 @Slf4j
-public class RouteVersionLoadBalancer implements RouteLoadBalancer {
+public class GrayVersionLoadBalancer implements IReactorServiceInstanceLoadBalancer {
 
     @Autowired
     private NacosDiscoveryProperties nacosDiscoveryProperties;
@@ -40,7 +43,7 @@ public class RouteVersionLoadBalancer implements RouteLoadBalancer {
     private NacosServiceManager nacosServiceManager;
 
     @Override
-    public ServiceInstance choose(String serviceId, ServerHttpRequest request) {
+    public Mono<Response<ServiceInstance>> choose(String serviceId, ServerHttpRequest request) {
         try {
             String clusterName = this.nacosDiscoveryProperties.getClusterName();
             String group = this.nacosDiscoveryProperties.getGroup();
@@ -88,7 +91,7 @@ public class RouteVersionLoadBalancer implements RouteLoadBalancer {
                     nacosServiceInstance.setSecure(secure);
                 }
                 log.warn("request instance name = {}, version = {}, IP = {}", serviceId, version, instance.getIp().concat(":").concat(String.valueOf(instance.getPort())));
-                return nacosServiceInstance;
+                return Mono.just(new DefaultResponse(nacosServiceInstance));
 
             }
         } catch (NacosException e) {

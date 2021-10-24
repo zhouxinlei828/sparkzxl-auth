@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  * @author charles.zhou
  * @date 2020-08-03 17:16:17
  */
-@Service("oauthUserDetailsService")
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserInfoClient userInfoClient;
@@ -40,8 +40,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private AuthUserDetail<Long> getUserDetail(String username) {
         UserDetailInfo userDetailInfo = userInfoClient.getUserDetailInfo(username);
         if (ObjectUtils.isNotEmpty(userDetailInfo)) {
-            AuthUserDetail<Long> authUserDetail = new AuthUserDetail<>(userDetailInfo.getAccount(),
+            AuthUserDetail<Long> authUserDetail = new AuthUserDetail<>(userDetailInfo.getId(), userDetailInfo.getAccount(),
                     userDetailInfo.getPassword(),
+                    userDetailInfo.getName(),
                     AuthorityUtils.createAuthorityList(ListUtils.listToArray(userDetailInfo.getAuthorityList())));
             authUserDetail.setId(userDetailInfo.getId());
             authUserDetail.setName(userDetailInfo.getName());

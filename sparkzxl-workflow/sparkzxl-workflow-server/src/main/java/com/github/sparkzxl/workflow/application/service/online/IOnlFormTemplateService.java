@@ -1,16 +1,63 @@
 package com.github.sparkzxl.workflow.application.service.online;
 
-import com.github.sparkzxl.database.base.service.SuperCacheService;
-import com.github.sparkzxl.workflow.infrastructure.entity.OnlFormTemplate;
+import com.alibaba.fastjson.JSONObject;
+import com.github.sparkzxl.workflow.infrastructure.entity.mongodb.OnlFormTemplate;
+
+import java.util.List;
 
 /**
- * <p>
- * 表单设计模板 服务类
- * </p>
+ * description: 表单设计模板 服务类
  *
  * @author zhouxinlei
- * @since 2021-08-01
+ * @date 2021-08-29 10:23:58
  */
-public interface IOnlFormTemplateService extends SuperCacheService<OnlFormTemplate> {
+public interface IOnlFormTemplateService {
 
+    /**
+     * 保存模板
+     *
+     * @param template 模板
+     * @return boolean
+     */
+    boolean saveTemplate(OnlFormTemplate template);
+
+    /**
+     * 更新模板
+     *
+     * @param template 模板
+     * @return boolean
+     */
+    boolean updateTemplate(OnlFormTemplate template);
+
+    /**
+     * 删除模板
+     *
+     * @param templateId 模板id
+     * @return boolean
+     */
+    boolean deleteTemplate(Long templateId);
+
+    /**
+     * 删除模板
+     *
+     * @param templateIds 模板id列表
+     * @return boolean
+     */
+    boolean deleteTemplate(List<Long> templateIds);
+
+    /**
+     * 查询表单模板
+     *
+     * @param templateId 模板id
+     * @return OnlFormTemplate
+     */
+    OnlFormTemplate getTemplate(Long templateId);
+
+    /**
+     * 查询模板json
+     *
+     * @param templateCode 模板code
+     * @return JSONObject
+     */
+    JSONObject getTemplateJson(String templateCode);
 }

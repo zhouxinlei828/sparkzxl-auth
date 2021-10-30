@@ -49,7 +49,7 @@ public class DictionaryItem extends Entity<Long> {
     private String describe;
 
     @ApiModelProperty(value = "排序")
-    @TableField("sort_value")
+    @TableField("sort_number")
     private Integer sortValue;
 
 }

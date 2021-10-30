@@ -1,20 +1,31 @@
 package com.github.sparkzxl.gateway.infrastructure.config;
 
+import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSONArray;
-import com.google.common.collect.Lists;
+import io.netty.util.concurrent.DefaultThreadFactory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.config.GatewayProperties;
-import org.springframework.cloud.gateway.route.RouteLocator;
-import org.springframework.context.annotation.Bean;
+import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * description: 资源配置
@@ -25,63 +36,57 @@ import java.util.List;
 @Component
 @Primary
 @Slf4j
+@RequiredArgsConstructor
 public class SwaggerResourceConfig implements SwaggerResourcesProvider {
 
+    private final static String SWAGGER_RESOURCES_URI = "/swagger-resources";
+    private final GatewayProperties gatewayProperties;
+    private final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1, 1, 0L,
+            TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(), new DefaultThreadFactory("swagger-resource-pool"));
+    @Resource(name = "lbRestTemplate")
+    private RestTemplate restTemplate;
     @Autowired
-    RouteLocator routeLocator;
+    private DiscoveryClient discoveryClient;
 
-    @Autowired
-    @LoadBalanced
-    RestTemplate restTemplate;
-
-    @Autowired
-    private GatewayProperties gatewayProperties;
-
-    @LoadBalanced
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
+    /**
+     * 遍历网关的路由，并通过restTemplate访问后端服务的swagger信息，聚合后返回
+     *
+     * @return
+     */
     @Override
     public List<SwaggerResource> get() {
-        String url = "/swagger-resources";
-        //获取所有router
-        List<SwaggerResource> resources = Lists.newArrayList();
-
-        List<String> routes = Lists.newArrayList();
-        routeLocator.getRoutes().subscribe(route -> routes.add(route.getId()));
-        gatewayProperties.getRoutes().stream()
-                .filter(routeDefinition -> routes.contains(routeDefinition.getId()))
-                .forEach(route -> {
-                    route.getPredicates().stream()
-                            .filter(predicateDefinition -> ("Path").equalsIgnoreCase(predicateDefinition.getName()))
-                            .forEach(predicateDefinition -> {
-                                        try {
-                                            JSONArray list = restTemplate.getForObject("http://" + route.getUri().getHost() + url, JSONArray.class);
-                                            assert list != null;
-                                            if (!list.isEmpty()) {
-                                                for (int i = 0; i < list.size(); i++) {
-                                                    SwaggerResource sr = list.getObject(i, SwaggerResource.class);
-                                                    resources.add(swaggerResource(sr.getName(), "/" + route.getId() + sr.getUrl()));
-                                                }
-                                            }
-                                        } catch (Exception e) {
-                                            log.warn("加载后端资源时失败{}", route.getUri().getHost());
-                                        }
-                                    }
-
-                            );
-                });
-        return resources;
+        return gatewayProperties.getRoutes().stream().
+                flatMap(this::swaggerResources).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
-    private SwaggerResource swaggerResource(String name, String location) {
-        log.info("name:{},location:{}", name, location);
-        SwaggerResource swaggerResource = new SwaggerResource();
-        swaggerResource.setName(name);
-        swaggerResource.setLocation(location);
-        swaggerResource.setSwaggerVersion("2.0");
-        return swaggerResource;
+    private Stream<SwaggerResource> swaggerResources(RouteDefinition route) {
+        try {
+
+            List<ServiceInstance> instances = discoveryClient.getInstances(route.getUri().getHost());
+            if (CollUtil.isEmpty(instances)) {
+                return null;
+            }
+            // WebFlux异步调用，同步会报错
+            Future<JSONArray> future = threadPoolExecutor.submit(() ->
+                    restTemplate.getForObject("http://" + route.getUri().getHost() + SWAGGER_RESOURCES_URI, JSONArray.class)
+            );
+            JSONArray list = future.get();
+            if (list.isEmpty()) {
+                return null;
+            }
+
+            List<SwaggerResource> srList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                SwaggerResource sr = list.getObject(i, SwaggerResource.class);
+                sr.setName(route.getId() + "-" + sr.getName());
+                sr.setUrl("/" + route.getId() + sr.getUrl());
+                srList.add(sr);
+            }
+
+            return srList.stream();
+        } catch (Exception e) {
+            log.error("加载 {} 的swagger文档信息失败。 请确保该服务成功启动，并注册到了nacos。", route.getUri().getHost(), e);
+        }
+        return null;
     }
 }

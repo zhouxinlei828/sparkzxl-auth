@@ -4,7 +4,6 @@ import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.sparkzxl.auth.application.service.ICoreOrgService;
-import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.domain.repository.ICoreOrgRepository;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
@@ -101,7 +100,7 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
 
     @Override
     public boolean updateOrgUser(OrgUserSaveDTO orgUserSaveDTO) {
-        return userRepository.updateOrgUser(orgUserSaveDTO.getOrgId(),orgUserSaveDTO.getUserIds());
+        return userRepository.updateOrgUser(orgUserSaveDTO.getOrgId(), orgUserSaveDTO.getUserIds());
     }
 
     @Override

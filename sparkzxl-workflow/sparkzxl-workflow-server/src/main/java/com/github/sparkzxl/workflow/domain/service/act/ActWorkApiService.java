@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.domain.service.act;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.github.sparkzxl.core.base.result.ApiResponseStatus;
+import com.github.sparkzxl.core.base.result.ResponseInfoStatus;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRuntimeService;
@@ -139,7 +139,7 @@ public class ActWorkApiService {
         Task task = processTaskService.getLatestTaskByProInstId(processInstanceId);
         String currentTaskId = task.getId();
         String taskDefinitionKey = task.getTaskDefinitionKey();
-        ApiResponseStatus.FAILURE.assertNotNull(task);
+        ResponseInfoStatus.FAILURE.assertNotNull(task);
         validateAuthority(task, userId);
         //添加审核人
         Authentication.setAuthenticatedUserId(userId);

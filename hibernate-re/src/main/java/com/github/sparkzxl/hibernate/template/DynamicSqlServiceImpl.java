@@ -1,11 +1,15 @@
 package com.github.sparkzxl.hibernate.template;
 
+import com.alibaba.druid.sql.ast.SQLDataType;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.enums.SqlKeyword;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * description: 动态SQL服务实现类
@@ -17,27 +21,44 @@ import java.util.Collection;
 public class DynamicSqlServiceImpl implements DynamicSqlService {
 
     @Override
-    public int insert(String tableName, JSONObject parameters) {
+    public int insert(String tableName, List<DynamicColumn> columnList) {
+        String insertSql = DynamicSqlOps.getInsertSql(tableName, columnList);
         return 0;
     }
 
     @Override
-    public int deleteById(String tableName, Serializable id) {
+    public int deleteById(String tableName, String key, Serializable id) {
+        Condition condition = new Condition();
+        condition.setKey(key)
+                .setVal(id)
+                .setType(SQLDataType.Constants.BIGINT)
+                .setKeyword(SqlKeyword.EQ);
+        String deleteSql = DynamicSqlOps.getDeleteSql(tableName, Lists.newArrayList(condition));
         return 0;
     }
 
     @Override
-    public int delete(String tableName, JSONObject conditionMap) {
+    public int delete(String tableName, List<Condition> whereConditionList) {
+        String deleteSql = DynamicSqlOps.getDeleteSql(tableName, whereConditionList);
         return 0;
     }
 
     @Override
-    public int deleteBatchIds(String tableName, Collection<? extends Serializable> idList) {
+    public int deleteBatchIds(String tableName, String key, Collection<? extends Serializable> idList) {
+        for (Serializable id : idList) {
+            deleteById(tableName, key, id);
+        }
         return 0;
     }
 
     @Override
-    public int updateById(String tableName, JSONObject parameters, Serializable id) {
+    public int updateById(String tableName, List<DynamicColumn> columnList, String key, Serializable id) {
+        Condition condition = new Condition();
+        condition.setKey(key)
+                .setVal(id)
+                .setType(SQLDataType.Constants.BIGINT)
+                .setKeyword(SqlKeyword.EQ);
+        String updateSql = DynamicSqlOps.getUpdateSql(tableName, columnList, Lists.newArrayList(condition));
         return 0;
     }
 

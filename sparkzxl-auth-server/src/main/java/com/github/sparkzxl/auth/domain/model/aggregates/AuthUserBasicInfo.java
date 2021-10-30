@@ -1,6 +1,10 @@
 package com.github.sparkzxl.auth.domain.model.aggregates;
 
-import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
+import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
+import com.github.sparkzxl.auth.api.dto.OrgBasicInfo;
+import com.github.sparkzxl.auth.api.dto.ResourceBasicInfo;
+import com.github.sparkzxl.auth.api.dto.RoleBasicInfo;
+import com.github.sparkzxl.auth.api.dto.StationBasicInfo;
 import com.github.sparkzxl.entity.data.RemoteData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -64,10 +68,10 @@ public class AuthUserBasicInfo {
     private LocalDateTime lastLoginTime;
 
     @ApiModelProperty(value = "角色列表")
-    private List<RoleBasicInfo> roleBasicInfos;
+    private List<RoleBasicInfo> roleList;
 
     @ApiModelProperty(value = "资源树")
-    private List<ResourceBasicInfo> resourceBasicInfos;
+    private List<ResourceBasicInfo> resourceList;
 
     @ApiModelProperty(value = "状态 1启用 0禁用")
     private Boolean status;

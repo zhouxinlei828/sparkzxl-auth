@@ -8,7 +8,7 @@ import com.github.sparkzxl.auth.interfaces.dto.log.LoginLogQueryDTO;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @RestController
 @ResponseResult
 @RequestMapping("/login/log")
-@WebLog
+@HttpRequestLog
 @Api(value = "LoginLog", tags = "登录日志")
 public class LoginLogController {
 

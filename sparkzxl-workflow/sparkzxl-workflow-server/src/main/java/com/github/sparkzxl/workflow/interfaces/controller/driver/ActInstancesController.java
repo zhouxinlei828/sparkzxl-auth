@@ -3,7 +3,7 @@ package com.github.sparkzxl.workflow.interfaces.controller.driver;
 
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.annotation.result.ResponseResult;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.api.ProcessApi;
 import com.github.sparkzxl.workflow.application.service.act.IProcessHistoryService;
 import com.github.sparkzxl.workflow.application.service.driver.IProcessDriveService;
@@ -34,7 +34,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @ResponseResult
-@WebLog
+@HttpRequestLog
 @RequestMapping("/instance")
 @Api(tags = "流程实例管理")
 public class ActInstancesController implements ProcessApi {

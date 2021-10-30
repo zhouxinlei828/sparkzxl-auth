@@ -12,14 +12,17 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-	<sql id="Base_Column_List">
-		t.id,
+    <sql id="Base_Column_List">
+        t
+        .
+        id
+        ,
 		t.app_name,
 		t.title,
 		t.address_type,
 		t.address_list,
 		t.update_time
-	</sql>
+    </sql>
 
     <select id="findAll" resultMap="XxlJobGroup">
         SELECT

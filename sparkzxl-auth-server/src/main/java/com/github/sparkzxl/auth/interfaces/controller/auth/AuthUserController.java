@@ -4,11 +4,12 @@ import cn.hutool.core.util.DesensitizedUtil;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.auth.api.IAuthUserApi;
+import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
+import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
-import com.github.sparkzxl.auth.domain.model.vo.AuthUserBasicVO;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
@@ -19,7 +20,7 @@ import com.github.sparkzxl.database.base.listener.ImportDataListener;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @ResponseResult
-@WebLog
+@HttpRequestLog
 @Api(tags = "用户管理")
 public class AuthUserController extends SuperCacheController<IUserService, Long,
         AuthUser, UserSaveDTO, UserUpdateDTO, UserQueryDTO, UserExcel> implements IAuthUserApi {
@@ -82,10 +83,25 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
         return baseService.routers(authUserInfo.getId());
     }
 
-    @ApiOperation("获取用户基本信息")
-    @GetMapping("/userinfo")
-    public AuthUserBasicVO getAuthUserBasicInfo(@ApiIgnore AuthUserInfo<Long> authUserInfo) {
-        return baseService.getAuthUserBasicInfo(authUserInfo);
+    @Override
+    public UserDetailInfo getUserDetailInfo(String username) {
+        return baseService.getUserDetailInfo(username);
+    }
+
+    @Override
+    public AuthUserInfo<Long> getAuthUserInfo(String username) {
+        return baseService.getAuthUserInfo(username);
+    }
+
+    @Override
+    public AuthUserBasicVO getUserByUserId(Long userId) {
+        return baseService.getAuthUserBasicInfo(userId);
+    }
+
+
+    @Override
+    public AuthUserBasicVO getUserByUsername(String username) {
+        return baseService.getUserByUsername(username);
     }
 
     @Override

@@ -11,13 +11,16 @@
         <result column="fail_count" property="failCount"/>
     </resultMap>
 
-	<sql id="Base_Column_List">
-		t.id,
+    <sql id="Base_Column_List">
+        t
+        .
+        id
+        ,
 		t.trigger_day,
 		t.running_count,
 		t.suc_count,
 		t.fail_count
-	</sql>
+    </sql>
 
     <insert id="save" parameterType="com.github.sparkzxl.job.admin.core.model.XxlJobLogReport" useGeneratedKeys="true"
             keyProperty="id">

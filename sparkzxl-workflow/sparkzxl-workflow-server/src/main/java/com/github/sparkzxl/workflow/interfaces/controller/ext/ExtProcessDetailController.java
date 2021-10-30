@@ -3,7 +3,7 @@ package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.annotation.result.ResponseResult;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessDetailService;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessDetail;
 import com.github.sparkzxl.workflow.interfaces.dto.process.ProcessDetailDTO;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @ResponseResult
-@WebLog
+@HttpRequestLog
 @RequestMapping("/process/detail")
 @Api(tags = "流程节点管理")
 public class ExtProcessDetailController {

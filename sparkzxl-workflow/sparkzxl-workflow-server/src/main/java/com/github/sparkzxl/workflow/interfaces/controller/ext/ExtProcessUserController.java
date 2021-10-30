@@ -4,7 +4,7 @@ package com.github.sparkzxl.workflow.interfaces.controller.ext;
 import com.github.sparkzxl.annotation.result.ResponseResult;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.application.event.ImportUserDataListener;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessUserService;
 import com.github.sparkzxl.workflow.domain.model.aggregates.excel.ProcessUserExcel;
@@ -27,7 +27,7 @@ import java.util.List;
  * @date 2021-01-08 17:12:52
  */
 @Api(tags = "流程用户管理")
-@WebLog
+@HttpRequestLog
 @ResponseResult
 @RestController
 @RequestMapping("/process/user")

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * description: 动态SQL服务类
@@ -15,15 +16,15 @@ import java.util.Collection;
 public interface DynamicSqlService {
 
 
-    int insert(String tableName, JSONObject parameters);
+    int insert(String tableName, List<DynamicColumn> columnList);
 
-    int deleteById(String tableName, Serializable id);
+    int deleteById(String tableName, String key, Serializable id);
 
-    int delete(String tableName, JSONObject conditionMap);
+    int delete(String tableName, List<Condition> whereConditionList);
 
-    int deleteBatchIds(String tableName, Collection<? extends Serializable> idList);
+    int deleteBatchIds(String tableName, String key, Collection<? extends Serializable> idList);
 
-    int updateById(String tableName, JSONObject parameters, Serializable id);
+    int updateById(String tableName, List<DynamicColumn> columnList, String key, Serializable id);
 
     int update(String tableName, JSONObject parameters, JSONObject conditionMap);
 

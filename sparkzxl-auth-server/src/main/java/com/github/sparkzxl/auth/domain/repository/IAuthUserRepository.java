@@ -63,14 +63,6 @@ public interface IAuthUserRepository {
     List<AuthUser> getAuthUserList(AuthUser authUser);
 
     /**
-     * 根据用户id获取用户全量信息
-     *
-     * @param userId 用户id
-     * @return AuthUserBasicInfo
-     */
-    AuthUserBasicInfo getAuthUserBasicInfo(Long userId);
-
-    /**
      * 删除用户信息
      *
      * @param ids 用户ids
@@ -109,4 +101,20 @@ public interface IAuthUserRepository {
      * @return boolean
      */
     boolean updateOrgUser(Long orgId, List<Long> userIds);
+
+    /**
+     * 根据用户id获取用户全量信息
+     *
+     * @param userId 用户id
+     * @return AuthUserBasicInfo
+     */
+    AuthUserBasicInfo getAuthUserBasicInfo(Long userId);
+
+    /**
+     * 根据用户名获取用户全量信息
+     *
+     * @param username 用户名
+     * @return AuthUserBasicInfo
+     */
+    AuthUserBasicInfo getUserByUsername(String username);
 }

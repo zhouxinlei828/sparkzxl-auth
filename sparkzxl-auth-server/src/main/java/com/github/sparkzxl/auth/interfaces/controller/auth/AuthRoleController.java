@@ -9,7 +9,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 import com.github.sparkzxl.auth.interfaces.dto.role.*;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.dto.PageParams;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/role")
 @ResponseResult
-@WebLog
+@HttpRequestLog
 @Api(tags = "角色管理")
 public class AuthRoleController extends SuperCacheController<IRoleService, Long,
         AuthRole, RoleSaveDTO, RoleUpdateDTO, RoleQueryDTO, Object> {

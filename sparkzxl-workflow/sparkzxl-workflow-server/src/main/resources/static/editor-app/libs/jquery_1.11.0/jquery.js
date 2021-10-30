@@ -4061,7 +4061,7 @@
         rclass = /[\t\r\n\f]/g,
         rreturn = /\r/g,
         rfocusable = /^(?:input|select|textarea|button|object)$/i,
-        rclickable = /^(?:a|area)$/i,
+        rclickable = /^(?:a|sysArea)$/i,
         ruseDefault = /^(?:checked|selected)$/i,
         getSetAttribute = jQuery.support.getSetAttribute,
         getSetInput = jQuery.support.input;
@@ -6016,7 +6016,7 @@
         rinlinejQuery = / jQuery\d+="(?:null|\d+)"/g,
         rnoshimcache = new RegExp("<(?:" + nodeNames + ")[\\s/>]", "i"),
         rleadingWhitespace = /^\s+/,
-        rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,
+        rxhtmlTag = /<(?!sysArea|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,
         rtagName = /<([\w:]+)/,
         rtbody = /<tbody/i,
         rhtml = /<|&#?\w+;/,
@@ -6032,7 +6032,7 @@
         wrapMap = {
             option: [1, "<select multiple='multiple'>", "</select>"],
             legend: [1, "<fieldset>", "</fieldset>"],
-            area: [1, "<map>", "</map>"],
+            sysArea: [1, "<map>", "</map>"],
             param: [1, "<object>", "</object>"],
             thead: [1, "<table>", "</table>"],
             tr: [2, "<table><tbody>", "</tbody></table>"],

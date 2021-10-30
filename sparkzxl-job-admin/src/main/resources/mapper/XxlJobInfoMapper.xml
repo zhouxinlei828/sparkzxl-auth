@@ -38,8 +38,11 @@
         <result column="trigger_next_time" property="triggerNextTime"/>
     </resultMap>
 
-	<sql id="Base_Column_List">
-		t.id,
+    <sql id="Base_Column_List">
+        t
+        .
+        id
+        ,
 		t.job_group,
 		t.job_desc,
 		t.add_time,
@@ -63,7 +66,7 @@
 		t.trigger_status,
 		t.trigger_last_time,
 		t.trigger_next_time
-	</sql>
+    </sql>
 
     <select id="pageList" parameterType="java.util.HashMap" resultMap="XxlJobInfo">
         SELECT

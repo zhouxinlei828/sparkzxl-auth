@@ -46,18 +46,21 @@
                             <div class="form-group">
                                 <label for="classField">{{'PROPERTY.EXECUTIONLISTENERS.CLASS' | translate}}</label>
                                 <input class="form-control" id="classField" ng-change="listenerDetailsChanged()"
-                                       ng-model="selectedListeners[0].className" placeholder="{{'PROPERTY.EXECUTIONLISTENERS.CLASS.PLACEHOLDER' | translate}}"
+                                       ng-model="selectedListeners[0].className"
+                                       placeholder="{{'PROPERTY.EXECUTIONLISTENERS.CLASS.PLACEHOLDER' | translate}}"
                                        type="text"/>
                             </div>
                             <div class="form-group">
                                 <label for="expressionField">{{'PROPERTY.EXECUTIONLISTENERS.EXPRESSION' | translate}}</label>
                                 <input class="form-control" id="expressionField" ng-change="listenerDetailsChanged()"
-                                       ng-model="selectedListeners[0].expression" placeholder="{{'PROPERTY.EXECUTIONLISTENERS.EXPRESSION.PLACEHOLDER' | translate}}"
+                                       ng-model="selectedListeners[0].expression"
+                                       placeholder="{{'PROPERTY.EXECUTIONLISTENERS.EXPRESSION.PLACEHOLDER' | translate}}"
                                        type="text"/>
                             </div>
                             <div class="form-group">
                                 <label for="delegateExpressionField">{{'PROPERTY.EXECUTIONLISTENERS.DELEGATEEXPRESSION' | translate}}</label>
-                                <input class="form-control" id="delegateExpressionField" ng-change="listenerDetailsChanged()"
+                                <input class="form-control" id="delegateExpressionField"
+                                       ng-change="listenerDetailsChanged()"
                                        ng-model="selectedListeners[0].delegateExpression"
                                        placeholder="{{'PROPERTY.EXECUTIONLISTENERS.DELEGATEEXPRESSION.PLACEHOLDER' | translate}}"
                                        type="text"/>
@@ -75,7 +78,8 @@
                         <div class="pull-right">
                             <div class="btn-group">
                                 <a class="btn btn-icon btn-lg" data-original-title="" data-placement="bottom"
-                                   data-title="{{ACTION.MOVE.UP | translate}}" ng-click="moveFieldUp()" rel="tooltip" title=""><i
+                                   data-title="{{ACTION.MOVE.UP | translate}}" ng-click="moveFieldUp()" rel="tooltip"
+                                   title=""><i
                                         class="glyphicon glyphicon-arrow-up"></i></a>
                                 <a class="btn btn-icon btn-lg" data-original-title=""
                                    data-placement="bottom" data-title="{{ACTION.MOVE.DOWN | translate}}"
@@ -84,10 +88,12 @@
                             </div>
                             <div class="btn-group">
                                 <a class="btn btn-icon btn-lg" data-original-title="" data-placement="bottom"
-                                   data-title="{{ACTION.ADD | translate}}" ng-click="addNewField()" rel="tooltip" title=""><i
+                                   data-title="{{ACTION.ADD | translate}}" ng-click="addNewField()" rel="tooltip"
+                                   title=""><i
                                         class="glyphicon glyphicon-plus"></i></a>
                                 <a class="btn btn-icon btn-lg" data-original-title="" data-placement="bottom"
-                                   data-title="{{ACTION.REMOVE | translate}}" ng-click="removeField()" rel="tooltip" title=""><i
+                                   data-title="{{ACTION.REMOVE | translate}}" ng-click="removeField()" rel="tooltip"
+                                   title=""><i
                                         class="glyphicon glyphicon-minus"></i></a>
                             </div>
                         </div>
@@ -98,19 +104,22 @@
 
                             <div class="form-group">
                                 <label for="nameField">{{'PROPERTY.EXECUTIONLISTENERS.FIELDS.NAME' | translate}}</label>
-                                <input class="form-control" id="nameField" ng-model="selectedFields[0].name" placeholder="{{'PROPERTY.EXECUTIONLISTENERS.FIELDS.NAME.PLACEHOLDER' | translate}}"
+                                <input class="form-control" id="nameField" ng-model="selectedFields[0].name"
+                                       placeholder="{{'PROPERTY.EXECUTIONLISTENERS.FIELDS.NAME.PLACEHOLDER' | translate}}"
                                        type="text"/>
                             </div>
                             <div class="form-group">
                                 <label for="stringValueField">{{'PROPERTY.EXECUTIONLISTENERS.FIELDS.STRINGVALUE' | translate}}</label>
                                 <input class="form-control" id="stringValueField" ng-change="fieldDetailsChanged()"
-                                       ng-model="selectedFields[0].stringValue" placeholder="{{'PROPERTY.EXECUTIONLISTENERS.FIELDS.STRINGVALUE.PLACEHOLDER' | translate}}"
+                                       ng-model="selectedFields[0].stringValue"
+                                       placeholder="{{'PROPERTY.EXECUTIONLISTENERS.FIELDS.STRINGVALUE.PLACEHOLDER' | translate}}"
                                        type="text"/>
                             </div>
                             <div class="form-group">
                                 <label for="expressionField">{{'PROPERTY.EXECUTIONLISTENERS.FIELDS.EXPRESSION' | translate}}</label>
                                 <input class="form-control" id="expressionField" ng-change="fieldDetailsChanged()"
-                                       ng-model="selectedFields[0].expression" placeholder="{{'PROPERTY.EXECUTIONLISTENERS.FIELDS.EXPRESSION.PLACEHOLDER' | translate}}"
+                                       ng-model="selectedFields[0].expression"
+                                       placeholder="{{'PROPERTY.EXECUTIONLISTENERS.FIELDS.EXPRESSION.PLACEHOLDER' | translate}}"
                                        type="text"/>
                             </div>
                             <div class="form-group">

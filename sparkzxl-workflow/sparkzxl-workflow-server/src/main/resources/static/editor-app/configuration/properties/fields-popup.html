@@ -40,28 +40,32 @@
 
                             <div class="form-group">
                                 <label for="fieldName">{{'PROPERTY.FIELDS.NAME' | translate}}</label>
-                                <input class="form-control" id="fieldName" ng-model="selectedFields[0].name" placeholder="{{'PROPERTY.FIELDS.NAME.PLACEHOLDER' | translate}}"
+                                <input class="form-control" id="fieldName" ng-model="selectedFields[0].name"
+                                       placeholder="{{'PROPERTY.FIELDS.NAME.PLACEHOLDER' | translate}}"
                                        type="text"/>
                             </div>
 
                             <div class="form-group">
                                 <label for="fieldStringValue">{{'PROPERTY.FIELDS.STRINGVALUE' | translate}}</label>
                                 <input class="form-control" id="fieldStringValue" ng-change="fieldDetailsChanged()"
-                                       ng-model="selectedFields[0].stringValue" placeholder="{{'PROPERTY.FIELDS.STRINGVALUE.PLACEHOLDER' | translate}}"
+                                       ng-model="selectedFields[0].stringValue"
+                                       placeholder="{{'PROPERTY.FIELDS.STRINGVALUE.PLACEHOLDER' | translate}}"
                                        type="text"/>
                             </div>
 
                             <div class="form-group">
                                 <label for="fieldExpression">{{'PROPERTY.FIELDS.EXPRESSION' | translate}}</label>
                                 <input class="form-control" id="fieldExpression" ng-change="fieldDetailsChanged()"
-                                       ng-model="selectedFields[0].expression" placeholder="{{'PROPERTY.FIELDS.EXPRESSION.PLACEHOLDER' | translate}}"
+                                       ng-model="selectedFields[0].expression"
+                                       placeholder="{{'PROPERTY.FIELDS.EXPRESSION.PLACEHOLDER' | translate}}"
                                        type="text"/>
                             </div>
 
                             <div class="form-group">
                                 <label for="fieldString">{{'PROPERTY.FIELDS.STRING' | translate}}</label>
                                 <textarea class="form-control" id="fieldString" ng-change="fieldDetailsChanged()"
-                                          ng-model="selectedFields[0].string" placeholder="{{'PROPERTY.FIELDS.STRING.PLACEHOLDER' | translate}}"
+                                          ng-model="selectedFields[0].string"
+                                          placeholder="{{'PROPERTY.FIELDS.STRING.PLACEHOLDER' | translate}}"
                                           type="text"></textarea>
                             </div>
 

@@ -1,8 +1,9 @@
 package com.github.sparkzxl.auth.application.service;
 
 import com.github.pagehelper.PageInfo;
+import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
+import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
-import com.github.sparkzxl.auth.domain.model.vo.AuthUserBasicVO;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
@@ -72,10 +73,10 @@ public interface IUserService extends SuperCacheService<AuthUser> {
     /**
      * 获取登录用户全量信息
      *
-     * @param authUserInfo 全局用户
+     * @param userId 用户id
      * @return AuthUserBasicVO
      */
-    AuthUserBasicVO getAuthUserBasicInfo(AuthUserInfo<Long> authUserInfo);
+    AuthUserBasicVO getAuthUserBasicInfo(Long userId);
 
     /**
      * 用户菜单
@@ -116,4 +117,20 @@ public interface IUserService extends SuperCacheService<AuthUser> {
      * @return List<String>
      */
     List<String> getAuthUserRoles(Long id);
+
+    /**
+     * 获取用户详细信息
+     *
+     * @param username 用户名
+     * @return UserDetailInfo
+     */
+    UserDetailInfo getUserDetailInfo(String username);
+
+    /**
+     * 根据用户名获取用户信息
+     *
+     * @param username 用户名
+     * @return AuthUserBasicVO
+     */
+    AuthUserBasicVO getUserByUsername(String username);
 }

@@ -38,6 +38,11 @@
             <artifactId>sparkzxl-patterns-starter</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.github.sparkzxl</groupId>
+            <artifactId>sparkzxl-mongodb-starter</artifactId>
+        </dependency>
+        <!--测试依赖-->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>

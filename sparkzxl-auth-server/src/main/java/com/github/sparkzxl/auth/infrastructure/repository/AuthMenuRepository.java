@@ -72,7 +72,7 @@ public class AuthMenuRepository implements IAuthMenuRepository {
     }
 
     private void buildMenuBasicInfo(List<MenuBasicInfo> menuBasicInfoList, List<AuthMenu> menuList) {
-        menuList = menuList.stream().sorted(Comparator.comparing(AuthMenu::getSortValue)).collect(Collectors.toList());
+        menuList = menuList.stream().sorted(Comparator.comparing(AuthMenu::getSortNumber)).collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(menuList)) {
             menuList.forEach(menu -> {
                 MenuBasicInfo menuBasicInfo = new MenuBasicInfo();
@@ -86,7 +86,7 @@ public class AuthMenuRepository implements IAuthMenuRepository {
                 menuBasicInfo.setHidden(menu.isHidden());
                 menuBasicInfo.setNoKeepAlive(menu.isNoKeepAlive());
                 menuBasicInfo.setParentId(menu.getParentId());
-                menuBasicInfo.setSortValue(menu.getSortValue());
+                menuBasicInfo.setSortNumber(menu.getSortNumber());
                 menuBasicInfoList.add(menuBasicInfo);
             });
         }
@@ -115,7 +115,7 @@ public class AuthMenuRepository implements IAuthMenuRepository {
     public List<AuthMenu> findMenuTree(String label) {
         LambdaQueryWrapper<AuthMenu> menuLambdaQueryWrapper = new LambdaQueryWrapper<>();
         menuLambdaQueryWrapper.likeLeft(StringUtils.isNotEmpty(label), TreeEntity::getLabel, label)
-                .orderByAsc(TreeEntity::getSortValue);
+                .orderByAsc(TreeEntity::getSortNumber);
         List<AuthMenu> authMenuList = authMenuMapper.selectList(menuLambdaQueryWrapper);
         if (CollectionUtils.isNotEmpty(authMenuList)) {
             List<Long> menuIdList = authMenuList.stream().map(SuperEntity::getId).collect(Collectors.toList());

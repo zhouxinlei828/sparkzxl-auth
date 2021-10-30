@@ -42,3 +42,6 @@ logging:
     com.github.sparkzxl.auth.infrastructure.mapper: debug
   file:
     enable: true
+ribbon:
+  isolation:
+    enabled: true

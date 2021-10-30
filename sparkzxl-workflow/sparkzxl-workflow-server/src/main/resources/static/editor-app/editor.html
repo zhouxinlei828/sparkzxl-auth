@@ -5,7 +5,8 @@
                 <button class="btn btn-inverse"
                         id="{{item.id}}"
                         ng-class="{'separator': item.type == 'separator'}"
-                        ng-click="toolbarButtonClicked($index)" ng-disabled="item.type == 'separator' || item.enabled == false"
+                        ng-click="toolbarButtonClicked($index)"
+                        ng-disabled="item.type == 'separator' || item.enabled == false"
                         ng-repeat="item in items" ng-switch
                         on="item.type"
                         title="{{item.title | translate}}">

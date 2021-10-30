@@ -1,5 +1,6 @@
 package com.github.sparkzxl.gateway;
 
+import com.github.sparkzxl.gateway.annotation.EnableGatewayPlugin;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2020-05-24 12:18:18
  */
 @SpringBootApplication(scanBasePackages = {"com.github.sparkzxl.gateway"})
+@EnableGatewayPlugin
 public class GatewayApplication {
 
     public static void main(String[] args) {

@@ -8,23 +8,6 @@ package com.github.sparkzxl.auth.infrastructure.constant;
  */
 public class BizConstant {
 
-    /*=====================Elasticsearch==========================*/
-    /**
-     * 用户属性
-     */
-    public static final String INDEX_USER_ATTRIBUTE = "auth_user_attribute";
-
-    /**
-     * 角色属性
-     */
-    public static final String INDEX_ROLE_ATTRIBUTE = "auth_role_attribute";
-
-    /**
-     * 组织属性
-     */
-    public static final String INDEX_ORG_ATTRIBUTE = "auth_org_attribute";
-
-
     /*=====================字典==========================*/
     /**
      * 职位状态
@@ -186,9 +169,6 @@ public class BizConstant {
 
 
     public static final String FRONT_STATE = "front_state";
-
-
-    public static final String RESOURCE_ROLES_MAP = "auth:resource_roles_map";
 
 
     /*=====================扫包==========================*/

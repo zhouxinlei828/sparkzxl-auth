@@ -23,11 +23,13 @@
                 <div class="detail-group clearfix">
                     <div class="col-xs-12 editor-item-picker">
                         <div class="col-xs-4 editor-item-picker-component"
-                             ng-class="{'selected' : sub.id == selectedSubProcess.id}" ng-click="selectSubProcess(sub, $event)"
+                             ng-class="{'selected' : sub.id == selectedSubProcess.id}"
+                             ng-click="selectSubProcess(sub, $event)"
                              ng-if="!state.loadingSubprocesses && !state.subprocessError"
                              ng-repeat="sub in subProcesses">
                             <div class="controls">
-                                <input ng-checked="sub.id == selectedSubProcess.id" ng-click="selectSubProcess(sub, $event)" type="checkbox"
+                                <input ng-checked="sub.id == selectedSubProcess.id"
+                                       ng-click="selectSubProcess(sub, $event)" type="checkbox"
                                        value="option1"/>
                             </div>
                             <h4>{{sub.name}}</h4>

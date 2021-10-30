@@ -13,15 +13,18 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-	<sql id="Base_Column_List">
-		t.id,
+    <sql id="Base_Column_List">
+        t
+        .
+        id
+        ,
 		t.job_id,
 		t.glue_type,
 		t.glue_source,
 		t.glue_remark,
 		t.add_time,
 		t.update_time
-	</sql>
+    </sql>
 
     <insert id="save" parameterType="com.github.sparkzxl.job.admin.core.model.XxlJobLogGlue" useGeneratedKeys="true"
             keyProperty="id">

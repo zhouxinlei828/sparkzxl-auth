@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("ext_process_detail")
-@ApiModel(value = "ProcessDetail对象", description = "")
+@ApiModel(value = "ProcessDetail对象", description = "流程详细节点")
 public class ExtProcessDetail {
 
     private static final long serialVersionUID = -8334040441264344916L;
@@ -50,5 +50,4 @@ public class ExtProcessDetail {
     @ApiModelProperty(value = "任务类型")
     @TableField("type")
     private String type;
-
 }

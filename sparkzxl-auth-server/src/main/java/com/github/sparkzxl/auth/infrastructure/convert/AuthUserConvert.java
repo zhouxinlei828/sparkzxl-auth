@@ -1,13 +1,14 @@
 package com.github.sparkzxl.auth.infrastructure.convert;
 
+import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
+import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
+import com.github.sparkzxl.auth.api.dto.StationBasicInfo;
+import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
-import com.github.sparkzxl.auth.domain.model.aggregates.StationBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
-import com.github.sparkzxl.auth.domain.model.vo.AuthUserBasicVO;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
-import com.github.sparkzxl.auth.infrastructure.enums.SexEnum;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
@@ -36,10 +37,18 @@ public interface AuthUserConvert {
     /**
      * AuthUser转化为AuthUserInfo
      *
-     * @param authUser
+     * @param authUser 用户
      * @return AuthUserInfo
      */
     AuthUserInfo<Long> convertAuthUserInfo(AuthUser authUser);
+
+    /**
+     * AuthUser转化为UserDetailInfo
+     *
+     * @param authUser 用户
+     * @return AuthUserInfo
+     */
+    UserDetailInfo convertUserDetailInfo(AuthUser authUser);
 
     /**
      * AuthUserSaveDTO转化为 AuthUser
@@ -104,6 +113,7 @@ public interface AuthUserConvert {
      * @param authUserBasicInfo 用户信息
      * @return AuthUserBasicVO
      */
+    @Mapping(target = "sex", expression = "java(convertSex(authUserBasicInfo.getSex()))")
     AuthUserBasicVO convertAuthUserBasicVO(AuthUserBasicInfo authUserBasicInfo);
 
     /**

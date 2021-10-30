@@ -15,7 +15,7 @@ import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.database.dto.PageParams;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +32,7 @@ import java.util.List;
  */
 @RestController
 @ResponseResult
-@WebLog
+@HttpRequestLog
 @Api(tags = "岗位管理")
 @RequestMapping("/station")
 public class StationController extends SuperCacheController<ICoreStationService, Long,

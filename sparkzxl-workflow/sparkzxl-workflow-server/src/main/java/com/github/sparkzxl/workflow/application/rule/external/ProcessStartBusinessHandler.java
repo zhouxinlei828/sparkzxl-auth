@@ -30,7 +30,7 @@ public class ProcessStartBusinessHandler implements BusinessHandler<DriverResult
 
     @Override
     @RedisLock(prefix = "act_driver")
-    public DriverResult businessHandler(DriveProcess driveProcess) {
+    public DriverResult execute(DriveProcess driveProcess) {
         log.info("流程启动业务处理：actType:[{}],businessId:[{}]", driveProcess.getActType(), driveProcess.getBusinessId());
         return actWorkApiService.startProcess(driveProcess);
     }

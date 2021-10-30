@@ -10,7 +10,7 @@ import com.github.sparkzxl.auth.interfaces.dto.menu.AuthMenuSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.menu.AuthMenuUpdateDTO;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.dto.DeleteDTO;
-import com.github.sparkzxl.log.annotation.WebLog;
+import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/menu")
 @ResponseResult
-@WebLog
+@HttpRequestLog
 @Api(tags = "菜单管理")
 public class AuthMenuController extends SuperCacheController<IMenuService, Long,
         AuthMenu, AuthMenuSaveDTO, AuthMenuUpdateDTO, AuthMenuQueryDTO, Object> {

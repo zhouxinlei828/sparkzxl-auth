@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.infrastructure.convert;
 
-import com.github.sparkzxl.auth.domain.model.aggregates.RoleBasicInfo;
+import com.github.sparkzxl.auth.api.dto.RoleBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.RoleResource;
 import com.github.sparkzxl.auth.domain.model.vo.RoleResourceVO;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;

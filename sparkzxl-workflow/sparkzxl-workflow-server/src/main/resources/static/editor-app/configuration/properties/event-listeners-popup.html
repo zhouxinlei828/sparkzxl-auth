@@ -88,7 +88,8 @@
                                         VARIABLE_UPDATED
                                     </option>
                                 </select>
-                                <i class="glyphicon glyphicon-minus clickable-property" ng-click="removeEventValue($index)"
+                                <i class="glyphicon glyphicon-minus clickable-property"
+                                   ng-click="removeEventValue($index)"
                                    ng-if="$index > 0"></i>
                                 <i class="glyphicon glyphicon-plus clickable-property"
                                    ng-click="addEventValue($index)"></i>
@@ -106,12 +107,14 @@
                         <div class="form-group" ng-if="!selectedListeners[0].rethrowEvent">
                             <label for="classField">{{'PROPERTY.EVENTLISTENERS.CLASS' | translate}}</label>
                             <input class="form-control" id="classField" ng-change="listenerDetailsChanged()"
-                                   ng-model="selectedListeners[0].className" placeholder="{{'PROPERTY.EVENTLISTENERS.CLASS.PLACEHOLDER' | translate}}"
+                                   ng-model="selectedListeners[0].className"
+                                   placeholder="{{'PROPERTY.EVENTLISTENERS.CLASS.PLACEHOLDER' | translate}}"
                                    type="text"/>
                         </div>
                         <div class="form-group" ng-if="!selectedListeners[0].rethrowEvent">
                             <label for="delegateExpressionField">{{'PROPERTY.EVENTLISTENERS.DELEGATEEXPRESSION' | translate}}</label>
-                            <input class="form-control" id="delegateExpressionField" ng-change="listenerDetailsChanged()"
+                            <input class="form-control" id="delegateExpressionField"
+                                   ng-change="listenerDetailsChanged()"
                                    ng-model="selectedListeners[0].delegateExpression"
                                    placeholder="{{'PROPERTY.EVENTLISTENERS.DELEGATEEXPRESSION.PLACEHOLDER' | translate}}"
                                    type="text"/>
@@ -119,7 +122,8 @@
                         <div class="form-group" ng-if="!selectedListeners[0].rethrowEvent">
                             <label for="entityTypeField">{{'PROPERTY.EVENTLISTENERS.ENTITYTYPE' | translate}}</label>
                             <input class="form-control" id="entityTypeField" ng-change="listenerDetailsChanged()"
-                                   ng-model="selectedListeners[0].entityType" placeholder="{{'PROPERTY.EVENTLISTENERS.ENTITYTYPE.PLACEHOLDER' | translate}}"
+                                   ng-model="selectedListeners[0].entityType"
+                                   placeholder="{{'PROPERTY.EVENTLISTENERS.ENTITYTYPE.PLACEHOLDER' | translate}}"
                                    type="text"/>
                         </div>
                         <div class="form-group" ng-if="selectedListeners[0].rethrowEvent">
@@ -135,20 +139,23 @@
                         <div class="form-group" ng-if="selectedListeners[0].rethrowType === 'error'">
                             <label for="errorCodeField">{{'PROPERTY.EVENTLISTENERS.ERRORCODE' | translate}}</label>
                             <input class="form-control" id="errorCodeField" ng-change="listenerDetailsChanged()"
-                                   ng-model="selectedListeners[0].errorcode" placeholder="{{'PROPERTY.EVENTLISTENERS.ERRORCODE.PLACEHOLDER' | translate}}"
+                                   ng-model="selectedListeners[0].errorcode"
+                                   placeholder="{{'PROPERTY.EVENTLISTENERS.ERRORCODE.PLACEHOLDER' | translate}}"
                                    type="text"/>
                         </div>
                         <div class="form-group" ng-if="selectedListeners[0].rethrowType === 'message'">
                             <label for="messageNameField">{{'PROPERTY.EVENTLISTENERS.MESSAGENAME' | translate}}</label>
                             <input class="form-control" id="messageNameField" ng-change="listenerDetailsChanged()"
-                                   ng-model="selectedListeners[0].messagename" placeholder="{{'PROPERTY.EVENTLISTENERS.MESSAGENAME.PLACEHOLDER' | translate}}"
+                                   ng-model="selectedListeners[0].messagename"
+                                   placeholder="{{'PROPERTY.EVENTLISTENERS.MESSAGENAME.PLACEHOLDER' | translate}}"
                                    type="text"/>
                         </div>
                         <div class="form-group"
                              ng-if="selectedListeners[0].rethrowType === 'signal' || selectedListeners[0].rethrowType === 'globalSignal'">
                             <label for="messageNameField">{{'PROPERTY.EVENTLISTENERS.SIGNALNAME' | translate}}</label>
                             <input class="form-control" id="signalNameField" ng-change="listenerDetailsChanged()"
-                                   ng-model="selectedListeners[0].signalname" placeholder="{{'PROPERTY.EVENTLISTENERS.SIGNALNAME.PLACEHOLDER' | translate}}"
+                                   ng-model="selectedListeners[0].signalname"
+                                   placeholder="{{'PROPERTY.EVENTLISTENERS.SIGNALNAME.PLACEHOLDER' | translate}}"
                                    type="text"/>
                         </div>
                     </div>

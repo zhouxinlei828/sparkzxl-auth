@@ -11,13 +11,16 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-	<sql id="Base_Column_List">
-		t.id,
+    <sql id="Base_Column_List">
+        t
+        .
+        id
+        ,
 		t.registry_group,
 		t.registry_key,
 		t.registry_value,
 		t.update_time
-	</sql>
+    </sql>
 
     <select id="findDead" parameterType="java.util.HashMap" resultType="java.lang.Integer">
         SELECT t.id

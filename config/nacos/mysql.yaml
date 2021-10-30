@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    dynamic:
+      enabled: false
+    url: jdbc:mysql://${sparkzxl.data.ip}:${sparkzxl.data.port}/${sparkzxl.data.database}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true
+    username: ${sparkzxl.data.username}
+    password: ${sparkzxl.data.password}
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      data-source-class-name: ${sparkzxl.data.driver-class-name}
+      jdbc-url: jdbc:mysql://${sparkzxl.data.ip}:${sparkzxl.data.port}/${sparkzxl.data.database}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true
+      password: ${sparkzxl.data.password}
+      username: ${sparkzxl.data.username}
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

@@ -1,0 +1,68 @@
+gateway:
+  resource:
+    ignore: #安全路径白名单
+      - /api/oauth/oauth/**
+      - /api/oauth/authentication/**
+      - /api/auth/base/**
+      - /api/tenant/**
+      - /api/workflow/**
+server:
+  servlet:
+    context-path: /api
+spring:
+  cloud:
+    gateway:
+      x-forwarded:
+        prefixEnabled: false
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: auth
+          uri: lb://sparkzxl-auth-server
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+            - name: Hystrix
+              args:
+                name: default
+                fallbackUri: 'forward:/fallback'
+        - id: oauth
+          uri: lb://sparkzxl-oauth-server
+          predicates:
+            - Path=/oauth/**
+          filters:
+            - StripPrefix=1
+        - id: workflow
+          uri: lb://sparkzxl-workflow-server
+          predicates:
+            - Path=/workflow/**
+          filters:
+            - StripPrefix=1
+        - id: file
+          uri: lb://sparkzxl-file-server
+          predicates:
+            - Path=/file/**
+          filters:
+            - StripPrefix=1
+            - name: Hystrix
+              args:
+                name: default
+                fallbackUri: 'forward:/fallback'
+        - id: tenant
+          uri: lb://sparkzxl-tenant-server
+          predicates:
+            - Path=/tenant/**
+          filters:
+            - StripPrefix=1
+            - name: Hystrix
+              args:
+                name: default
+                fallbackUri: 'forward:/fallback'
+filters:
+  - name: Hystrix
+    args:
+      name: default
+      fallbackUri: 'forward:/fallback'

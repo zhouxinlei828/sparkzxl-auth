@@ -1,0 +1,47 @@
+sparkzxl:
+  data:
+    ip: 127.0.0.1
+    port: 3306
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    database: sparkzxl_workflow
+    multi-tenant-type: none
+    p6spy: false
+spring:
+  #activiti配置
+  activiti:
+    database-schema-update: true
+    check-process-definitions: false
+    #history-level: full
+    #activiti7 添加这个配置，才会生成25张表，否则只有17张
+    #activiti6可以不添加，但是第一次启动只有16张表，启动两次才有26张表
+    db-history-used: true
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.github.sparkzxl.workflow.infrastructure.entity
+  custom:
+    mapper-scan: com.github.sparkzxl.workflow.infrastructure.mapper
+  configuration:
+    map-underscore-to-camel-case: true
+knife4j:
+  enable: true
+  description: sparkzxl workflow工作流在线文档
+  base-package: com.github.sparkzxl.workflow.interfaces
+  group: 工作流应用
+  title: sparkzxl workflow 工作流在线文档
+  terms-of-service-url: https://www.sparksys.top
+  version: 1.0
+  license: Powered By sparkzxl
+  license-url: https://github.com/sparkzxl
+  contact:
+    name: zhouxinlei
+    email: zhouxinlei298@163.com
+    url: https://github.com/sparkzxl
+  global-operation-parameters:
+    - name: Authorization
+      description: 认证信息
+      modelRef: String
+      parameterType: header
+      required: true
+      defaultValue: "Bearer enVpaG91X3VpOnp1aWhvdV91aV9zZWNyZXQ="

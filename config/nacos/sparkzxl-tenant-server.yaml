@@ -1,0 +1,50 @@
+sparkzxl:
+  data:
+    ip: 127.0.0.1
+    port: 3306
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    database: sparkzxl_tenant
+    enable-tenant: false
+    id-type: snowflake_id
+jwt:
+  key-store:
+    enable: true
+    path: jwt.jks
+    alias: jwt
+    password: 123456
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.github.sparkzxl.tenant.infrastructure.entity
+  custom:
+    mapper-scan: com.github.sparkzxl.tenant.infrastructure.mapper
+  type-enums-package: com.github.sparkzxl.tenant.infrastructure.enums
+  configuration:
+    map-underscore-to-camel-case: true
+knife4j:
+  enable: true
+  description: sparkzxl tenant租户在线文档
+  base-package: com.github.sparkzxl.tenant.interfaces
+  group: 租户应用
+  title: sparkzxl tenant租户在线文档
+  terms-of-service-url: https://www.sparksys.top
+  version: 1.0
+  license: Powered By sparkzxl
+  license-url: https://github.com/sparkzxl
+  contact:
+    name: zhouxinlei
+    email: zhouxinlei298@163.com
+    url: https://github.com/sparkzxl
+  global-operation-parameters:
+    - name: Authorization
+      description: 认证信息
+      modelRef: String
+      parameterType: header
+      required: true
+      defaultValue: "Bearer enVpaG91X3VpOnp1aWhvdV91aV9zZWNyZXQ="
+security:
+  ignore:
+    - /login
+    - /logout
+    - /tenant/info/list

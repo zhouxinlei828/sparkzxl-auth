@@ -17,6 +17,17 @@ spring:
     #activiti7 添加这个配置，才会生成25张表，否则只有17张
     #activiti6可以不添加，但是第一次启动只有16张表，启动两次才有26张表
     db-history-used: true
+  dynamic:
+    mongodb:
+      enabled: true
+      primary: demo
+      provider:
+        demo:
+          uri: mongodb://zhouxinlei:123456@127.0.0.1:27017/demo
+        demo0:
+          uri: mongodb://zhouxinlei:123456@127.0.0.1:27017/demo_10010
+        demo1:
+          uri: mongodb://zhouxinlei:123456@127.0.0.1:27017/demo_10011
 mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: com.github.sparkzxl.workflow.infrastructure.entity

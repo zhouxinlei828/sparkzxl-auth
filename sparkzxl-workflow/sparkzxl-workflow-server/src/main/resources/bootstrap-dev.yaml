@@ -44,24 +44,16 @@ spring:
         enable-remote-sync-config: true
   redis:
     redisson: redisson-dev.yaml
-  data:
-    mongodb:
-      uri: mongodb://zhouxinlei:123456@47.114.40.129:27017/demo
-  dynamic:
-    mongodb:
-      enabled: true
-      primary: demo
-      provider:
-        demo:
-          uri: mongodb://zhouxinlei:123456@47.114.40.129:27017/demo
-        demo0:
-          uri: mongodb://zhouxinlei:123456@47.114.40.129:27017/demo_10010
-        demo1:
-          uri: mongodb://zhouxinlei:123456@47.114.40.129:27017/demo_10011
 logging:
   level:
-    com.github.sparkzxl.workflow.infrastructure.mapper: debug
-    com.github.sparkzxl.log.event: debug
+    com:
+      github:
+        sparkzxl:
+          workflow:
+            infrastructure:
+              mapper: debug
+          log:
+            event: debug
     org:
       springframework:
         data:

@@ -41,22 +41,10 @@
         <module>sparkzxl-oauth-server</module>
     </modules>
 
-    <repositories>
-        <repository>
-            <id>maven-releases</id>
-            <url>https://nexus.sparksys.top/repository/maven-releases/</url>
-        </repository>
-        <repository>
-            <id>maven-snapshots</id>
-            <url>https://nexus.sparksys.top/repository/maven-snapshots/</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
         </dependency>
     </dependencies>
     <dependencyManagement>

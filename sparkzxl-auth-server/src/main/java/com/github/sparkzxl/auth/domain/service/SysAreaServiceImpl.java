@@ -12,6 +12,8 @@ import com.github.sparkzxl.auth.infrastructure.convert.SysAreaConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
 import com.github.sparkzxl.auth.infrastructure.mapper.SysAreaMapper;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
+import com.github.sparkzxl.auth.interfaces.dto.area.AreaSaveDTO;
+import com.github.sparkzxl.auth.interfaces.dto.area.AreaUpdateDTO;
 import com.github.sparkzxl.core.tree.TreeUtils;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.google.common.collect.Maps;
@@ -123,6 +125,19 @@ public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, Sys
                 }
             }
         });
+    }
+
+    @Override
+    public boolean updateArea(AreaUpdateDTO updateDTO) {
+        SysArea sysArea = SysAreaConvert.INSTANCE.convertSysArea(updateDTO);
+        return updateById(sysArea);
+    }
+
+
+    @Override
+    public boolean saveArea(AreaSaveDTO saveDTO) {
+        SysArea sysArea = SysAreaConvert.INSTANCE.convertSysArea(saveDTO);
+        return save(sysArea);
     }
 
     @Override

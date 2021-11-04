@@ -5,6 +5,7 @@ import com.github.sparkzxl.core.base.result.ResponseInfoStatus;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.core.utils.ListUtils;
+import com.github.sparkzxl.core.utils.StrPool;
 import com.github.sparkzxl.entity.core.JwtUserInfo;
 import com.github.sparkzxl.gateway.filter.AbstractAuthorizationFilter;
 import com.github.sparkzxl.gateway.infrastructure.constant.BizConstant;
@@ -20,6 +21,8 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.route.Route;
+import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -76,15 +79,14 @@ public class AuthenticationFilter extends AbstractAuthorizationFilter {
 
     @Override
     protected JwtUserInfo checkTokenAuthority(String token, ServerWebExchange exchange) throws GatewayException {
+        Route route = (Route) exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
         JwtUserInfo jwtUserInfo = super.checkTokenAuthority(token, exchange);
         //从Redis中获取当前路径可访问角色列表
         ServerHttpRequest request = exchange.getRequest();
         String requestUrl = request.getPath().toString();
         final String[] path = {requestUrl};
-        gatewayProperties.getRoutes().forEach(route -> {
-            String prefix = "/".concat(route.getId());
-            path[0] = path[0].replace(prefix, "");
-        });
+        String prefix = StrPool.SLASH.concat(route.getId());
+        path[0] = path[0].replaceFirst(prefix, "");
         String routePath = path[0];
         String tenant = WebFluxUtils.getHeader(BaseContextConstants.TENANT_ID, request);
         List<String> authorities = Lists.newArrayList();

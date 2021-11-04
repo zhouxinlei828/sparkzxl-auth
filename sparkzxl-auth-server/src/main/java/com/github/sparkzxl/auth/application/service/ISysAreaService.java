@@ -3,6 +3,8 @@ package com.github.sparkzxl.auth.application.service;
 import com.github.sparkzxl.auth.domain.model.vo.AreaTree;
 import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
+import com.github.sparkzxl.auth.interfaces.dto.area.AreaSaveDTO;
+import com.github.sparkzxl.auth.interfaces.dto.area.AreaUpdateDTO;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
 
 import java.util.List;
@@ -32,4 +34,19 @@ public interface ISysAreaService extends SuperCacheService<SysArea> {
      */
     boolean getActiveArea(Integer subDistrict);
 
+    /**
+     * 更新地区信息
+     *
+     * @param updateDTO 地区更新入参
+     * @return boolean
+     */
+    boolean updateArea(AreaUpdateDTO updateDTO);
+
+    /**
+     * 新增地区信息
+     *
+     * @param saveDTO 地区保存入参
+     * @return boolean
+     */
+    boolean saveArea(AreaSaveDTO saveDTO);
 }

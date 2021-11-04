@@ -11,10 +11,8 @@ import com.github.sparkzxl.auth.interfaces.dto.area.AreaUpdateDTO;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,6 +39,16 @@ public class AreaController extends SuperCacheController<ISysAreaService, Long,
     @ApiOperation("实时保存地区数据")
     @GetMapping("/getActiveArea")
     public boolean getActiveArea(@RequestParam("subDistrict") Integer subDistrict) {
-        return super.baseService.getActiveArea(subDistrict);
+        return baseService.getActiveArea(subDistrict);
+    }
+
+    @Override
+    public boolean save(@RequestBody @Validated AreaSaveDTO saveDTO) {
+        return baseService.saveArea(saveDTO);
+    }
+
+    @Override
+    public boolean update(@RequestBody @Validated AreaUpdateDTO updateDTO) {
+        return baseService.updateArea(updateDTO);
     }
 }

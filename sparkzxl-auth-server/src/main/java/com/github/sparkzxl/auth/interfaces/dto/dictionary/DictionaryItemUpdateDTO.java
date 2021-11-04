@@ -36,5 +36,5 @@ public class DictionaryItemUpdateDTO {
     private String describe;
 
     @ApiModelProperty(value = "排序")
-    private Integer sortValue;
+    private Integer sortNumber;
 }

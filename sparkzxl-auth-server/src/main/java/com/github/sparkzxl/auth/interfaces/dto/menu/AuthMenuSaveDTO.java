@@ -17,7 +17,7 @@ public class AuthMenuSaveDTO {
     @ApiModelProperty(value = "描述", example = "0")
     protected Long parentId;
     @ApiModelProperty(value = "排序值", example = "1")
-    protected Integer sortValue;
+    protected Integer sortNumber;
     @ApiModelProperty(value = "菜单是否可见")
     private Boolean hidden;
     @ApiModelProperty(value = "自动进行重定向")

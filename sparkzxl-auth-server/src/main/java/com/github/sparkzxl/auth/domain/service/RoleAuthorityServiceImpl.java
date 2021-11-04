@@ -6,7 +6,7 @@ import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthoritySaveDTO;
-import com.github.sparkzxl.core.context.BaseContextHolder;
+import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class RoleAuthorityServiceImpl extends SuperCacheServiceImpl<RoleAuthorit
 
     @Override
     public boolean refreshAuthorityList() {
-        String tenantId = BaseContextHolder.getTenant();
+        String tenantId = RequestLocalContextHolder.getTenant();
         return authorityRepository.refreshAuthorityList(tenantId);
     }
 }

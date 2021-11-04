@@ -17,7 +17,7 @@ public class AuthMenuUpdateDTO {
     @ApiModelProperty(value = "上级菜单id", example = "0")
     protected Long parentId;
     @ApiModelProperty(value = "排序值", example = "1")
-    protected Integer sortValue;
+    protected Integer sortNumber;
     @ApiModelProperty(value = "id")
     private Long id;
     @ApiModelProperty(value = "菜单是否可见")

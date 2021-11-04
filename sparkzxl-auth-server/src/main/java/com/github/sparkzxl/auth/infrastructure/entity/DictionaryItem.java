@@ -50,6 +50,6 @@ public class DictionaryItem extends Entity<Long> {
 
     @ApiModelProperty(value = "排序")
     @TableField("sort_number")
-    private Integer sortValue;
+    private Integer sortNumber;
 
 }

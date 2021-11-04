@@ -32,7 +32,7 @@ public class DictionaryItemRepository implements IDictionaryItemRepository {
         dictionaryItemLambdaQueryWrapper.eq(DictionaryItem::getDictionaryType, dictionaryType)
                 .in(DictionaryItem::getCode, codes)
                 .eq(DictionaryItem::getStatus, true)
-                .orderByAsc(DictionaryItem::getSortValue);
+                .orderByAsc(DictionaryItem::getSortNumber);
         List<DictionaryItem> dictionaryItems = dictionaryItemMapper.selectList(dictionaryItemLambdaQueryWrapper);
         Map<String, DictionaryItem> commonDictionaryItemMap = Maps.newHashMap();
         if (CollectionUtils.isNotEmpty(dictionaryItems)) {

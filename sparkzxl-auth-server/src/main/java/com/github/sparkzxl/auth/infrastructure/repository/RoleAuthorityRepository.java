@@ -16,7 +16,7 @@ import com.github.sparkzxl.auth.infrastructure.enums.OperationEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.constant.BaseContextConstants;
-import com.github.sparkzxl.core.context.BaseContextHolder;
+import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.spring.SpringContextUtils;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.google.common.collect.Lists;
@@ -69,7 +69,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
 
     @Override
     public boolean saveRoleAuthorityBatch(Long roleId, Set<Long> resourceIds, Set<Long> menuIds) {
-        String tenantId = BaseContextHolder.getTenant();
+        String tenantId = RequestLocalContextHolder.getTenant();
         List<RoleAuthority> roleAuthorities = Lists.newLinkedList();
         roleAuthorityMapper.delete(new LambdaUpdateWrapper<RoleAuthority>()
                 .eq(RoleAuthority::getRoleId, roleId));
@@ -156,7 +156,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
 
     @Override
     public void refreshAuthority(String oldVal, String newVal) {
-        String tenantId = BaseContextHolder.getTenant();
+        String tenantId = RequestLocalContextHolder.getTenant();
         String cacheKey = BuildKeyUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenantId);
         redisTemplate.opsForHash().delete(cacheKey, oldVal);
         RoleResourceInfo roleResource = authUserMapper.getRoleResource(newVal);
@@ -165,7 +165,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
 
     @Override
     public void refreshAuthority(String oldVal) {
-        String tenantId = BaseContextHolder.getTenant();
+        String tenantId = RequestLocalContextHolder.getTenant();
         String cacheKey = BuildKeyUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenantId);
         redisTemplate.opsForHash().delete(cacheKey, oldVal);
     }

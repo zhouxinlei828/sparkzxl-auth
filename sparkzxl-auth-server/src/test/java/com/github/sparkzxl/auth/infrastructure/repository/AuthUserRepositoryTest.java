@@ -8,7 +8,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.enums.AuthorityTypeEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
-import com.github.sparkzxl.core.context.BaseContextHolder;
+import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.jackson.JsonUtil;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +35,7 @@ class AuthUserRepositoryTest {
     @DisplayName("测试数据自动回显")
     @Test
     void selectByAccount() {
-        BaseContextHolder.setTenant("6055fc0465a6f7ecf13fe03a");
+        RequestLocalContextHolder.setTenant("6055fc0465a6f7ecf13fe03a");
         AuthUser authUser = authUserRepository.selectByAccount("zhouxinlei");
         System.out.println(JsonUtil.toJsonPretty(authUser));
     }
@@ -44,7 +44,7 @@ class AuthUserRepositoryTest {
     @Test
     void test() {
         List<Long> roleIds = Lists.newArrayList(100L);
-        BaseContextHolder.setTenant("hz");
+        RequestLocalContextHolder.setTenant("hz");
         LambdaQueryWrapper<RoleAuthority> roleAuthorityLambdaQueryWrapper = new LambdaQueryWrapper<RoleAuthority>()
                 .in(RoleAuthority::getRoleId, roleIds)
                 .eq(RoleAuthority::getAuthorityType, AuthorityTypeEnum.RESOURCE.name())

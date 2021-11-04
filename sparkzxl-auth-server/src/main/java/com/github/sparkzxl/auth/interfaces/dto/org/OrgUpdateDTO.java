@@ -40,7 +40,7 @@ public class OrgUpdateDTO {
     private Long parentId;
 
     @ApiModelProperty(value = "排序")
-    private Integer sortValue;
+    private Integer sortNumber;
 
     @ApiModelProperty(value = "状态")
     private Boolean status;

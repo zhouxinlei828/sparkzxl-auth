@@ -17,7 +17,7 @@ public class AreaSaveDTO {
     @ApiModelProperty(value = "名称")
     protected String label;
     @ApiModelProperty(value = "排序值")
-    protected Integer sortValue;
+    protected Integer sortNumber;
     @ApiModelProperty(value = "上级地区")
     private Long parentId;
     @ApiModelProperty(value = "编码")

@@ -4,7 +4,7 @@ import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourcePrope
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
 import com.github.sparkzxl.AlarmFactoryExecute;
 import com.github.sparkzxl.annotation.result.ResponseResult;
-import com.github.sparkzxl.core.context.BaseContextHolder;
+import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.core.support.TenantException;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
@@ -66,11 +66,11 @@ public class MockController {
     @GetMapping("/test")
     public String testMultithreading() {
         String tenantId = RequestContextHolderUtils.getHeader("tenantId");
-        BaseContextHolder.setTenant(tenantId);
+        RequestLocalContextHolder.setTenant(tenantId);
         CompletableFuture.runAsync(() -> {
             String header = RequestContextHolderUtils.getHeader("tenantId");
             System.out.println(header);
-            System.out.println("全局租户id".concat(BaseContextHolder.getTenant()));
+            System.out.println("全局租户id".concat(RequestLocalContextHolder.getTenant()));
         }, threadPoolExecutor);
         return tenantId;
     }

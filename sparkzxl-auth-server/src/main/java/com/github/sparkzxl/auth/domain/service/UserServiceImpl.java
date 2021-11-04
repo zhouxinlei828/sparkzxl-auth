@@ -24,7 +24,7 @@ import com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
-import com.github.sparkzxl.core.context.BaseContextHolder;
+import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.database.utils.PageInfoUtils;
@@ -71,7 +71,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
 
     @Override
     public AuthUserInfo<Long> getAuthUserInfo(String username) {
-        String tenant = BaseContextHolder.getTenant();
+        String tenant = RequestLocalContextHolder.getTenant();
         AuthUser authUser = authUserRepository.selectByAccount(username);
         if (ObjectUtils.isNotEmpty(authUser)) {
             AuthUserInfo<Long> authUserInfo = AuthUserConvert.INSTANCE.convertAuthUserInfo(authUser);
@@ -214,7 +214,7 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
 
     @Override
     public UserDetailInfo getUserDetailInfo(String username) {
-        String tenant = BaseContextHolder.getTenant();
+        String tenant = RequestLocalContextHolder.getTenant();
         AuthUser authUser = authUserRepository.selectByAccount(username);
         if (ObjectUtils.isNotEmpty(authUser)) {
             UserDetailInfo authUserInfo = AuthUserConvert.INSTANCE.convertUserDetailInfo(authUser);

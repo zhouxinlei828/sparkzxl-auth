@@ -2,11 +2,11 @@
   {
     "label": "身份认证",
     "parentId": "0",
-    "sortValue": 1,
+    "sortNumber": 1,
     "children": [
       {
         "label": "应用管理",
-        "sortValue": 1,
+        "sortNumber": 1,
         "children": null,
         "hidden": true,
         "redirect": null,
@@ -59,11 +59,11 @@
   {
     "label": "权限管理",
     "parentId": "0",
-    "sortValue": 2,
+    "sortNumber": 2,
     "children": [
       {
         "label": "菜单管理",
-        "sortValue": 1,
+        "sortNumber": 1,
         "children": null,
         "hidden": false,
         "redirect": null,
@@ -139,7 +139,7 @@
       },
       {
         "label": "角色管理",
-        "sortValue": 2,
+        "sortNumber": 2,
         "children": null,
         "hidden": false,
         "redirect": null,
@@ -228,11 +228,11 @@
   {
     "label": "用户管理",
     "parentId": "0",
-    "sortValue": 3,
+    "sortNumber": 3,
     "children": [
       {
         "label": "组织机构",
-        "sortValue": 1,
+        "sortNumber": 1,
         "children": null,
         "hidden": false,
         "redirect": null,
@@ -272,7 +272,7 @@
       },
       {
         "label": "岗位管理",
-        "sortValue": 2,
+        "sortNumber": 2,
         "children": null,
         "hidden": false,
         "redirect": null,
@@ -330,7 +330,7 @@
       },
       {
         "label": "用户列表",
-        "sortValue": 3,
+        "sortNumber": 3,
         "children": null,
         "hidden": false,
         "redirect": null,
@@ -413,11 +413,11 @@
   {
     "label": "基础配置",
     "parentId": "0",
-    "sortValue": 4,
+    "sortNumber": 4,
     "children": [
       {
         "label": "地区信息",
-        "sortValue": 1,
+        "sortNumber": 1,
         "children": null,
         "hidden": false,
         "redirect": null,
@@ -457,7 +457,7 @@
       },
       {
         "label": "数据字典",
-        "sortValue": 2,
+        "sortNumber": 2,
         "children": null,
         "hidden": false,
         "redirect": null,
@@ -534,11 +534,11 @@
   {
     "label": "审计日志",
     "parentId": "0",
-    "sortValue": 5,
+    "sortNumber": 5,
     "children": [
       {
         "label": "用户行为",
-        "sortValue": 1,
+        "sortNumber": 1,
         "children": null,
         "hidden": true,
         "redirect": null,
@@ -553,7 +553,7 @@
       },
       {
         "label": "操作日志",
-        "sortValue": 2,
+        "sortNumber": 2,
         "children": null,
         "hidden": true,
         "redirect": null,
@@ -568,7 +568,7 @@
       },
       {
         "label": "登录日志",
-        "sortValue": 3,
+        "sortNumber": 3,
         "children": null,
         "hidden": true,
         "redirect": null,
@@ -596,11 +596,11 @@
   {
     "label": "流程管理",
     "parentId": "0",
-    "sortValue": 6,
+    "sortNumber": 6,
     "children": [
       {
         "label": "流程列表",
-        "sortValue": 1,
+        "sortNumber": 1,
         "children": null,
         "hidden": false,
         "redirect": null,
@@ -670,7 +670,7 @@
       },
       {
         "label": "流程实例",
-        "sortValue": 2,
+        "sortNumber": 2,
         "children": null,
         "hidden": false,
         "redirect": null,
@@ -753,11 +753,11 @@
   {
     "label": "任务调度",
     "parentId": "0",
-    "sortValue": 7,
+    "sortNumber": 7,
     "children": [
       {
         "label": "运行报表",
-        "sortValue": 1,
+        "sortNumber": 1,
         "children": null,
         "hidden": true,
         "redirect": null,
@@ -772,7 +772,7 @@
       },
       {
         "label": "任务管理",
-        "sortValue": 2,
+        "sortNumber": 2,
         "children": null,
         "hidden": true,
         "redirect": null,
@@ -787,7 +787,7 @@
       },
       {
         "label": "调度日志",
-        "sortValue": 3,
+        "sortNumber": 3,
         "children": null,
         "hidden": true,
         "redirect": null,
@@ -802,7 +802,7 @@
       },
       {
         "label": "执行器管理",
-        "sortValue": 4,
+        "sortNumber": 4,
         "children": null,
         "hidden": true,
         "redirect": null,
@@ -830,11 +830,11 @@
   {
     "label": "文件中心",
     "parentId": "0",
-    "sortValue": 8,
+    "sortNumber": 8,
     "children": [
       {
         "label": "文件存储",
-        "sortValue": 1,
+        "sortNumber": 1,
         "children": null,
         "hidden": false,
         "redirect": null,
@@ -862,11 +862,11 @@
   {
     "label": "监控预警",
     "parentId": "0",
-    "sortValue": 9,
+    "sortNumber": 9,
     "children": [
       {
         "label": "数据库监控",
-        "sortValue": 1,
+        "sortNumber": 1,
         "children": null,
         "hidden": true,
         "redirect": null,
@@ -881,7 +881,7 @@
       },
       {
         "label": "缓存监控",
-        "sortValue": 2,
+        "sortNumber": 2,
         "children": null,
         "hidden": true,
         "redirect": null,
@@ -909,11 +909,11 @@
   {
     "label": "消息管理",
     "parentId": "0",
-    "sortValue": 10,
+    "sortNumber": 10,
     "children": [
       {
         "label": "邮件管理",
-        "sortValue": 1,
+        "sortNumber": 1,
         "children": null,
         "hidden": true,
         "redirect": null,
@@ -928,7 +928,7 @@
       },
       {
         "label": "短信管理",
-        "sortValue": 2,
+        "sortNumber": 2,
         "children": null,
         "hidden": true,
         "redirect": null,
@@ -956,7 +956,7 @@
   {
     "label": "报表管理",
     "parentId": "0",
-    "sortValue": 11,
+    "sortNumber": 11,
     "children": null,
     "hidden": true,
     "redirect": null,

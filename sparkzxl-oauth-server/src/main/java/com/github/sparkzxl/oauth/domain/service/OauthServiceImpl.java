@@ -6,9 +6,9 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.EscapeUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
-import com.github.sparkzxl.cache.template.GeneralCacheService;
+import com.github.sparkzxl.cache.service.GeneralCacheService;
 import com.github.sparkzxl.constant.BaseContextConstants;
-import com.github.sparkzxl.core.context.BaseContextHolder;
+import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.core.utils.ListUtils;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
@@ -19,13 +19,13 @@ import com.github.sparkzxl.oauth.infrastructure.constant.OauthConstant;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AuthorizationRequest;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.OpenProperties;
+import com.github.sparkzxl.user.manager.UserStateManager;
 import com.google.common.collect.Maps;
 import io.vavr.control.Option;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -55,7 +55,7 @@ public class OauthServiceImpl implements IOauthService {
     private TokenEndpoint tokenEndpoint;
     private GeneralCacheService generalCacheService;
     private UserInfoClient userInfoClient;
-    private RedisTemplate<String, Object> redisTemplate;
+    private UserStateManager userStateManager;
     private ClientDetailsService clientDetailsService;
     private OpenProperties openProperties;
     private CustomTokenGrantService customTokenGrantService;
@@ -76,8 +76,8 @@ public class OauthServiceImpl implements IOauthService {
     }
 
     @Autowired
-    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
+    public void setUserStateManager(UserStateManager userStateManager) {
+        this.userStateManager = userStateManager;
     }
 
     @Autowired
@@ -149,11 +149,9 @@ public class OauthServiceImpl implements IOauthService {
         Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
         String username = (String) additionalInformation.get("username");
         String tenant = (String) additionalInformation.get(BaseContextConstants.TENANT_ID);
-        BaseContextHolder.setTenant(tenant);
+        RequestLocalContextHolder.setTenant(tenant);
         AuthUserInfo<Long> authUserInfo = userInfoClient.getAuthUserInfo(username);
-        String authUserInfoKey = BuildKeyUtil.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
-        redisTemplate.opsForHash().put(authUserInfoKey, oAuth2AccessToken.getValue(), authUserInfo);
-        redisTemplate.expire(authUserInfoKey, oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);
+        userStateManager.addUser(oAuth2AccessToken.getValue(), authUserInfo,oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);
     }
 
     /**
@@ -191,7 +189,7 @@ public class OauthServiceImpl implements IOauthService {
                 .addQuery("redirect_uri", redirectUriList.get(0))
                 .addQuery("response_type", "code")
                 .addQuery("state", state)
-                .addQuery(BaseContextConstants.TENANT_ID, BaseContextHolder.getTenant())
+                .addQuery(BaseContextConstants.TENANT_ID, RequestLocalContextHolder.getTenant())
                 .build();
         String referer = request.getHeader("Referer");
         if (StringUtils.isNotEmpty(referer)) {
@@ -227,7 +225,7 @@ public class OauthServiceImpl implements IOauthService {
 
     @Override
     public AuthUserBasicVO userinfo(AuthUserInfo<Long> authUserInfo) {
-        BaseContextHolder.setTenant(authUserInfo.getTenantId());
+        RequestLocalContextHolder.setTenant(authUserInfo.getTenantId());
         return userInfoClient.getUserByUserId(authUserInfo.getId());
     }
 }

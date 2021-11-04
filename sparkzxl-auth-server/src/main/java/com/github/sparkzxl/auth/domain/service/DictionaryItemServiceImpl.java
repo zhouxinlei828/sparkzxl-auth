@@ -50,7 +50,7 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
         LambdaQueryWrapper<DictionaryItem> dictionaryItemLambdaQueryWrapper = new LambdaQueryWrapper<>();
         dictionaryItemLambdaQueryWrapper.in(DictionaryItem::getDictionaryType, types)
                 .eq(DictionaryItem::getStatus, true)
-                .orderByAsc(DictionaryItem::getSortValue);
+                .orderByAsc(DictionaryItem::getSortNumber);
         List<DictionaryItem> list = super.list(dictionaryItemLambdaQueryWrapper);
 
         // 2. 将 list 转换成 Map，Map的key是字典编码，value是字典名称
@@ -86,7 +86,7 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
             dictionaryItemLambdaQueryWrapper.likeRight(DictionaryItem::getName, dictionaryItemQueryDTO.getName());
         }
         dictionaryItemLambdaQueryWrapper.eq(DictionaryItem::getStatus, true)
-                .orderByAsc(DictionaryItem::getSortValue);
+                .orderByAsc(DictionaryItem::getSortNumber);
         return super.list(dictionaryItemLambdaQueryWrapper);
     }
 

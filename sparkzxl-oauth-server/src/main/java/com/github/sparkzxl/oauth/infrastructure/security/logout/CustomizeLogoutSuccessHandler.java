@@ -1,8 +1,8 @@
 package com.github.sparkzxl.oauth.infrastructure.security.logout;
 
 import com.github.sparkzxl.constant.BaseContextConstants;
-import com.github.sparkzxl.core.context.BaseContextHolder;
-import com.github.sparkzxl.core.context.ResponseContextHolder;
+import com.github.sparkzxl.core.context.RequestLocalContextHolder;
+import com.github.sparkzxl.core.context.ResponseHelper;
 import com.github.sparkzxl.core.utils.BuildKeyUtil;
 import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
@@ -52,7 +52,7 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
         String token = httpServletRequest.getHeader("token");
-        BaseContextHolder.setTenant(RequestContextHolderUtils.getHeader(BaseContextConstants.TENANT_ID));
+        RequestLocalContextHolder.setTenant(RequestContextHolderUtils.getHeader(BaseContextConstants.TENANT_ID));
         log.info("退出登录成功：{}", token);
         token = StringUtils.removeStartIgnoreCase(token, BaseContextConstants.BEARER_TOKEN);
         if (token != null) {
@@ -67,6 +67,6 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
                 redisTemplate.opsForHash().delete(authUserInfoKey, accessToken.getValue());
             }
         }
-        ResponseContextHolder.writeResponseOutMsg(httpServletResponse, 200, "退出登录成功", true);
+        ResponseHelper.writeResponseOutMsg(httpServletResponse, 200, "退出登录成功", true);
     }
 }

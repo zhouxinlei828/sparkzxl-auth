@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.interfaces.controller.core;
 
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.application.event.ImportStationDataListener;
 import com.github.sparkzxl.auth.application.service.ICoreStationService;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.StationExcel;
@@ -31,7 +31,7 @@ import java.util.List;
  * @date 2020-06-07 13:41:11
  */
 @RestController
-@ResponseResult
+@Response
 @HttpRequestLog
 @Api(tags = "岗位管理")
 @RequestMapping("/station")

@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.application.service.IResourceService;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceQueryDTO;
@@ -30,7 +30,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/resource")
-@ResponseResult
+@Response
 @HttpRequestLog
 @Api(tags = "资源管理")
 public class AuthResourceController extends SuperCacheController<IResourceService, Long,

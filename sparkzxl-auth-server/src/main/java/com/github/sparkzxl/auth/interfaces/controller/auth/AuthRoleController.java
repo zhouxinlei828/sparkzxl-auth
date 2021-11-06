@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.application.service.IRoleService;
 import com.github.sparkzxl.auth.application.service.IUserRoleService;
 import com.github.sparkzxl.auth.domain.model.vo.RoleResourceVO;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/role")
-@ResponseResult
+@Response
 @HttpRequestLog
 @Api(tags = "角色管理")
 public class AuthRoleController extends SuperCacheController<IRoleService, Long,

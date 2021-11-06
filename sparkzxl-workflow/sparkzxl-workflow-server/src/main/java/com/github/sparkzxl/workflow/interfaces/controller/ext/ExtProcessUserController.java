@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
 
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 @Api(tags = "流程用户管理")
 @HttpRequestLog
-@ResponseResult
+@Response
 @RestController
 @RequestMapping("/process/user")
 public class ExtProcessUserController extends SuperCacheController<IExtProcessUserService, Long, ExtProcessUser,

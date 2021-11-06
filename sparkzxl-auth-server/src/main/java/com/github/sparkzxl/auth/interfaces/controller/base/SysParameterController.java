@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.controller.base;
 
 
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.application.service.ISysParameterService;
 import com.github.sparkzxl.auth.infrastructure.entity.SysParameter;
 import com.github.sparkzxl.auth.interfaces.dto.parameter.SysParameterQueryDTO;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @AllArgsConstructor
 @RestController
-@ResponseResult
+@Response
 @HttpRequestLog
 @Api(tags = "系统参数管理")
 @RequestMapping("/base/parameter")

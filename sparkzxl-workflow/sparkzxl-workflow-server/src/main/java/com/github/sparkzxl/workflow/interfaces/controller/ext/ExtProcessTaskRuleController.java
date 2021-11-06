@@ -1,6 +1,6 @@
 package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.log.annotation.OptLogRecord;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskRuleService;
@@ -20,7 +20,7 @@ import java.util.List;
  * @date 2020-07-21 15:44:59
  */
 @RestController
-@ResponseResult
+@Response
 @HttpRequestLog
 @RequestMapping("/process/rule")
 @Api(tags = "流程规则管理")

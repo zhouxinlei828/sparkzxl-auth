@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.controller.core;
 
 
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.application.service.ICoreOrgService;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgQueryDTO;
@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2020-06-07 13:40:59
  */
 @RestController
-@ResponseResult
+@Response
 @HttpRequestLog
 @Api(tags = "组织管理")
 @RequestMapping("/org")

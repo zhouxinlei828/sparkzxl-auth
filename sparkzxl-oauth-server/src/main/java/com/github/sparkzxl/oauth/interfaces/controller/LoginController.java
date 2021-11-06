@@ -1,6 +1,6 @@
 package com.github.sparkzxl.oauth.interfaces.controller;
 
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.oauth.application.service.IOauthService;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AccessTokenInfo;
@@ -49,7 +49,7 @@ public class LoginController {
 
     @ApiOperation(value = "GET授权登录端口", notes = "GET授权登录端口")
     @GetMapping("/authentication/token")
-    @ResponseResult
+    @Response
     @ResponseBody
     public AccessTokenInfo getAccessToken(AuthorizationRequest authorizationRequest) {
         return oauthService.getAccessToken(authorizationRequest);
@@ -57,7 +57,7 @@ public class LoginController {
 
     @ApiOperation(value = "POST授权登录端口", notes = "POST授权登录端口")
     @PostMapping("/authentication/token")
-    @ResponseResult
+    @Response
     @ResponseBody
     public AccessTokenInfo postAccessToken(@RequestBody AuthorizationRequest authorizationRequest) {
         return oauthService.postAccessToken(authorizationRequest);

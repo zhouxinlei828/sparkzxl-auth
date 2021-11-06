@@ -1,7 +1,7 @@
 package com.github.sparkzxl.file.interfaces.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.file.api.FileApi;
 import com.github.sparkzxl.file.application.service.IFileService;
@@ -33,7 +33,7 @@ public class FileController implements FileApi {
     }
 
     @ApiOperation("文件上传")
-    @ResponseResult
+    @Response
     @PostMapping("/file/upload")
     public FileMaterialDTO upload(@RequestParam("file") MultipartFile multipartFile) {
         return fileService.upload(multipartFile);
@@ -46,7 +46,7 @@ public class FileController implements FileApi {
     }
 
     @ApiOperation("删除文件")
-    @ResponseResult
+    @Response
     @DeleteMapping("/file/delete/{fileName}")
     public boolean delete(@PathVariable("fileName") String fileName) {
         return fileService.deleteFile(fileName);

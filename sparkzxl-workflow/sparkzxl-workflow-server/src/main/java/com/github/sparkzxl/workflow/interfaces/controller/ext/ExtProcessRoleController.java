@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
 
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.database.base.controller.SuperCacheController;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessRoleService;
@@ -23,7 +23,7 @@ import java.util.List;
  * @author fin-9062
  * @date 2021-01-08 17:11:20
  */
-@ResponseResult
+@Response
 @RestController
 @RequestMapping("/process/role")
 @HttpRequestLog

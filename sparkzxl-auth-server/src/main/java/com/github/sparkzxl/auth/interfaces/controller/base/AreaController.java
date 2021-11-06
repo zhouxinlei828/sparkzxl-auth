@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.controller.base;
 
 
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.application.service.ISysAreaService;
 import com.github.sparkzxl.auth.domain.model.vo.AreaTree;
 import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
@@ -23,7 +23,7 @@ import java.util.List;
  * @date 2020-07-28 19:48:13
  */
 @RestController
-@ResponseResult
+@Response
 @Api(tags = "地区管理")
 @RequestMapping("/base/area")
 public class AreaController extends SuperCacheController<ISysAreaService, Long,

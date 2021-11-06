@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.interfaces.controller.mock;
 
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021-07-12 15:08
  */
 @RestController
-@ResponseResult
+@Response
 @HttpRequestLog
 @Api(tags = "Mock管理")
 @RequestMapping("/mock")

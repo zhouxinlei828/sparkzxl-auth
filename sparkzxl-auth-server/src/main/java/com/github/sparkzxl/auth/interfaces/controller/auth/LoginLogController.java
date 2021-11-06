@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.application.service.ILoginLogService;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.interfaces.dto.log.LoginLogQueryDTO;
@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
  * @date 2020/6/17 0017
  */
 @RestController
-@ResponseResult
+@Response
 @RequestMapping("/login/log")
 @HttpRequestLog
 @Api(value = "LoginLog", tags = "登录日志")

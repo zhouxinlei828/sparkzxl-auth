@@ -1,6 +1,6 @@
 package com.github.sparkzxl.oauth.interfaces.controller;
 
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.oauth.application.service.IOauthService;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AccessTokenInfo;
@@ -34,7 +34,7 @@ public class AuthorizeController {
 
     @ApiOperation(value = "授权地址端点")
     @GetMapping("/oauth/getAuthorizeUrl")
-    @ResponseResult
+    @Response
     @ResponseBody
     public String getAuthorizeUrl(@RequestParam(value = "clientId", required = false) String clientId,
                                   @RequestParam(value = "frontUrl", required = false) String frontUrl) {
@@ -43,7 +43,7 @@ public class AuthorizeController {
 
     @ApiOperation(value = "授权成功回调端点")
     @GetMapping("/oauth/callBack")
-    @ResponseResult
+    @Response
     @ResponseBody
     public AccessTokenInfo callBack(@RequestParam("code") String code,
                                     @RequestParam("state") String state) {

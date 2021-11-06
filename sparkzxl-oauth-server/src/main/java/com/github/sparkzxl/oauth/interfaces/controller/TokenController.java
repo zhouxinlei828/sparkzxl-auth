@@ -1,6 +1,6 @@
 package com.github.sparkzxl.oauth.interfaces.controller;
 
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
@@ -58,7 +58,7 @@ public class TokenController {
     @ApiOperation("获取用户基本信息")
     @GetMapping("/user/userinfo")
     @ResponseBody
-    @ResponseResult
+    @Response
     public AuthUserBasicVO getAuthUserBasicInfo(@ApiIgnore AuthUserInfo<Long> authUserInfo) {
         return oauthService.userinfo(authUserInfo);
     }

@@ -3,7 +3,8 @@ package com.github.sparkzxl.workflow.interfaces.controller;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
 import com.github.sparkzxl.AlarmFactoryExecute;
-import com.github.sparkzxl.annotation.result.ResponseResult;
+import com.github.sparkzxl.annotation.response.IgnoreResponseWrap;
+import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.core.support.TenantException;
@@ -31,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  * @author zhouxinlei
  * @date 2021-07-28 14:31
  */
-@ResponseResult
+@Response
 @RestController
 @RequestMapping("/mock")
 @HttpRequestLog
@@ -79,5 +80,11 @@ public class MockController {
     public String testException() {
         CompletableFuture.runAsync(() -> AlarmFactoryExecute.execute("<span style=\"color:red;\">测试单号：</span>JC345345345345"), threadPoolExecutor);
         throw new TenantException("无此租户");
+    }
+
+    @GetMapping("/testIgnoreResponseWrap")
+    @IgnoreResponseWrap
+    public String testIgnoreResponseWrap() {
+        return "testIgnoreResponseWrap";
     }
 }

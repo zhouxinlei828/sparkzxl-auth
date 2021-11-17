@@ -11,9 +11,9 @@ import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.gateway.rule.IReactorServiceInstanceLoadBalancer;
 import com.github.sparkzxl.gateway.util.WebFluxUtils;
 import com.google.common.collect.Lists;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.DefaultResponse;
 import org.springframework.cloud.client.loadbalancer.Response;
@@ -35,19 +35,20 @@ import java.util.stream.Collectors;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class GrayVersionLoadBalancer implements IReactorServiceInstanceLoadBalancer {
 
-    @Autowired
-    private NacosDiscoveryProperties nacosDiscoveryProperties;
-    @Autowired
-    private NacosServiceManager nacosServiceManager;
+    private final NacosDiscoveryProperties nacosDiscoveryProperties;
+    private final NacosServiceManager nacosServiceManager;
+
+    private final static String SECURE = "secure";
 
     @Override
     public Mono<Response<ServiceInstance>> choose(String serviceId, ServerHttpRequest request) {
         try {
-            String clusterName = this.nacosDiscoveryProperties.getClusterName();
-            String group = this.nacosDiscoveryProperties.getGroup();
-            NamingService namingService = this.nacosServiceManager.getNamingService(this.nacosDiscoveryProperties.getNacosProperties());
+            String clusterName = nacosDiscoveryProperties.getClusterName();
+            String group = nacosDiscoveryProperties.getGroup();
+            NamingService namingService = nacosServiceManager.getNamingService(nacosDiscoveryProperties.getNacosProperties());
             List<Instance> instances = namingService.selectInstances(serviceId, group, true);
             if (CollectionUtils.isEmpty(instances)) {
                 log.warn("no instance in service {}", serviceId);
@@ -86,8 +87,8 @@ public class GrayVersionLoadBalancer implements IReactorServiceInstanceLoadBalan
                 nacosServiceInstance.setPort(instance.getPort());
                 nacosServiceInstance.setServiceId(instance.getInstanceId());
                 nacosServiceInstance.setMetadata(metadata);
-                if (metadata.containsKey("secure")) {
-                    boolean secure = Boolean.parseBoolean(metadata.get("secure"));
+                if (metadata.containsKey(SECURE)) {
+                    boolean secure = Boolean.parseBoolean(metadata.get(SECURE));
                     nacosServiceInstance.setSecure(secure);
                 }
                 log.warn("request instance name = {}, version = {}, IP = {}", serviceId, version, instance.getIp().concat(":").concat(String.valueOf(instance.getPort())));

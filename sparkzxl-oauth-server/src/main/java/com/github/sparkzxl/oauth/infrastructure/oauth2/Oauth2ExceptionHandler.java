@@ -3,7 +3,7 @@ package com.github.sparkzxl.oauth.infrastructure.oauth2;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.base.result.ResponseResult;
-import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
+import com.github.sparkzxl.core.util.RequestContextHolderUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.common.exceptions.*;
 import org.springframework.web.bind.annotation.ControllerAdvice;

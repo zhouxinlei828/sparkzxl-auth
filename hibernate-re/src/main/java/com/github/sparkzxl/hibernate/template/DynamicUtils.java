@@ -5,7 +5,7 @@ import com.alibaba.druid.sql.ast.SQLDataType;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.expr.*;
 import com.baomidou.mybatisplus.core.enums.SqlKeyword;
-import com.github.sparkzxl.core.utils.DateUtils;
+import com.github.sparkzxl.core.util.DateUtils;
 
 import java.math.BigDecimal;
 

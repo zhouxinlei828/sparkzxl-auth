@@ -14,7 +14,7 @@ import com.github.sparkzxl.auth.interfaces.dto.station.StationSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationUpdateDTO;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
-import com.github.sparkzxl.database.utils.PageInfoUtils;
+import com.github.sparkzxl.database.util.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.auth.domain.repository.ISegmentIdRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.SegmentId;
 import com.github.sparkzxl.auth.infrastructure.mapper.SegmentIdMapper;
-import com.github.sparkzxl.core.utils.DateUtils;
+import com.github.sparkzxl.core.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

@@ -2,7 +2,7 @@ package com.github.sparkzxl.workflow.domain.service.act;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.date.DatePattern;
-import com.github.sparkzxl.core.utils.DateUtils;
+import com.github.sparkzxl.core.util.DateUtils;
 import com.github.sparkzxl.database.factory.CustomThreadFactory;
 import com.github.sparkzxl.workflow.application.service.act.IProcessHistoryService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;

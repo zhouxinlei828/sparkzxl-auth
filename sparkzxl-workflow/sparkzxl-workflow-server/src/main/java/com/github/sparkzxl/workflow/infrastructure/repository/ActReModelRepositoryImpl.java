@@ -2,7 +2,7 @@ package com.github.sparkzxl.workflow.infrastructure.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.utils.PageInfoUtils;
+import com.github.sparkzxl.database.util.PageInfoUtils;
 import com.github.sparkzxl.workflow.domain.repository.IActReModelRepository;
 import com.github.sparkzxl.workflow.infrastructure.entity.ActReModel;
 import com.github.sparkzxl.workflow.infrastructure.mapper.ActReModelMapper;

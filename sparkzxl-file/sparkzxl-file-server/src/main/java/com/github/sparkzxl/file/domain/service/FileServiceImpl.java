@@ -3,7 +3,7 @@ package com.github.sparkzxl.file.domain.service;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.core.utils.Mht2HtmlUtil;
+import com.github.sparkzxl.core.util.Mht2HtmlUtil;
 import com.github.sparkzxl.file.application.service.IFileService;
 import com.github.sparkzxl.file.domain.repository.IFileMaterialRepository;
 import com.github.sparkzxl.file.dto.FileDTO;

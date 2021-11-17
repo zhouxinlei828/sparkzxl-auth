@@ -18,7 +18,7 @@ import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.spring.SpringContextUtils;
-import com.github.sparkzxl.core.utils.BuildKeyUtil;
+import com.github.sparkzxl.core.util.BuildKeyUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;

@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.domain.service;
 
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
-import com.github.sparkzxl.core.utils.ListUtils;
+import com.github.sparkzxl.core.util.ListUtils;
 import com.github.sparkzxl.entity.security.AuthUserDetail;
 import com.github.sparkzxl.oauth.infrastructure.client.UserInfoClient;
 import org.apache.commons.lang3.ObjectUtils;

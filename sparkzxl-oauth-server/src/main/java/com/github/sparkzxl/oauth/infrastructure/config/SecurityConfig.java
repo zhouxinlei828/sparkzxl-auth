@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.infrastructure.config;
 
 import cn.hutool.core.util.ArrayUtil;
-import com.github.sparkzxl.core.utils.SwaggerStaticResource;
+import com.github.sparkzxl.core.util.SwaggerStaticResource;
 import com.github.sparkzxl.oauth.domain.service.UserDetailsServiceImpl;
 import com.github.sparkzxl.oauth.infrastructure.constant.SecurityConstants;
 import com.github.sparkzxl.oauth.infrastructure.security.RestfulAccessDeniedHandler;

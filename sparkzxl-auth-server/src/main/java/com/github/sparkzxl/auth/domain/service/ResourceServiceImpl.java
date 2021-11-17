@@ -8,7 +8,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthResourceMapper;
 import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceUpdateDTO;
-import com.github.sparkzxl.core.utils.BuildKeyUtil;
+import com.github.sparkzxl.core.util.BuildKeyUtil;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.ObjectUtils;

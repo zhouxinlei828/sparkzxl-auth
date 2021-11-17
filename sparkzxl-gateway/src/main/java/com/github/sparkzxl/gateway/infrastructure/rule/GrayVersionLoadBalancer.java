@@ -9,7 +9,7 @@ import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.gateway.rule.IReactorServiceInstanceLoadBalancer;
-import com.github.sparkzxl.gateway.utils.WebFluxUtils;
+import com.github.sparkzxl.gateway.util.WebFluxUtils;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

@@ -10,7 +10,7 @@ import com.github.sparkzxl.auth.domain.repository.ICoreStationRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreStationMapper;
-import com.github.sparkzxl.core.utils.MapHelper;
+import com.github.sparkzxl.core.util.MapHelper;
 import com.github.sparkzxl.entity.data.RemoteData;
 import com.github.sparkzxl.entity.data.SuperEntity;
 import lombok.AllArgsConstructor;

@@ -11,7 +11,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.UserRole;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthRoleMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.UserRoleMapper;
-import com.github.sparkzxl.database.utils.PageInfoUtils;
+import com.github.sparkzxl.database.util.PageInfoUtils;
 import com.github.sparkzxl.entity.data.SuperEntity;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;

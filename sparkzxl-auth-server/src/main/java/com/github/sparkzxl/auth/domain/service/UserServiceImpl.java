@@ -27,7 +27,7 @@ import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
-import com.github.sparkzxl.database.utils.PageInfoUtils;
+import com.github.sparkzxl.database.util.PageInfoUtils;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.entity.data.RemoteData;
 import com.google.common.collect.Maps;

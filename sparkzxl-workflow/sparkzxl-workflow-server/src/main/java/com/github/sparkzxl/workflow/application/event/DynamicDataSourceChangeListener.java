@@ -7,7 +7,7 @@ import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
-import com.github.sparkzxl.core.utils.StringHandlerUtil;
+import com.github.sparkzxl.core.util.StringHandlerUtil;
 import com.github.sparkzxl.workflow.infrastructure.enums.ListenerEventEnum;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.sparkzxl.core.support.ExceptionAssert;
-import com.github.sparkzxl.core.utils.ListUtils;
+import com.github.sparkzxl.core.util.ListUtils;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessDetailService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskRuleService;
 import com.github.sparkzxl.workflow.application.service.model.IModelerService;

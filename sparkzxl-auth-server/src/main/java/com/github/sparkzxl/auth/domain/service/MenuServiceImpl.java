@@ -10,7 +10,7 @@ import com.github.sparkzxl.auth.infrastructure.mapper.AuthMenuMapper;
 import com.github.sparkzxl.auth.infrastructure.repository.AuthMenuRepository;
 import com.github.sparkzxl.auth.interfaces.dto.menu.AuthMenuSaveDTO;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
-import com.github.sparkzxl.database.utils.TreeUtil;
+import com.github.sparkzxl.database.util.TreeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

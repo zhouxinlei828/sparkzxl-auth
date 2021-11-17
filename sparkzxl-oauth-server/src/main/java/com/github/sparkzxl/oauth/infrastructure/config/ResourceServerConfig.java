@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.infrastructure.config;
 
-import com.github.sparkzxl.core.utils.ListUtils;
-import com.github.sparkzxl.core.utils.SwaggerStaticResource;
+import com.github.sparkzxl.core.util.ListUtils;
+import com.github.sparkzxl.core.util.SwaggerStaticResource;
 import com.github.sparkzxl.oauth.infrastructure.constant.SecurityConstants;
 import com.github.sparkzxl.oauth.infrastructure.security.RestAuthenticationEntryPoint;
 import com.github.sparkzxl.oauth.infrastructure.security.RestfulAccessDeniedHandler;

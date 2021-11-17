@@ -11,7 +11,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
 import com.github.sparkzxl.auth.infrastructure.mapper.LoginLogMapper;
 import com.github.sparkzxl.auth.interfaces.dto.log.LoginLogQueryDTO;
-import com.github.sparkzxl.core.utils.BuildKeyUtil;
+import com.github.sparkzxl.core.util.BuildKeyUtil;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;

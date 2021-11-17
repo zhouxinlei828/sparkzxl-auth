@@ -4,7 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.utils.PageInfoUtils;
+import com.github.sparkzxl.database.util.PageInfoUtils;
 import com.github.sparkzxl.file.domain.repository.IFileMaterialRepository;
 import com.github.sparkzxl.file.infrastructure.entity.FileMaterial;
 import com.github.sparkzxl.file.infrastructure.mapper.FileMaterialMapper;

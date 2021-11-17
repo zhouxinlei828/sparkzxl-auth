@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.utils.PageInfoUtils;
+import com.github.sparkzxl.database.util.PageInfoUtils;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessDetailRepository;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessDetail;
 import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessDetailMapper;

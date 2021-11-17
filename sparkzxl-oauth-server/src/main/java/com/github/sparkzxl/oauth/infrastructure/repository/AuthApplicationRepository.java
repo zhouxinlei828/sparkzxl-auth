@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.api.dto.DictionaryItemDTO;
-import com.github.sparkzxl.database.utils.PageInfoUtils;
+import com.github.sparkzxl.database.util.PageInfoUtils;
 import com.github.sparkzxl.entity.data.SuperEntity;
 import com.github.sparkzxl.oauth.domain.repository.IAuthApplicationRepository;
 import com.github.sparkzxl.oauth.domain.repository.IOauthClientDetailsRepository;

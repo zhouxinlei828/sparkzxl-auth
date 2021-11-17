@@ -10,7 +10,7 @@ import com.github.sparkzxl.auth.infrastructure.convert.DictionaryItemConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.infrastructure.mapper.DictionaryItemMapper;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemQueryDTO;
-import com.github.sparkzxl.core.utils.MapHelper;
+import com.github.sparkzxl.core.util.MapHelper;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.database.properties.CustomMybatisProperties;
 import com.google.common.collect.ImmutableMap;

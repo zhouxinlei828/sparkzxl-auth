@@ -3,7 +3,7 @@ package com.github.sparkzxl.oauth.domain.service;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.jackson.JsonUtil;
-import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
+import com.github.sparkzxl.core.util.RequestContextHolderUtils;
 import com.github.sparkzxl.oauth.domain.repository.IOauthClientDetailsRepository;
 import com.github.sparkzxl.oauth.infrastructure.entity.OauthClientDetails;
 import org.springframework.beans.factory.annotation.Autowired;

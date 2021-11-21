@@ -208,6 +208,7 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
+    @EchoResult
     public AuthUserBasicInfo getAuthUserBasicInfo(Long userId) {
         AuthUser authUser = authUserMapper.getById(userId);
         return buildAuthUserBasicInfo(authUser);

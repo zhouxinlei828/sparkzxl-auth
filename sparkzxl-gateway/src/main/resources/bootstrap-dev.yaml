@@ -33,6 +33,7 @@ spring:
       plugin:
         config:
           exception-json-handler: true
-          read-request-data: true
+          log-request: true
+          read-response-data: true
         gray:
           enable: true

@@ -39,4 +39,4 @@ spring:
           read-request-data: true
           read-response-data: true
         gray:
-          enable: true
+          enabled: true

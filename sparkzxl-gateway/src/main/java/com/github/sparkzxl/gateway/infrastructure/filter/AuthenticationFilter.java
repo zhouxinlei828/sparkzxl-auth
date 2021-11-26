@@ -7,7 +7,7 @@ import com.github.sparkzxl.core.util.BuildKeyUtil;
 import com.github.sparkzxl.core.util.ListUtils;
 import com.github.sparkzxl.core.util.StrPool;
 import com.github.sparkzxl.entity.core.JwtUserInfo;
-import com.github.sparkzxl.gateway.filter.AbstractAuthorizationFilter;
+import com.github.sparkzxl.gateway.filter.authorization.AbstractAuthorizationFilter;
 import com.github.sparkzxl.gateway.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.gateway.properties.GatewayResourceProperties;
 import com.github.sparkzxl.gateway.support.GatewayException;

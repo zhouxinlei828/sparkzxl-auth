@@ -10,6 +10,8 @@ spring:
     name: sparkzxl-gateway
   lifecycle:
     timeout-per-shutdown-phase: 30s
+  codec:
+    max-in-memory-size: 100MB
   cloud:
     nacos:
       discovery:
@@ -34,6 +36,7 @@ spring:
         config:
           exception-json-handler: true
           log-request: true
+          read-request-data: true
           read-response-data: true
         gray:
           enable: true

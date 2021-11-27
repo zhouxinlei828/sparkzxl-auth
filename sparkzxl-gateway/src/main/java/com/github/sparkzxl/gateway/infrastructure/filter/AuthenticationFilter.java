@@ -17,9 +17,7 @@ import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
@@ -48,8 +46,6 @@ public class AuthenticationFilter extends AbstractAuthorizationFilter {
     private final GatewayResourceProperties resourceProperties;
     private final JwtTokenService jwtTokenService;
     private final RedisTemplate<String, Object> redisTemplate;
-    private final GatewayProperties gatewayProperties;
-    private final ServerProperties serverProperties;
 
     @Override
     public String getHeaderKey() {

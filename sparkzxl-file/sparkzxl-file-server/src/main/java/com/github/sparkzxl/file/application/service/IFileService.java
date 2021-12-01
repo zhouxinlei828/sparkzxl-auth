@@ -20,9 +20,10 @@ public interface IFileService {
      * 上传文件
      *
      * @param multipartFile 文件
+     * @param fileType      文件类型
      * @return FileMaterialDTO
      */
-    FileMaterialDTO upload(MultipartFile multipartFile);
+    FileMaterialDTO upload(MultipartFile multipartFile, String fileType);
 
     /**
      * 删除文件

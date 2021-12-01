@@ -1,9 +1,14 @@
 package com.github.sparkzxl.file.domain.service;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.crypto.digest.DigestAlgorithm;
 import com.github.pagehelper.PageInfo;
+import com.github.sparkzxl.core.util.FileDigestUtil;
 import com.github.sparkzxl.core.util.Mht2HtmlUtil;
+import com.github.sparkzxl.core.util.StrPool;
 import com.github.sparkzxl.file.application.service.IFileService;
 import com.github.sparkzxl.file.domain.repository.IFileMaterialRepository;
 import com.github.sparkzxl.file.dto.FileDTO;
@@ -14,12 +19,14 @@ import com.github.sparkzxl.file.interfaces.dto.FileMaterialPageDTO;
 import com.github.sparkzxl.oss.service.OssTemplate;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedInputStream;
-import java.util.Objects;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDateTime;
 
 /**
  * description: 文件上传服务实现类
@@ -32,35 +39,45 @@ import java.util.Objects;
 @AllArgsConstructor
 public class FileServiceImpl implements IFileService {
 
-
     private final IFileMaterialRepository fileMaterialRepository;
     private final OssTemplate ossTemplate;
 
     @Override
-    public FileMaterialDTO upload(MultipartFile multipartFile) {
-        FileMaterial fileMaterial;
-        String originalFilename = multipartFile.getOriginalFilename();
-        String fileName = FileUtil.mainName(Objects.requireNonNull(originalFilename));
-        String extension = FileUtil.extName(originalFilename);
-        fileMaterial = fileMaterialRepository.selectByFileName(originalFilename);
-        if (ObjectUtils.isEmpty(fileMaterial)) {
-            fileMaterial = new FileMaterial();
-            String objectName = "images".concat("/").concat(originalFilename);
-            // 上传到阿里云
-            ossTemplate.multipartUpload("sparkzxl",
-                    objectName,
-                    multipartFile);
-            String url = ossTemplate.getObjectUrl("sparkzxl", objectName);
-            fileMaterial.setFileName(fileName);
-            fileMaterial.setSuffix(extension);
-            fileMaterial.setFilePath(url);
-            fileMaterial.setSize((double) multipartFile.getSize());
-            fileMaterial.setContentType(multipartFile.getContentType());
-            fileMaterial.setUid(IdUtil.randomUUID());
-            boolean result = fileMaterialRepository.saveFileMaterial(fileMaterial);
-            log.info("文件上传结果 result is {}", result);
+    public FileMaterialDTO upload(MultipartFile multipartFile, String fileType) {
+        try {
+            InputStream inputStream = multipartFile.getInputStream();
+            String fileDigest = FileDigestUtil.extractChecksum(inputStream, DigestAlgorithm.MD5);
+            FileMaterial fileMaterial = fileMaterialRepository.selectByDigest(fileDigest);
+            String fileBucket = "sparkzxl";
+            if (ObjectUtils.isEmpty(fileMaterial)) {
+                String originalFilename = multipartFile.getOriginalFilename();
+                String extension = FileUtil.extName(originalFilename);
+                fileMaterial = new FileMaterial();
+                String nowDateString = DateUtil
+                        .format(LocalDateTime.now(), DatePattern.PURE_DATETIME_MS_PATTERN);
+                String generatedFilename = nowDateString.concat(IdUtil.objectId());
+                String objectName = "images".concat("/").concat(generatedFilename).concat(StrPool.DOT).concat(extension);
+                // 上传到阿里云
+                ossTemplate.multipartUpload(fileBucket, objectName, inputStream, multipartFile.getSize());
+                String url = ossTemplate.getObjectUrl(fileBucket, objectName);
+                fileMaterial.setFileName(generatedFilename);
+                fileMaterial.setOriginalFilename(originalFilename);
+                fileMaterial.setObjectName(objectName);
+                fileMaterial.setDigest(fileDigest);
+                fileMaterial.setFileType(fileType);
+                fileMaterial.setFileBucket(fileBucket);
+                fileMaterial.setSuffix(extension);
+                fileMaterial.setFullPath(url);
+                fileMaterial.setSize((double) multipartFile.getSize());
+                fileMaterial.setContentType(multipartFile.getContentType());
+                boolean result = fileMaterialRepository.saveFileMaterial(fileMaterial);
+                log.info("文件上传结果 result is {}", result);
+            }
+            return FileMaterialConvert.INSTANCE.convertFileMaterialDTO(fileMaterial);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-        return FileMaterialConvert.INSTANCE.convertFileMaterialDTO(fileMaterial);
     }
 
     @Override

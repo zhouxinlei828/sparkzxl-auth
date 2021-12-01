@@ -1,6 +1,5 @@
 package com.github.sparkzxl.file.infrastructure.repository;
 
-import cn.hutool.core.io.FileUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -25,14 +24,17 @@ public class FileMaterialRepository implements IFileMaterialRepository {
     private final FileMaterialMapper fileMaterialMapper;
 
     @Override
-    public FileMaterial selectByFileName(String fileName) {
-        //文件新路径
-        String extension = FileUtil.extName(fileName);
-        LambdaQueryWrapper<FileMaterial> materialQueryWrapper = new LambdaQueryWrapper<>();
-        materialQueryWrapper.eq(FileMaterial::getFileName, fileName);
-        materialQueryWrapper.eq(FileMaterial::getSuffix, extension);
-        materialQueryWrapper.last("limit 1");
-        return fileMaterialMapper.selectOne(materialQueryWrapper);
+    public FileMaterial selectByOriginalFilename(String originalFilename) {
+        return fileMaterialMapper.selectOne(new LambdaQueryWrapper<FileMaterial>()
+                .eq(FileMaterial::getOriginalFilename, originalFilename)
+                .last("limit 1"));
+    }
+
+    @Override
+    public FileMaterial selectByDigest(String fileDigest) {
+        return fileMaterialMapper.selectOne(new LambdaQueryWrapper<FileMaterial>()
+                .eq(FileMaterial::getDigest, fileDigest)
+                .last("limit 1"));
     }
 
     @Override
@@ -50,7 +52,7 @@ public class FileMaterialRepository implements IFileMaterialRepository {
     @Override
     public FileMaterial selectByFilePath(String filePath) {
         LambdaQueryWrapper<FileMaterial> materialQueryWrapper = new LambdaQueryWrapper<>();
-        materialQueryWrapper.eq(FileMaterial::getFilePath, filePath).last("limit 1");
+        materialQueryWrapper.eq(FileMaterial::getFullPath, filePath).last("limit 1");
         return fileMaterialMapper.selectOne(materialQueryWrapper);
     }
 

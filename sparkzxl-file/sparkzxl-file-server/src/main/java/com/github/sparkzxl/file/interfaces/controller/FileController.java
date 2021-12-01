@@ -35,8 +35,8 @@ public class FileController implements FileApi {
     @ApiOperation("文件上传")
     @Response
     @PostMapping("/file/upload")
-    public FileMaterialDTO upload(@RequestParam("file") MultipartFile multipartFile) {
-        return fileService.upload(multipartFile);
+    public FileMaterialDTO upload(@RequestParam("file") MultipartFile multipartFile, @RequestParam("fileType") String fileType) {
+        return fileService.upload(multipartFile,fileType);
     }
 
     @ApiOperation("分页查询文件列表")

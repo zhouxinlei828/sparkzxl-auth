@@ -14,10 +14,18 @@ public interface IFileMaterialRepository {
     /**
      * 根据文件名查询文件
      *
-     * @param fileName 文件名
+     * @param originalFilename 原始文件名
      * @return FileMaterial
      */
-    FileMaterial selectByFileName(String fileName);
+    FileMaterial selectByOriginalFilename(String originalFilename);
+
+    /**
+     * 根据文件摘要文件
+     *
+     * @param fileDigest 文件摘要
+     * @return FileMaterial
+     */
+    FileMaterial selectByDigest(String fileDigest);
 
     /**
      * 保存文件上传记录

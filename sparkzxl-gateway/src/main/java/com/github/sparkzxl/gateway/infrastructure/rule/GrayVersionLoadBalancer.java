@@ -9,7 +9,7 @@ import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.gateway.rule.IReactorServiceInstanceLoadBalancer;
-import com.github.sparkzxl.gateway.util.WebFluxUtils;
+import com.github.sparkzxl.gateway.util.ReactorHttpHelper;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +64,7 @@ public class GrayVersionLoadBalancer implements IReactorServiceInstanceLoadBalan
                     }
                 }
                 List<Instance> targetInstanceList = Lists.newArrayList();
-                String version = WebFluxUtils.getHeader(BaseContextConstants.VERSION, request);
+                String version = ReactorHttpHelper.getHeader(BaseContextConstants.VERSION, request);
                 // 判断版本号是否存在
                 if (StringUtils.isNotBlank(version)) {
                     //取指定版本号的实例

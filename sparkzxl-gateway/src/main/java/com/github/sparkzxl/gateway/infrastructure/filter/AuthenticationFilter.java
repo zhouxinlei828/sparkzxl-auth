@@ -7,18 +7,18 @@ import com.github.sparkzxl.core.util.KeyGeneratorUtil;
 import com.github.sparkzxl.core.util.ListUtils;
 import com.github.sparkzxl.core.util.StrPool;
 import com.github.sparkzxl.entity.core.JwtUserInfo;
+import com.github.sparkzxl.gateway.constant.ExchangeAttributeConstant;
 import com.github.sparkzxl.gateway.filter.authorization.AbstractAuthorizationFilter;
 import com.github.sparkzxl.gateway.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.gateway.properties.GatewayResourceProperties;
 import com.github.sparkzxl.gateway.support.GatewayException;
-import com.github.sparkzxl.gateway.util.WebFluxUtils;
+import com.github.sparkzxl.gateway.util.ReactorHttpHelper;
 import com.github.sparkzxl.jwt.service.JwtTokenService;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,10 +26,10 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * description: 权限过滤器
@@ -68,15 +68,13 @@ public class AuthenticationFilter extends AbstractAuthorizationFilter {
         }
     }
 
-    @Override
-    protected Mono<Void> handleTokenEmpty(ServerWebExchange exchange, GatewayFilterChain chain, String token) {
-        return chain.filter(exchange);
-    }
 
     @Override
-    protected JwtUserInfo checkTokenAuthority(String token, ServerWebExchange exchange) throws GatewayException {
-        Route route = (Route) exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
-        JwtUserInfo jwtUserInfo = super.checkTokenAuthority(token, exchange);
+    protected void checkTokenAuthority(ServerWebExchange exchange, String token) throws GatewayException {
+        super.checkTokenAuthority(exchange, token);
+        Map<String, Object> attributeMap = exchange.getAttributes();
+        JwtUserInfo jwtUserInfo = (JwtUserInfo) attributeMap.get(ExchangeAttributeConstant.USER_INFO);
+        Route route = (Route) attributeMap.get(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
         //从Redis中获取当前路径可访问角色列表
         ServerHttpRequest request = exchange.getRequest();
         String requestUrl = request.getPath().toString();
@@ -84,7 +82,7 @@ public class AuthenticationFilter extends AbstractAuthorizationFilter {
         String prefix = StrPool.SLASH.concat(route.getId());
         path[0] = path[0].replaceFirst(prefix, "");
         String routePath = path[0];
-        String tenant = WebFluxUtils.getHeader(BaseContextConstants.TENANT_ID, request);
+        String tenant = ReactorHttpHelper.getHeader(BaseContextConstants.TENANT_ID, request);
         List<String> authorities = Lists.newArrayList();
         String cacheKey = KeyGeneratorUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenant);
         if (BizConstant.USER_PATH.equals(routePath) || BizConstant.USER_ROUTER_PATH.equals(routePath)) {
@@ -95,9 +93,8 @@ public class AuthenticationFilter extends AbstractAuthorizationFilter {
             List<String> stringList = ListUtils.stringToList(obj);
             authorities.addAll(stringList);
         }
-        if (CollectionUtils.containsAny(jwtUserInfo.getAuthorities(), authorities)) {
-            return jwtUserInfo;
+        if (!CollectionUtils.containsAny(jwtUserInfo.getAuthorities(), authorities)) {
+            throw new GatewayException(ResponseInfoStatus.AUTHORIZED_DENIED);
         }
-        throw new GatewayException(ResponseInfoStatus.AUTHORIZED_DENIED);
     }
 }

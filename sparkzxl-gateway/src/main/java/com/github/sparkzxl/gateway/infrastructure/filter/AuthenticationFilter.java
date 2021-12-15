@@ -2,7 +2,6 @@ package com.github.sparkzxl.gateway.infrastructure.filter;
 
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.base.result.ResponseInfoStatus;
-import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.core.util.KeyGeneratorUtil;
 import com.github.sparkzxl.core.util.ListUtils;
 import com.github.sparkzxl.core.util.StrPool;
@@ -62,9 +61,7 @@ public class AuthenticationFilter extends AbstractAuthorizationFilter {
         try {
             return jwtTokenService.getAuthJwtInfo(token);
         } catch (Exception e) {
-            e.printStackTrace();
-            ExceptionAssert.failure(ResponseInfoStatus.JSON_PARSE_ERROR);
-            return null;
+            throw new GatewayException(ResponseInfoStatus.JSON_PARSE_ERROR);
         }
     }
 

@@ -3,7 +3,7 @@ package com.github.sparkzxl.gateway.infrastructure.filter;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.base.result.ResponseInfoStatus;
 import com.github.sparkzxl.core.support.ExceptionAssert;
-import com.github.sparkzxl.core.util.BuildKeyUtil;
+import com.github.sparkzxl.core.util.KeyGeneratorUtil;
 import com.github.sparkzxl.core.util.ListUtils;
 import com.github.sparkzxl.core.util.StrPool;
 import com.github.sparkzxl.entity.core.JwtUserInfo;
@@ -86,7 +86,7 @@ public class AuthenticationFilter extends AbstractAuthorizationFilter {
         String routePath = path[0];
         String tenant = WebFluxUtils.getHeader(BaseContextConstants.TENANT_ID, request);
         List<String> authorities = Lists.newArrayList();
-        String cacheKey = BuildKeyUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenant);
+        String cacheKey = KeyGeneratorUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenant);
         if (BizConstant.USER_PATH.equals(routePath) || BizConstant.USER_ROUTER_PATH.equals(routePath)) {
             authorities.add(BizConstant.USER_CODE);
         }

@@ -9,7 +9,7 @@ import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.cache.service.GeneralCacheService;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
-import com.github.sparkzxl.core.util.BuildKeyUtil;
+import com.github.sparkzxl.core.util.KeyGeneratorUtil;
 import com.github.sparkzxl.core.util.ListUtils;
 import com.github.sparkzxl.core.util.RequestContextHolderUtils;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
@@ -195,7 +195,7 @@ public class OauthServiceImpl implements IOauthService {
         if (StringUtils.isNotEmpty(referer)) {
             UrlBuilder builder = UrlBuilder.ofHttp(referer, CharsetUtil.CHARSET_UTF_8);
             builder.setPath(UrlPath.of("jump", StandardCharsets.UTF_8));
-            String frontStateKey = BuildKeyUtil.generateKey(OauthConstant.FRONT_STATE, state);
+            String frontStateKey = KeyGeneratorUtil.generateKey(OauthConstant.FRONT_STATE, state);
             generalCacheService.set(frontStateKey, builder.build(), 5L, TimeUnit.MINUTES);
         }
         return EscapeUtil.safeUnescape(authorizeUrl);
@@ -203,7 +203,7 @@ public class OauthServiceImpl implements IOauthService {
 
     @Override
     public AccessTokenInfo authorizationCodeCallBack(String authorizationCode, String loginState) {
-        String frontStateKey = BuildKeyUtil.generateKey(OauthConstant.FRONT_STATE, loginState);
+        String frontStateKey = KeyGeneratorUtil.generateKey(OauthConstant.FRONT_STATE, loginState);
         String frontUrl = generalCacheService.get(frontStateKey);
         if (StringUtils.isEmpty(frontUrl)) {
             return null;

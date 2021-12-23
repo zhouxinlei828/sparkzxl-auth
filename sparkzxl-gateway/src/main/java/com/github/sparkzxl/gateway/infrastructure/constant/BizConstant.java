@@ -14,12 +14,6 @@ public class BizConstant {
     public static final String USER_CODE = "USER";
 
     /**
-     * 领域管理员角色code
-     */
-    public static final String TENANT_MANAGER_CODE = "TENANT_MANAGER";
-
-
-    /**
      * 用户信息查询路径
      */
     public static final String USER_PATH = "/user/userinfo";

@@ -4,9 +4,10 @@ import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.base.result.ResponseInfoStatus;
 import com.github.sparkzxl.core.util.KeyGeneratorUtil;
 import com.github.sparkzxl.core.util.ListUtils;
-import com.github.sparkzxl.core.util.StrPool;
 import com.github.sparkzxl.entity.core.JwtUserInfo;
 import com.github.sparkzxl.gateway.constant.ExchangeAttributeConstant;
+import com.github.sparkzxl.gateway.context.CacheGatewayContext;
+import com.github.sparkzxl.gateway.entity.RoutePath;
 import com.github.sparkzxl.gateway.filter.authorization.AbstractAuthorizationFilter;
 import com.github.sparkzxl.gateway.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.gateway.properties.GatewayResourceProperties;
@@ -18,8 +19,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.cloud.gateway.route.Route;
-import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -28,7 +27,6 @@ import org.springframework.web.server.ServerWebExchange;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * description: 权限过滤器
@@ -69,26 +67,20 @@ public class AuthenticationFilter extends AbstractAuthorizationFilter {
     @Override
     protected void checkTokenAuthority(ServerWebExchange exchange, String token) throws GatewayException {
         super.checkTokenAuthority(exchange, token);
-        Map<String, Object> attributeMap = exchange.getAttributes();
-        JwtUserInfo jwtUserInfo = (JwtUserInfo) attributeMap.get(ExchangeAttributeConstant.USER_INFO);
-        Route route = (Route) attributeMap.get(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
-        //从Redis中获取当前路径可访问角色列表
+        JwtUserInfo jwtUserInfo = exchange.getAttribute(ExchangeAttributeConstant.USER_INFO);
+        CacheGatewayContext cacheGatewayContext = exchange.getAttribute(CacheGatewayContext.CACHE_GATEWAY_CONTEXT);
         ServerHttpRequest request = exchange.getRequest();
-        String requestUrl = request.getPath().toString();
-        final String[] path = {requestUrl};
-        String prefix = StrPool.SLASH.concat(route.getId());
-        path[0] = path[0].replaceFirst(prefix, "");
-        String routePath = path[0];
+        RoutePath routePath = cacheGatewayContext.getRoutePath();
+        String path = routePath.getPath();
         String tenant = ReactorHttpHelper.getHeader(BaseContextConstants.TENANT_ID, request);
         List<String> authorities = Lists.newArrayList();
         String cacheKey = KeyGeneratorUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenant);
-        if (BizConstant.USER_PATH.equals(routePath) || BizConstant.USER_ROUTER_PATH.equals(routePath)) {
+        if (BizConstant.USER_PATH.equals(path) || BizConstant.USER_ROUTER_PATH.equals(path)) {
             authorities.add(BizConstant.USER_CODE);
         }
-        String obj = (String) redisTemplate.opsForHash().get(cacheKey, routePath);
+        String obj = (String) redisTemplate.opsForHash().get(cacheKey, path);
         if (ObjectUtils.isNotEmpty(obj)) {
-            List<String> stringList = ListUtils.stringToList(obj);
-            authorities.addAll(stringList);
+            authorities.addAll(ListUtils.stringToList(obj));
         }
         if (!CollectionUtils.containsAny(jwtUserInfo.getAuthorities(), authorities)) {
             throw new GatewayException(ResponseInfoStatus.AUTHORIZED_DENIED);

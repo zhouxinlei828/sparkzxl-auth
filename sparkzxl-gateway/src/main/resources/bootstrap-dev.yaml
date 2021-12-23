@@ -33,7 +33,14 @@ spring:
         refresh-enabled: true
     gateway:
       plugin:
-        config:
-          exception-json-handler: true
+        exception-json-handler: true
+        logging:
+          enabled: true
+          routePathSetMap:
+            oauth:
+              - /authentication/token
+              - /user/userinfo
+          read-request-data: true
+          read-response-data: true
         gray:
           enabled: true

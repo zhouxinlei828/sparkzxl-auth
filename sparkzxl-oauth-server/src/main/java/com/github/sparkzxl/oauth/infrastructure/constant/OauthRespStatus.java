@@ -1,0 +1,37 @@
+package com.github.sparkzxl.oauth.infrastructure.constant;
+
+import com.github.sparkzxl.core.base.result.ExceptionStatusConstant;
+
+public interface OauthRespStatus extends ExceptionStatusConstant {
+
+    String USER_ERROR_STATUS = "A0001";
+
+    String LOGIN_ERROR_STATUS = "A0200";
+
+    String BAD_CLIENT_CREDENTIALS_EXCEPTION_STATUS = "A0251";
+
+    String CLIENT_AUTHENTICATION_EXCEPTION_STATUS = "A0252";
+
+    String INSUFFICIENT_SCOPE_EXCEPTION_STATUS = "A0253";
+
+    String INVALID_CLIENT_EXCEPTION_STATUS = "A0254";
+
+    String INVALID_GRANT_EXCEPTION_STATUS = "A0255";
+
+    String INVALID_SCOPE_EXCEPTION_STATUS = "A0256";
+
+    String INVALID_TOKEN_STATUS = "A0257";
+
+    String REDIRECT_MISMATCH_EXCEPTION_STATUS = "A0258";
+
+    String UNAPPROVED_CLIENT_AUTHENTICATION_EXCEPTION_STATUS = "A0259";
+
+    String UNAUTHORIZED_CLIENT_EXCEPTION_STATUS = "A0260";
+
+    String UNSUPPORTED_RESPONSE_TYPE_EXCEPTION_STATUS = "A0261";
+
+    String UNSUPPORTED_GRANT_TYPE_EXCEPTION_STATUS = "A0262";
+
+    String INVALID_REQUEST_EXCEPTION_STATUS = "A0263";
+
+}

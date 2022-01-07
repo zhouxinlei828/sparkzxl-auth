@@ -2,12 +2,10 @@ package com.github.sparkzxl.workflow.interfaces.controller;
 
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
-import com.github.sparkzxl.AlarmFactoryExecute;
 import com.github.sparkzxl.annotation.response.IgnoreResponseWrap;
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.support.ExceptionAssert;
-import com.github.sparkzxl.core.support.TenantException;
 import com.github.sparkzxl.core.util.RequestContextHolderUtils;
 import com.github.sparkzxl.database.factory.CustomThreadFactory;
 import com.github.sparkzxl.file.dto.FileDTO;
@@ -74,12 +72,6 @@ public class MockController {
             System.out.println("全局租户id".concat(RequestLocalContextHolder.getTenant()));
         }, threadPoolExecutor);
         return tenantId;
-    }
-
-    @GetMapping("/testException")
-    public String testException() {
-        CompletableFuture.runAsync(() -> AlarmFactoryExecute.execute("<span style=\"color:red;\">测试单号：</span>JC345345345345"), threadPoolExecutor);
-        throw new TenantException("无此租户");
     }
 
     @GetMapping("/testIgnoreResponseWrap")

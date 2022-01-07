@@ -1,7 +1,7 @@
 package com.github.sparkzxl.gateway.infrastructure.filter;
 
 import com.github.sparkzxl.constant.BaseContextConstants;
-import com.github.sparkzxl.core.base.result.ResponseInfoStatus;
+import com.github.sparkzxl.core.base.result.ExceptionCode;
 import com.github.sparkzxl.core.util.KeyGeneratorUtil;
 import com.github.sparkzxl.core.util.ListUtils;
 import com.github.sparkzxl.entity.core.JwtUserInfo;
@@ -59,7 +59,7 @@ public class AuthenticationFilter extends AbstractAuthorizationFilter {
         try {
             return jwtTokenService.getAuthJwtInfo(token);
         } catch (Exception e) {
-            throw new GatewayException(ResponseInfoStatus.JSON_PARSE_ERROR);
+            throw new GatewayException(ExceptionCode.JSON_PARSE_ERROR);
         }
     }
 
@@ -83,7 +83,7 @@ public class AuthenticationFilter extends AbstractAuthorizationFilter {
             authorities.addAll(ListUtils.stringToList(obj));
         }
         if (!CollectionUtils.containsAny(jwtUserInfo.getAuthorities(), authorities)) {
-            throw new GatewayException(ResponseInfoStatus.AUTHORIZED_DENIED);
+            throw new GatewayException(ExceptionCode.AUTHORIZED_DENIED);
         }
     }
 }

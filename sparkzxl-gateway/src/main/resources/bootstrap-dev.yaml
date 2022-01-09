@@ -41,18 +41,12 @@ spring:
               - /org/tree
           read-request-data: true
           read-response-data: true
-        gray:
-          enabled: false
-gateway:
-  resource:
-    ignoring:
-      auth:
-        - /org/tree
-        - /base/**
-      oauth:
-        - /oauth/**
-        - /authentication/**
-      tenant:
-        - /**
-      workflow:
-        - /**
+        loadbalancer:
+          enabled: true
+        resource:
+          ignoring:
+            - /auth/base/**
+            - /oauth/oauth/**
+            - /oauth/authentication/**
+            - /tenant/**
+            - /workflow/**

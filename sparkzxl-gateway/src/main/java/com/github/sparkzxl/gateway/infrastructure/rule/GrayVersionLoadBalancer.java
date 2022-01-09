@@ -8,19 +8,16 @@ import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.github.sparkzxl.constant.BaseContextConstants;
-import com.github.sparkzxl.gateway.rule.IReactorServiceInstanceLoadBalancer;
+import com.github.sparkzxl.gateway.rule.ILoadBalancerRule;
 import com.github.sparkzxl.gateway.util.ReactorHttpHelper;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.loadbalancer.DefaultResponse;
-import org.springframework.cloud.client.loadbalancer.Response;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
@@ -36,7 +33,7 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class GrayVersionLoadBalancer implements IReactorServiceInstanceLoadBalancer {
+public class GrayVersionLoadBalancer implements ILoadBalancerRule {
 
     private final NacosDiscoveryProperties nacosDiscoveryProperties;
     private final NacosServiceManager nacosServiceManager;
@@ -44,7 +41,7 @@ public class GrayVersionLoadBalancer implements IReactorServiceInstanceLoadBalan
     private final static String SECURE = "secure";
 
     @Override
-    public Mono<Response<ServiceInstance>> choose(String serviceId, ServerHttpRequest request) {
+    public ServiceInstance chooseInstance(String serviceId, ServerHttpRequest request) {
         try {
             String clusterName = nacosDiscoveryProperties.getClusterName();
             String group = nacosDiscoveryProperties.getGroup();
@@ -92,7 +89,7 @@ public class GrayVersionLoadBalancer implements IReactorServiceInstanceLoadBalan
                     nacosServiceInstance.setSecure(secure);
                 }
                 log.warn("request instance name = {}, version = {}, IP = {}", serviceId, version, instance.getIp().concat(":").concat(String.valueOf(instance.getPort())));
-                return Mono.just(new DefaultResponse(nacosServiceInstance));
+                return nacosServiceInstance;
 
             }
         } catch (NacosException e) {
@@ -100,5 +97,10 @@ public class GrayVersionLoadBalancer implements IReactorServiceInstanceLoadBalan
         }
 
         return null;
+    }
+
+    @Override
+    public String name() {
+        return "grayVersion";
     }
 }

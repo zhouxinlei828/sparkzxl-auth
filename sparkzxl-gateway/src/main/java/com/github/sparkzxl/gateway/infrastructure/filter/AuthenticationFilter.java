@@ -6,8 +6,7 @@ import com.github.sparkzxl.core.util.KeyGeneratorUtil;
 import com.github.sparkzxl.core.util.ListUtils;
 import com.github.sparkzxl.entity.core.JwtUserInfo;
 import com.github.sparkzxl.gateway.constant.ExchangeAttributeConstant;
-import com.github.sparkzxl.gateway.context.CacheGatewayContext;
-import com.github.sparkzxl.gateway.entity.RoutePath;
+import com.github.sparkzxl.gateway.context.GatewayContext;
 import com.github.sparkzxl.gateway.filter.authorization.AbstractAuthorizationFilter;
 import com.github.sparkzxl.gateway.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.gateway.properties.GatewayResourceProperties;
@@ -50,11 +49,6 @@ public class AuthenticationFilter extends AbstractAuthorizationFilter {
     }
 
     @Override
-    public List<String> ignorePatterns() {
-        return Arrays.asList(resourceProperties.getIgnore());
-    }
-
-    @Override
     public JwtUserInfo getJwtUserInfo(String token) throws GatewayException {
         try {
             return jwtTokenService.getAuthJwtInfo(token);
@@ -68,10 +62,9 @@ public class AuthenticationFilter extends AbstractAuthorizationFilter {
     protected void checkTokenAuthority(ServerWebExchange exchange, String token) throws GatewayException {
         super.checkTokenAuthority(exchange, token);
         JwtUserInfo jwtUserInfo = exchange.getAttribute(ExchangeAttributeConstant.USER_INFO);
-        CacheGatewayContext cacheGatewayContext = exchange.getAttribute(CacheGatewayContext.CACHE_GATEWAY_CONTEXT);
+        GatewayContext gatewayContext = exchange.getAttribute(GatewayContext.GATEWAY_CONTEXT_CONSTANT);
         ServerHttpRequest request = exchange.getRequest();
-        RoutePath routePath = cacheGatewayContext.getRoutePath();
-        String path = routePath.getPath();
+        String path = gatewayContext.getPath();
         String tenant = ReactorHttpHelper.getHeader(BaseContextConstants.TENANT_ID, request);
         List<String> authorities = Lists.newArrayList();
         String cacheKey = KeyGeneratorUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenant);

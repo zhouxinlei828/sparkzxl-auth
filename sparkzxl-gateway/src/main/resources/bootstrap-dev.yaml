@@ -36,17 +36,18 @@ spring:
         exception-json-handler: true
         logging:
           enabled: true
-          routePathSetMap:
-            auth:
-              - /org/tree
           read-request-data: true
           read-response-data: true
+          paths:
+            - /auth/org/tree
         loadbalancer:
           enabled: true
-        resource:
-          ignoring:
-            - /auth/base/**
-            - /oauth/oauth/**
-            - /oauth/authentication/**
-            - /tenant/**
-            - /workflow/**
+        ignoring:
+          - /auth/base/**
+          - /oauth/oauth/**
+          - /oauth/authentication/**
+          - /tenant/**
+          - /workflow/**
+        filter:
+          jwt:
+            enabled: true

@@ -25,10 +25,10 @@ public class GatewayConfig {
         return new DiscoveryClientRouteDefinitionLocator(discoveryClient, properties);
     }
 
-    @Bean
+/*    @Bean
     public ServerCodecConfigurer serverCodecConfigurer() {
         return new DefaultServerCodecConfigurer();
-    }
+    }*/
 
 
     /**

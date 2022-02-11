@@ -2,6 +2,7 @@ package com.github.sparkzxl.auth.application.service;
 
 
 import com.github.pagehelper.PageInfo;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
@@ -88,7 +89,7 @@ public interface ILoginLogService extends SuperCacheService<LoginLog> {
      * @param pageParams   分页查询参数
      * @return PageInfo<LoginLog>
      */
-    PageInfo<LoginLog> getLoginLogPage(AuthUserInfo<Long> authUserInfo, PageParams<LoginLogQueryDTO> pageParams);
+    PageInfo<LoginLog> getLoginLogPage(AuthUserInfo<UserDetail> authUserInfo, PageParams<LoginLogQueryDTO> pageParams);
 
     /**
      * 删除登录日志

@@ -2,6 +2,7 @@ package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 
 import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.application.service.IResourceService;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceQueryDTO;
@@ -39,8 +40,8 @@ public class AuthResourceController extends SuperCacheController<IResourceServic
 
     @ApiOperation("查询用户可用的所有资源")
     @GetMapping("/visible")
-    public List<AuthResource> visible(@ApiIgnore AuthUserInfo<Long> authUserInfo, ResourceQueryDTO resourceQueryDTO) {
-        return baseService.findVisibleResource(authUserInfo.getId(), resourceQueryDTO);
+    public List<AuthResource> visible(@ApiIgnore AuthUserInfo<UserDetail> authUserInfo, ResourceQueryDTO resourceQueryDTO) {
+        return baseService.findVisibleResource(Long.valueOf(authUserInfo.getId()), resourceQueryDTO);
     }
 
     @Override

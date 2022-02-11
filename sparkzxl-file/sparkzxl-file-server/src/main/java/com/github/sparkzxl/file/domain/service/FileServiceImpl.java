@@ -106,7 +106,7 @@ public class FileServiceImpl implements IFileService {
                 objectName,
                 bufferedInputStream);
         FileDTO outDto = new FileDTO();
-        outDto.setFilePath(ossTemplate.getObjectURL("sparkzxl", objectName));
+        outDto.setFilePath(ossTemplate.getObjectUrl("sparkzxl", objectName));
         return outDto;
     }
 }

@@ -3,6 +3,7 @@ package com.github.sparkzxl.auth.infrastructure.convert;
 import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.auth.api.dto.StationBasicInfo;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
@@ -40,7 +41,7 @@ public interface AuthUserConvert {
      * @param authUser 用户
      * @return AuthUserInfo
      */
-    AuthUserInfo<Long> convertAuthUserInfo(AuthUser authUser);
+    AuthUserInfo<UserDetail> convertAuthUserInfo(AuthUser authUser);
 
     /**
      * AuthUser转化为UserDetailInfo

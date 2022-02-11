@@ -1,6 +1,7 @@
 package com.github.sparkzxl.oauth.infrastructure.client;
 
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class UserInfoFallback implements UserInfoClient {
     }
 
     @Override
-    public AuthUserInfo<Long> getAuthUserInfo(String username) {
+    public AuthUserInfo<UserDetail> getAuthUserInfo(String username) {
         return null;
     }
 

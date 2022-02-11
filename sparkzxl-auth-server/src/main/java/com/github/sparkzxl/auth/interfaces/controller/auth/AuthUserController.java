@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.api.IAuthUserApi;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
 import com.github.sparkzxl.auth.application.service.IUserService;
@@ -79,8 +80,8 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
 
     @ApiOperation(value = "用户路由菜单", notes = "用户路由菜单")
     @GetMapping("/routers")
-    public List<MenuBasicInfo> routers(@ApiIgnore AuthUserInfo<Long> authUserInfo) {
-        return baseService.routers(authUserInfo.getId());
+    public List<MenuBasicInfo> routers(@ApiIgnore AuthUserInfo<UserDetail> authUserInfo) {
+        return baseService.routers(Long.valueOf(authUserInfo.getId()));
     }
 
     @Override
@@ -89,7 +90,7 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
     }
 
     @Override
-    public AuthUserInfo<Long> getAuthUserInfo(String username) {
+    public AuthUserInfo<UserDetail> getAuthUserInfo(String username) {
         return baseService.getAuthUserInfo(username);
     }
 

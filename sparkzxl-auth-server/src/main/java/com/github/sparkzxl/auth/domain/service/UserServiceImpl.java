@@ -7,8 +7,7 @@ import com.alibaba.excel.EasyExcel;
 import com.github.javafaker.Faker;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
-import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
-import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
+import com.github.sparkzxl.auth.api.dto.*;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
 import com.github.sparkzxl.auth.application.service.*;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
@@ -70,22 +69,36 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     private IDictionaryItemService dictionaryItemService;
 
     @Override
-    public AuthUserInfo<Long> getAuthUserInfo(String username) {
+    public AuthUserInfo<UserDetail> getAuthUserInfo(String username) {
         String tenant = RequestLocalContextHolder.getTenant();
         AuthUser authUser = authUserRepository.selectByAccount(username);
         if (ObjectUtils.isNotEmpty(authUser)) {
-            AuthUserInfo<Long> authUserInfo = AuthUserConvert.INSTANCE.convertAuthUserInfo(authUser);
+            AuthUserInfo<UserDetail> authUserInfo = AuthUserConvert.INSTANCE.convertAuthUserInfo(authUser);
             List<String> authUserRoles = getAuthUserRoles(authUser.getId());
             authUserRoles.add(BizConstant.USER_CODE);
             authUserInfo.setAuthorityList(authUserRoles);
-            Map<String, Object> extraInfo = Maps.newHashMap();
-            extraInfo.put("org", OptionalBean.ofNullable(authUser.getOrg()).getBean(RemoteData::getData).get());
-            extraInfo.put("station", OptionalBean.ofNullable(authUser.getStation()).getBean(RemoteData::getData).get());
-            extraInfo.put("mobile", authUser.getMobile());
-            extraInfo.put("email", authUser.getEmail());
-            extraInfo.put("education", OptionalBean.ofNullable(authUser.getEducation()).getBean(RemoteData::getData).get());
-            extraInfo.put("positionStatus", OptionalBean.ofNullable(authUser.getPositionStatus()).getBean(RemoteData::getData).get());
-            authUserInfo.setExtraInfo(extraInfo);
+            UserDetail userDetail = new UserDetail();
+            CoreOrg coreOrg = OptionalBean.ofNullable(authUser.getOrg()).getBean(RemoteData::getData).get();
+            if (ObjectUtils.isNotEmpty(coreOrg)) {
+                OrgBasicInfo orgBasicInfo = new OrgBasicInfo();
+                orgBasicInfo.setId(coreOrg.getId());
+                orgBasicInfo.setLabel(coreOrg.getLabel());
+                orgBasicInfo.setParentId(coreOrg.getParentId());
+                orgBasicInfo.setSortNumber(coreOrg.getSortNumber());
+                userDetail.setOrg(orgBasicInfo);
+            }
+            CoreStation coreStation = OptionalBean.ofNullable(authUser.getStation()).getBean(RemoteData::getData).get();
+            if (ObjectUtils.isNotEmpty(coreStation)) {
+                StationBasicInfo stationBasicInfo = new StationBasicInfo();
+                stationBasicInfo.setId(coreStation.getId());
+                stationBasicInfo.setName(coreStation.getName());
+                userDetail.setStation(stationBasicInfo);
+            }
+            userDetail.setMobile(authUser.getMobile());
+            userDetail.setEmail(authUser.getEmail());
+            userDetail.setEducation(OptionalBean.ofNullable(authUser.getEducation()).getBean(RemoteData::getData).get());
+            userDetail.setPositionStatus(OptionalBean.ofNullable(authUser.getPositionStatus()).getBean(RemoteData::getData).get());
+            authUserInfo.setDetailInfo(userDetail);
             authUserInfo.setTenantId(tenant);
             return authUserInfo;
         }

@@ -1,6 +1,7 @@
 package com.github.sparkzxl.auth.domain.service;
 
 import com.github.pagehelper.PageInfo;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.application.service.ILoginLogService;
 import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
@@ -127,8 +128,8 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
     }
 
     @Override
-    public PageInfo<LoginLog> getLoginLogPage(AuthUserInfo<Long> authUserInfo, PageParams<LoginLogQueryDTO> pageParams) {
-        return loginLogRepository.getLoginLogPage(pageParams.getPageNum(), pageParams.getPageSize(), authUserInfo.getId(), pageParams.getModel().getAccount(), pageParams.getModel().getStartTime(),
+    public PageInfo<LoginLog> getLoginLogPage(AuthUserInfo<UserDetail> authUserInfo, PageParams<LoginLogQueryDTO> pageParams) {
+        return loginLogRepository.getLoginLogPage(pageParams.getPageNum(), pageParams.getPageSize(), Long.valueOf(authUserInfo.getId()), pageParams.getModel().getAccount(), pageParams.getModel().getStartTime(),
                 pageParams.getModel().getEndTime());
     }
 

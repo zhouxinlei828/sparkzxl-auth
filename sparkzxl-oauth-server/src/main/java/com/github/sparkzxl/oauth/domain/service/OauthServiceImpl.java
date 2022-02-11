@@ -6,6 +6,7 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.EscapeUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.cache.service.GeneralCacheService;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
@@ -150,7 +151,7 @@ public class OauthServiceImpl implements IOauthService {
         String username = (String) additionalInformation.get("username");
         String tenant = (String) additionalInformation.get(BaseContextConstants.TENANT_ID);
         RequestLocalContextHolder.setTenant(tenant);
-        AuthUserInfo<Long> authUserInfo = userInfoClient.getAuthUserInfo(username);
+        AuthUserInfo<UserDetail> authUserInfo = userInfoClient.getAuthUserInfo(username);
         userStateManager.addUser(oAuth2AccessToken.getValue(), authUserInfo,oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);
     }
 
@@ -224,8 +225,8 @@ public class OauthServiceImpl implements IOauthService {
     }
 
     @Override
-    public AuthUserBasicVO userinfo(AuthUserInfo<Long> authUserInfo) {
+    public AuthUserBasicVO userinfo(AuthUserInfo<UserDetail> authUserInfo) {
         RequestLocalContextHolder.setTenant(authUserInfo.getTenantId());
-        return userInfoClient.getUserByUserId(authUserInfo.getId());
+        return userInfoClient.getUserByUserId(Long.valueOf(authUserInfo.getId()));
     }
 }

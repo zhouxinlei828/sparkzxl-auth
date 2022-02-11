@@ -33,14 +33,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return getAuthUserDetail(username);
     }
 
-    public AuthUserDetail<Long> getAuthUserDetail(String username) {
+    public AuthUserDetail getAuthUserDetail(String username) {
         return getUserDetail(username);
     }
 
-    private AuthUserDetail<Long> getUserDetail(String username) {
+    private AuthUserDetail getUserDetail(String username) {
         UserDetailInfo userDetailInfo = userInfoClient.getUserDetailInfo(username);
         if (ObjectUtils.isNotEmpty(userDetailInfo)) {
-            AuthUserDetail<Long> authUserDetail = new AuthUserDetail<>(userDetailInfo.getId(), userDetailInfo.getAccount(),
+            AuthUserDetail authUserDetail = new AuthUserDetail(userDetailInfo.getId(), userDetailInfo.getAccount(),
                     userDetailInfo.getPassword(),
                     userDetailInfo.getName(),
                     AuthorityUtils.createAuthorityList(ListUtils.listToArray(userDetailInfo.getAuthorityList())));

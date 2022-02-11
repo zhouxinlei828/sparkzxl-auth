@@ -1,6 +1,7 @@
 package com.github.sparkzxl.auth.api;
 
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import io.swagger.annotations.ApiOperation;
@@ -19,7 +20,7 @@ public interface IAuthUserApi {
      * 获取用户信息
      *
      * @param username 用户名
-     * @return AuthUserDetail<Long>
+     * @return AuthUserDetail
      */
     @GetMapping("/getUserDetailInfo")
     UserDetailInfo getUserDetailInfo(@RequestParam("username") String username);
@@ -28,10 +29,10 @@ public interface IAuthUserApi {
      * 获取全局用户信息
      *
      * @param username 用户名
-     * @return AuthUserInfo<Long>
+     * @return AuthUserInfo<UserDetail>
      */
     @GetMapping("/getAuthUserInfo")
-    AuthUserInfo<Long> getAuthUserInfo(@RequestParam("username") String username);
+    AuthUserInfo<UserDetail> getAuthUserInfo(@RequestParam("username") String username);
 
     /**
      * 获取用户基本信息

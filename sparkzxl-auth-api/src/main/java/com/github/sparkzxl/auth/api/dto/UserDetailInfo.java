@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UserDetailInfo extends AuthUserInfo<Long> {
+public class UserDetailInfo extends AuthUserInfo<UserDetail> {
 
     private String password;
 

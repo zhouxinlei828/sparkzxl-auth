@@ -1,5 +1,6 @@
 package com.github.sparkzxl.oauth.infrastructure.security.logout;
 
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.base.result.ExceptionCode;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
@@ -63,7 +64,7 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
                 tokenStore.removeRefreshToken(accessToken.getRefreshToken());
                 Map<String, Object> additionalInformation = accessToken.getAdditionalInformation();
                 String username = (String) additionalInformation.get("username");
-                AuthUserInfo<Long> authUserInfo = userInfoClient.getUserDetailInfo(username);
+                AuthUserInfo<UserDetail> authUserInfo = userInfoClient.getUserDetailInfo(username);
                 String authUserInfoKey = KeyGeneratorUtil.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
                 redisTemplate.opsForHash().delete(authUserInfoKey, accessToken.getValue());
             }

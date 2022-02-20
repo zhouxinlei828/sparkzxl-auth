@@ -2,7 +2,6 @@ package com.github.sparkzxl.oauth.infrastructure.security.logout;
 
 import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.constant.BaseContextConstants;
-import com.github.sparkzxl.core.base.result.ExceptionCode;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.util.KeyGeneratorUtil;
 import com.github.sparkzxl.core.util.HttpRequestUtils;
@@ -69,6 +68,6 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
                 redisTemplate.opsForHash().delete(authUserInfoKey, accessToken.getValue());
             }
         }
-        HttpRequestUtils.writeResponseOutMsg(httpServletResponse, ExceptionCode.SUCCESS.getCode(), "退出登录成功", true);
+        HttpRequestUtils.successResponse(httpServletResponse, "退出登录成功", true);
     }
 }

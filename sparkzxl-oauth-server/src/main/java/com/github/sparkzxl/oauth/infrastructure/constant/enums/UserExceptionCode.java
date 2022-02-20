@@ -1,13 +1,13 @@
 package com.github.sparkzxl.oauth.infrastructure.constant.enums;
 
-import com.github.sparkzxl.core.base.code.ICode;
+import com.github.sparkzxl.entity.response.IErrorCode;
 import com.github.sparkzxl.oauth.infrastructure.constant.OauthRespStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum UserExceptionCode implements ICode {
+public enum UserExceptionCode implements IErrorCode {
 
     USER_ERROR(OauthRespStatus.USER_ERROR_STATUS, "用户端错误"),
     LOGIN_ERROR(OauthRespStatus.LOGIN_ERROR_STATUS, "用户登录异常"),

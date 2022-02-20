@@ -2,9 +2,9 @@ package com.github.sparkzxl.workflow.infrastructure.mapper;
 
 import com.github.sparkzxl.database.base.mapper.SuperMapper;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2020-07-17 13:16:16
  */
-@Repository
+@Mapper
 public interface ExtProcessTaskRuleMapper extends SuperMapper<ExtProcessTaskRule> {
 
     /**

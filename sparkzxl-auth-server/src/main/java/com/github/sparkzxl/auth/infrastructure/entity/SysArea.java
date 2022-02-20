@@ -23,27 +23,20 @@ import java.time.LocalDateTime;
 public class SysArea implements Serializable {
 
     private static final long serialVersionUID = 2594868912590581188L;
-
-    @ApiModelProperty(value = "编码")
-    @TableId(value = "code", type = IdType.INPUT)
-    private Long code;
-
     @TableField("parent_code")
     protected Long parentCode;
-
     @ApiModelProperty(value = "行政单位类别 省 市 区/县 街道/乡镇")
     @TableField(value = "level")
     protected String level;
-
     @TableField("sort_number")
     protected Integer sortNumber;
-
     @TableField(value = EntityConstant.COLUMN_UPDATE_TIME, fill = FieldFill.INSERT_UPDATE)
     protected LocalDateTime updateTime;
-
     @TableField(value = EntityConstant.COLUMN_CREATE_TIME, fill = FieldFill.INSERT)
     protected LocalDateTime createTime;
-
+    @ApiModelProperty(value = "编码")
+    @TableId(value = "code", type = IdType.INPUT)
+    private Long code;
     @ApiModelProperty(value = "行政单位名称")
     @TableField("name")
     private String name;

@@ -2,6 +2,7 @@ package com.github.sparkzxl.auth.domain.repository;
 
 
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
+import com.github.sparkzxl.database.echo.core.LoadService;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2020-06-07 13:32:24
  */
-public interface ICoreOrgRepository {
+public interface ICoreOrgRepository extends LoadService {
 
 
     /**

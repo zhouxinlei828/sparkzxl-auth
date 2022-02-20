@@ -1,6 +1,7 @@
 package com.github.sparkzxl.auth.domain.repository;
 
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
+import com.github.sparkzxl.database.echo.core.LoadService;
 
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +12,7 @@ import java.util.Set;
  * @author charles.zhou
  * @date 2021-03-06 20:55:19
  */
-public interface IDictionaryItemRepository {
+public interface IDictionaryItemRepository extends LoadService {
 
     /**
      * 查询字典项列表

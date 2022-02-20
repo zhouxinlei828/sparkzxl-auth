@@ -35,7 +35,7 @@ class AuthUserRepositoryTest {
     @DisplayName("测试数据自动回显")
     @Test
     void selectByAccount() {
-        RequestLocalContextHolder.setTenant("6055fc0465a6f7ecf13fe03a");
+        RequestLocalContextHolder.setTenant("hz");
         AuthUser authUser = authUserRepository.selectByAccount("zhouxinlei");
         System.out.println(JsonUtil.toJsonPretty(authUser));
     }

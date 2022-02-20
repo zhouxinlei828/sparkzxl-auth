@@ -2,7 +2,7 @@ package com.github.sparkzxl.file.infrastructure.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.sparkzxl.file.infrastructure.entity.FileMaterial;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * description: 文件素材 mapper类
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * @author charles.zhou
  * @date 2020-05-24 12:38:05
  */
-@Repository
+@Mapper
 public interface FileMaterialMapper extends BaseMapper<FileMaterial> {
 
 }

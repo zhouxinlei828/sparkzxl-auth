@@ -152,7 +152,7 @@ public class OauthServiceImpl implements IOauthService {
         String tenant = (String) additionalInformation.get(BaseContextConstants.TENANT_ID);
         RequestLocalContextHolder.setTenant(tenant);
         AuthUserInfo<UserDetail> authUserInfo = userInfoClient.getAuthUserInfo(username);
-        userStateManager.addUser(oAuth2AccessToken.getValue(), authUserInfo,oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);
+        userStateManager.addUser(oAuth2AccessToken.getValue(), authUserInfo, oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);
     }
 
     /**

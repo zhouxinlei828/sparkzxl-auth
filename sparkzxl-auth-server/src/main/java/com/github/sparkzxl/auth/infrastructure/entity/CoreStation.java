@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstant.FIND_NAME_BY_IDS;
 import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstant.STATION_ID_CLASS;
 
 /**
@@ -35,7 +34,7 @@ public class CoreStation extends Entity<Long> {
 
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
-    @EchoField(api = STATION_ID_CLASS, method = FIND_NAME_BY_IDS, beanClass = CoreStation.class)
+    @EchoField(api = STATION_ID_CLASS, beanClass = CoreStation.class)
     private RemoteData<Long, CoreOrg> org;
 
     @ApiModelProperty(value = "状态")

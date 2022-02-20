@@ -3,8 +3,8 @@ package com.github.sparkzxl.auth.infrastructure.mapper;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo;
 import com.github.sparkzxl.database.base.mapper.SuperMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2020-05-24 12:23:50
  */
-@Repository
+@Mapper
 public interface AuthUserMapper extends SuperMapper<AuthUser> {
 
     /**

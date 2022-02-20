@@ -14,18 +14,14 @@ import lombok.Data;
 @ApiModel("地区保存入参")
 public class AreaSaveDTO {
 
-    @ApiModelProperty(value = "地区id")
-    private Long id;
-
-    @ApiModelProperty(value = "上级地区")
-    private Long parentId;
-
     @ApiModelProperty(value = "名称")
     protected String label;
-
     @ApiModelProperty(value = "排序值")
     protected Integer sortNumber;
-
+    @ApiModelProperty(value = "地区id")
+    private Long id;
+    @ApiModelProperty(value = "上级地区")
+    private Long parentId;
     @ApiModelProperty(value = "行政区级")
     private String level;
 

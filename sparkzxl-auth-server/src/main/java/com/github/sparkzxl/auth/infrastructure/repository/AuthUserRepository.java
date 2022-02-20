@@ -7,7 +7,6 @@ import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.DesensitizedUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.github.sparkzxl.annotation.echo.EchoResult;
 import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
 import com.github.sparkzxl.auth.api.dto.OrgBasicInfo;
 import com.github.sparkzxl.auth.api.dto.ResourceBasicInfo;
@@ -24,16 +23,15 @@ import com.github.sparkzxl.core.tree.TreeUtils;
 import com.github.sparkzxl.entity.data.RemoteData;
 import com.github.sparkzxl.entity.data.SuperEntity;
 import com.google.common.collect.Lists;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,59 +42,26 @@ import java.util.stream.Collectors;
  * @author charles.zhou
  * @date 2020/6/5 8:45 下午
  */
-@RequiredArgsConstructor
 @Repository
 @Slf4j
 public class AuthUserRepository implements IAuthUserRepository {
 
+    @Resource
     private AuthUserMapper authUserMapper;
+    @Resource
     private UserRoleMapper userRoleMapper;
+    @Resource
     private AuthRoleMapper authRoleMapper;
+    @Resource
     private RoleAuthorityMapper roleAuthorityMapper;
+    @Resource
     private AuthResourceMapper authResourceMapper;
+    @Resource
     private CoreOrgMapper coreOrgMapper;
+    @Resource
     private PasswordEncoder passwordEncoder;
+    @Resource
     private Snowflake snowflake;
-
-    @Autowired
-    public void setAuthUserMapper(AuthUserMapper authUserMapper) {
-        this.authUserMapper = authUserMapper;
-    }
-
-    @Autowired
-    public void setUserRoleMapper(UserRoleMapper userRoleMapper) {
-        this.userRoleMapper = userRoleMapper;
-    }
-
-    @Autowired
-    public void setAuthRoleMapper(AuthRoleMapper authRoleMapper) {
-        this.authRoleMapper = authRoleMapper;
-    }
-
-    @Autowired
-    public void setRoleAuthorityMapper(RoleAuthorityMapper roleAuthorityMapper) {
-        this.roleAuthorityMapper = roleAuthorityMapper;
-    }
-
-    @Autowired
-    public void setAuthResourceMapper(AuthResourceMapper authResourceMapper) {
-        this.authResourceMapper = authResourceMapper;
-    }
-
-    @Autowired
-    public void setCoreOrgMapper(CoreOrgMapper coreOrgMapper) {
-        this.coreOrgMapper = coreOrgMapper;
-    }
-
-    @Autowired(required = false)
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @Autowired
-    public void setSnowflake(Snowflake snowflake) {
-        this.snowflake = snowflake;
-    }
 
     @Override
     public AuthUser selectById(Long id) {
@@ -104,7 +69,6 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    @EchoResult
     public AuthUser selectByAccount(String account) {
         LambdaQueryWrapper<AuthUser> queryWrapper = new LambdaQueryWrapper<>();
         boolean mobile = Validator.isMobile(account);
@@ -130,7 +94,6 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    @EchoResult
     public List<AuthUser> getAuthUserList(AuthUser authUser) {
         Integer sexCode = OptionalBean.ofNullable(authUser.getSex()).getBean(SexEnum::getCode).get();
         String nationCode = OptionalBean.ofNullable(authUser.getNation()).getBean(RemoteData::getKey).get();
@@ -208,7 +171,6 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    @EchoResult
     public AuthUserBasicInfo getAuthUserBasicInfo(Long userId) {
         AuthUser authUser = authUserMapper.getById(userId);
         return buildAuthUserBasicInfo(authUser);

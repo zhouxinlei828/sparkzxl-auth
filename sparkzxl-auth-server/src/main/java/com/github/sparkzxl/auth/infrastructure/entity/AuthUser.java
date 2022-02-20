@@ -83,17 +83,17 @@ public class AuthUser extends Entity<Long> {
 
     @ApiModelProperty(value = "民族")
     @TableField("nation")
-    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = BizConstant.NATION)
+    @EchoField(api = DICTIONARY_ITEM_CLASS, dictType = BizConstant.NATION)
     private RemoteData<String, String> nation;
 
     @ApiModelProperty(value = "学历")
     @TableField("education")
-    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = BizConstant.EDUCATION)
+    @EchoField(api = DICTIONARY_ITEM_CLASS, dictType = BizConstant.EDUCATION)
     private RemoteData<String, String> education;
 
     @ApiModelProperty(value = "职位状态")
     @TableField("position_status")
-    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = BizConstant.POSITION_STATUS)
+    @EchoField(api = DICTIONARY_ITEM_CLASS, dictType = BizConstant.POSITION_STATUS)
     private RemoteData<String, String> positionStatus;
 
     @ApiModelProperty(value = "工作描述比如：市长、管理员、局长等等   用于登陆展示")

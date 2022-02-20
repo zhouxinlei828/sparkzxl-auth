@@ -4,9 +4,9 @@ import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
 import com.github.sparkzxl.database.base.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2020-06-17 11:56:18
  */
-@Repository
+@Mapper
 public interface LoginLogMapper extends SuperMapper<LoginLog> {
     /**
      * 获取系统总访问次数

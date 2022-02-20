@@ -3,8 +3,8 @@ package com.github.sparkzxl.workflow.infrastructure.mapper;
 import com.github.sparkzxl.database.base.mapper.SuperMapper;
 import com.github.sparkzxl.workflow.dto.WorkflowUserInfo;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUser;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2021-01-08 16:51:21
  */
-@Repository
+@Mapper
 public interface ExtProcessUserMapper extends SuperMapper<ExtProcessUser> {
 
     /**

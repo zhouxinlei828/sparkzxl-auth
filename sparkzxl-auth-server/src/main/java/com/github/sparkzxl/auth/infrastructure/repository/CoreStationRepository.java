@@ -5,19 +5,17 @@ import cn.hutool.core.bean.OptionalBean;
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
-import com.github.sparkzxl.annotation.echo.EchoResult;
 import com.github.sparkzxl.auth.domain.repository.ICoreStationRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreStationMapper;
 import com.github.sparkzxl.core.util.MapHelper;
 import com.github.sparkzxl.entity.data.RemoteData;
-import com.github.sparkzxl.entity.data.SuperEntity;
-import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,18 +26,11 @@ import java.util.stream.Collectors;
  * @author charles.zhou
  * @date 2020-06-07 13:32:55
  */
-@AllArgsConstructor
 @Repository
 public class CoreStationRepository implements ICoreStationRepository {
 
-    private final CoreStationMapper coreStationMapper;
-
-
-    @Override
-    public Map<Serializable, Object> findNameByIds(Set<Serializable> ids) {
-        List<CoreStation> stations = getStations(ids);
-        return stations.stream().collect(Collectors.toMap(SuperEntity::getId, CoreStation::getName));
-    }
+    @Resource
+    private CoreStationMapper coreStationMapper;
 
     @Override
     public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
@@ -66,7 +57,6 @@ public class CoreStationRepository implements ICoreStationRepository {
     }
 
     @Override
-    @EchoResult
     public List<CoreStation> getStationPageList(int pageNum, int pageSize, String name, RemoteData<Long, CoreOrg> org) {
         LambdaQueryWrapper<CoreStation> stationQueryWrapper = new LambdaQueryWrapper<>();
         Long orgId = OptionalBean.ofNullable(org).getBean(RemoteData::getKey).get();

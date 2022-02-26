@@ -55,6 +55,11 @@ logging:
           log:
             event: debug
     org:
+      activiti:
+        engine:
+          impl:
+            persistence:
+              entity: debug
       springframework:
         data:
           mongodb:

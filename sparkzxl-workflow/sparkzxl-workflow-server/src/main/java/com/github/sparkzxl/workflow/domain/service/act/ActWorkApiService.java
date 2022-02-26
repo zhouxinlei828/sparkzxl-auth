@@ -126,7 +126,7 @@ public class ActWorkApiService {
         } catch (Exception e) {
             driverResult.setErrorMsg(e.getMessage());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            log.error("发生异常 Exception：{}", ExceptionUtil.getMessage(e));
+            log.error("发生异常 Exception：", e);
         }
         return driverResult;
     }

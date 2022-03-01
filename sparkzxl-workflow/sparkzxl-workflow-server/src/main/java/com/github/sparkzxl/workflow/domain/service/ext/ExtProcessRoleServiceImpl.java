@@ -8,7 +8,7 @@ import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessRole;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUserRole;
 import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessRoleMapper;
 import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessUserRoleMapper;
-import com.github.sparkzxl.workflow.interfaces.dto.role.ProcessUserRoleSaveDTO;
+import com.github.sparkzxl.workflow.domain.model.dto.role.ProcessUserRoleSaveDTO;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;

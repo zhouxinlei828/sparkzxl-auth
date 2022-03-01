@@ -2,7 +2,7 @@ package com.github.sparkzxl.workflow.application.service.ext;
 
 import com.github.sparkzxl.database.base.service.SuperCacheService;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUser;
-import com.github.sparkzxl.workflow.interfaces.dto.user.ProcessUserQueryDTO;
+import com.github.sparkzxl.workflow.domain.model.dto.user.ProcessUserQueryDTO;
 
 import java.util.List;
 

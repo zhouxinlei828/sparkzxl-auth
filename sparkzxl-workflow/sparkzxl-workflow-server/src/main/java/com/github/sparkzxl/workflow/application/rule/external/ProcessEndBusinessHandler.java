@@ -3,7 +3,7 @@ package com.github.sparkzxl.workflow.application.rule.external;
 import com.github.sparkzxl.patterns.annonation.BusinessStrategy;
 import com.github.sparkzxl.patterns.strategy.BusinessHandler;
 import com.github.sparkzxl.redisson.annotation.RedisLock;
-import com.github.sparkzxl.workflow.domain.model.DriveProcess;
+import com.github.sparkzxl.workflow.domain.model.bo.DriveProcess;
 import com.github.sparkzxl.workflow.domain.service.act.ActWorkApiService;
 import com.github.sparkzxl.workflow.dto.DriverResult;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;

@@ -10,9 +10,9 @@ import com.github.sparkzxl.workflow.application.service.ext.IExtProcessUserServi
 import com.github.sparkzxl.workflow.domain.model.aggregates.excel.ProcessUserExcel;
 import com.github.sparkzxl.workflow.infrastructure.convert.ProcessUserConvert;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUser;
-import com.github.sparkzxl.workflow.interfaces.dto.user.ProcessUserQueryDTO;
-import com.github.sparkzxl.workflow.interfaces.dto.user.ProcessUserSaveDTO;
-import com.github.sparkzxl.workflow.interfaces.dto.user.ProcessUserUpdateDTO;
+import com.github.sparkzxl.workflow.domain.model.dto.user.ProcessUserQueryDTO;
+import com.github.sparkzxl.workflow.domain.model.dto.user.ProcessUserSaveDTO;
+import com.github.sparkzxl.workflow.domain.model.dto.user.ProcessUserUpdateDTO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

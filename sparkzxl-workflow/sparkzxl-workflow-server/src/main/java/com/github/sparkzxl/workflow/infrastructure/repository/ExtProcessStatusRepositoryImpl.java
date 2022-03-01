@@ -5,7 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.core.util.DateUtils;
 import com.github.sparkzxl.database.util.PageInfoUtils;
-import com.github.sparkzxl.workflow.domain.model.InstanceOverviewCount;
+import com.github.sparkzxl.workflow.domain.model.bo.InstanceOverviewCount;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessStatusRepository;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ProcessInstance;

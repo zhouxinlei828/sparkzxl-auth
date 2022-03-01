@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.application.service.driver;
 
 import com.github.sparkzxl.workflow.dto.*;
-import com.github.sparkzxl.workflow.interfaces.dto.process.ProcessNextTaskDTO;
+import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessNextTaskDTO;
 
 import java.util.List;
 

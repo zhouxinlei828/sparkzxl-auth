@@ -1,6 +1,6 @@
 package com.github.sparkzxl.workflow.infrastructure.convert;
 
-import com.github.sparkzxl.workflow.domain.model.DriveProcess;
+import com.github.sparkzxl.workflow.domain.model.bo.DriveProcess;
 import com.github.sparkzxl.workflow.dto.DriverProcessParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

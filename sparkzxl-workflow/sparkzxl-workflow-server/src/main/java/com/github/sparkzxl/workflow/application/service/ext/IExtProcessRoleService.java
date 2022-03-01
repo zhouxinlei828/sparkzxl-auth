@@ -2,7 +2,7 @@ package com.github.sparkzxl.workflow.application.service.ext;
 
 import com.github.sparkzxl.database.base.service.SuperCacheService;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessRole;
-import com.github.sparkzxl.workflow.interfaces.dto.role.ProcessUserRoleSaveDTO;
+import com.github.sparkzxl.workflow.domain.model.dto.role.ProcessUserRoleSaveDTO;
 
 import java.util.List;
 

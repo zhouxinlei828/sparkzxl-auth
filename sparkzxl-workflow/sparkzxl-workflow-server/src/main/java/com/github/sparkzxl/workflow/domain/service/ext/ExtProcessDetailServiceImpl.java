@@ -7,8 +7,8 @@ import com.github.sparkzxl.workflow.domain.repository.IExtProcessDetailRepositor
 import com.github.sparkzxl.workflow.infrastructure.convert.ProcessDetailConvert;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessDetail;
 import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessDetailMapper;
-import com.github.sparkzxl.workflow.interfaces.dto.process.ProcessDetailDTO;
-import com.github.sparkzxl.workflow.interfaces.dto.process.ProcessDetailPageDTO;
+import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessDetailDTO;
+import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessDetailPageDTO;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 

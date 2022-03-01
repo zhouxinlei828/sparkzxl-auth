@@ -12,10 +12,6 @@
     <artifactId>sparkzxl-file-server</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-        </dependency>
         <!-- Micrometer 对 Prometheus 的支持 -->
         <dependency>
             <groupId>io.micrometer</groupId>

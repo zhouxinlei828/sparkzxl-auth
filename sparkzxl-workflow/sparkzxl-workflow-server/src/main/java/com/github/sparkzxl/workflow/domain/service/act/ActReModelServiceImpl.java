@@ -7,7 +7,7 @@ import com.github.sparkzxl.workflow.application.service.act.IActReModelService;
 import com.github.sparkzxl.workflow.domain.repository.IActReModelRepository;
 import com.github.sparkzxl.workflow.infrastructure.entity.ActReModel;
 import com.github.sparkzxl.workflow.infrastructure.mapper.ActReModelMapper;
-import com.github.sparkzxl.workflow.interfaces.dto.act.ModelPageDTO;
+import com.github.sparkzxl.workflow.domain.model.dto.act.ModelPageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,22 +1,21 @@
 package com.github.sparkzxl.workflow.domain.service.act;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.github.sparkzxl.core.base.result.ExceptionErrorCode;
 import com.github.sparkzxl.core.support.ExceptionAssert;
+import com.github.sparkzxl.core.util.ArgumentAssert;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRuntimeService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessTaskService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtHiTaskStatusService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessStatusService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskRuleService;
-import com.github.sparkzxl.workflow.domain.model.bo.DriveProcess;
-import com.github.sparkzxl.workflow.domain.model.bo.DriverData;
+import com.github.sparkzxl.workflow.domain.model.bo.ExecuteData;
+import com.github.sparkzxl.workflow.domain.model.bo.ExecuteProcess;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessUserRepository;
 import com.github.sparkzxl.workflow.dto.DriverResult;
 import com.github.sparkzxl.workflow.infrastructure.act.DeleteTaskCmd;
 import com.github.sparkzxl.workflow.infrastructure.act.ExecutionVariableDeleteCmd;
 import com.github.sparkzxl.workflow.infrastructure.act.SetFlowNodeAndGoCmd;
-import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtHiTaskStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
@@ -28,7 +27,6 @@ import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.bpmn.model.Process;
 import org.activiti.bpmn.model.*;
-import org.activiti.engine.IdentityService;
 import org.activiti.engine.ManagementService;
 import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -71,75 +69,16 @@ public class ActWorkApiService {
     private IExtProcessTaskRuleService processTaskRuleService;
     @Autowired
     private IExtProcessUserRepository processUserRepository;
-    @Autowired
-    private IdentityService identityService;
 
-    @Transactional(rollbackFor = Exception.class)
-    public DriverResult startProcess(DriveProcess driveProcess) {
-        DriverResult driverResult = new DriverResult();
-        String businessId = driveProcess.getBusinessId();
-        try {
-            String userId = driveProcess.getUserId();
-            //查询是否存在已有流程，如果有，则不能进行启动工作流操作
-            ProcessInstance originalProcessInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
-            if (ObjectUtils.isNotEmpty(originalProcessInstance)) {
-                ExceptionAssert.failure("流程已存在，请勿重复启动");
-            }
-            Map<String, Object> variables = Maps.newHashMap();
-            variables.put("assignee", driveProcess.getNextTaskApproveUserId());
-            variables.put("actType", driveProcess.getActType());
-            identityService.setAuthenticatedUserId(String.valueOf(userId));
-            ProcessInstance processInstance = processRuntimeService.startProcessInstanceByKey(driveProcess.getProcessDefinitionKey(),
-                    businessId,
-                    variables);
-            String processInstanceId = processInstance.getProcessInstanceId();
-            String comment = driveProcess.getComment();
-            if (StringUtils.isEmpty(comment)) {
-                comment = "开始节点跳过";
-            }
-            ExtProcessUser processUser = processUserRepository.findUserById(userId);
-            String processName = "【".concat(processUser.getName()).concat("】发起").concat(processInstance.getProcessDefinitionName());
-            log.info("启动activiti流程------++++++ProcessInstanceId：{}------++++++", processInstanceId);
-            log.info(processName);
-            boolean needJump = driveProcess.isNeedJump();
-            if (needJump) {
-                driveProcess.setProcessInstanceId(processInstanceId);
-                driveProcess.setProcessDefinitionKey(processInstance.getProcessDefinitionKey());
-                driveProcess.setProcessName(processName);
-                driveProcess.setActType(WorkflowConstants.WorkflowAction.JUMP);
-                driveProcess.setComment(comment);
-                driverResult = jumpProcess(driveProcess, processName);
-            } else {
-                variables.put("actType", WorkflowConstants.WorkflowAction.SUBMIT);
-                DriverData driverData = DriverData.builder()
-                        .userId(userId)
-                        .processInstanceId(processInstanceId)
-                        .processName(processName)
-                        .businessId(businessId)
-                        .processDefinitionKey(processInstance.getProcessDefinitionKey())
-                        .actType(WorkflowConstants.WorkflowAction.SUBMIT)
-                        .comment(comment)
-                        .variables(variables)
-                        .build();
-                driverResult = promoteProcess(driverData);
-            }
-        } catch (Exception e) {
-            driverResult.setErrorMsg(e.getMessage());
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            log.error("发生异常 Exception：", e);
-        }
-        return driverResult;
-    }
-
-    public DriverResult promoteProcess(DriverData driverData) {
-        String processInstanceId = driverData.getProcessInstanceId();
-        String comment = driverData.getComment();
-        String userId = driverData.getUserId();
-        Map<String, Object> variables = driverData.getVariables();
+    public DriverResult promoteProcess(ExecuteData executeData) {
+        String processInstanceId = executeData.getProcessInstanceId();
+        String comment = executeData.getComment();
+        String userId = executeData.getUserId();
+        Map<String, Object> variables = executeData.getVariables();
         Task task = processTaskService.getLatestTaskByProInstId(processInstanceId);
         String currentTaskId = task.getId();
         String taskDefinitionKey = task.getTaskDefinitionKey();
-        ExceptionErrorCode.FAILURE.assertNotNull(task);
+        ArgumentAssert.notNull(task, "任务不能为空");
         validateAuthority(task, userId);
         //添加审核人
         Authentication.setAuthenticatedUserId(userId);
@@ -149,7 +88,8 @@ public class ActWorkApiService {
         processTaskService.setAssignee(currentTaskId, userId);
         processTaskService.claimTask(currentTaskId, userId);
         processTaskService.completeTask(currentTaskId, variables);
-        return recordProcessState(processInstanceId, driverData.getProcessName(), driverData.getBusinessId(), driverData.getActType(), currentTaskId, taskDefinitionKey);
+        return recordProcessState(processInstanceId, executeData.getProcessName(), executeData.getBusinessId(), executeData.getActType(), currentTaskId,
+                taskDefinitionKey);
     }
 
     /**
@@ -186,18 +126,16 @@ public class ActWorkApiService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public DriverResult jumpProcess(DriveProcess driveProcess, String processName) {
+    public DriverResult jumpProcess(ExecuteProcess executeProcess, String processName) {
         DriverResult driverResult = new DriverResult();
         try {
-            String businessId = driveProcess.getBusinessId();
-            String userId = driveProcess.getUserId();
-            int actType = driveProcess.getActType();
+            String businessId = executeProcess.getBusinessId();
+            String userId = executeProcess.getUserId();
+            int actType = executeProcess.getActType();
             ProcessInstance processInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
-            if (ObjectUtils.isEmpty(processInstance)) {
-                ExceptionAssert.failure("流程实例为空，请检查参数是否正确");
-            }
+            ArgumentAssert.notNull(processInstance, "流程实例为空，请检查参数是否正确");
             String processInstanceId = processInstance.getProcessInstanceId();
-            String comment = driveProcess.getComment();
+            String comment = executeProcess.getComment();
             Task currentTask = processTaskService.getLatestTaskByProInstId(processInstanceId);
             String currentTaskId = currentTask.getId();
             //添加审核人
@@ -214,11 +152,9 @@ public class ActWorkApiService {
             //获取所有的FlowElement信息
             Collection<FlowElement> flowElements = process.getFlowElements();
             // 获取目标节点task定义key
-            ExtProcessTaskRule actRuTaskRule = processTaskRuleService.findActRuTaskRule(driveProcess.getProcessDefinitionKey(),
-                    taskDefinitionKey, driveProcess.getActType());
-            if (ObjectUtils.isEmpty(actRuTaskRule)) {
-                ExceptionAssert.failure("请设置流程跳转规则");
-            }
+            ExtProcessTaskRule actRuTaskRule = processTaskRuleService.findActRuTaskRule(executeProcess.getProcessDefinitionKey(),
+                    taskDefinitionKey, executeProcess.getActType());
+            ArgumentAssert.notNull(actRuTaskRule, "流程规则为空，请检查参数是否正确");
             String taskDefKey = actRuTaskRule.getTaskDefKey();
             FlowElement flowElement = ActivitiUtils.getFlowElementById(taskDefKey, flowElements);
             // 获取目标节点定义
@@ -230,7 +166,7 @@ public class ActWorkApiService {
             managementService.executeCommand(new ExecutionVariableDeleteCmd(executionEntityId));
             // 流程执行到来源节点
             managementService.executeCommand(new SetFlowNodeAndGoCmd(targetNode, executionEntityId));
-            driverResult = recordProcessState(processInstanceId, processName, driveProcess.getBusinessId(), actType, currentTaskId, taskDefinitionKey);
+            driverResult = recordProcessState(processInstanceId, processName, executeProcess.getBusinessId(), actType, currentTaskId, taskDefinitionKey);
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             driverResult.setErrorMsg(e.getMessage());
@@ -280,31 +216,29 @@ public class ActWorkApiService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public DriverResult submitProcess(DriveProcess driveProcess) {
+    public DriverResult submitProcess(ExecuteProcess executeProcess) {
         DriverResult driverResult = new DriverResult();
-        String businessId = driveProcess.getBusinessId();
+        String businessId = executeProcess.getBusinessId();
         try {
-            String nextTaskApproveUserId = driveProcess.getNextTaskApproveUserId();
-            String userId = driveProcess.getUserId();
+            String nextTaskApproveUserId = executeProcess.getNextTaskApproveUserId();
+            String userId = executeProcess.getUserId();
             Map<String, Object> variables = Maps.newHashMap();
             if (StringUtils.isNotEmpty(nextTaskApproveUserId)) {
                 variables.put("assignee", nextTaskApproveUserId);
             }
-            variables.put("actType", driveProcess.getActType());
+            variables.put("actType", executeProcess.getActType());
             ProcessInstance processInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
-            if (ObjectUtils.isEmpty(processInstance)) {
-                ExceptionAssert.failure("流程实例为空，请检查参数是否正确");
-            }
-            DriverData driverData = DriverData.builder()
+            ArgumentAssert.notNull(processInstance, "流程实例为空，请检查参数是否正确");
+            ExecuteData executeData = ExecuteData.builder()
                     .userId(userId)
                     .processInstanceId(processInstance.getProcessInstanceId())
                     .businessId(businessId)
                     .processDefinitionKey(processInstance.getProcessDefinitionKey())
-                    .actType(driveProcess.getActType())
-                    .comment(driveProcess.getComment())
+                    .actType(executeProcess.getActType())
+                    .comment(executeProcess.getComment())
                     .variables(variables)
                     .build();
-            driverResult = promoteProcess(driverData);
+            driverResult = promoteProcess(executeData);
         } catch (Exception e) {
             e.printStackTrace();
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();

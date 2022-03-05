@@ -78,7 +78,8 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
             Map<String, DictionaryItemDTO> dictionaryItemMap = dictionaryClient.findDictionaryItemMap("APPLICATION_TYPE",
                     appTypeCodes);
             List<OauthClientDetails> oauthClientDetails = oauthClientDetailsRepository.findListByIdList(clientIds);
-            Map<String, OauthClientDetails> oauthClientDetailsMap = oauthClientDetails.stream().collect(Collectors.toMap(OauthClientDetails::getClientId, key -> key));
+            Map<String, OauthClientDetails> oauthClientDetailsMap =
+                    oauthClientDetails.stream().collect(Collectors.toMap(OauthClientDetails::getClientId, key -> key));
             applicationList.forEach(application -> {
                 if (StringUtils.isNotEmpty(application.getClientId())) {
                     application.setOauthClientDetail(oauthClientDetailsMap.get(application.getClientId()));

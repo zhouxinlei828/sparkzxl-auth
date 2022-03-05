@@ -3,12 +3,12 @@ package com.github.sparkzxl.workflow.domain.service.ext;
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessDetailService;
+import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessDetailDTO;
+import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessDetailPageDTO;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessDetailRepository;
 import com.github.sparkzxl.workflow.infrastructure.convert.ProcessDetailConvert;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessDetail;
 import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessDetailMapper;
-import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessDetailDTO;
-import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessDetailPageDTO;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +45,6 @@ public class ExtProcessDetailServiceImpl extends SuperCacheServiceImpl<ExtProces
 
     @Override
     protected String getRegion() {
-        return null;
+        return "ext_process_detail";
     }
 }

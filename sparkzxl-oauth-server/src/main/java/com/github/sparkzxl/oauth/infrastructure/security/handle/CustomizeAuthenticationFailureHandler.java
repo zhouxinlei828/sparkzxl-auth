@@ -3,7 +3,6 @@ package com.github.sparkzxl.oauth.infrastructure.security.handle;
 import com.github.sparkzxl.core.base.result.ExceptionErrorCode;
 import com.github.sparkzxl.core.util.HttpRequestUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -25,12 +24,7 @@ public class CustomizeAuthenticationFailureHandler extends SimpleUrlAuthenticati
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         log.error("登陆失败：{}", exception.getMessage());
-        String errorCode = ExceptionErrorCode.UN_AUTHORIZED.getCode();
-        String errorMsg = exception.getMessage();
-        if (exception instanceof BadCredentialsException) {
-            errorMsg = "用户名或密码错误";
-        }
         HttpRequestUtils.failResponse(response,
-                errorCode, errorMsg);
+                ExceptionErrorCode.LOGIN_EXPIRE);
     }
 }

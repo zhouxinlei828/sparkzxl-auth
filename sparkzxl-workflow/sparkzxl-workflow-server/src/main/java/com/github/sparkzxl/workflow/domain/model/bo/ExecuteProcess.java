@@ -10,7 +10,7 @@ import lombok.Data;
  * @date 2020-07-20 16:11:51
  */
 @Data
-public class DriveProcess {
+public class ExecuteProcess {
 
     /**
      * 业务主键

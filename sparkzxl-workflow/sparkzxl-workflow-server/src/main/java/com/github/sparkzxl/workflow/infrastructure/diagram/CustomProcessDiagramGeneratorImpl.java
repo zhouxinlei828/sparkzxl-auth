@@ -33,8 +33,12 @@ public class CustomProcessDiagramGeneratorImpl extends DefaultProcessDiagramGene
         new CustomProcessDiagramCanvas(10, 10, 0, 0, "png", "宋体", "宋体", "宋体", null);
     }
 
-    protected static CustomProcessDiagramCanvas initProcessDiagramCanvas(BpmnModel bpmnModel, String imageType,
-                                                                         String activityFontName, String labelFontName, String annotationFontName, ClassLoader customClassLoader) {
+    protected static CustomProcessDiagramCanvas initProcessDiagramCanvas(BpmnModel bpmnModel,
+                                                                         String imageType,
+                                                                         String activityFontName,
+                                                                         String labelFontName,
+                                                                         String annotationFontName,
+                                                                         ClassLoader customClassLoader) {
 
         // We need to calculate maximum values to know how big the image will be in its entirety
         double minX = Double.MAX_VALUE;
@@ -109,7 +113,8 @@ public class CustomProcessDiagramGeneratorImpl extends DefaultProcessDiagramGene
 
         prepareBpmnModel(bpmnModel);
 
-        CustomProcessDiagramCanvas processDiagramCanvas = initProcessDiagramCanvas(bpmnModel, imageType, activityFontName, labelFontName, annotationFontName, customClassLoader);
+        CustomProcessDiagramCanvas processDiagramCanvas =
+                initProcessDiagramCanvas(bpmnModel, imageType, activityFontName, labelFontName, annotationFontName, customClassLoader);
 
         // Draw pool shape, if process is participant in collaboration
         for (Pool pool : bpmnModel.getPools()) {
@@ -170,7 +175,13 @@ public class CustomProcessDiagramGeneratorImpl extends DefaultProcessDiagramGene
         }
     }
 
-    private void handlerActivityDrawInstruction(CustomProcessDiagramCanvas processDiagramCanvas, BpmnModel bpmnModel, FlowNode flowNode, List<String> highLightedActivities, double scaleFactor, Color[] colors, Set<String> currIds) {
+    private void handlerActivityDrawInstruction(CustomProcessDiagramCanvas processDiagramCanvas,
+                                                BpmnModel bpmnModel,
+                                                FlowNode flowNode,
+                                                List<String> highLightedActivities,
+                                                double scaleFactor,
+                                                Color[] colors,
+                                                Set<String> currIds) {
         ActivityDrawInstruction drawInstruction = activityDrawInstructions.get(flowNode.getClass());
         if (drawInstruction != null) {
 
@@ -199,7 +210,8 @@ public class CustomProcessDiagramGeneratorImpl extends DefaultProcessDiagramGene
             BigDecimal scaleFactorBigDecimal = new BigDecimal(String.valueOf(scaleFactor));
             if (scaleFactorBigDecimal.equals(bigDecimal)) {
                 // Actually draw the markers
-                processDiagramCanvas.drawActivityMarkers((int) graphicInfo.getX(), (int) graphicInfo.getY(), (int) graphicInfo.getWidth(), (int) graphicInfo.getHeight(),
+                processDiagramCanvas.drawActivityMarkers((int) graphicInfo.getX(), (int) graphicInfo.getY(), (int) graphicInfo.getWidth(),
+                        (int) graphicInfo.getHeight(),
                         multiInstanceSequential, multiInstanceParallel, collapsed);
             }
 
@@ -211,14 +223,20 @@ public class CustomProcessDiagramGeneratorImpl extends DefaultProcessDiagramGene
                     //非结束节点，并且是当前节点
                     drawHighLight((flowNode instanceof StartEvent), processDiagramCanvas, bpmnModel.getGraphicInfo(flowNode.getId()), colors[1]);
                 } else {//普通节点
-                    drawHighLight((flowNode instanceof StartEvent) || (flowNode instanceof EndEvent), processDiagramCanvas, bpmnModel.getGraphicInfo(flowNode.getId()), colors[0]);
+                    drawHighLight((flowNode instanceof StartEvent) || (flowNode instanceof EndEvent), processDiagramCanvas,
+                            bpmnModel.getGraphicInfo(flowNode.getId()), colors[0]);
                 }
             }
 
         }
     }
 
-    private void tranOutGoing(CustomProcessDiagramCanvas processDiagramCanvas, BpmnModel bpmnModel, FlowNode flowNode, List<String> highLightedFlows, double scaleFactor, Color[] colors) {
+    private void tranOutGoing(CustomProcessDiagramCanvas processDiagramCanvas,
+                              BpmnModel bpmnModel,
+                              FlowNode flowNode,
+                              List<String> highLightedFlows,
+                              double scaleFactor,
+                              Color[] colors) {
         for (SequenceFlow sequenceFlow : flowNode.getOutgoingFlows()) {
             String flowId = sequenceFlow.getId();
             boolean highLighted = (highLightedFlows.contains(flowId));
@@ -265,7 +283,8 @@ public class CustomProcessDiagramGeneratorImpl extends DefaultProcessDiagramGene
     }
 
     protected void drawHighLight(boolean isStartOrEnd, CustomProcessDiagramCanvas processDiagramCanvas, GraphicInfo graphicInfo, Color color) {
-        processDiagramCanvas.drawHighLight(isStartOrEnd, (int) graphicInfo.getX(), (int) graphicInfo.getY(), (int) graphicInfo.getWidth(), (int) graphicInfo.getHeight(), color);
+        processDiagramCanvas.drawHighLight(isStartOrEnd, (int) graphicInfo.getX(), (int) graphicInfo.getY(), (int) graphicInfo.getWidth(),
+                (int) graphicInfo.getHeight(), color);
     }
 
     @Override
@@ -289,9 +308,14 @@ public class CustomProcessDiagramGeneratorImpl extends DefaultProcessDiagramGene
     }
 
     @Override
-    public InputStream generateDiagram(BpmnModel bpmnModel, String imageType, String activityFontName, String labelFontName, String annotationFontName, ClassLoader customClassLoader) {
+    public InputStream generateDiagram(BpmnModel bpmnModel,
+                                       String imageType,
+                                       String activityFontName,
+                                       String labelFontName,
+                                       String annotationFontName,
+                                       ClassLoader customClassLoader) {
         return generateDiagram(bpmnModel, imageType, Collections.<String>emptyList(), Collections.<String>emptyList(),
-                activityFontName, labelFontName, annotationFontName, customClassLoader, 1.0, new Color[]{Color.BLACK, Color.BLACK}, null);
+                activityFontName, labelFontName, annotationFontName, customClassLoader, 1.0, new Color[] {Color.BLACK, Color.BLACK}, null);
     }
 
     private static class HandleFlowNode {
@@ -376,6 +400,7 @@ public class CustomProcessDiagramGeneratorImpl extends DefaultProcessDiagramGene
             return this;
         }
     }
+
 
     private static class HandleArtifact {
         private BpmnModel bpmnModel;

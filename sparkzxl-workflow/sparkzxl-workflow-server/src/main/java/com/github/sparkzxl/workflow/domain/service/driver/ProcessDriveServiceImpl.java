@@ -4,15 +4,15 @@ import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.sparkzxl.core.util.DateUtils;
 import com.github.sparkzxl.core.util.ListUtils;
-import com.github.sparkzxl.patterns.factory.BusinessStrategyFactory;
-import com.github.sparkzxl.patterns.strategy.BusinessHandler;
+import com.github.sparkzxl.workflow.application.rule.external.WorkflowActionHandlerFactory;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRuntimeService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessTaskService;
 import com.github.sparkzxl.workflow.application.service.driver.IProcessDriveService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtHiTaskStatusService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessStatusService;
-import com.github.sparkzxl.workflow.domain.model.bo.DriveProcess;
+import com.github.sparkzxl.workflow.domain.model.bo.ExecuteProcess;
+import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessNextTaskDTO;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessUserRepository;
 import com.github.sparkzxl.workflow.dto.*;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
@@ -21,7 +21,6 @@ import com.github.sparkzxl.workflow.infrastructure.entity.ExtHiTaskStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessStatus;
 import com.github.sparkzxl.workflow.infrastructure.enums.ProcessStatusEnum;
 import com.github.sparkzxl.workflow.infrastructure.utils.ActivitiUtils;
-import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessNextTaskDTO;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
@@ -58,17 +57,13 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
     private final IProcessRepositoryService processRepositoryService;
     private final IProcessRuntimeService processRuntimeService;
     private final IProcessTaskService processTaskService;
-    private final BusinessStrategyFactory businessStrategyFactory;
+    private final WorkflowActionHandlerFactory workflowActionHandlerFactory;
     private final IExtProcessUserRepository processUserRepository;
 
     @Override
     public DriverResult driveProcess(DriverProcessParam driverProcessParam) {
-        int actType = driverProcessParam.getActType();
-        BusinessHandler<DriverResult, DriveProcess> processBusinessHandler =
-                this.businessStrategyFactory.getStrategy(WorkflowConstants.BusinessTaskStrategy.BUSINESS_TASK_DRIVER,
-                        String.valueOf(actType));
-        DriveProcess driveProcess = ActivitiDriverConvert.INSTANCE.convertDriveProcess(driverProcessParam);
-        return processBusinessHandler.execute(driveProcess);
+        ExecuteProcess executeProcess = ActivitiDriverConvert.INSTANCE.convertDriveProcess(driverProcessParam);
+        return this.workflowActionHandlerFactory.getActionHandler(driverProcessParam.getActType()).execute(executeProcess);
     }
 
     @Override
@@ -254,7 +249,8 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
             }
         } else {
             if (CollectionUtils.isNotEmpty(processInstanceDeleteDTO.getProcessInstanceIds())) {
-                processInstanceDeleteDTO.getProcessInstanceIds().forEach(processInstanceId -> deleteProcessByProcInsId(processInstanceId, processInstanceDeleteDTO.getDeleteReason()));
+                processInstanceDeleteDTO.getProcessInstanceIds()
+                        .forEach(processInstanceId -> deleteProcessByProcInsId(processInstanceId, processInstanceDeleteDTO.getDeleteReason()));
 
             }
         }

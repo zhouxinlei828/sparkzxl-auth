@@ -1,6 +1,6 @@
 package com.github.sparkzxl.workflow.infrastructure.convert;
 
-import com.github.sparkzxl.workflow.domain.model.bo.DriveProcess;
+import com.github.sparkzxl.workflow.domain.model.bo.ExecuteProcess;
 import com.github.sparkzxl.workflow.dto.DriverProcessParam;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -20,7 +20,7 @@ public interface ActivitiDriverConvert {
      * 转化driverProcessDTO为DriveProcess
      *
      * @param driverProcessParam 流程驱动入参
-     * @return DriveProcess
+     * @return ExecuteProcess
      */
-    DriveProcess convertDriveProcess(DriverProcessParam driverProcessParam);
+    ExecuteProcess convertDriveProcess(DriverProcessParam driverProcessParam);
 }

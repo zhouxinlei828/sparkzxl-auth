@@ -62,6 +62,18 @@ import java.util.List;
  * 删除业务表结构
  * @param ids 主键列表
  * @return boolean
+ * <p>
+ * 创建业务表结构
+ * @param busTableSaveDTO 业务表结构保存对象
+ * @return boolean
+ * <p>
+ * 修改业务表结构
+ * @param busTableUpdateDTO 业务表结构更新对象
+ * @return boolean
+ * <p>
+ * 删除业务表结构
+ * @param ids 主键列表
+ * @return boolean
  *//*
 
 public interface IExtBusTableService extends SuperCacheService<ExtBusTable> {

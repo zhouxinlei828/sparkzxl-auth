@@ -165,7 +165,8 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
             CompletableFuture<List<Comment>> hiCommentCompletableFuture = CompletableFuture.supplyAsync(() -> processTaskService
                     .getProcessInstanceComments(processInstanceId, "comment"), threadPoolExecutor);
             List<ExtHiTaskStatus> actHiTaskStatusList = hiTaskStatusCompletableFuture.get();
-            Map<String, Integer> actHiTaskStatusMap = actHiTaskStatusList.stream().collect(Collectors.toMap(ExtHiTaskStatus::getTaskId, ExtHiTaskStatus::getTaskStatus));
+            Map<String, Integer> actHiTaskStatusMap =
+                    actHiTaskStatusList.stream().collect(Collectors.toMap(ExtHiTaskStatus::getTaskId, ExtHiTaskStatus::getTaskStatus));
             List<HistoricTaskInstance> historicTaskInstances = hiTakInsCompletableFuture.get();
             List<Comment> commentList = hiCommentCompletableFuture.get();
             Map<String, String> commentMap = commentList.stream().collect(Collectors.toMap(Comment::getTaskId, Comment::getFullMessage));
@@ -284,7 +285,7 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
             imageStream = processDiagramGenerator.generateDiagram(bpmnModel, "png", highLightedActivitis,
                     highLightedFlows, "宋体", "宋体", "宋体",
                     null, 1.0,
-                    new Color[]{WorkflowConstants.COLOR_NORMAL, WorkflowConstants.COLOR_CURRENT}, currIds);
+                    new Color[] {WorkflowConstants.COLOR_NORMAL, WorkflowConstants.COLOR_CURRENT}, currIds);
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             byte[] buffer = new byte[4096];
             int n = 0;

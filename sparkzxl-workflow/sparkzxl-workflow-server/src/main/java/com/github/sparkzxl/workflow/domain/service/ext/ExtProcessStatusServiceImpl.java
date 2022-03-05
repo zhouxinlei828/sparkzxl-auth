@@ -6,9 +6,10 @@ import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
 import com.github.sparkzxl.workflow.application.service.driver.IProcessDriveService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessStatusService;
 import com.github.sparkzxl.workflow.domain.model.bo.InstanceOverviewCount;
+import com.github.sparkzxl.workflow.domain.model.dto.act.InstancePageDTO;
+import com.github.sparkzxl.workflow.domain.model.vo.InstanceOverview;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessStatusRepository;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessUserRepository;
-import com.github.sparkzxl.workflow.domain.model.vo.InstanceOverview;
 import com.github.sparkzxl.workflow.dto.BusTaskInfo;
 import com.github.sparkzxl.workflow.dto.UserNextTask;
 import com.github.sparkzxl.workflow.infrastructure.constant.ActivitiCache;
@@ -16,7 +17,6 @@ import com.github.sparkzxl.workflow.infrastructure.convert.ExtProcessStatusConve
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ProcessInstance;
 import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessStatusMapper;
-import com.github.sparkzxl.workflow.domain.model.dto.act.InstancePageDTO;
 import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
@@ -58,7 +58,8 @@ public class ExtProcessStatusServiceImpl extends SuperCacheServiceImpl<ExtProces
                 instancePageDTO.getPageSize(), instancePageDTO.getProcessInstanceId());
         List<ProcessInstance> processInstances = processInstancePageInfo.getList();
         List<String> userIdList = processInstances.stream().map(ProcessInstance::getOriginator).collect(Collectors.toList());
-        Map<String, List<String>> processKeyMap = processInstances.stream().collect(Collectors.groupingBy(ProcessInstance::getProcessKey, Collectors.mapping(ProcessInstance::getBusinessKey, Collectors.toList())));
+        Map<String, List<String>> processKeyMap = processInstances.stream()
+                .collect(Collectors.groupingBy(ProcessInstance::getProcessKey, Collectors.mapping(ProcessInstance::getBusinessKey, Collectors.toList())));
         Map<String, BusTaskInfo> busTaskInfoMap = Maps.newHashMap();
         processKeyMap.forEach((key, value) -> {
             List<BusTaskInfo> busTaskInfos = driveService.busTaskInfoList(key, value);

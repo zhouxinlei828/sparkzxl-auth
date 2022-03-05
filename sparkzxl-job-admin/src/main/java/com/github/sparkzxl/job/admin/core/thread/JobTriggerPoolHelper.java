@@ -47,7 +47,12 @@ public class JobTriggerPoolHelper {
      * @param executorParam         null: use job param
      *                              not null: cover job param
      */
-    public static void trigger(int jobId, TriggerTypeEnum triggerType, int failRetryCount, String executorShardingParam, String executorParam, String addressList) {
+    public static void trigger(int jobId,
+                               TriggerTypeEnum triggerType,
+                               int failRetryCount,
+                               String executorShardingParam,
+                               String executorParam,
+                               String addressList) {
         helper.addTrigger(jobId, triggerType, failRetryCount, executorShardingParam, executorParam, addressList);
     }
 

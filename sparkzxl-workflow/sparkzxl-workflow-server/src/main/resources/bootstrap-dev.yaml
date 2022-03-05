@@ -54,23 +54,6 @@ logging:
               mapper: debug
           log:
             event: debug
-    org:
-      activiti:
-        engine:
-          impl:
-            persistence:
-              entity: debug
-      springframework:
-        data:
-          mongodb:
-            core: debug
-  file:
-    enable: true
-  alarm:
-    enabled: true
-    do-warn-exception:
-      - com.github.sparkzxl.core.support.TenantException
-      - java.lang.Exception
 management:
   metrics:
     tags:

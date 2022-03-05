@@ -19,6 +19,6 @@ public class FallbackController {
     @GetMapping("/fallback")
     public Response<?> fallback() {
         log.info("fallback 降级========>{}", "响应超时熔断处理器");
-        return Response.failDetail(ExceptionErrorCode.SERVICE_DEGRADATION.getCode(), ExceptionErrorCode.SERVICE_DEGRADATION.getMessage());
+        return Response.failDetail(ExceptionErrorCode.SERVICE_DEGRADATION.getErrorCode(), ExceptionErrorCode.SERVICE_DEGRADATION.getErrorMessage());
     }
 }

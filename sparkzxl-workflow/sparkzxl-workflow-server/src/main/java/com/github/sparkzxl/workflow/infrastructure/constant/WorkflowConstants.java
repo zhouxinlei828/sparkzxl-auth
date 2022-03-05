@@ -61,49 +61,11 @@ public final class WorkflowConstants {
         public static final int ROLLBACK = -2;
     }
 
+
     public static class ActType {
 
         public static final String START_EVENT = "startEvent";
 
         public static final String END_EVENT = "endEvent";
     }
-
-    public static class BusinessTaskStrategy {
-
-        public static final String BUSINESS_TASK_DRIVER = "business_task_driver";
-
-        /**
-         * 启动
-         */
-        public static final String START = "0";
-        /**
-         * 提交
-         */
-        public static final String SUBMIT = "1";
-        /**
-         * 同意
-         */
-        public static final String AGREE = "2";
-        /**
-         * 跳转
-         */
-        public static final String JUMP = "3";
-
-        /**
-         * 流程结束
-         */
-        public static final String END = "4";
-        /**
-         * 驳回
-         */
-        public static final String REJECTED = "-1";
-        /**
-         * 回退
-         */
-        public static final String ROLLBACK = "-2";
-
-
-    }
-
-
 }

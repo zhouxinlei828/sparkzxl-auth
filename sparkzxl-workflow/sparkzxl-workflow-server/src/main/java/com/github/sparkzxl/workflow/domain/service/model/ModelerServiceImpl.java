@@ -169,13 +169,14 @@ public class ModelerServiceImpl implements IModelerService {
                 return true;
             } catch (Exception e) {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                log.error("删除流程实例服务异常：{}", e.getMessage());
+                log.error("删除流程实例服务异常：", e);
             }
         }
         return false;
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean deleteModels(List<String> ids) {
         if (CollectionUtils.isNotEmpty(ids)) {
             ids.forEach(this::deleteModel);

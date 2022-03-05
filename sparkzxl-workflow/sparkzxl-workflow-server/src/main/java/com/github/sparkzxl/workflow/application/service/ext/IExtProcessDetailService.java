@@ -2,9 +2,9 @@ package com.github.sparkzxl.workflow.application.service.ext;
 
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.database.base.service.SuperCacheService;
-import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessDetail;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessDetailDTO;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessDetailPageDTO;
+import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessDetail;
 
 import java.util.List;
 

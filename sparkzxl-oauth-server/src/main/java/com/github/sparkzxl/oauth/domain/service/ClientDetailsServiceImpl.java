@@ -52,7 +52,8 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
             baseClientDetails.setAdditionalInformation(additionalInformationMap);
         }
         String autoApproveScopes = oauthClientDetails.getAutoApprove();
-        Optional.ofNullable(oauthClientDetails.getAutoApprove()).ifPresent(value -> baseClientDetails.setAutoApproveScopes(StringUtils.commaDelimitedListToSet(autoApproveScopes)));
+        Optional.ofNullable(oauthClientDetails.getAutoApprove())
+                .ifPresent(value -> baseClientDetails.setAutoApproveScopes(StringUtils.commaDelimitedListToSet(autoApproveScopes)));
         return baseClientDetails;
     }
 }

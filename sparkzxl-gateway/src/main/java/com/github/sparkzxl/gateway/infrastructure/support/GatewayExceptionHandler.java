@@ -21,18 +21,18 @@ public class GatewayExceptionHandler {
     @ExceptionHandler({GatewayException.class})
     public Response<?> handlerException(GatewayException e) {
         log.error("网关异常：", e);
-        return Response.failDetail(e.getCode(), e.getMessage());
+        return Response.failDetail(e.getErrorCode(), e.getErrorMessage());
     }
 
     @ExceptionHandler({JwtExpireException.class})
     public Response<?> handlerJwtExpireException(JwtExpireException e) {
         log.error("网关JWT异常：", e);
-        return Response.failDetail(e.getCode(), e.getMessage());
+        return Response.failDetail(e.getErrorCode(), e.getErrorMessage());
     }
 
     @ExceptionHandler({JwtInvalidException.class})
     public Response<?> handlerJwtExpireException(JwtInvalidException e) {
         log.error("网关JWT转换异常：", e);
-        return Response.failDetail(e.getCode(), e.getMessage());
+        return Response.failDetail(e.getErrorCode(), e.getErrorMessage());
     }
 }

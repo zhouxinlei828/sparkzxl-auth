@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.infrastructure.convert;
 
-import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
 import com.github.sparkzxl.workflow.domain.model.dto.process.TaskRuleSaveDTO;
+import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

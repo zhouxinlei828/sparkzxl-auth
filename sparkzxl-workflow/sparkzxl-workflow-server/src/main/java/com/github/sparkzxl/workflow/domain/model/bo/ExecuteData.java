@@ -13,7 +13,7 @@ import java.util.Map;
  */
 @Data
 @Builder
-public class DriverData {
+public class ExecuteData {
 
     /**
      * 流程实例id

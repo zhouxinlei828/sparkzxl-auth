@@ -129,7 +129,8 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
 
     @Override
     public PageInfo<LoginLog> getLoginLogPage(AuthUserInfo<UserDetail> authUserInfo, PageParams<LoginLogQueryDTO> pageParams) {
-        return loginLogRepository.getLoginLogPage(pageParams.getPageNum(), pageParams.getPageSize(), Long.valueOf(authUserInfo.getId()), pageParams.getModel().getAccount(), pageParams.getModel().getStartTime(),
+        return loginLogRepository.getLoginLogPage(pageParams.getPageNum(), pageParams.getPageSize(), Long.valueOf(authUserInfo.getId()),
+                pageParams.getModel().getAccount(), pageParams.getModel().getStartTime(),
                 pageParams.getModel().getEndTime());
     }
 

@@ -7,6 +7,7 @@ import com.github.sparkzxl.workflow.domain.model.bo.ExecuteData;
 import com.github.sparkzxl.workflow.domain.model.bo.ExecuteProcess;
 import com.github.sparkzxl.workflow.domain.service.act.ActWorkApiService;
 import com.github.sparkzxl.workflow.dto.DriverResult;
+import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowActionConstants;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -69,18 +70,18 @@ public class WorkflowStartActionHandler implements IWorkflowActionHandler {
                 executeProcess.setProcessInstanceId(processInstanceId);
                 executeProcess.setProcessDefinitionKey(processInstance.getProcessDefinitionKey());
                 executeProcess.setProcessName(processName);
-                executeProcess.setActType(WorkflowConstants.WorkflowAction.JUMP);
+                executeProcess.setActType(WorkflowActionConstants.JUMP);
                 executeProcess.setComment(comment);
                 driverResult = actWorkApiService.jumpProcess(executeProcess, processName);
             } else {
-                variables.put("actType", WorkflowConstants.WorkflowAction.SUBMIT);
+                variables.put("actType", WorkflowActionConstants.SUBMIT);
                 ExecuteData executeData = ExecuteData.builder()
                         .userId(userId)
                         .processInstanceId(processInstanceId)
                         .processName(processName)
                         .businessId(businessId)
                         .processDefinitionKey(processInstance.getProcessDefinitionKey())
-                        .actType(WorkflowConstants.WorkflowAction.SUBMIT)
+                        .actType(WorkflowActionConstants.SUBMIT)
                         .comment(comment)
                         .variables(variables)
                         .build();
@@ -96,6 +97,6 @@ public class WorkflowStartActionHandler implements IWorkflowActionHandler {
 
     @Override
     public int getActionType() {
-        return WorkflowConstants.WorkflowAction.START;
+        return WorkflowActionConstants.START;
     }
 }

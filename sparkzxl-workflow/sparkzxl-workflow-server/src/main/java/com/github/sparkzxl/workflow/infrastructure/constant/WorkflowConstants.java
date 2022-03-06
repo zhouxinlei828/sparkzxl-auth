@@ -21,47 +21,6 @@ public final class WorkflowConstants {
      */
     public static final int PROCESS_PADDING = 5;
 
-
-    /**
-     * 流程任务动作类型
-     */
-    public static class WorkflowAction {
-        /**
-         * 启动
-         */
-        public static final int START = 0;
-        /**
-         * 提交
-         */
-        public static final int SUBMIT = 1;
-        /**
-         * 同意
-         */
-        public static final int AGREE = 2;
-        /**
-         * 跳转
-         */
-        public static final int JUMP = 3;
-        /**
-         * 流程挂起
-         */
-        public static final int SUSPEND = 3;
-
-        /**
-         * 流程结束
-         */
-        public static final int END = 4;
-        /**
-         * 驳回
-         */
-        public static final int REJECTED = -1;
-        /**
-         * 回退
-         */
-        public static final int ROLLBACK = -2;
-    }
-
-
     public static class ActType {
 
         public static final String START_EVENT = "startEvent";

@@ -5,6 +5,7 @@ import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskRuleS
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessActionDTO;
 import com.github.sparkzxl.workflow.domain.model.dto.process.TaskRuleSaveDTO;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessTaskRuleRepository;
+import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowActionConstants;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import com.github.sparkzxl.workflow.infrastructure.convert.ProcessTaskRuleConvert;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
@@ -49,11 +50,11 @@ public class ExtProcessTaskRuleServiceImpl extends SuperServiceImpl<ExtProcessTa
     public List<ProcessActionDTO> getProcessAction() {
         List<ProcessActionDTO> processActions = Lists.newArrayList();
         processActions.add(ProcessActionDTO.builder()
-                .id(WorkflowConstants.WorkflowAction.JUMP)
+                .id(WorkflowActionConstants.JUMP)
                 .name("跳转")
                 .build());
         processActions.add(ProcessActionDTO.builder()
-                .id(WorkflowConstants.WorkflowAction.ROLLBACK)
+                .id(WorkflowActionConstants.ROLLBACK)
                 .name("回退")
                 .build());
         return processActions;

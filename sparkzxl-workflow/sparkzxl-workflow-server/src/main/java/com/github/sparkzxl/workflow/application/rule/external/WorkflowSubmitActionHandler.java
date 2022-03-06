@@ -4,6 +4,7 @@ import com.github.sparkzxl.redisson.annotation.RedisLock;
 import com.github.sparkzxl.workflow.domain.model.bo.ExecuteProcess;
 import com.github.sparkzxl.workflow.domain.service.act.ActWorkApiService;
 import com.github.sparkzxl.workflow.dto.DriverResult;
+import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowActionConstants;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,6 @@ public class WorkflowSubmitActionHandler implements IWorkflowActionHandler {
 
     @Override
     public int getActionType() {
-        return WorkflowConstants.WorkflowAction.SUBMIT;
+        return WorkflowActionConstants.SUBMIT;
     }
 }

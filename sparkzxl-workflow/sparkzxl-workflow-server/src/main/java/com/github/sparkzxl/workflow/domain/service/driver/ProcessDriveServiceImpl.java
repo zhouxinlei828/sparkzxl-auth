@@ -15,6 +15,7 @@ import com.github.sparkzxl.workflow.domain.model.bo.ExecuteProcess;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessNextTaskDTO;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessUserRepository;
 import com.github.sparkzxl.workflow.dto.*;
+import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowActionConstants;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import com.github.sparkzxl.workflow.infrastructure.convert.ActivitiDriverConvert;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtHiTaskStatus;
@@ -79,7 +80,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
         //获取当前节点信息
         FlowElement flowElement = ActivitiUtils.getFlowElementById(currentTask.getTaskDefinitionKey(), flowElements);
         Map<String, Object> variables = Maps.newHashMap();
-        variables.put("actType", actType == null ? WorkflowConstants.WorkflowAction.SUBMIT : actType);
+        variables.put("actType", actType == null ? WorkflowActionConstants.SUBMIT : actType);
         ActivitiUtils.getNextNode(flowElements, flowElement, variables, userTasks);
         log.info("userTasks = {}", userTasks);
         List<UserNextTask> userNextTasks = Lists.newArrayList();
@@ -149,12 +150,12 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
         ProcessInstance processInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
         Map<Object, Object> actionMap = Maps.newHashMap();
         if (ObjectUtils.isNotEmpty(processInstance)) {
-            actionMap.put(WorkflowConstants.WorkflowAction.SUBMIT, "提交");
-            actionMap.put(WorkflowConstants.WorkflowAction.AGREE, "同意");
-            actionMap.put(WorkflowConstants.WorkflowAction.JUMP, "跳转");
-            actionMap.put(WorkflowConstants.WorkflowAction.REJECTED, "驳回");
-            actionMap.put(WorkflowConstants.WorkflowAction.ROLLBACK, "回退");
-            actionMap.put(WorkflowConstants.WorkflowAction.END, "结束");
+            actionMap.put(WorkflowActionConstants.SUBMIT, "提交");
+            actionMap.put(WorkflowActionConstants.AGREE, "同意");
+            actionMap.put(WorkflowActionConstants.JUMP, "跳转");
+            actionMap.put(WorkflowActionConstants.REJECTED, "驳回");
+            actionMap.put(WorkflowActionConstants.ROLLBACK, "回退");
+            actionMap.put(WorkflowActionConstants.END, "结束");
             Task lastTask = processTaskService.getLatestTaskByProInstId(processInstance.getProcessInstanceId());
             List<IdentityLink> identityLinks = processTaskService.getIdentityLinksForTask(lastTask.getId());
             List<String> candidateGroupList = Lists.newArrayList();
@@ -184,7 +185,7 @@ public class ProcessDriveServiceImpl implements IProcessDriveService {
             userNextTask.setTaskName(lastTask.getName());
             busTaskInfo.setCurrentUserTask(userNextTask);
         } else {
-            actionMap.put(WorkflowConstants.WorkflowAction.START, "启动");
+            actionMap.put(WorkflowActionConstants.START, "启动");
         }
         busTaskInfo.setActTypeMap(actionMap);
         return busTaskInfo;

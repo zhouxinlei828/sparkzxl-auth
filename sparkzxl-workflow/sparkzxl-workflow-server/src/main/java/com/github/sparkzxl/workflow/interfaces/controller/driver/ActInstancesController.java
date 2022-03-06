@@ -60,6 +60,7 @@ public class ActInstancesController implements ProcessApi {
     }
 
     @Override
+    @ApiOperation("获取流程历史")
     public List<ProcessHistory> processHistoryList(ProcessHistoryParam processHistoryParam) {
         return processHistoryService.processHistoryList(processHistoryParam);
     }

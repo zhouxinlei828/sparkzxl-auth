@@ -21,7 +21,7 @@ public class TaskRuleSaveDTO {
 
     @ApiModelProperty(value = "流程详细id")
     @NotNull(message = "流程详细id不能为空")
-    private Long processDetailId;
+    private Long ProcessTaskDetailId;
 
     @ApiModelProperty(value = "目标任务定义key")
     @NotNull(message = "目标任务不能为空")

@@ -35,7 +35,7 @@ public class ExtProcessTaskRule {
     protected LocalDateTime createTime;
     @ApiModelProperty(value = "流程详细id")
     @TableField("process_detail_id")
-    private String processDetailId;
+    private String ProcessTaskDetailId;
     @ApiModelProperty(value = "目标任务定义key")
     @TableField("task_def_key")
     private String taskDefKey;

@@ -7,20 +7,22 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
 /**
- * description: 流程详细节点
+ * description: 流程任务节点
  *
  * @author charles.zhou
  * @date 2020-07-21 14:20:50
  */
 @Data
+@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@TableName("ext_process_detail")
-@ApiModel(value = "ProcessDetail对象", description = "流程详细节点")
-public class ExtProcessDetail {
+@TableName("ext_process_task_detail")
+@ApiModel(value = "ProcessTaskDetail对象", description = "流程任务节点")
+public class ExtProcessTaskDetail {
 
     private static final long serialVersionUID = -8334040441264344916L;
     @TableField(value = EntityConstant.COLUMN_UPDATE_TIME, fill = FieldFill.INSERT_UPDATE)

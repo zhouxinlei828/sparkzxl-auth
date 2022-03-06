@@ -8,6 +8,7 @@ import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessActionDTO;
 import com.github.sparkzxl.workflow.domain.model.dto.process.TaskRuleSaveDTO;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
 import io.swagger.annotations.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +25,10 @@ import java.util.List;
 @HttpRequestLog
 @RequestMapping("/process/rule")
 @Api(tags = "流程规则管理")
+@RequiredArgsConstructor
 public class ExtProcessTaskRuleController {
 
     private final IExtProcessTaskRuleService processTaskRuleService;
-
-    public ExtProcessTaskRuleController(IExtProcessTaskRuleService processTaskRuleService) {
-        this.processTaskRuleService = processTaskRuleService;
-    }
 
     @PostMapping("save")
     @ApiOperation("保存流程跳转规则")

@@ -2,13 +2,13 @@ package com.github.sparkzxl.workflow.domain.service.model;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.sparkzxl.core.support.ExceptionAssert;
-import com.github.sparkzxl.workflow.application.service.ext.IExtProcessDetailService;
+import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskDetailService;
 import com.github.sparkzxl.workflow.application.service.model.IModelService;
-import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessDetail;
+import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskDetail;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.editor.constants.ModelDataJsonConstants;
@@ -50,7 +50,7 @@ public class ModelServiceImpl implements IModelService {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private IExtProcessDetailService processDetailService;
+    private IExtProcessTaskDetailService processTaskDetailService;
 
     @Override
     public ObjectNode getEditorJson(String modelId) {
@@ -87,7 +87,7 @@ public class ModelServiceImpl implements IModelService {
             model.setMetaInfo(modelJson.toString());
             model.setName(name);
             repositoryService.saveModel(model);
-            saveProcessDetail(modelId, name, jsonXml);
+            saveProcessTaskDetail(modelId, name, jsonXml);
             repositoryService.addModelEditorSource(model.getId(), jsonXml.getBytes(StandardCharsets.UTF_8));
             InputStream svgStream = new ByteArrayInputStream(svgXml.getBytes(StandardCharsets.UTF_8));
             TranscoderInput input = new TranscoderInput(svgStream);
@@ -108,16 +108,16 @@ public class ModelServiceImpl implements IModelService {
         return true;
     }
 
-    private void saveProcessDetail(String modelId, String name, String jsonXml) {
+    private void saveProcessTaskDetail(String modelId, String name, String jsonXml) {
         JSONObject jsonObject = JSONObject.parseObject(jsonXml);
         JSONArray jsonNodes = jsonObject.getJSONArray("childShapes");
         JSONObject propertiesNode = jsonObject.getJSONObject("properties");
         String processDefinitionKey = propertiesNode.getString("process_id");
-        List<ExtProcessDetail> processDetails = new ArrayList<>();
+        List<ExtProcessTaskDetail> processTaskDetails = new ArrayList<>();
         List<String> filterType = Lists.newArrayList("UserTask", "ServiceTask",
                 "ScriptTask", "BusinessRule", "ReceiveTask", "ManualTask", "MailTask", "CamelTask", "MuleTask");
         if (ObjectUtils.isNotEmpty(jsonNodes)) {
-            processDetailService.remove(new QueryWrapper<ExtProcessDetail>().lambda().eq(ExtProcessDetail::getModelId, modelId));
+            processTaskDetailService.remove(new LambdaQueryWrapper<ExtProcessTaskDetail>().eq(ExtProcessTaskDetail::getModelId, modelId));
             for (Object object : jsonNodes) {
                 JSONObject jsonNode = (JSONObject) object;
                 JSONObject stencilNode = jsonNode.getJSONObject("stencil");
@@ -128,16 +128,16 @@ public class ModelServiceImpl implements IModelService {
                 JSONObject properties = jsonNode.getJSONObject("properties");
                 String overrideId = properties.getString("overrideid");
                 String taskName = properties.getString("name");
-                ExtProcessDetail processDetail = new ExtProcessDetail();
-                processDetail.setModelId(modelId);
-                processDetail.setProcessDefinitionKey(processDefinitionKey);
-                processDetail.setProcessName(name);
-                processDetail.setTaskDefKey(overrideId);
-                processDetail.setTaskName(taskName);
-                processDetail.setType(type);
-                processDetails.add(processDetail);
+                ExtProcessTaskDetail processTaskDetail = new ExtProcessTaskDetail()
+                        .setModelId(modelId)
+                        .setProcessDefinitionKey(processDefinitionKey)
+                        .setProcessName(name)
+                        .setTaskDefKey(overrideId)
+                        .setTaskName(taskName)
+                        .setType(type);
+                processTaskDetails.add(processTaskDetail);
             }
-            processDetailService.saveBatch(processDetails);
+            processTaskDetailService.saveBatch(processTaskDetails);
         }
     }
 

@@ -39,9 +39,8 @@ public interface IModelerService {
      * 删除流程实例
      *
      * @param modelId 模型id
-     * @return boolean
      */
-    boolean deleteModel(String modelId);
+    void deleteModel(String modelId);
 
     /**
      * 批量删除流程

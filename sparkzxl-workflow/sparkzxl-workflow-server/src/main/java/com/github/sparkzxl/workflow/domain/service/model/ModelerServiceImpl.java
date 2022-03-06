@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.sparkzxl.core.support.ExceptionAssert;
+import com.github.sparkzxl.core.util.ArgumentAssert;
 import com.github.sparkzxl.core.util.ListUtils;
-import com.github.sparkzxl.workflow.application.service.ext.IExtProcessDetailService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskRuleService;
+import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskDetailService;
 import com.github.sparkzxl.workflow.application.service.model.IModelerService;
-import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessDetail;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
+import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
@@ -52,7 +52,7 @@ public class ModelerServiceImpl implements IModelerService {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private IExtProcessDetailService extProcessDetailService;
+    private IExtProcessTaskDetailService extProcessTaskDetailService;
 
     @Autowired
     private IExtProcessTaskRuleService extProcessTaskRuleService;
@@ -100,10 +100,7 @@ public class ModelerServiceImpl implements IModelerService {
         try {
             Model modelData = repositoryService.getModel(modelId);
             byte[] bytes = repositoryService.getModelEditorSource(modelData.getId());
-            if (bytes == null) {
-                log.error("部署ID:{}的模型数据为空，请先设计流程并成功保存，再进行发布", modelId);
-                return false;
-            }
+            ArgumentAssert.notNull(bytes, "部署ID:{}的模型数据为空，请先设计流程并成功保存，再进行发布", modelId);
             JsonNode modelNode = new ObjectMapper().readTree(bytes);
             BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
             Deployment deployment = repositoryService.createDeployment()
@@ -146,33 +143,29 @@ public class ModelerServiceImpl implements IModelerService {
     }
 
     @Override
-    public boolean deleteModel(String modelId) {
+    public void deleteModel(String modelId) {
         Model modelData = repositoryService.getModel(modelId);
         if (null != modelData) {
             try {
-                ProcessInstance pi = runtimeService.createProcessInstanceQuery().processDefinitionKey(modelData.getKey()).singleResult();
-                if (null != pi) {
-                    ExceptionAssert.failure("该流程正在运作，请勿删除");
-                }
+                ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processDefinitionKey(modelData.getKey()).singleResult();
+                ArgumentAssert.isNull(processInstance, "该流程正在使用，请勿删除");
                 if (StringUtils.isNotEmpty(modelData.getDeploymentId())) {
                     repositoryService.deleteDeployment(modelData.getDeploymentId());
                 }
-                List<ExtProcessDetail> processDetails =
-                        extProcessDetailService.list(new QueryWrapper<ExtProcessDetail>().lambda().eq(ExtProcessDetail::getModelId, modelId));
-                List<Long> processDetailIds = processDetails.stream().map(ExtProcessDetail::getId).collect(Collectors.toList());
-                if (ListUtils.isNotEmpty(processDetailIds)) {
-                    extProcessTaskRuleService.remove(new QueryWrapper<ExtProcessTaskRule>().lambda().in(ExtProcessTaskRule::getProcessDetailId,
-                            processDetailIds));
-                    extProcessDetailService.removeByIds(processDetailIds);
+                List<ExtProcessTaskDetail> ProcessTaskDetails =
+                        extProcessTaskDetailService.list(new QueryWrapper<ExtProcessTaskDetail>().lambda().eq(ExtProcessTaskDetail::getModelId, modelId));
+                List<Long> ProcessTaskDetailIds = ProcessTaskDetails.stream().map(ExtProcessTaskDetail::getId).collect(Collectors.toList());
+                if (ListUtils.isNotEmpty(ProcessTaskDetailIds)) {
+                    extProcessTaskRuleService.remove(new QueryWrapper<ExtProcessTaskRule>().lambda().in(ExtProcessTaskRule::getProcessTaskDetailId,
+                            ProcessTaskDetailIds));
+                    extProcessTaskDetailService.removeByIds(ProcessTaskDetailIds);
                 }
                 repositoryService.deleteModel(modelId);
-                return true;
             } catch (Exception e) {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 log.error("删除流程实例服务异常：", e);
             }
         }
-        return false;
     }
 
     @Override

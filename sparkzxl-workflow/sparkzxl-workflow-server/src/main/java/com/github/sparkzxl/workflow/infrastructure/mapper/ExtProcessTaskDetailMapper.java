@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.infrastructure.mapper;
 
 import com.github.sparkzxl.database.base.mapper.SuperMapper;
-import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessDetail;
+import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskDetail;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,6 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2020-07-21 14:21:24
  */
 @Mapper
-public interface ExtProcessDetailMapper extends SuperMapper<ExtProcessDetail> {
+public interface ExtProcessTaskDetailMapper extends SuperMapper<ExtProcessTaskDetail> {
 
 }

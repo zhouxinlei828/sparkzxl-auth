@@ -1,11 +1,10 @@
 package com.github.sparkzxl.workflow.domain.service.ext;
 
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskRuleService;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessActionDTO;
 import com.github.sparkzxl.workflow.domain.model.dto.process.TaskRuleSaveDTO;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessTaskRuleRepository;
-import com.github.sparkzxl.workflow.infrastructure.constant.ActivitiCache;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import com.github.sparkzxl.workflow.infrastructure.convert.ProcessTaskRuleConvert;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
@@ -22,7 +21,7 @@ import java.util.List;
  * @date 2020-07-17 13:37:00
  */
 @Service
-public class ExtProcessTaskRuleServiceImpl extends SuperCacheServiceImpl<ExtProcessTaskRuleMapper, ExtProcessTaskRule> implements IExtProcessTaskRuleService {
+public class ExtProcessTaskRuleServiceImpl extends SuperServiceImpl<ExtProcessTaskRuleMapper, ExtProcessTaskRule> implements IExtProcessTaskRuleService {
 
     private final IExtProcessTaskRuleRepository actRuTaskRuleRepository;
 
@@ -58,10 +57,5 @@ public class ExtProcessTaskRuleServiceImpl extends SuperCacheServiceImpl<ExtProc
                 .name("回退")
                 .build());
         return processActions;
-    }
-
-    @Override
-    protected String getRegion() {
-        return ActivitiCache.ACT_TASK_CONTROL;
     }
 }

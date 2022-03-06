@@ -2,7 +2,7 @@ package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
 
 import com.github.sparkzxl.annotation.response.Response;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.application.event.ImportUserDataListener;
@@ -31,7 +31,7 @@ import java.util.List;
 @Response
 @RestController
 @RequestMapping("/process/user")
-public class ExtProcessUserController extends SuperCacheController<IExtProcessUserService, Long, ExtProcessUser,
+public class ExtProcessUserController extends SuperController<IExtProcessUserService, Long, ExtProcessUser,
         ProcessUserSaveDTO, ProcessUserUpdateDTO, ProcessUserQueryDTO, ProcessUserExcel> {
 
     private ImportUserDataListener importUserDataListener;

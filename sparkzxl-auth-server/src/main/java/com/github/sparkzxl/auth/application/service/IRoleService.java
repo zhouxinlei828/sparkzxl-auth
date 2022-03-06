@@ -6,7 +6,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleUpdateDTO;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.database.dto.PageParams;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2020-06-07 13:31:48
  */
-public interface IRoleService extends SuperCacheService<AuthRole> {
+public interface IRoleService extends SuperService<AuthRole> {
 
     /**
      * 分页查询角色信息

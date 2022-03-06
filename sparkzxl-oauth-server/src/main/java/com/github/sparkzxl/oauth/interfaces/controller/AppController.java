@@ -3,7 +3,7 @@ package com.github.sparkzxl.oauth.interfaces.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.annotation.response.Response;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.oauth.application.service.IApplicationService;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "应用客户端管理")
 @Response
 @RequestMapping("/application")
-public class AppController extends SuperCacheController<IApplicationService, Long,
+public class AppController extends SuperController<IApplicationService, Long,
         AuthApplication, AuthApplicationSaveDTO, AuthApplicationUpdateDTO, AuthApplicationQueryDTO, Object> {
 
     @Override

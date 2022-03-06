@@ -8,7 +8,7 @@ import com.github.sparkzxl.auth.interfaces.dto.org.OrgQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgUserSaveDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
@@ -29,7 +29,7 @@ import java.util.List;
 @HttpRequestLog
 @Api(tags = "组织管理")
 @RequestMapping("/org")
-public class OrgController extends SuperCacheController<ICoreOrgService, Long,
+public class OrgController extends SuperController<ICoreOrgService, Long,
         CoreOrg, OrgSaveDTO, OrgUpdateDTO, OrgQueryDTO, Object> {
 
     @ApiOperation("组织树查询")

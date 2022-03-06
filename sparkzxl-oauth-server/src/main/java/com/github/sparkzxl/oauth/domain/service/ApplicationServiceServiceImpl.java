@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.domain.service;
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.oauth.application.service.IApplicationService;
 import com.github.sparkzxl.oauth.domain.repository.IAuthApplicationRepository;
@@ -23,7 +23,7 @@ import java.util.List;
  * @date 2021-02-20 09:44:43
  */
 @Service
-public class ApplicationServiceServiceImpl extends SuperCacheServiceImpl<AuthApplicationMapper, AuthApplication> implements IApplicationService {
+public class ApplicationServiceServiceImpl extends SuperServiceImpl<AuthApplicationMapper, AuthApplication> implements IApplicationService {
 
 
     @Autowired
@@ -55,10 +55,5 @@ public class ApplicationServiceServiceImpl extends SuperCacheServiceImpl<AuthApp
     public boolean updateApplication(AuthApplicationUpdateDTO authApplicationUpdateDTO) {
         return authApplicationRepository.updateAuthApplication(AuthApplicationConvert.INSTANCE
                 .convertAuthApplication(authApplicationUpdateDTO));
-    }
-
-    @Override
-    protected String getRegion() {
-        return "auth_application";
     }
 }

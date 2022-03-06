@@ -8,7 +8,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceUpdateDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
@@ -34,7 +34,7 @@ import java.util.List;
 @Response
 @HttpRequestLog
 @Api(tags = "资源管理")
-public class AuthResourceController extends SuperCacheController<IResourceService, Long,
+public class AuthResourceController extends SuperController<IResourceService, Long,
         AuthResource, ResourceSaveDTO, ResourceUpdateDTO, ResourceQueryDTO, Object> {
 
 

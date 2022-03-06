@@ -8,7 +8,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthorityQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthoritySaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthorityUpdateDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,7 +28,7 @@ import java.util.List;
 @Response
 @HttpRequestLog
 @Api(tags = "角色资源管理")
-public class RoleAuthorityController extends SuperCacheController<IRoleAuthorityService, Long,
+public class RoleAuthorityController extends SuperController<IRoleAuthorityService, Long,
         RoleAuthority, RoleAuthoritySaveDTO, RoleAuthorityUpdateDTO, RoleAuthorityQueryDTO, Object> {
 
     @ApiOperation("批量保存角色资源")

@@ -2,7 +2,7 @@ package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
 
 import com.github.sparkzxl.annotation.response.Response;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessRoleService;
 import com.github.sparkzxl.workflow.domain.model.dto.role.ProcessRoleQueryDTO;
@@ -28,7 +28,7 @@ import java.util.List;
 @RequestMapping("/process/role")
 @HttpRequestLog
 @Api(tags = "流程角色管理")
-public class ExtProcessRoleController extends SuperCacheController<IExtProcessRoleService, Long, ExtProcessRole,
+public class ExtProcessRoleController extends SuperController<IExtProcessRoleService, Long, ExtProcessRole,
         ProcessRoleSaveDTO, ProcessRoleUpdateDTO, ProcessRoleQueryDTO, Object> {
 
     @ApiOperation("保存角色用户")

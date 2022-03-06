@@ -5,14 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.application.service.ICoreStationService;
 import com.github.sparkzxl.auth.domain.repository.ICoreStationRepository;
 import com.github.sparkzxl.auth.domain.repository.ISegmentIdRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.CoreStationConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreStationMapper;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationUpdateDTO;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.database.util.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ import java.util.List;
  * @date 2020-06-07 13:37:46
  */
 @Service
-public class CoreStationServiceImpl extends SuperCacheServiceImpl<CoreStationMapper, CoreStation> implements ICoreStationService {
+public class CoreStationServiceImpl extends SuperServiceImpl<CoreStationMapper, CoreStation> implements ICoreStationService {
 
     @Autowired
     private ICoreStationRepository coreStationRepository;
@@ -70,8 +69,4 @@ public class CoreStationServiceImpl extends SuperCacheServiceImpl<CoreStationMap
         return coreStationRepository.deleteCoreStation(ids);
     }
 
-    @Override
-    protected String getRegion() {
-        return BizConstant.STATION;
-    }
 }

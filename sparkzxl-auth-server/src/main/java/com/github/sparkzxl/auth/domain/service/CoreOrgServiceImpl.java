@@ -4,14 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.auth.application.service.ICoreOrgService;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.domain.repository.ICoreOrgRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.CoreOrgConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreOrgMapper;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
 import com.github.sparkzxl.auth.interfaces.dto.org.OrgUserSaveDTO;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.database.util.TreeUtil;
 import com.github.sparkzxl.entity.data.TreeEntity;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ import java.util.List;
  * @date 2020-06-07 13:37:19
  */
 @Service
-public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, CoreOrg> implements ICoreOrgService {
+public class CoreOrgServiceImpl extends SuperServiceImpl<CoreOrgMapper, CoreOrg> implements ICoreOrgService {
 
     @Resource
     private IAuthUserRepository userRepository;
@@ -71,8 +70,4 @@ public class CoreOrgServiceImpl extends SuperCacheServiceImpl<CoreOrgMapper, Cor
         return userRepository.updateOrgUser(orgUserSaveDTO.getOrgId(), orgUserSaveDTO.getUserIds());
     }
 
-    @Override
-    protected String getRegion() {
-        return BizConstant.ORG;
-    }
 }

@@ -121,10 +121,10 @@ public class MybatisPlusGenerator {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setSuperEntityClass("com.github.sparkzxl.entity.data.Entity");
         strategy.setSuperMapperClass("com.github.sparkzxl.database.base.mapper.SuperMapper");
-        strategy.setSuperServiceClass("com.github.sparkzxl.database.base.service.SuperCacheService");
-        strategy.setSuperServiceImplClass("com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl");
+        strategy.setSuperServiceClass("com.github.sparkzxl.database.base.service.SuperService");
+        strategy.setSuperServiceImplClass("com.github.sparkzxl.database.base.service.impl.SuperServiceImpl");
 
-        strategy.setSuperControllerClass("com.github.sparkzxl.database.base.controller.SuperCacheController");
+        strategy.setSuperControllerClass("com.github.sparkzxl.database.base.controller.SuperController");
         strategy.setEntitySerialVersionUID(true);
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);

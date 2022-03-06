@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.application.service.ext;
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessDetailDTO;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessDetailPageDTO;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessDetail;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2020-07-21 14:22:03
  */
-public interface IExtProcessDetailService extends SuperCacheService<ExtProcessDetail> {
+public interface IExtProcessDetailService extends SuperService<ExtProcessDetail> {
 
     /**
      * 查询流程节点信息

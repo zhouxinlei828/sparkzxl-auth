@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.application.service.act;
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.workflow.domain.model.dto.act.ModelPageDTO;
 import com.github.sparkzxl.workflow.infrastructure.entity.ActReModel;
 
@@ -11,7 +11,7 @@ import com.github.sparkzxl.workflow.infrastructure.entity.ActReModel;
  * @author charles.zhou
  * @date 2020-07-25 11:14:40
  */
-public interface IActReModelService extends SuperCacheService<ActReModel> {
+public interface IActReModelService extends SuperService<ActReModel> {
 
 
     /**

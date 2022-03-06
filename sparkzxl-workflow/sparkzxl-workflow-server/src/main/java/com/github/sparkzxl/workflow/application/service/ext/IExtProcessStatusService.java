@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.application.service.ext;
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.workflow.domain.model.dto.act.InstancePageDTO;
 import com.github.sparkzxl.workflow.domain.model.vo.InstanceOverview;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessStatus;
@@ -15,7 +15,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2020-07-17 13:21:47
  */
-public interface IExtProcessStatusService extends SuperCacheService<ExtProcessStatus> {
+public interface IExtProcessStatusService extends SuperService<ExtProcessStatus> {
 
     /**
      * 获取流程状态

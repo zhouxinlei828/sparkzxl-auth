@@ -5,7 +5,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaUpdateDTO;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2020-07-28 19:41:37
  */
-public interface ISysAreaService extends SuperCacheService<SysArea> {
+public interface ISysAreaService extends SuperService<SysArea> {
 
     /**
      * 查询地区信息

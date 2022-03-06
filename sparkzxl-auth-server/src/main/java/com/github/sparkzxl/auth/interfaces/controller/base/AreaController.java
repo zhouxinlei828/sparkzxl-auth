@@ -8,7 +8,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaUpdateDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +26,7 @@ import java.util.List;
 @Response
 @Api(tags = "地区管理")
 @RequestMapping("/base/area")
-public class AreaController extends SuperCacheController<ISysAreaService, Long,
+public class AreaController extends SuperController<ISysAreaService, Long,
         SysArea, AreaSaveDTO, AreaUpdateDTO, AreaQueryDTO, Object> {
 
 

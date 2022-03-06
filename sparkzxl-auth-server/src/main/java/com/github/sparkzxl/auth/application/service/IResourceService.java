@@ -4,7 +4,7 @@ package com.github.sparkzxl.auth.application.service;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceUpdateDTO;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2020-06-07 13:31:28
  */
-public interface IResourceService extends SuperCacheService<AuthResource> {
+public interface IResourceService extends SuperService<AuthResource> {
 
     /**
      * 查询用户可用的所有资源

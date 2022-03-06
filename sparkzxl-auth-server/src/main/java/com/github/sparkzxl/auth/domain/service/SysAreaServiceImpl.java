@@ -7,7 +7,6 @@ import com.github.sparkzxl.auth.domain.model.vo.AreaTree;
 import com.github.sparkzxl.auth.infrastructure.client.AreaClient;
 import com.github.sparkzxl.auth.infrastructure.client.result.Area;
 import com.github.sparkzxl.auth.infrastructure.client.result.ResponseEntity;
-import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.SysAreaConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
 import com.github.sparkzxl.auth.infrastructure.mapper.SysAreaMapper;
@@ -15,7 +14,7 @@ import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.area.AreaUpdateDTO;
 import com.github.sparkzxl.core.tree.TreeUtils;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -39,7 +38,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, SysArea> implements ISysAreaService {
+public class SysAreaServiceImpl extends SuperServiceImpl<SysAreaMapper, SysArea> implements ISysAreaService {
 
     /**
      * 标识符
@@ -140,8 +139,4 @@ public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, Sys
         return save(sysArea);
     }
 
-    @Override
-    protected String getRegion() {
-        return BizConstant.AREA;
-    }
 }

@@ -1,7 +1,7 @@
 /*
 package com.github.sparkzxl.workflow.application.service.ext;
 
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtBusTable;
 import com.github.sparkzxl.workflow.interfaces.dto.table.BusTableSaveDTO;
 import com.github.sparkzxl.workflow.interfaces.dto.table.BusTableUpdateDTO;
@@ -76,7 +76,7 @@ import java.util.List;
  * @return boolean
  *//*
 
-public interface IExtBusTableService extends SuperCacheService<ExtBusTable> {
+public interface IExtBusTableService extends SuperService<ExtBusTable> {
 
     */
 /**

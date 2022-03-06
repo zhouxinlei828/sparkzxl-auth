@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.domain.service.ext;
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessDetailService;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessDetailDTO;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessDetailPageDTO;
@@ -21,7 +21,7 @@ import java.util.List;
  * @date 2020-07-21 14:22:17
  */
 @Service
-public class ExtProcessDetailServiceImpl extends SuperCacheServiceImpl<ExtProcessDetailMapper, ExtProcessDetail> implements IExtProcessDetailService {
+public class ExtProcessDetailServiceImpl extends SuperServiceImpl<ExtProcessDetailMapper, ExtProcessDetail> implements IExtProcessDetailService {
 
     private final IExtProcessDetailRepository processDetailRepository;
 
@@ -41,10 +41,5 @@ public class ExtProcessDetailServiceImpl extends SuperCacheServiceImpl<ExtProces
     public PageInfo<ExtProcessDetail> getProcessDetailList(ProcessDetailPageDTO processDetailPageDTO) {
         return processDetailRepository.getProcessDetailList(processDetailPageDTO.getPageNum(),
                 processDetailPageDTO.getPageSize(), processDetailPageDTO.getProcessName());
-    }
-
-    @Override
-    protected String getRegion() {
-        return "ext_process_detail";
     }
 }

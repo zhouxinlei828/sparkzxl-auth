@@ -4,7 +4,7 @@ package com.github.sparkzxl.auth.application.service;
 import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthMenu;
 import com.github.sparkzxl.auth.interfaces.dto.menu.AuthMenuSaveDTO;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2020-06-07 13:31:12
  */
-public interface IMenuService extends SuperCacheService<AuthMenu> {
+public interface IMenuService extends SuperService<AuthMenu> {
 
     /**
      * 查询菜单tree

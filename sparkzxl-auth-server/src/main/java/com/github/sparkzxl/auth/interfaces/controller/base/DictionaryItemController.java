@@ -9,7 +9,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemUpdateDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
@@ -35,7 +35,7 @@ import java.util.Set;
 @HttpRequestLog
 @Api(tags = "字典项管理")
 @RequestMapping("/base/dictionaryItem")
-public class DictionaryItemController extends SuperCacheController<IDictionaryItemService, Long,
+public class DictionaryItemController extends SuperController<IDictionaryItemService, Long,
         DictionaryItem, DictionaryItemSaveDTO, DictionaryItemUpdateDTO, DictionaryItemQueryDTO, Object> implements IDictionaryApi {
 
     @Override

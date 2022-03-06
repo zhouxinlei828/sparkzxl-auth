@@ -16,7 +16,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.database.dto.PageParams;
@@ -43,7 +43,7 @@ import java.util.List;
 @Response
 @HttpRequestLog
 @Api(tags = "用户管理")
-public class AuthUserController extends SuperCacheController<IUserService, Long,
+public class AuthUserController extends SuperController<IUserService, Long,
         AuthUser, UserSaveDTO, UserUpdateDTO, UserQueryDTO, UserExcel> implements IAuthUserApi {
 
     private ImportUserDataListener importUserDataListener;

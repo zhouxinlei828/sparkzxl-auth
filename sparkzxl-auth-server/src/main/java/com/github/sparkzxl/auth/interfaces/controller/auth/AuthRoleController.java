@@ -7,7 +7,7 @@ import com.github.sparkzxl.auth.application.service.IUserRoleService;
 import com.github.sparkzxl.auth.domain.model.vo.RoleResourceVO;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 import com.github.sparkzxl.auth.interfaces.dto.role.*;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
@@ -29,7 +29,7 @@ import java.util.List;
 @Response
 @HttpRequestLog
 @Api(tags = "角色管理")
-public class AuthRoleController extends SuperCacheController<IRoleService, Long,
+public class AuthRoleController extends SuperController<IRoleService, Long,
         AuthRole, RoleSaveDTO, RoleUpdateDTO, RoleQueryDTO, Object> {
 
     private IUserRoleService userRoleService;

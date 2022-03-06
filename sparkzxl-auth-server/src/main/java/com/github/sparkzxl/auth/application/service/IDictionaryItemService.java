@@ -3,7 +3,7 @@ package com.github.sparkzxl.auth.application.service;
 import com.github.sparkzxl.auth.api.dto.DictionaryItemDTO;
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemQueryDTO;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Set;
  * @author charles.zhou
  * @date 2020-07-28 19:42:04
  */
-public interface IDictionaryItemService extends SuperCacheService<DictionaryItem> {
+public interface IDictionaryItemService extends SuperService<DictionaryItem> {
 
     /**
      * 根据字典类型查询字典数据

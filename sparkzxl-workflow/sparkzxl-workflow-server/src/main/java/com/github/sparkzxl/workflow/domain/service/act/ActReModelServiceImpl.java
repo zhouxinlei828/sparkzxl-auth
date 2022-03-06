@@ -2,7 +2,7 @@ package com.github.sparkzxl.workflow.domain.service.act;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.workflow.application.service.act.IActReModelService;
 import com.github.sparkzxl.workflow.domain.model.dto.act.ModelPageDTO;
 import com.github.sparkzxl.workflow.domain.repository.IActReModelRepository;
@@ -20,7 +20,7 @@ import java.util.List;
  * @date 2020-07-25 11:14:57
  */
 @Service
-public class ActReModelServiceImpl extends SuperCacheServiceImpl<ActReModelMapper, ActReModel> implements IActReModelService {
+public class ActReModelServiceImpl extends SuperServiceImpl<ActReModelMapper, ActReModel> implements IActReModelService {
 
     @Autowired
     private IActReModelRepository actReModelRepository;
@@ -33,10 +33,5 @@ public class ActReModelServiceImpl extends SuperCacheServiceImpl<ActReModelMappe
         actReModels.forEach(item -> item.setDeployed(item.getDeploymentId() != null ? "已发布" : "未发布"));
         actReModelPageInfo.setList(actReModels);
         return actReModelPageInfo;
-    }
-
-    @Override
-    protected String getRegion() {
-        return null;
     }
 }

@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.domain.service.ext;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessRoleService;
 import com.github.sparkzxl.workflow.domain.model.dto.role.ProcessUserRoleSaveDTO;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessRoleRepository;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * @date 2021-01-08 17:08:44
  */
 @Service
-public class ExtProcessRoleServiceImpl extends SuperCacheServiceImpl<ExtProcessRoleMapper, ExtProcessRole> implements IExtProcessRoleService {
+public class ExtProcessRoleServiceImpl extends SuperServiceImpl<ExtProcessRoleMapper, ExtProcessRole> implements IExtProcessRoleService {
 
     private IExtProcessRoleRepository processRoleRepository;
 
@@ -53,10 +53,5 @@ public class ExtProcessRoleServiceImpl extends SuperCacheServiceImpl<ExtProcessR
             return extProcessUserRoles.stream().map(ExtProcessUserRole::getUserId).collect(Collectors.toList());
         }
         return Lists.newArrayList();
-    }
-
-    @Override
-    protected String getRegion() {
-        return "process_role";
     }
 }

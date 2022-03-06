@@ -6,7 +6,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationUpdateDTO;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.database.dto.PageParams;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2020-06-07 13:32:55
  */
-public interface ICoreStationService extends SuperCacheService<CoreStation> {
+public interface ICoreStationService extends SuperService<CoreStation> {
 
     /**
      * 查询岗位列表

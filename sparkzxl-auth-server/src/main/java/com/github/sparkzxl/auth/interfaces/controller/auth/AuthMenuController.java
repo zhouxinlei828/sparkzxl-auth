@@ -8,7 +8,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthMenu;
 import com.github.sparkzxl.auth.interfaces.dto.menu.AuthMenuQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.menu.AuthMenuSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.menu.AuthMenuUpdateDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
@@ -31,7 +31,7 @@ import java.util.List;
 @Response
 @HttpRequestLog
 @Api(tags = "菜单管理")
-public class AuthMenuController extends SuperCacheController<IMenuService, Long,
+public class AuthMenuController extends SuperController<IMenuService, Long,
         AuthMenu, AuthMenuSaveDTO, AuthMenuUpdateDTO, AuthMenuQueryDTO, Object> {
 
     @Override

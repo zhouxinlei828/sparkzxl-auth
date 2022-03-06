@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.application.service;
 
 import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.oauth.infrastructure.entity.AuthApplication;
 import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationQueryDTO;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2021-02-20 09:44:35
  */
-public interface IApplicationService extends SuperCacheService<AuthApplication> {
+public interface IApplicationService extends SuperService<AuthApplication> {
 
     /**
      * 保存应用客户端信息

@@ -12,12 +12,13 @@ import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
 import com.github.sparkzxl.auth.infrastructure.mapper.LoginLogMapper;
 import com.github.sparkzxl.auth.interfaces.dto.log.LoginLogQueryDTO;
+import com.github.sparkzxl.cache.service.GeneralCacheService;
 import com.github.sparkzxl.core.util.KeyGeneratorUtil;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.entity.core.UserAgentEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,20 +32,12 @@ import java.util.List;
  * @date 2020/6/17 0017
  */
 @Service
-public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, LoginLog> implements ILoginLogService {
+@RequiredArgsConstructor
+public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginLog> implements ILoginLogService {
 
-    private IAuthUserRepository authUserRepository;
-    private ILoginLogRepository loginLogRepository;
-
-    @Autowired
-    public void setAuthUserRepository(IAuthUserRepository authUserRepository) {
-        this.authUserRepository = authUserRepository;
-    }
-
-    @Autowired
-    public void setLoginLogRepository(ILoginLogRepository loginLogRepository) {
-        this.loginLogRepository = loginLogRepository;
-    }
+    private final IAuthUserRepository authUserRepository;
+    private final ILoginLogRepository loginLogRepository;
+    private final GeneralCacheService generalCacheService;
 
     @Override
     public void save(LoginStatus<Long> loginStatus) {
@@ -139,8 +132,4 @@ public class LoginLogServiceImpl extends SuperCacheServiceImpl<LoginLogMapper, L
         return loginLogRepository.deleteLoginLog(ids);
     }
 
-    @Override
-    protected String getRegion() {
-        return "login_log";
-    }
 }

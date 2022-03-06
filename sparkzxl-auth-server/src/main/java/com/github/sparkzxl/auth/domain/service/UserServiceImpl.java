@@ -24,7 +24,7 @@ import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.database.util.PageInfoUtils;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
@@ -51,7 +51,7 @@ import java.util.Locale;
  */
 @Service
 @Slf4j
-public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthUser> implements IUserService {
+public class UserServiceImpl extends SuperServiceImpl<AuthUserMapper, AuthUser> implements IUserService {
 
     @Autowired
     private IAuthUserRepository authUserRepository;
@@ -242,11 +242,6 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     public AuthUserBasicVO getUserByUsername(String username) {
         AuthUserBasicInfo authUserBasicInfo = authUserRepository.getUserByUsername(username);
         return AuthUserConvert.INSTANCE.convertAuthUserBasicVO(authUserBasicInfo);
-    }
-
-    @Override
-    protected String getRegion() {
-        return BizConstant.USER;
     }
 
 }

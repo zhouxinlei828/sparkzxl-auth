@@ -1,6 +1,6 @@
 package com.github.sparkzxl.workflow.application.service.ext;
 
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.workflow.domain.model.dto.user.ProcessUserQueryDTO;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessUser;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2021-01-08 16:53:50
  */
-public interface IExtProcessUserService extends SuperCacheService<ExtProcessUser> {
+public interface IExtProcessUserService extends SuperService<ExtProcessUser> {
 
     /**
      * 流程用户列表查询

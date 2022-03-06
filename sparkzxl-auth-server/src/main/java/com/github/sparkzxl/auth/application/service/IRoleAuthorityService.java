@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.application.service;
 
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthoritySaveDTO;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 
 /**
  * <p>
@@ -12,7 +12,7 @@ import com.github.sparkzxl.database.base.service.SuperCacheService;
  * @author charles.zhou
  * @since 2020-07-19
  */
-public interface IRoleAuthorityService extends SuperCacheService<RoleAuthority> {
+public interface IRoleAuthorityService extends SuperService<RoleAuthority> {
 
     /**
      * 保存角色资源

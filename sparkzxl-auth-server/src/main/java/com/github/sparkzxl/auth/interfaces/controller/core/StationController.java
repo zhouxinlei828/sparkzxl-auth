@@ -11,7 +11,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationUpdateDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.database.dto.PageParams;
@@ -35,7 +35,7 @@ import java.util.List;
 @HttpRequestLog
 @Api(tags = "岗位管理")
 @RequestMapping("/station")
-public class StationController extends SuperCacheController<ICoreStationService, Long,
+public class StationController extends SuperController<ICoreStationService, Long,
         CoreStation, StationSaveDTO, StationUpdateDTO, StationQueryDTO, StationExcel> {
 
     private ImportStationDataListener importStationDataListener;

@@ -4,12 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.auth.api.dto.DictionaryItemDTO;
 import com.github.sparkzxl.auth.application.service.IDictionaryItemService;
 import com.github.sparkzxl.auth.domain.repository.IDictionaryItemRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.DictionaryItemConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.infrastructure.mapper.DictionaryItemMapper;
 import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemQueryDTO;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -28,7 +27,7 @@ import java.util.Set;
  * @date 2020-07-28 19:43:58
  */
 @Service
-public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryItemMapper, DictionaryItem> implements IDictionaryItemService {
+public class DictionaryItemServiceImpl extends SuperServiceImpl<DictionaryItemMapper, DictionaryItem> implements IDictionaryItemService {
 
     @Autowired
     private IDictionaryItemRepository dictionaryItemRepository;
@@ -72,8 +71,4 @@ public class DictionaryItemServiceImpl extends SuperCacheServiceImpl<DictionaryI
         return dictionaryItemDtoMap;
     }
 
-    @Override
-    protected String getRegion() {
-        return BizConstant.DICTIONARY_ITEM;
-    }
 }

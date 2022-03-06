@@ -1,6 +1,6 @@
 package com.github.sparkzxl.workflow.application.service.ext;
 
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessActionDTO;
 import com.github.sparkzxl.workflow.domain.model.dto.process.TaskRuleSaveDTO;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
@@ -13,7 +13,7 @@ import java.util.List;
  * @author charles.zhou
  * @date 2020-07-17 13:20:37
  */
-public interface IExtProcessTaskRuleService extends SuperCacheService<ExtProcessTaskRule> {
+public interface IExtProcessTaskRuleService extends SuperService<ExtProcessTaskRule> {
 
 
     /**

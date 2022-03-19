@@ -1,22 +1,17 @@
 server:
   shutdown: graceful
-  port: 8803
-  undertow:
-    buffer-size: 1024
-    direct-buffers: on
-    always-set-keep-alive: true
+  port: 8804
 spring:
   application:
-    name: sparkzxl-workflow-server
-  lifecycle:
-    timeout-per-shutdown-phase: 30s
-  thymeleaf:
-    mode: HTML
-    encoding: UTF-8
-    servlet:
-      content-type: text/html
-    cache: false
+    name: sparkzxl-file-server
   cloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858
     nacos:
       discovery:
         server-addr: 47.114.40.129:8848
@@ -37,23 +32,7 @@ spring:
             group: DEFAULT_GROUP
             refresh: true
         enable-remote-sync-config: true
-  redis:
-    redisson: redisson-dev.yaml
+        refresh-enabled: true
 logging:
   level:
-    com:
-      github:
-        sparkzxl:
-          workflow:
-            infrastructure:
-              mapper: debug
-    org:
-      activiti:
-        engine:
-          impl:
-            persistence:
-              entity: debug
-management:
-  metrics:
-    tags:
-      application: ${spring.application.name}
+    com.github.sparkzxl.file.infrastructure.mapper: debug

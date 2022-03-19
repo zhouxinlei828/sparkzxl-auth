@@ -1,25 +1,29 @@
 server:
-  shutdown: graceful
-  port: 8806
-  undertow:
-    buffer-size: 1024
-    direct-buffers: on
-    always-set-keep-alive: true
+  port: 8802
 spring:
   application:
-    name: sparkzxl-oauth-server
-  lifecycle:
-    timeout-per-shutdown-phase: 30s
+    name: sparkzxl-auth-server
   thymeleaf:
     encoding: UTF-8
     servlet:
       content-type: text/html
   cloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858
     nacos:
       discovery:
         server-addr: 47.114.40.129:8848
         namespace: 41618410-b6bb-40ba-99cf-f2c8d2fe4da0
+        username: nacos
+        password: zxl298828
       config:
+        username: nacos
+        password: zxl298828
         server-addr: 47.114.40.129:8848
         namespace: 41618410-b6bb-40ba-99cf-f2c8d2fe4da0
         file-extension: yaml
@@ -42,6 +46,3 @@ logging:
     com.github.sparkzxl.auth.infrastructure.mapper: debug
   file:
     enable: true
-ribbon:
-  isolation:
-    enabled: true

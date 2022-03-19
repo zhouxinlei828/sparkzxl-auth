@@ -4414,35 +4414,112 @@ table.text-center, table.text-center td, table.text-center th {
     border-color: rgba(0, 0, 0, 0.2)
 }
 
-.btn-soundcloud:focus, .btn-soundcloud.focus {
+.btn-soundcloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858focus, .btn-soundcloud.focus {
     color: #fff;
     background-color: #c40;
     border-color: rgba(0, 0, 0, 0.2)
 }
 
-.btn-soundcloud:hover {
+.btn-soundcloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858hover {
     color: #fff;
     background-color: #c40;
     border-color: rgba(0, 0, 0, 0.2)
 }
 
-.btn-soundcloud:active, .btn-soundcloud.active, .open > .dropdown-toggle.btn-soundcloud {
+.btn-soundcloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858active, .btn-soundcloud.active, .open > .dropdown-toggle.btn-soundcloud {
     color: #fff;
     background-color: #c40;
     border-color: rgba(0, 0, 0, 0.2)
 }
 
-.btn-soundcloud:active:hover, .btn-soundcloud.active:hover, .open > .dropdown-toggle.btn-soundcloud:hover, .btn-soundcloud:active:focus, .btn-soundcloud.active:focus, .open > .dropdown-toggle.btn-soundcloud:focus, .btn-soundcloud:active.focus, .btn-soundcloud.active.focus, .open > .dropdown-toggle.btn-soundcloud.focus {
+.btn-soundcloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858active:hover, .btn-soundcloud.active:hover, .open > .dropdown-toggle.btn-soundcloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858hover, .btn-soundcloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858active:focus, .btn-soundcloud.active:focus, .open > .dropdown-toggle.btn-soundcloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858focus, .btn-soundcloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858active.focus, .btn-soundcloud.active.focus, .open > .dropdown-toggle.btn-soundcloud.focus {
     color: #fff;
     background-color: #a83800;
     border-color: rgba(0, 0, 0, 0.2)
 }
 
-.btn-soundcloud:active, .btn-soundcloud.active, .open > .dropdown-toggle.btn-soundcloud {
+.btn-soundcloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858active, .btn-soundcloud.active, .open > .dropdown-toggle.btn-soundcloud {
     background-image: none
 }
 
-.btn-soundcloud.disabled:hover, .btn-soundcloud[disabled]:hover, fieldset[disabled] .btn-soundcloud:hover, .btn-soundcloud.disabled:focus, .btn-soundcloud[disabled]:focus, fieldset[disabled] .btn-soundcloud:focus, .btn-soundcloud.disabled.focus, .btn-soundcloud[disabled].focus, fieldset[disabled] .btn-soundcloud.focus {
+.btn-soundcloud.disabled:hover, .btn-soundcloud[disabled]:hover, fieldset[disabled] .btn-soundcloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858hover, .btn-soundcloud.disabled:focus, .btn-soundcloud[disabled]:focus, fieldset[disabled] .btn-soundcloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858focus, .btn-soundcloud.disabled.focus, .btn-soundcloud[disabled].focus, fieldset[disabled] .btn-soundcloud.focus {
     background-color: #ff5500;
     border-color: rgba(0, 0, 0, 0.2)
 }

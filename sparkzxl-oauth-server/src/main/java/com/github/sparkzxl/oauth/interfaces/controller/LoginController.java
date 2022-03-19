@@ -35,7 +35,6 @@ public class LoginController {
 
     @ApiOperation(value = "登录页面", notes = "登录页面")
     @RequestMapping(value = "/authentication/require", produces = "text/html;charset=UTF-8", method = RequestMethod.GET)
-    @CrossOrigin(origins = "*", allowCredentials = "true")
     public ModelAndView require(HttpServletRequest request, HttpServletResponse response) {
         SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
         ModelAndView model = new ModelAndView("login");

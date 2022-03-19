@@ -1,18 +1,19 @@
 server:
   shutdown: graceful
   port: 8800
-  undertow:
-    buffer-size: 1024
-    direct-buffers: on
-    always-set-keep-alive: true
 spring:
   application:
     name: sparkzxl-gateway
-  lifecycle:
-    timeout-per-shutdown-phase: 30s
   codec:
     max-in-memory-size: 100MB
   cloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858
     nacos:
       discovery:
         server-addr: 47.114.40.129:8848

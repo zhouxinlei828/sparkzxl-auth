@@ -3,8 +3,8 @@ package com.github.sparkzxl.workflow.infrastructure.client;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.feign.exception.RemoteCallException;
 import com.github.sparkzxl.file.dto.FileDTO;
-import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 @Component

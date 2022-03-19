@@ -38,7 +38,7 @@ public class UserQueryDTO extends PageDTO {
     private String nation;
 
     @ApiModelProperty(value = "组织")
-    private RemoteData<Long, CoreOrg> org;
+    private Long orgId;
 
     @ApiModelProperty(value = "扩展信息")
     private Map<String, Object> extendInfo;

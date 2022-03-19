@@ -1,16 +1,21 @@
 server:
   shutdown: graceful
-  port: 8800
-  undertow:
-    buffer-size: 1024
-    direct-buffers: on
-    always-set-keep-alive: true
+  port: 8802
 spring:
   application:
-    name: sparkzxl-gateway
-  lifecycle:
-    timeout-per-shutdown-phase: 30s
+    name: sparkzxl-auth-server
+  thymeleaf:
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
   cloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858
     nacos:
       discovery:
         server-addr: 47.114.40.129:8848
@@ -21,11 +26,19 @@ spring:
         file-extension: yaml
         prefix: ${spring.application.name}
         shared-configs:
+          - dataId: mysql.yaml
+            group: DEFAULT_GROUP
+            refresh: true
           - dataId: redis.yaml
             group: DEFAULT_GROUP
-            refresh: false
+            refresh: true
           - dataId: common.yaml
             group: DEFAULT_GROUP
-            refresh: false
+            refresh: true
         enable-remote-sync-config: true
         refresh-enabled: true
+logging:
+  level:
+    com.github.sparkzxl.auth.infrastructure.client: debug
+    com.github.sparkzxl.auth.infrastructure.mapper: debug
+  enable-alarm: false

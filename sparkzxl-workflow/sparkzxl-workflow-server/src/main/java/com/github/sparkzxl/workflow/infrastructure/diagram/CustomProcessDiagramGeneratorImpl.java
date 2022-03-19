@@ -315,7 +315,7 @@ public class CustomProcessDiagramGeneratorImpl extends DefaultProcessDiagramGene
                                        String annotationFontName,
                                        ClassLoader customClassLoader) {
         return generateDiagram(bpmnModel, imageType, Collections.<String>emptyList(), Collections.<String>emptyList(),
-                activityFontName, labelFontName, annotationFontName, customClassLoader, 1.0, new Color[] {Color.BLACK, Color.BLACK}, null);
+                activityFontName, labelFontName, annotationFontName, customClassLoader, 1.0, new Color[]{Color.BLACK, Color.BLACK}, null);
     }
 
     private static class HandleFlowNode {

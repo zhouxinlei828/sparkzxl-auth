@@ -1,7 +1,6 @@
 package com.github.sparkzxl.workflow.domain.service.act;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.workflow.application.service.act.IActReModelService;
 import com.github.sparkzxl.workflow.domain.model.dto.act.ModelPageDTO;
@@ -26,12 +25,11 @@ public class ActReModelServiceImpl extends SuperServiceImpl<ActReModelMapper, Ac
     private IActReModelRepository actReModelRepository;
 
     @Override
-    public PageInfo<ActReModel> actReModelList(ModelPageDTO modelPageDTO) {
-        PageHelper.startPage(modelPageDTO.getPageNum(), modelPageDTO.getPageSize());
-        PageInfo<ActReModel> actReModelPageInfo = actReModelRepository.actReModelList(modelPageDTO.getKey(), modelPageDTO.getName());
-        List<ActReModel> actReModels = actReModelPageInfo.getList();
+    public Page<ActReModel> actReModelList(ModelPageDTO modelPageDTO) {
+        Page<ActReModel> actReModelPageInfo = actReModelRepository.actReModelList(new Page<>(modelPageDTO.getPageNum(), modelPageDTO.getPageSize())
+                , modelPageDTO.getKey(), modelPageDTO.getName());
+        List<ActReModel> actReModels = actReModelPageInfo.getRecords();
         actReModels.forEach(item -> item.setDeployed(item.getDeploymentId() != null ? "已发布" : "未发布"));
-        actReModelPageInfo.setList(actReModels);
         return actReModelPageInfo;
     }
 }

@@ -1,6 +1,6 @@
 package com.github.sparkzxl.workflow.domain.repository;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.workflow.domain.model.bo.InstanceOverviewCount;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ProcessInstance;
@@ -29,9 +29,9 @@ public interface IExtProcessStatusRepository {
      * @param pageNum           当前页
      * @param pageSize          分页大小
      * @param processInstanceId 流程实例id
-     * @return PageInfo<ProcessInstance>
+     * @return Page<ProcessInstance>
      */
-    PageInfo<ProcessInstance> getProcessInstanceList(int pageNum, int pageSize, String processInstanceId);
+    Page<ProcessInstance> getProcessInstanceList(int pageNum, int pageSize, String processInstanceId);
 
     /**
      * 获取流程状态

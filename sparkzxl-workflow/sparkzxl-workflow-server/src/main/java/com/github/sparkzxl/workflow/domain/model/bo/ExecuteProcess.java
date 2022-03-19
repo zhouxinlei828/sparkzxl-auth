@@ -1,7 +1,10 @@
 package com.github.sparkzxl.workflow.domain.model.bo;
 
 import com.github.sparkzxl.redisson.annotation.RedisLockParam;
+import com.google.common.collect.Maps;
 import lombok.Data;
+
+import java.util.Map;
 
 /**
  * description: 流程驱动model
@@ -54,5 +57,7 @@ public class ExecuteProcess {
      * 是否需要跳转
      */
     private boolean needJump;
+
+    private Map<String, Object> variables = Maps.newHashMap();
 
 }

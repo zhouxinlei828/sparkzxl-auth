@@ -89,7 +89,7 @@ public class ImportUserDataListener extends ImportDataListener<UserExcel> {
             }
             authUser.setEmail(item.getEmail());
             authUser.setMobile(item.getMobile());
-            authUser.setSex(SexEnum.getEnum(item.getSex()));
+            authUser.setSex(SexEnum.getEnum(item.getSex()).getCode());
             authUser.setPassword(passwordEncoder.encode("123456"));
             if (StringUtils.isNotEmpty(item.getNation())) {
                 DictionaryItem dictionaryItem = dictionaryItemService.getDictionaryItemByName(item.getNation());

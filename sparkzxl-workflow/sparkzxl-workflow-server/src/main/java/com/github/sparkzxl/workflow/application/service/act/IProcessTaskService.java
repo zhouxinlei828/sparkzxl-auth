@@ -145,6 +145,15 @@ public interface IProcessTaskService {
     Task getLatestTaskByProInstId(String processInstanceId);
 
     /**
+     * 根据业务key获取最新任务实例
+     *
+     * @param businessKey 业务key
+     * @return Task
+     */
+    Task getLatestTaskByBusinessKey(String businessKey);
+
+
+    /**
      * 获取任务候选人信息
      *
      * @param taskId 任务id

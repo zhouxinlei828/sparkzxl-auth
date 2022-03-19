@@ -1,14 +1,12 @@
 package com.github.sparkzxl.auth.infrastructure.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.domain.repository.ILoginLogRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
 import com.github.sparkzxl.auth.infrastructure.mapper.LoginLogMapper;
 import com.github.sparkzxl.core.util.DateUtils;
-import com.github.sparkzxl.database.util.PageInfoUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -63,8 +61,8 @@ public class LoginLogRepository implements ILoginLogRepository {
     }
 
     @Override
-    public PageInfo<LoginLog> getLoginLogPage(int pageNum, int pageSize, Long userId, String account,
-                                              Date startTime, Date endTime) {
+    public Page<LoginLog> getLoginLogPage(int pageNum, int pageSize, Long userId, String account,
+                                          Date startTime, Date endTime) {
         LambdaQueryWrapper<LoginLog> loginLogLambdaQueryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotEmpty(account)) {
             loginLogLambdaQueryWrapper.likeRight(LoginLog::getAccount, account);
@@ -79,9 +77,7 @@ public class LoginLogRepository implements ILoginLogRepository {
             loginLogLambdaQueryWrapper.le(LoginLog::getLoginDate, DateUtils.endOfDay(endTime));
         }
         loginLogLambdaQueryWrapper.orderByDesc(LoginLog::getLoginDate);
-        PageHelper.startPage(pageNum, pageSize);
-        List<LoginLog> loginLogs = loginLogMapper.selectList(loginLogLambdaQueryWrapper);
-        return PageInfoUtils.pageInfo(loginLogs);
+        return loginLogMapper.selectPage(new Page<>(pageNum, pageSize), loginLogLambdaQueryWrapper);
     }
 
     @Override

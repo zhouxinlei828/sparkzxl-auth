@@ -8,7 +8,6 @@ import com.github.sparkzxl.workflow.domain.model.bo.ExecuteProcess;
 import com.github.sparkzxl.workflow.domain.service.act.ActWorkApiService;
 import com.github.sparkzxl.workflow.dto.DriverResult;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowActionConstants;
-import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.IdentityService;
@@ -49,7 +48,7 @@ public class WorkflowStartActionHandler implements IWorkflowActionHandler {
             String userId = executeProcess.getUserId();
             //查询是否存在已有流程，如果有，则不能进行启动工作流操作
             ProcessInstance originalProcessInstance = processRuntimeService.getProcessInstanceByBusinessId(businessId);
-            ArgumentAssert.isNull(originalProcessInstance,"流程已存在，请勿重复启动");
+            ArgumentAssert.isNull(originalProcessInstance, "流程已存在，请勿重复启动");
             Map<String, Object> variables = Maps.newHashMap();
             variables.put("assignee", executeProcess.getNextTaskApproveUserId());
             variables.put("actType", executeProcess.getActType());
@@ -63,29 +62,18 @@ public class WorkflowStartActionHandler implements IWorkflowActionHandler {
                 comment = "开始节点跳过";
             }
             String processName = "【".concat(userId).concat("】发起").concat(processInstance.getProcessDefinitionName());
-            log.info("启动activiti流程------++++++ProcessInstanceId：{}------++++++", processInstanceId);
-            log.info(processName);
+            log.info("启动activiti流程------++++++ProcessInstanceId：{}------++++++processName：{}", processInstanceId, processName);
+            executeProcess.setProcessName(processName);
+            executeProcess.setProcessInstanceId(processInstanceId);
+            executeProcess.setProcessDefinitionKey(processInstance.getProcessDefinitionKey());
+            executeProcess.setComment(comment);
             boolean needJump = executeProcess.isNeedJump();
             if (needJump) {
-                executeProcess.setProcessInstanceId(processInstanceId);
-                executeProcess.setProcessDefinitionKey(processInstance.getProcessDefinitionKey());
-                executeProcess.setProcessName(processName);
-                executeProcess.setActType(WorkflowActionConstants.JUMP);
-                executeProcess.setComment(comment);
-                driverResult = actWorkApiService.jumpProcess(executeProcess, processName);
+                ExecuteData executeData = assemblyData(executeProcess, WorkflowActionConstants.JUMP, processInstanceId, processName);
+                driverResult = actWorkApiService.jumpProcess(executeData);
             } else {
-                variables.put("actType", WorkflowActionConstants.SUBMIT);
-                ExecuteData executeData = ExecuteData.builder()
-                        .userId(userId)
-                        .processInstanceId(processInstanceId)
-                        .processName(processName)
-                        .businessId(businessId)
-                        .processDefinitionKey(processInstance.getProcessDefinitionKey())
-                        .actType(WorkflowActionConstants.SUBMIT)
-                        .comment(comment)
-                        .variables(variables)
-                        .build();
-                driverResult = actWorkApiService.promoteProcess(executeData);
+                ExecuteData executeData = assemblyData(executeProcess, WorkflowActionConstants.SUBMIT, processInstanceId, processName);
+                driverResult = actWorkApiService.promoteProcess(executeData, variables);
             }
         } catch (Exception e) {
             driverResult.setErrorMsg(e.getMessage());
@@ -93,6 +81,19 @@ public class WorkflowStartActionHandler implements IWorkflowActionHandler {
             log.error("发生异常 Exception：", e);
         }
         return driverResult;
+    }
+
+    private ExecuteData assemblyData(ExecuteProcess executeProcess, int actType, String processInstanceId, String processName) {
+        return ExecuteData.builder()
+                .businessId(executeProcess.getBusinessId())
+                .processName(processName)
+                .processInstanceId(processInstanceId)
+                .processDefinitionKey(executeProcess.getProcessDefinitionKey())
+                .actType(actType)
+                .userId(executeProcess.getUserId())
+                .comment(executeProcess.getComment())
+                .variables(executeProcess.getVariables())
+                .build();
     }
 
     @Override

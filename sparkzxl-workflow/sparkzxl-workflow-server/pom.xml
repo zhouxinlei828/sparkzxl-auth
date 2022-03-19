@@ -37,17 +37,13 @@
             <groupId>com.github.sparkzxl</groupId>
             <artifactId>sparkzxl-patterns-starter</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>com.github.sparkzxl</groupId>
-            <artifactId>sparkzxl-mongodb-starter</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>com.github.sparkzxl</groupId>
             <artifactId>sparkzxl-core</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>io.vavr</groupId>
-                    <artifactId>vavr</artifactId>
+                    <artifactId>netty-resolver-dns-native-macos</artifactId>
+                    <groupId>io.netty</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -92,10 +88,6 @@
         <dependency>
             <groupId>com.github.sparkzxl</groupId>
             <artifactId>sparkzxl-workflow-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.sparkzxl</groupId>
-            <artifactId>sparkzxl-drools-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.sparkzxl</groupId>

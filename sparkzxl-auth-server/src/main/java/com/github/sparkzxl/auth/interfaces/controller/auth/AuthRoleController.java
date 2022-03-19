@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.application.service.IRoleService;
 import com.github.sparkzxl.auth.application.service.IUserRoleService;
@@ -40,7 +40,7 @@ public class AuthRoleController extends SuperController<IRoleService, Long,
     }
 
     @Override
-    public PageInfo<AuthRole> page(PageParams<RoleQueryDTO> params) {
+    public Page<AuthRole> page(PageParams<RoleQueryDTO> params) {
         return baseService.getPageList(params);
     }
 

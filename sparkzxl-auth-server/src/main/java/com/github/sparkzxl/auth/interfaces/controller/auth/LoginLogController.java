@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.application.service.ILoginLogService;
@@ -38,8 +38,8 @@ public class LoginLogController {
 
     @ApiOperation("登录日志分页")
     @PostMapping("/page")
-    public PageInfo<LoginLog> getLoginLogPage(@ApiIgnore AuthUserInfo<UserDetail> authUserInfo,
-                                              @RequestBody PageParams<LoginLogQueryDTO> pageParams) {
+    public Page<LoginLog> getLoginLogPage(@ApiIgnore AuthUserInfo<UserDetail> authUserInfo,
+                                          @RequestBody PageParams<LoginLogQueryDTO> pageParams) {
         return loginLogService.getLoginLogPage(authUserInfo, pageParams);
     }
 

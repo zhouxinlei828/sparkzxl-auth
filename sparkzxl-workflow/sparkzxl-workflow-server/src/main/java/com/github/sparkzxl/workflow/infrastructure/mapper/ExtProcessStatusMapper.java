@@ -1,5 +1,6 @@
 package com.github.sparkzxl.workflow.infrastructure.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.database.base.mapper.SuperMapper;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ProcessInstance;
@@ -20,9 +21,18 @@ public interface ExtProcessStatusMapper extends SuperMapper<ExtProcessStatus> {
     /**
      * 查询流程实例列表
      *
+     * @return List<ProcessInstance>
+     */
+    List<ProcessInstance> getProcessInstanceList();
+
+    /**
+     * 查询流程实例分页列表
+     *
+     * @param page              分页
      * @param processInstanceId 流程实例id
      * @return List<ProcessInstance>
      */
-    List<ProcessInstance> getProcessInstanceList(@Param("processInstanceId") String processInstanceId);
+    Page<ProcessInstance> getProcessInstancePage(Page<ExtProcessStatus> page, @Param("processInstanceId") String processInstanceId);
+
 
 }

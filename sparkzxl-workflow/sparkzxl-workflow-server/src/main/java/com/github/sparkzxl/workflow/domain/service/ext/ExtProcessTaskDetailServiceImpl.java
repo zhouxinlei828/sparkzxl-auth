@@ -1,6 +1,6 @@
 package com.github.sparkzxl.workflow.domain.service.ext;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskDetailService;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessTaskDetailDTO;
@@ -33,7 +33,7 @@ public class ExtProcessTaskDetailServiceImpl extends SuperServiceImpl<ExtProcess
     }
 
     @Override
-    public PageInfo<ExtProcessTaskDetail> getProcessTaskDetailList(ProcessTaskDetailPageDTO processTaskDetailPageDTO) {
+    public Page<ExtProcessTaskDetail> getProcessTaskDetailList(ProcessTaskDetailPageDTO processTaskDetailPageDTO) {
         return processTaskDetailRepository.getProcessTaskDetailList(processTaskDetailPageDTO.getPageNum(),
                 processTaskDetailPageDTO.getPageSize(), processTaskDetailPageDTO.getProcessName());
     }

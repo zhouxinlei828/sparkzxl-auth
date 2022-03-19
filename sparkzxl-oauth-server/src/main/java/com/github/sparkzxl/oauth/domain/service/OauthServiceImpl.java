@@ -22,7 +22,6 @@ import com.github.sparkzxl.oauth.infrastructure.oauth2.AuthorizationRequest;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.OpenProperties;
 import com.github.sparkzxl.user.manager.UserStateManager;
 import com.google.common.collect.Maps;
-import io.vavr.control.Option;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +39,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -165,9 +165,9 @@ public class OauthServiceImpl implements IOauthService {
         Map<String, String> parameters = Maps.newHashMap();
         String grantType = authorizationRequest.getGrantType();
         parameters.put("grant_type", grantType);
-        Option.of(authorizationRequest.getRefreshToken()).peek(value -> parameters.put("refresh_token", value));
-        Option.of(authorizationRequest.getUsername()).peek(value -> parameters.put("username", value));
-        Option.of(authorizationRequest.getPassword()).peek(value -> parameters.put("password", value));
+        Optional.ofNullable(authorizationRequest.getRefreshToken()).ifPresent(value -> parameters.put("refresh_token", value));
+        Optional.ofNullable(authorizationRequest.getUsername()).ifPresent(value -> parameters.put("username", value));
+        Optional.ofNullable(authorizationRequest.getPassword()).ifPresent(value -> parameters.put("password", value));
         ClientDetails clientDetails = clientDetailsService.loadClientByClientId(authorizationRequest.getClientId());
         parameters.put("client_id", clientDetails.getClientId());
         parameters.put("client_secret", clientDetails.getClientSecret());

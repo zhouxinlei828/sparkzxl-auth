@@ -24,7 +24,8 @@ public enum OperationEnum implements Enumerator {
     DELETE(0, "删除");
 
     @EnumValue
-    @JsonValue final Integer code;
+    @JsonValue
+    final Integer code;
 
     final String desc;
 

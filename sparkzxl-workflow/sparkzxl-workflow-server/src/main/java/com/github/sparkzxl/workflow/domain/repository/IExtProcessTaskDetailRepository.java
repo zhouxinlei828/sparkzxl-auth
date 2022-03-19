@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.domain.repository;
 
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskDetail;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public interface IExtProcessTaskDetailRepository {
      * @param name     流程名称
      * @return List<ProcessTaskDetail>
      */
-    PageInfo<ExtProcessTaskDetail> getProcessTaskDetailList(int pageNum, int pageSize, String name);
+    Page<ExtProcessTaskDetail> getProcessTaskDetailList(int pageNum, int pageSize, String name);
 
     /**
      * 查询流程任务节点信息

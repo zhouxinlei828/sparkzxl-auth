@@ -42,6 +42,9 @@ public class ExtHiTaskStatus {
     @ApiModelProperty(value = "任务定义key")
     @TableField("task_def_key")
     private String taskDefKey;
+    @ApiModelProperty(value = "任务名称")
+    @TableField("task_name")
+    private String taskName;
     @ApiModelProperty(value = "任务状态")
     @TableField("task_status")
     private Integer taskStatus;

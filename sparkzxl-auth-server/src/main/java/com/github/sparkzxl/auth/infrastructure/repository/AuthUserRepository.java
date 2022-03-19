@@ -7,7 +7,7 @@ import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.DesensitizedUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.api.dto.OrgBasicInfo;
 import com.github.sparkzxl.auth.api.dto.ResourceBasicInfo;
 import com.github.sparkzxl.auth.api.dto.RoleBasicInfo;
@@ -94,8 +94,22 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
+    public Page<AuthUser> getAuthUserPage(Integer pageNum, Integer pageSize, AuthUser authUser) {
+        LambdaQueryWrapper<AuthUser> queryWrapper = buildQueryWrapper(authUser);
+        Page<AuthUser> userPage = authUserMapper.selectPage(new Page<>(pageNum, pageSize), queryWrapper);
+        userPage.getRecords().forEach(user -> user.setPassword(null));
+        return userPage;
+    }
+
+    @Override
     public List<AuthUser> getAuthUserList(AuthUser authUser) {
-        Integer sexCode = OptionalBean.ofNullable(authUser.getSex()).getBean(SexEnum::getCode).get();
+        LambdaQueryWrapper<AuthUser> queryWrapper = buildQueryWrapper(authUser);
+        List<AuthUser> authUsers = authUserMapper.selectList(queryWrapper);
+        authUsers.forEach(user -> user.setPassword(DesensitizedUtil.password(user.getPassword())));
+        return authUsers;
+    }
+
+    private LambdaQueryWrapper<AuthUser> buildQueryWrapper(AuthUser authUser) {
         String nationCode = OptionalBean.ofNullable(authUser.getNation()).getBean(RemoteData::getKey).get();
         Long orgId = OptionalBean.ofNullable(authUser.getOrg()).getBean(RemoteData::getKey).get();
         LambdaQueryWrapper<AuthUser> queryWrapper = new LambdaQueryWrapper<>();
@@ -103,12 +117,10 @@ public class AuthUserRepository implements IAuthUserRepository {
                 .likeRight(StringUtils.isNotEmpty(authUser.getName()), AuthUser::getName, authUser.getName())
                 .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
                 .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
-                .eq(ObjectUtils.isNotEmpty(sexCode), AuthUser::getSex, sexCode)
+                .eq(ObjectUtils.isNotEmpty(authUser.getSex()), AuthUser::getSex, authUser.getSex())
                 .eq(StringUtils.isNotEmpty(nationCode), AuthUser::getNation, nationCode)
                 .eq(ObjectUtils.isNotEmpty(orgId), AuthUser::getOrg, orgId);
-        List<AuthUser> authUsers = authUserMapper.selectList(queryWrapper);
-        authUsers.forEach(user -> user.setPassword(DesensitizedUtil.password(user.getPassword())));
-        return authUsers;
+        return queryWrapper;
     }
 
     private OrgBasicInfo buildOrgBasicInfo(CoreOrg coreOrg) {

@@ -1,9 +1,9 @@
 package com.github.sparkzxl.workflow.domain.service.ext;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.core.util.DateUtils;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
-import com.github.sparkzxl.workflow.application.service.driver.IProcessDriveService;
+import com.github.sparkzxl.workflow.application.service.driver.IBusTaskService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessStatusService;
 import com.github.sparkzxl.workflow.domain.model.bo.InstanceOverviewCount;
 import com.github.sparkzxl.workflow.domain.model.dto.act.InstancePageDTO;
@@ -19,7 +19,6 @@ import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessStatusMapper
 import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,8 +37,7 @@ public class ExtProcessStatusServiceImpl extends SuperServiceImpl<ExtProcessStat
 
     private final IExtProcessStatusRepository extProcessStatusRepository;
     private final IExtProcessUserRepository processUserRepository;
-    @Autowired
-    private IProcessDriveService driveService;
+    private final IBusTaskService busTaskService;
 
     @Override
     public List<ExtProcessStatus> getExtProcessStatusList(String businessId) {
@@ -52,16 +50,16 @@ public class ExtProcessStatusServiceImpl extends SuperServiceImpl<ExtProcessStat
     }
 
     @Override
-    public PageInfo<ProcessInstance> getProcessInstanceList(InstancePageDTO instancePageDTO) {
-        PageInfo<ProcessInstance> processInstancePageInfo = extProcessStatusRepository.getProcessInstanceList(instancePageDTO.getPageNum(),
+    public Page<ProcessInstance> getProcessInstanceList(InstancePageDTO instancePageDTO) {
+        Page<ProcessInstance> processInstancePageInfo = extProcessStatusRepository.getProcessInstanceList(instancePageDTO.getPageNum(),
                 instancePageDTO.getPageSize(), instancePageDTO.getProcessInstanceId());
-        List<ProcessInstance> processInstances = processInstancePageInfo.getList();
+        List<ProcessInstance> processInstances = processInstancePageInfo.getRecords();
         List<String> userIdList = processInstances.stream().map(ProcessInstance::getOriginator).collect(Collectors.toList());
         Map<String, List<String>> processKeyMap = processInstances.stream()
                 .collect(Collectors.groupingBy(ProcessInstance::getProcessKey, Collectors.mapping(ProcessInstance::getBusinessKey, Collectors.toList())));
         Map<String, BusTaskInfo> busTaskInfoMap = Maps.newHashMap();
         processKeyMap.forEach((key, value) -> {
-            List<BusTaskInfo> busTaskInfos = driveService.busTaskInfoList(key, value);
+            List<BusTaskInfo> busTaskInfos = busTaskService.busTaskInfoList(key, value);
             Map<String, BusTaskInfo> taskInfoMap = busTaskInfos.stream().collect(Collectors.toMap(BusTaskInfo::getBusinessId, k -> k));
             busTaskInfoMap.putAll(taskInfoMap);
         });
@@ -80,7 +78,7 @@ public class ExtProcessStatusServiceImpl extends SuperServiceImpl<ExtProcessStat
             item.setBusTaskInfo(busTaskInfo);
             item.setOriginatorName(userList.get(item.getOriginator()));
         });
-        processInstancePageInfo.setList(processInstances);
+        processInstancePageInfo.setRecords(processInstances);
         return processInstancePageInfo;
     }
 

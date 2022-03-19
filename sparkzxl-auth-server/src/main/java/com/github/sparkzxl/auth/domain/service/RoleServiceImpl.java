@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.domain.service;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.application.service.IRoleService;
 import com.github.sparkzxl.auth.domain.repository.IAuthRoleRepository;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
@@ -31,7 +31,7 @@ public class RoleServiceImpl extends SuperServiceImpl<AuthRoleMapper, AuthRole> 
     }
 
     @Override
-    public PageInfo<AuthRole> getPageList(PageParams<RoleQueryDTO> params) {
+    public Page<AuthRole> getPageList(PageParams<RoleQueryDTO> params) {
         return authRoleRepository.getPageList(params.getPageNum(), params.getPageSize(), params.getModel().getCode(), params.getModel().getName());
     }
 

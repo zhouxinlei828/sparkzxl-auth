@@ -2,8 +2,7 @@ package com.github.sparkzxl.auth.infrastructure.repository;
 
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.domain.repository.IAuthRoleRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
@@ -11,7 +10,6 @@ import com.github.sparkzxl.auth.infrastructure.entity.UserRole;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthRoleMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.UserRoleMapper;
-import com.github.sparkzxl.database.util.PageInfoUtils;
 import com.github.sparkzxl.entity.data.SuperEntity;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -70,12 +68,10 @@ public class AuthRoleRepository implements IAuthRoleRepository {
     }
 
     @Override
-    public PageInfo<AuthRole> getPageList(int pageNum, int pageSize, String code, String name) {
+    public Page<AuthRole> getPageList(int pageNum, int pageSize, String code, String name) {
         LambdaUpdateWrapper<AuthRole> roleLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         roleLambdaUpdateWrapper.eq(StringUtils.isNotEmpty(code), AuthRole::getCode, code)
                 .likeRight(StringUtils.isNotEmpty(name), AuthRole::getName, name);
-        PageHelper.startPage(pageNum, pageSize);
-        List<AuthRole> roleList = authRoleMapper.selectList(roleLambdaUpdateWrapper);
-        return PageInfoUtils.pageInfo(roleList);
+        return authRoleMapper.selectPage(new Page<>(pageNum, pageSize), roleLambdaUpdateWrapper);
     }
 }

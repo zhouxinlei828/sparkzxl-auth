@@ -1,6 +1,5 @@
 package com.github.sparkzxl.auth.infrastructure.convert;
 
-import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.auth.api.dto.StationBasicInfo;
 import com.github.sparkzxl.auth.api.dto.UserDetail;
@@ -58,7 +57,6 @@ public interface AuthUserConvert {
      * @return AuthUser
      */
     @Mappings({
-            @Mapping(target = "sex", expression = "java(convertSex(userSaveDTO.getSex()))"),
             @Mapping(target = "org", expression = "java(convertRemoteData(userSaveDTO.getOrgId()))"),
             @Mapping(target = "station", expression = "java(convertRemoteData(userSaveDTO.getStationId()))"),
             @Mapping(target = "nation", expression = "java(convertRemoteData(userSaveDTO.getNation()))"),
@@ -74,7 +72,6 @@ public interface AuthUserConvert {
      * @return AuthUser
      */
     @Mappings({
-            @Mapping(target = "sex", expression = "java(convertSex(userUpdateDTO.getSex()))"),
             @Mapping(target = "org", expression = "java(convertRemoteData(userUpdateDTO.getOrgId()))"),
             @Mapping(target = "station", expression = "java(convertRemoteData(userUpdateDTO.getStationId()))"),
             @Mapping(target = "nation", expression = "java(convertRemoteData(userUpdateDTO.getNation()))"),
@@ -90,23 +87,10 @@ public interface AuthUserConvert {
      * @return AuthUser
      */
     @Mappings({
-            @Mapping(target = "sex", expression = "java(convertSex(userQueryDTO.getSex()))"),
             @Mapping(target = "nation", expression = "java(convertRemoteData(userQueryDTO.getNation()))"),
+            @Mapping(target = "org", expression = "java(convertRemoteData(userQueryDTO.getOrgId()))"),
     })
     AuthUser convertAuthUser(UserQueryDTO userQueryDTO);
-
-    /**
-     * 转换sex枚举
-     *
-     * @param sex 性别
-     * @return SexEnum
-     */
-    default SexEnum convertSex(Integer sex) {
-        if (ObjectUtils.isNotEmpty(sex)) {
-            return SexEnum.getEnum(sex);
-        }
-        return null;
-    }
 
     /**
      * 转换AuthUserBasicVO
@@ -114,7 +98,6 @@ public interface AuthUserConvert {
      * @param authUserBasicInfo 用户信息
      * @return AuthUserBasicVO
      */
-    @Mapping(target = "sex", expression = "java(convertSex(authUserBasicInfo.getSex()))")
     AuthUserBasicVO convertAuthUserBasicVO(AuthUserBasicInfo authUserBasicInfo);
 
     /**
@@ -136,7 +119,7 @@ public interface AuthUserConvert {
      * @return UserExcel
      */
     @Mappings({
-            @Mapping(target = "sex", expression = "java(convertSex(authUser.getSex()))"),
+            @Mapping(target = "sex", source = "sexDesc"),
             @Mapping(target = "nation", expression = "java(convertNation(authUser.getNation()))"),
             @Mapping(target = "education", expression = "java(convertNation(authUser.getEducation()))"),
             @Mapping(target = "positionStatus", expression = "java(convertNation(authUser.getPositionStatus()))"),
@@ -175,19 +158,6 @@ public interface AuthUserConvert {
     default String convertOrg(RemoteData<Long, CoreOrg> org) {
         if (ObjectUtils.isNotEmpty(org) && ObjectUtils.isNotEmpty(org.getData())) {
             return org.getData().getLabel();
-        }
-        return null;
-    }
-
-    /**
-     * 转换性别
-     *
-     * @param sex 性别
-     * @return String
-     */
-    default String convertSex(SexEnum sex) {
-        if (ObjectUtils.isNotEmpty(sex)) {
-            return sex.getDesc();
         }
         return null;
     }

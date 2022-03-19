@@ -1,6 +1,6 @@
 package com.github.sparkzxl.workflow.application.service.act;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.workflow.domain.model.dto.act.ModelPageDTO;
 import com.github.sparkzxl.workflow.infrastructure.entity.ActReModel;
@@ -18,7 +18,7 @@ public interface IActReModelService extends SuperService<ActReModel> {
      * 分页查询模型列表
      *
      * @param modelPageDTO 模型分页参数
-     * @return PageInfo<ActReModel>
+     * @return Page<ActReModel>
      */
-    PageInfo<ActReModel> actReModelList(ModelPageDTO modelPageDTO);
+    Page<ActReModel> actReModelList(ModelPageDTO modelPageDTO);
 }

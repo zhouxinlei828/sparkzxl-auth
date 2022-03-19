@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.domain.service;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.application.service.ILoginLogService;
 import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
@@ -121,7 +121,7 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
     }
 
     @Override
-    public PageInfo<LoginLog> getLoginLogPage(AuthUserInfo<UserDetail> authUserInfo, PageParams<LoginLogQueryDTO> pageParams) {
+    public Page<LoginLog> getLoginLogPage(AuthUserInfo<UserDetail> authUserInfo, PageParams<LoginLogQueryDTO> pageParams) {
         return loginLogRepository.getLoginLogPage(pageParams.getPageNum(), pageParams.getPageSize(), Long.valueOf(authUserInfo.getId()),
                 pageParams.getModel().getAccount(), pageParams.getModel().getStartTime(),
                 pageParams.getModel().getEndTime());

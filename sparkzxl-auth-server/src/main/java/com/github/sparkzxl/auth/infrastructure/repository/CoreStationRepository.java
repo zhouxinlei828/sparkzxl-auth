@@ -4,7 +4,7 @@ package com.github.sparkzxl.auth.infrastructure.repository;
 import cn.hutool.core.bean.OptionalBean;
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.pagehelper.PageHelper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.domain.repository.ICoreStationRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
@@ -57,13 +57,12 @@ public class CoreStationRepository implements ICoreStationRepository {
     }
 
     @Override
-    public List<CoreStation> getStationPageList(int pageNum, int pageSize, String name, RemoteData<Long, CoreOrg> org) {
+    public Page<CoreStation> getStationPagePage(int pageNum, int pageSize, String name, RemoteData<Long, CoreOrg> org) {
         LambdaQueryWrapper<CoreStation> stationQueryWrapper = new LambdaQueryWrapper<>();
         Long orgId = OptionalBean.ofNullable(org).getBean(RemoteData::getKey).get();
         stationQueryWrapper.likeRight(StringUtils.isNotEmpty(name), CoreStation::getName, name)
                 .eq(ObjectUtils.isNotEmpty(orgId), CoreStation::getOrg, org);
-        PageHelper.startPage(pageNum, pageSize);
-        return coreStationMapper.selectList(stationQueryWrapper);
+        return coreStationMapper.selectPage(new Page<>(pageNum, pageSize), stationQueryWrapper);
     }
 
     @Override

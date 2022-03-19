@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.application.service;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
@@ -44,9 +44,9 @@ public interface IUserService extends SuperService<AuthUser> {
      * 获取用户分页
      *
      * @param params 分页入参
-     * @return PageInfo<AuthUser>
+     * @return Page<AuthUser>
      */
-    PageInfo<AuthUser> getAuthUserPage(PageParams<UserQueryDTO> params);
+    Page<AuthUser> getAuthUserPage(PageParams<UserQueryDTO> params);
 
     /**
      * 保存用户信息

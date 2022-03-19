@@ -1,6 +1,6 @@
 package com.github.sparkzxl.oauth.application.service;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.oauth.infrastructure.entity.AuthApplication;
@@ -30,9 +30,9 @@ public interface IApplicationService extends SuperService<AuthApplication> {
      * 获取客户端分页
      *
      * @param params 应用分页DTO
-     * @return PageInfo<OauthClientDetails>
+     * @return Page<OauthClientDetails>
      */
-    PageInfo<AuthApplication> listPage(PageParams<AuthApplicationQueryDTO> params);
+    Page<AuthApplication> listPage(PageParams<AuthApplicationQueryDTO> params);
 
     /**
      * 查询应用列表

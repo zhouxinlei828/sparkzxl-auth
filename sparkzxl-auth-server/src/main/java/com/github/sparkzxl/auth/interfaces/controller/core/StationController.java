@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.controller.core;
 
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.application.event.ImportStationDataListener;
 import com.github.sparkzxl.auth.application.service.ICoreStationService;
@@ -46,7 +46,7 @@ public class StationController extends SuperController<ICoreStationService, Long
     }
 
     @Override
-    public PageInfo<CoreStation> page(PageParams<StationQueryDTO> params) {
+    public Page<CoreStation> page(PageParams<StationQueryDTO> params) {
         return baseService.getStationPageList(params);
     }
 

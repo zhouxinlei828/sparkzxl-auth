@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.application.service;
 
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationSaveDTO;
@@ -23,9 +23,9 @@ public interface ICoreStationService extends SuperService<CoreStation> {
      * 查询岗位列表
      *
      * @param params 岗位分页查询对象
-     * @return PageInfo<CoreStation>
+     * @return Page<CoreStation>
      */
-    PageInfo<CoreStation> getStationPageList(PageParams<StationQueryDTO> params);
+    Page<CoreStation> getStationPageList(PageParams<StationQueryDTO> params);
 
     /**
      * 新增岗位

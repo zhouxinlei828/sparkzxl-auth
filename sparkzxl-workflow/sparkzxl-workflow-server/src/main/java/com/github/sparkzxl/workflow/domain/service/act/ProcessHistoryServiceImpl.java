@@ -285,7 +285,7 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
             imageStream = processDiagramGenerator.generateDiagram(bpmnModel, "png", highLightedActivitis,
                     highLightedFlows, "宋体", "宋体", "宋体",
                     null, 1.0,
-                    new Color[] {WorkflowConstants.COLOR_NORMAL, WorkflowConstants.COLOR_CURRENT}, currIds);
+                    new Color[]{WorkflowConstants.COLOR_NORMAL, WorkflowConstants.COLOR_CURRENT}, currIds);
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             byte[] buffer = new byte[4096];
             int n = 0;

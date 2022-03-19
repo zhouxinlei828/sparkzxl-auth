@@ -1,6 +1,6 @@
 package com.github.sparkzxl.file.interfaces.controller;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.file.api.FileApi;
@@ -41,7 +41,7 @@ public class FileController implements FileApi {
 
     @ApiOperation("分页查询文件列表")
     @PostMapping("file/page")
-    public PageInfo<FileMaterial> fileMaterialPageList(@RequestBody FileMaterialPageDTO fileMaterialPageDTO) {
+    public Page<FileMaterial> fileMaterialPageList(@RequestBody FileMaterialPageDTO fileMaterialPageDTO) {
         return fileService.fileMaterialPageList(fileMaterialPageDTO);
     }
 

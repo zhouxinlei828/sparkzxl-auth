@@ -1,20 +1,20 @@
 package com.github.sparkzxl.workflow.application.rule.external;
 
 import com.github.sparkzxl.redisson.annotation.RedisLock;
+import com.github.sparkzxl.workflow.domain.model.bo.ExecuteData;
 import com.github.sparkzxl.workflow.domain.model.bo.ExecuteProcess;
 import com.github.sparkzxl.workflow.domain.service.act.ActWorkApiService;
 import com.github.sparkzxl.workflow.dto.DriverResult;
 import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowActionConstants;
-import com.github.sparkzxl.workflow.infrastructure.constant.WorkflowConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * description: 启动工作流业务处理器
+ * description: 提交工作流业务处理器
  *
  * @author zhouxinlei
- * @since 2022-03-05 14:19:27
+ * @since 2022-03-06 15:51:26
  */
 @Component
 @Slf4j
@@ -27,7 +27,20 @@ public class WorkflowSubmitActionHandler implements IWorkflowActionHandler {
     @RedisLock(prefix = "act_driver")
     public DriverResult execute(ExecuteProcess executeProcess) {
         log.info("流程提交业务处理：actType:[{}],businessId:[{}]", executeProcess.getActType(), executeProcess.getBusinessId());
-        return actWorkApiService.submitProcess(executeProcess);
+        ExecuteData executeData = assemblyData(executeProcess);
+        return actWorkApiService.submitProcess(executeData);
+    }
+
+
+    private ExecuteData assemblyData(ExecuteProcess executeProcess) {
+        return ExecuteData.builder()
+                .businessId(executeProcess.getBusinessId())
+                .processDefinitionKey(executeProcess.getProcessDefinitionKey())
+                .actType(executeProcess.getActType())
+                .userId(executeProcess.getUserId())
+                .comment(executeProcess.getComment())
+                .variables(executeProcess.getVariables())
+                .build();
     }
 
     @Override

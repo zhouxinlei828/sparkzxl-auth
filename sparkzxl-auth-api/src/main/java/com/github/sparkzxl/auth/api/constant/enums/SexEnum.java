@@ -24,7 +24,8 @@ public enum SexEnum implements Enumerator {
     NONE(0, "未知");
 
     @EnumValue
-    @JsonValue final Integer code;
+    @JsonValue
+    final Integer code;
 
     final String desc;
 

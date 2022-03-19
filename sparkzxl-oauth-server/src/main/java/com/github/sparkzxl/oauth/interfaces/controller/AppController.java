@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.interfaces.controller;
 
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.dto.DeleteDTO;
@@ -44,7 +44,7 @@ public class AppController extends SuperController<IApplicationService, Long,
     }
 
     @Override
-    public PageInfo<AuthApplication> page(PageParams<AuthApplicationQueryDTO> params) {
+    public Page<AuthApplication> page(PageParams<AuthApplicationQueryDTO> params) {
         return baseService.listPage(params);
     }
 }

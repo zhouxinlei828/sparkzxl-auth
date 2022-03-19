@@ -18,29 +18,37 @@ public class ExecuteData {
     /**
      * 流程实例id
      */
-    String processInstanceId;
+    private String processInstanceId;
 
     /**
      * 流程定义key
      */
-    String processDefinitionKey;
+    private String processDefinitionKey;
+
+    private String currentTaskId;
+
+    private String taskDefinitionKey;
 
     /**
      * 流程名称
      */
-    String processName;
+    private String processName;
     /**
      * 业务主键
      */
-    String businessId;
+    private String businessId;
+
     /**
      * 用户id
      */
-    String userId;
+    private String userId;
+
+    private String nextTaskApproveUserId;
+
     /**
      * 审核意见
      */
-    String comment;
+    private String comment;
     /**
      * 流程动作类型
      */
@@ -49,5 +57,6 @@ public class ExecuteData {
      * 流程变量
      */
     private Map<String, Object> variables;
+
 
 }

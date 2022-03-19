@@ -2,9 +2,7 @@ package com.github.sparkzxl.workflow.infrastructure.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.util.PageInfoUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessTaskDetailRepository;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskDetail;
 import com.github.sparkzxl.workflow.infrastructure.mapper.ExtProcessTaskDetailMapper;
@@ -27,12 +25,11 @@ public class ExtProcessTaskDetailRepositoryImpl implements IExtProcessTaskDetail
     private ExtProcessTaskDetailMapper processTaskDetailMapper;
 
     @Override
-    public PageInfo<ExtProcessTaskDetail> getProcessTaskDetailList(int pageNum, int pageSize, String processName) {
+    public Page<ExtProcessTaskDetail> getProcessTaskDetailList(int pageNum, int pageSize, String processName) {
         LambdaQueryWrapper<ExtProcessTaskDetail> detailQueryWrapper = new LambdaQueryWrapper<>();
         Optional.ofNullable(processName).ifPresent((value) -> detailQueryWrapper.eq(ExtProcessTaskDetail::getProcessName, processName));
         detailQueryWrapper.groupBy(ExtProcessTaskDetail::getModelId);
-        PageHelper.startPage(pageNum, pageSize);
-        return PageInfoUtils.pageInfo(processTaskDetailMapper.selectList(detailQueryWrapper));
+        return processTaskDetailMapper.selectPage(new Page<>(pageNum, pageSize), detailQueryWrapper);
     }
 
     @Override

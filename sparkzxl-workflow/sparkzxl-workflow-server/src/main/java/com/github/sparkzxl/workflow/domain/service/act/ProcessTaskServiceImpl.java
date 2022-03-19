@@ -110,6 +110,11 @@ public class ProcessTaskServiceImpl implements IProcessTaskService {
     }
 
     @Override
+    public Task getLatestTaskByBusinessKey(String businessKey) {
+        return taskService.createTaskQuery().processInstanceBusinessKey(businessKey).orderByTaskCreateTime().desc().singleResult();
+    }
+
+    @Override
     public List<IdentityLink> getIdentityLinksForTask(String taskId) {
         return taskService.getIdentityLinksForTask(taskId);
     }

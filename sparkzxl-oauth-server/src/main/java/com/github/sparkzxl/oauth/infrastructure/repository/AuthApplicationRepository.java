@@ -1,10 +1,8 @@
 package com.github.sparkzxl.oauth.infrastructure.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.api.dto.DictionaryItemDTO;
-import com.github.sparkzxl.database.util.PageInfoUtils;
 import com.github.sparkzxl.entity.data.SuperEntity;
 import com.github.sparkzxl.oauth.domain.repository.IAuthApplicationRepository;
 import com.github.sparkzxl.oauth.domain.repository.IOauthClientDetailsRepository;
@@ -64,14 +62,12 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
     }
 
     @Override
-    public PageInfo<AuthApplication> listPage(int pageNum, int pageSize, String clientId, String appName) {
-        PageHelper.startPage(pageNum, pageSize);
+    public Page<AuthApplication> listPage(int pageNum, int pageSize, String clientId, String appName) {
         LambdaQueryWrapper<AuthApplication> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(StringUtils.isNotEmpty(clientId), AuthApplication::getClientId, clientId)
                 .likeRight(StringUtils.isNotEmpty(appName), AuthApplication::getAppTypeName, appName).orderByDesc(SuperEntity::getCreateTime);
-        List<AuthApplication> authApplications = authApplicationMapper.selectList(lambdaQueryWrapper);
-        PageInfo<AuthApplication> authApplicationPageInfo = PageInfoUtils.pageInfo(authApplications);
-        List<AuthApplication> applicationList = authApplicationPageInfo.getList();
+        Page<AuthApplication> authApplicationPage = authApplicationMapper.selectPage(new Page<>(pageNum, pageSize), lambdaQueryWrapper);
+        List<AuthApplication> applicationList = authApplicationPage.getRecords();
         if (CollectionUtils.isNotEmpty(applicationList)) {
             List<String> clientIds = applicationList.stream().map(AuthApplication::getClientId).filter(ObjectUtils::isNotEmpty).collect(Collectors.toList());
             Set<String> appTypeCodes = applicationList.stream().map(AuthApplication::getAppType).filter(ObjectUtils::isNotEmpty).collect(Collectors.toSet());
@@ -89,9 +85,9 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
                     application.setAppTypeName(dictionaryItem.getName());
                 }
             });
-            authApplicationPageInfo.setList(applicationList);
+            authApplicationPage.setRecords(applicationList);
         }
-        return authApplicationPageInfo;
+        return authApplicationPage;
     }
 
     @Override

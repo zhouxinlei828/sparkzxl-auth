@@ -1,6 +1,6 @@
 package com.github.sparkzxl.workflow.interfaces.controller.model;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
@@ -40,7 +40,7 @@ public class ModelerController {
     @ApiOperation("查询流程模型列表")
     @GetMapping("/page")
     @Response
-    public PageInfo<ActReModel> modelList(ModelPageDTO modelPageDTO) {
+    public Page<ActReModel> modelList(ModelPageDTO modelPageDTO) {
         return actReModelService.actReModelList(modelPageDTO);
     }
 

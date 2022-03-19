@@ -1,6 +1,6 @@
 package com.github.sparkzxl.oauth.domain.repository;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.oauth.infrastructure.entity.AuthApplication;
 
 import java.util.List;
@@ -28,9 +28,9 @@ public interface IAuthApplicationRepository {
      * @param pageSize 分页大小
      * @param clientId 客户端id
      * @param appName  应用名称
-     * @return PageInfo<OauthClientDetails>
+     * @return Page<OauthClientDetails>
      */
-    PageInfo<AuthApplication> listPage(int pageNum, int pageSize, String clientId, String appName);
+    Page<AuthApplication> listPage(int pageNum, int pageSize, String clientId, String appName);
 
     /**
      * 删除客户端

@@ -41,7 +41,10 @@ public class AuthUserBasicVO {
     private String mobile;
 
     @ApiModelProperty(value = "性别")
-    private String sex;
+    private Integer sex;
+
+    @ApiModelProperty(value = "性别名称")
+    private String sexDesc;
 
     @ApiModelProperty(value = "头像")
     private String avatar;

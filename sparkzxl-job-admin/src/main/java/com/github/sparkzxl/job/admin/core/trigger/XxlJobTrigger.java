@@ -81,7 +81,7 @@ public class XxlJobTrigger {
             }
         } else {
             if (shardingParam == null) {
-                shardingParam = new int[] {0, 1};
+                shardingParam = new int[]{0, 1};
             }
             processTrigger(group, jobInfo, finalFailRetryCount, triggerType, shardingParam[0], shardingParam[1]);
         }

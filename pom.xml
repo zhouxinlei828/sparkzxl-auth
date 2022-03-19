@@ -25,7 +25,7 @@
         <sparkzxl-dependencies.version>2.0.1-SNAPSHOT</sparkzxl-dependencies.version>
         <lombok.version>1.18.8</lombok.version>
         <javafaker.version>1.0.2</javafaker.version>
-        <mybatis-spring-boot-starter.version>2.1.4</mybatis-spring-boot-starter.version>
+        <mybatis-spring-boot-starter.version>2.2.0</mybatis-spring-boot-starter.version>
     </properties>
 
     <modules>

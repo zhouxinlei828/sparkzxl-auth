@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.domain.repository;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
 
@@ -65,10 +65,10 @@ public interface ILoginLogRepository {
      * @param account   账户
      * @param startTime 开始时间
      * @param endTime   结束时间
-     * @return PageInfo<LoginLog>
+     * @return Page<LoginLog>
      */
-    PageInfo<LoginLog> getLoginLogPage(int pageNum, int pageSize, Long userId, String account, Date startTime,
-                                       Date endTime);
+    Page<LoginLog> getLoginLogPage(int pageNum, int pageSize, Long userId, String account, Date startTime,
+                                   Date endTime);
 
     /**
      * 删除登录日志

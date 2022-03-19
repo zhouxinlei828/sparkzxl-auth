@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 import cn.hutool.core.util.DesensitizedUtil;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.api.IAuthUserApi;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
@@ -54,7 +54,7 @@ public class AuthUserController extends SuperController<IUserService, Long,
     }
 
     @Override
-    public PageInfo<AuthUser> page(PageParams<UserQueryDTO> params) {
+    public Page<AuthUser> page(PageParams<UserQueryDTO> params) {
         return baseService.getAuthUserPage(params);
     }
 

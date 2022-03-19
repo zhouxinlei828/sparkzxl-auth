@@ -1,6 +1,6 @@
 package com.github.sparkzxl.file.application.service;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.file.dto.FileDTO;
 import com.github.sparkzxl.file.infrastructure.entity.FileMaterial;
 import com.github.sparkzxl.file.interfaces.dto.FileMaterialDTO;
@@ -46,7 +46,7 @@ public interface IFileService {
      * 分页查询文件列表
      *
      * @param fileMaterialPageDTO 文件分页查询入参
-     * @return PageInfo<FileMaterial>
+     * @return Page<FileMaterial>
      */
-    PageInfo<FileMaterial> fileMaterialPageList(FileMaterialPageDTO fileMaterialPageDTO);
+    Page<FileMaterial> fileMaterialPageList(FileMaterialPageDTO fileMaterialPageDTO);
 }

@@ -1,6 +1,6 @@
 package com.github.sparkzxl.workflow.application.service.ext;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessTaskDetailDTO;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessTaskDetailPageDTO;
@@ -28,7 +28,7 @@ public interface IExtProcessTaskDetailService extends SuperService<ExtProcessTas
      * 分页查询流程列表
      *
      * @param processTaskDetailPageDTO 分页查询参数
-     * @return PageInfo<ProcessTaskDetail>
+     * @return Page<ProcessTaskDetail>
      */
-    PageInfo<ExtProcessTaskDetail> getProcessTaskDetailList(ProcessTaskDetailPageDTO processTaskDetailPageDTO);
+    Page<ExtProcessTaskDetail> getProcessTaskDetailList(ProcessTaskDetailPageDTO processTaskDetailPageDTO);
 }

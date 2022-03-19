@@ -4,8 +4,8 @@ import cn.hutool.core.bean.OptionalBean;
 import cn.hutool.extra.pinyin.PinyinUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.excel.EasyExcel;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.javafaker.Faker;
-import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
 import com.github.sparkzxl.auth.api.dto.*;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
@@ -26,7 +26,6 @@ import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
-import com.github.sparkzxl.database.util.PageInfoUtils;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.entity.data.RemoteData;
 import lombok.extern.slf4j.Slf4j;
@@ -109,11 +108,9 @@ public class UserServiceImpl extends SuperServiceImpl<AuthUserMapper, AuthUser> 
     }
 
     @Override
-    public PageInfo<AuthUser> getAuthUserPage(PageParams<UserQueryDTO> params) {
+    public Page<AuthUser> getAuthUserPage(PageParams<UserQueryDTO> params) {
         AuthUser authUser = AuthUserConvert.INSTANCE.convertAuthUser(params.getModel());
-        params.startPage();
-        List<AuthUser> authUserList = authUserRepository.getAuthUserList(authUser);
-        return PageInfoUtils.pageInfo(authUserList);
+        return authUserRepository.getAuthUserPage(params.getPageNum(), params.getPageSize(), authUser);
     }
 
     @Override
@@ -150,9 +147,9 @@ public class UserServiceImpl extends SuperServiceImpl<AuthUserMapper, AuthUser> 
             String email = pinyin.concat("@163.com");
             userInfo.setEmail(email);
             if (i % 2 == 0) {
-                userInfo.setSex(SexEnum.MAN);
+                userInfo.setSex(SexEnum.MAN.getCode());
             } else {
-                userInfo.setSex(SexEnum.WOMAN);
+                userInfo.setSex(SexEnum.WOMAN.getCode());
             }
             userInfo.setStatus(true);
             RemoteData<String, String> nationRemoteData = new RemoteData<>();

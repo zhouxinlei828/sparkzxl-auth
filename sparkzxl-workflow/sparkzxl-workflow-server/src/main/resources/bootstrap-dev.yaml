@@ -10,11 +10,6 @@ spring:
     name: sparkzxl-workflow-server
   lifecycle:
     timeout-per-shutdown-phase: 30s
-  alarm:
-    dingtalk:
-      enabled: true
-      token: fb87378aceda57754180fbf7243f2f9614f2fd543cee4b0db2ee3978e46498a8
-      secret: SECc34449690b5b92b43540eadad55226e4b41b13bd3e443aae7ea3c23863bf151d
   thymeleaf:
     mode: HTML
     encoding: UTF-8
@@ -52,8 +47,12 @@ logging:
           workflow:
             infrastructure:
               mapper: debug
-          log:
-            event: debug
+    org:
+      activiti:
+        engine:
+          impl:
+            persistence:
+              entity: debug
 management:
   metrics:
     tags:

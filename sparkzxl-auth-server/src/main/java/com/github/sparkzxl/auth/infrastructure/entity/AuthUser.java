@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.sparkzxl.annotation.echo.EchoField;
-import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.entity.data.Entity;
 import com.github.sparkzxl.entity.data.RemoteData;
@@ -75,7 +74,12 @@ public class AuthUser extends Entity<Long> {
 
     @ApiModelProperty(value = "性别")
     @TableField("sex")
-    private SexEnum sex;
+    @EchoField(ref = "sexDesc", api = DICTIONARY_ITEM_CLASS, dictType = BizConstant.SEX)
+    private Integer sex;
+
+    @ApiModelProperty(value = "性别")
+    @TableField(exist = false)
+    private String sexDesc;
 
     @ApiModelProperty(value = "头像")
     @TableField("avatar")

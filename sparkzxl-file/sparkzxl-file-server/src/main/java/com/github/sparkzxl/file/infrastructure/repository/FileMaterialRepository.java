@@ -1,9 +1,7 @@
 package com.github.sparkzxl.file.infrastructure.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.util.PageInfoUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.file.domain.repository.IFileMaterialRepository;
 import com.github.sparkzxl.file.infrastructure.entity.FileMaterial;
 import com.github.sparkzxl.file.infrastructure.mapper.FileMaterialMapper;
@@ -58,11 +56,10 @@ public class FileMaterialRepository implements IFileMaterialRepository {
 
 
     @Override
-    public PageInfo<FileMaterial> fileMaterialPageList(int pageNum, int pageSize, String fileName, String contentType) {
+    public Page<FileMaterial> fileMaterialPageList(int pageNum, int pageSize, String fileName, String contentType) {
         LambdaQueryWrapper<FileMaterial> materialQueryWrapper = new LambdaQueryWrapper<>();
         materialQueryWrapper.likeRight(StringUtils.isNotEmpty(fileName), FileMaterial::getFileName, fileName)
                 .eq(StringUtils.isNotEmpty(contentType), FileMaterial::getContentType, contentType);
-        PageHelper.startPage(pageNum, pageSize);
-        return PageInfoUtils.pageInfo(fileMaterialMapper.selectList(materialQueryWrapper));
+        return fileMaterialMapper.selectPage(new Page<>(pageNum, pageSize), materialQueryWrapper);
     }
 }

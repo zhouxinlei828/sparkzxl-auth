@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.application.service;
 
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleQueryDTO;
 import com.github.sparkzxl.auth.interfaces.dto.role.RoleSaveDTO;
@@ -23,9 +23,9 @@ public interface IRoleService extends SuperService<AuthRole> {
      * 分页查询角色信息
      *
      * @param params 分页查询
-     * @return PageInfo<AuthRole>
+     * @return Page<AuthRole>
      */
-    PageInfo<AuthRole> getPageList(PageParams<RoleQueryDTO> params);
+    Page<AuthRole> getPageList(PageParams<RoleQueryDTO> params);
 
     /**
      * 删除角色信息

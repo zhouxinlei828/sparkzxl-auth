@@ -16,6 +16,10 @@ public class BizConstant {
     /**
      * 民族
      */
+    public static final String SEX = "SEX";
+    /**
+     * 民族
+     */
     public static final String NATION = "NATION";
     /**
      * 学历
@@ -29,7 +33,7 @@ public class BizConstant {
      * 机构类型
      */
     public static final String ORG_TYPE = "ORG_TYPE";
-    public static final String[] ALL = new String[] {
+    public static final String[] ALL = new String[]{
             EDUCATION, NATION, POSITION_STATUS, AREA_LEVEL, ORG_TYPE
     };
 

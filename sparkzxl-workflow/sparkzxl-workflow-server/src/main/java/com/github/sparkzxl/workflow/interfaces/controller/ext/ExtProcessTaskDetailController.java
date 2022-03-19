@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskDetailService;
@@ -43,7 +43,7 @@ public class ExtProcessTaskDetailController {
 
     @GetMapping("/processes")
     @ApiOperation("分页查询任务节点列表")
-    public PageInfo<ExtProcessTaskDetail> getProcessTaskDetailList(ProcessTaskDetailPageDTO processTaskDetailPageDTO) {
+    public Page<ExtProcessTaskDetail> getProcessTaskDetailList(ProcessTaskDetailPageDTO processTaskDetailPageDTO) {
         return processTaskDetailService.getProcessTaskDetailList(processTaskDetailPageDTO);
     }
 

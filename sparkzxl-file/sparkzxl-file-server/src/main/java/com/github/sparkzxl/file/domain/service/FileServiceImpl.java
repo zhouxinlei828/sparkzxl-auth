@@ -5,7 +5,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.digest.DigestAlgorithm;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.core.util.FileDigestUtil;
 import com.github.sparkzxl.core.util.Mht2HtmlUtil;
 import com.github.sparkzxl.core.util.StrPool;
@@ -81,7 +81,7 @@ public class FileServiceImpl implements IFileService {
     }
 
     @Override
-    public PageInfo<FileMaterial> fileMaterialPageList(FileMaterialPageDTO fileMaterialPageDTO) {
+    public Page<FileMaterial> fileMaterialPageList(FileMaterialPageDTO fileMaterialPageDTO) {
         return fileMaterialRepository.fileMaterialPageList(fileMaterialPageDTO.getPageNum(),
                 fileMaterialPageDTO.getPageSize(),
                 fileMaterialPageDTO.getFileName(),

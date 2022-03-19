@@ -1,6 +1,6 @@
 package com.github.sparkzxl.oauth.domain.service;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.oauth.application.service.IApplicationService;
@@ -36,7 +36,7 @@ public class ApplicationServiceServiceImpl extends SuperServiceImpl<AuthApplicat
     }
 
     @Override
-    public PageInfo<AuthApplication> listPage(PageParams<AuthApplicationQueryDTO> params) {
+    public Page<AuthApplication> listPage(PageParams<AuthApplicationQueryDTO> params) {
         return authApplicationRepository.listPage(params.getPageNum(), params.getPageSize(),
                 params.getModel().getClientId(), params.getModel().getAppName());
     }

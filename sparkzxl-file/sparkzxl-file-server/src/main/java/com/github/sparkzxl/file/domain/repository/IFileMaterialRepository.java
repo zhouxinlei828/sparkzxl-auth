@@ -1,6 +1,6 @@
 package com.github.sparkzxl.file.domain.repository;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.file.infrastructure.entity.FileMaterial;
 
 /**
@@ -58,7 +58,7 @@ public interface IFileMaterialRepository {
      * @param pageSize    页面大小
      * @param fileName    文件名
      * @param contentType 媒体类型
-     * @return PageInfo<FileMaterial>
+     * @return Page<FileMaterial>
      */
-    PageInfo<FileMaterial> fileMaterialPageList(int pageNum, int pageSize, String fileName, String contentType);
+    Page<FileMaterial> fileMaterialPageList(int pageNum, int pageSize, String fileName, String contentType);
 }

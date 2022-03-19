@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.interfaces.controller.driver;
 
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.api.ProcessApi;
@@ -67,7 +67,7 @@ public class ActInstancesController implements ProcessApi {
 
     @ApiOperation("分页查询流程列表")
     @GetMapping("/page")
-    public PageInfo<ProcessInstance> getProcessInstanceList(InstancePageDTO instancePageDTO) {
+    public Page<ProcessInstance> getProcessInstanceList(InstancePageDTO instancePageDTO) {
         return processTaskStatusService.getProcessInstanceList(instancePageDTO);
     }
 

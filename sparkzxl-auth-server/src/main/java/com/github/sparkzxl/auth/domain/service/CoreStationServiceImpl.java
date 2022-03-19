@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.domain.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.application.service.ICoreStationService;
 import com.github.sparkzxl.auth.domain.repository.ICoreStationRepository;
 import com.github.sparkzxl.auth.domain.repository.ISegmentIdRepository;
@@ -13,7 +13,6 @@ import com.github.sparkzxl.auth.interfaces.dto.station.StationSaveDTO;
 import com.github.sparkzxl.auth.interfaces.dto.station.StationUpdateDTO;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
-import com.github.sparkzxl.database.util.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,10 +35,10 @@ public class CoreStationServiceImpl extends SuperServiceImpl<CoreStationMapper, 
 
 
     @Override
-    public PageInfo<CoreStation> getStationPageList(PageParams<StationQueryDTO> params) {
-        return PageInfoUtils.pageInfo(coreStationRepository.getStationPageList(params.getPageNum(),
+    public Page<CoreStation> getStationPageList(PageParams<StationQueryDTO> params) {
+        return coreStationRepository.getStationPagePage(params.getPageNum(),
                 params.getPageSize(), params.getModel().getName(),
-                params.getModel().getOrg()));
+                params.getModel().getOrg());
     }
 
     @Override

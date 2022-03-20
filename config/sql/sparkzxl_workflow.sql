@@ -90,10 +90,10 @@ CREATE TABLE `ext_hi_task_status`
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='历史任务处理状态';
 
 -- ----------------------------
--- Table structure for ext_process_detail
+-- Table structure for ext_process_task_detail
 -- ----------------------------
-DROP TABLE IF EXISTS `ext_process_detail`;
-CREATE TABLE `ext_process_detail`
+DROP TABLE IF EXISTS `ext_process_task_detail`;
+CREATE TABLE `ext_process_task_detail`
 (
     `id`                     bigint                                                        NOT NULL COMMENT '主键',
     `model_id`               varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  DEFAULT NULL COMMENT '模型id',

@@ -54,6 +54,7 @@ public class AuthUserController extends SuperController<IUserService, Long,
     }
 
     @Override
+    @HttpRequestLog(value = "用户分页")
     public Page<AuthUser> page(PageParams<UserQueryDTO> params) {
         return baseService.getAuthUserPage(params);
     }

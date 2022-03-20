@@ -26,7 +26,7 @@ public interface ExtProcessTaskRuleMapper extends SuperMapper<ExtProcessTaskRule
      * @return ProcessTaskRule
      */
     @Select("SELECT ptu.id, ptu.task_def_key, ptu.act_type"
-            + " FROM ext_process_task_rule ptu INNER JOIN ext_process_detail pd ON ptu.process_detail_id = pd.id"
+            + " FROM ext_process_task_rule ptu INNER JOIN ext_process_task_detail pd ON ptu.process_detail_id = pd.id"
             + " WHERE pd.process_definition_key = #{processDefinitionKey} AND pd.task_def_key = #{sourceTaskDefKey}"
             + " AND ptu.act_type = #{actType} LIMIT 1")
     ExtProcessTaskRule findActRuTaskRule(@Param("processDefinitionKey") String processDefinitionKey,
@@ -42,7 +42,7 @@ public interface ExtProcessTaskRuleMapper extends SuperMapper<ExtProcessTaskRule
      */
     @Select("SELECT pd.process_definition_key, pd.process_name, pd.task_def_key sourceTaskDefKey,pd.task_name sourceTaskName, ptr.id,"
             + " ptr.process_detail_id,ptr.task_def_key targetTaskDefKey, ptr.task_name targetTaskName,ptr.act_type"
-            + " FROM ext_process_detail pd INNER JOIN ext_process_task_rule ptr ON pd.id = ptr.process_detail_id"
+            + " FROM ext_process_task_detail pd INNER JOIN ext_process_task_rule ptr ON pd.id = ptr.process_detail_id"
             + " WHERE pd.process_definition_key = #{processDefinitionKey} AND pd.task_def_key = #{taskDefKey} ")
     List<ExtProcessTaskRule> getProcessTaskRule(@Param("processDefinitionKey") String processDefinitionKey, @Param("taskDefKey") String taskDefKey);
 }

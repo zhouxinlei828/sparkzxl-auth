@@ -2,7 +2,7 @@ package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
-import com.github.sparkzxl.log.annotation.OptLogRecord;
+import com.github.sparkzxl.log.annotation.LogParam;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskRuleService;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessActionDTO;
 import com.github.sparkzxl.workflow.domain.model.dto.process.TaskRuleSaveDTO;
@@ -22,7 +22,6 @@ import java.util.List;
  */
 @RestController
 @Response
-@HttpRequestLog
 @RequestMapping("/process/rule")
 @Api(tags = "流程规则管理")
 @RequiredArgsConstructor
@@ -38,14 +37,13 @@ public class ExtProcessTaskRuleController {
 
     @GetMapping("get")
     @ApiOperation("查询流程跳转规则")
-    @HttpRequestLog("查询流程跳转规则")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "procDefKey", value = "流程定义key", required = true),
             @ApiImplicitParam(name = "taskDefKey", value = "任务定义key", required = true)
     })
-    @OptLogRecord(bizNo = "#procDefKey", category = "查询流程跳转规则", detail = "查询流程{}，任务{}跳转规则", condition = "#procDefKey,#taskDefKey")
-    public List<ExtProcessTaskRule> getProcessTaskRule(@RequestParam("procDefKey") String procDefKey,
-                                                       @RequestParam("taskDefKey") String taskDefKey) {
+    @HttpRequestLog(value = "查询流程跳转规则", template = "查询流程#{[procDefKey]}，任务#{[taskDefKey]}跳转规则")
+    public List<ExtProcessTaskRule> getProcessTaskRule(@RequestParam("procDefKey") @LogParam(value = "procDefKey") String procDefKey,
+                                                       @RequestParam("taskDefKey") @LogParam(value = "taskDefKey") String taskDefKey) {
         return processTaskRuleService.getProcessTaskRule(procDefKey, taskDefKey);
     }
 

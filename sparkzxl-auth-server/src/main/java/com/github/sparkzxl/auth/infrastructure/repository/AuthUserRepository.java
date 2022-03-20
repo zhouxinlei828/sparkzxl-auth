@@ -110,16 +110,16 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     private LambdaQueryWrapper<AuthUser> buildQueryWrapper(AuthUser authUser) {
-        String nationCode = OptionalBean.ofNullable(authUser.getNation()).getBean(RemoteData::getKey).get();
-        Long orgId = OptionalBean.ofNullable(authUser.getOrg()).getBean(RemoteData::getKey).get();
         LambdaQueryWrapper<AuthUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.likeRight(StringUtils.isNotEmpty(authUser.getAccount()), AuthUser::getAccount, authUser.getAccount())
-                .likeRight(StringUtils.isNotEmpty(authUser.getName()), AuthUser::getName, authUser.getName())
-                .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
-                .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
-                .eq(ObjectUtils.isNotEmpty(authUser.getSex()), AuthUser::getSex, authUser.getSex())
-                .eq(StringUtils.isNotEmpty(nationCode), AuthUser::getNation, nationCode)
-                .eq(ObjectUtils.isNotEmpty(orgId), AuthUser::getOrg, orgId);
+        if (ObjectUtils.isNotEmpty(authUser)) {
+            Long orgId = OptionalBean.ofNullable(authUser).getBean(AuthUser::getOrg).getBean(RemoteData::getKey).get();
+            queryWrapper.likeRight(StringUtils.isNotEmpty(authUser.getAccount()), AuthUser::getAccount, authUser.getAccount())
+                    .likeRight(StringUtils.isNotEmpty(authUser.getName()), AuthUser::getName, authUser.getName())
+                    .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
+                    .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
+                    .eq(ObjectUtils.isNotEmpty(authUser.getSex()), AuthUser::getSex, authUser.getSex())
+                    .eq(ObjectUtils.isNotEmpty(orgId), AuthUser::getOrg, orgId);
+        }
         return queryWrapper;
     }
 

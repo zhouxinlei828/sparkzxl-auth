@@ -25,41 +25,6 @@ spring:
             refresh: true
         enable-remote-sync-config: true
         refresh-enabled: true
-    circuitbreaker:
-      resilience4j:
-        reactive:
-          enabled: true
-    gateway:
-      plugin:
-        exception-json-handler: true
-        logging:
-          enabled: true
-          read-request-data: true
-          read-response-data: true
-          paths:
-            - /auth/org/tree
-        loadbalancer:
-          enabled: true
-        ignoring:
-          - /auth/base/**
-          - /oauth/oauth/**
-          - /oauth/authentication/**
-          - /tenant/**
-          - /workflow/**
-          - /ws/**
-        filter:
-          jwt:
-            enabled: true
-      routes:
-        - id: path_route
-          uri: http://127.0.0.1:8082
-          predicates:
-            - Path=/hello/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: backendA
-                fallbackUri: forward:/fallback
 resilience4j.circuitbreaker:
   configs:
     default:

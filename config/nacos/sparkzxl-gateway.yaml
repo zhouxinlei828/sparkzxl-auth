@@ -11,13 +11,6 @@ server:
     context-path: /api
 spring:
   cloud:
-    sentinel:
-      enabled: true
-      filter:
-        enabled: true
-      eager: true
-      transport:
-        dashboard: 47.114.40.129:8858
     gateway:
       x-forwarded:
         prefixEnabled: false

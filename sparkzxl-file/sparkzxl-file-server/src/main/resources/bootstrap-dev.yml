@@ -5,13 +5,6 @@ spring:
   application:
     name: sparkzxl-file-server
   cloud:
-    sentinel:
-      enabled: true
-      filter:
-        enabled: true
-      eager: true
-      transport:
-        dashboard: 47.114.40.129:8858
     nacos:
       discovery:
         server-addr: 47.114.40.129:8848

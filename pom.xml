@@ -182,10 +182,7 @@
                             <image>registry.cn-hangzhou.aliyuncs.com/sparkzxl/java:8.1</image>
                         </from>
                         <to>
-                            <image>registry.cn-hangzhou.aliyuncs.com/sparkzxl/${project.artifactId}</image>
-                            <tags>
-                                <tag>${project.version}</tag>
-                            </tags>
+                            <image>registry.cn-hangzhou.aliyuncs.com/sparkzxl/${project.artifactId}:${project.version}</image>
                             <auth>
                                 <username>仲秋廿八298</username>
                                 <password>Zxl298828</password>
@@ -195,7 +192,6 @@
                             <jvmFlags>
                                 <jvmFlag>-Xms360m</jvmFlag>
                                 <jvmFlag>-Xmx360m</jvmFlag>
-                                <jvmFlag>-Dspring.cloud.nacos.discovery.metadata.version=test</jvmFlag>
                             </jvmFlags>
                             <appRoot>/home/${project.artifactId}</appRoot>
                             <workingDirectory>/home/${project.artifactId}</workingDirectory>

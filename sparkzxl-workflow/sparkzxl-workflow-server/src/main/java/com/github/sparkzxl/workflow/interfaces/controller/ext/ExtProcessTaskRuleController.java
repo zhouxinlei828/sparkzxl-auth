@@ -41,7 +41,7 @@ public class ExtProcessTaskRuleController {
             @ApiImplicitParam(name = "procDefKey", value = "流程定义key", required = true),
             @ApiImplicitParam(name = "taskDefKey", value = "任务定义key", required = true)
     })
-    @HttpRequestLog(value = "查询流程跳转规则", template = "查询流程#{[procDefKey]}，任务#{[taskDefKey]}跳转规则")
+    @HttpRequestLog(value = "查询流程跳转规则")
     public List<ExtProcessTaskRule> getProcessTaskRule(@RequestParam("procDefKey") @LogParam(value = "procDefKey") String procDefKey,
                                                        @RequestParam("taskDefKey") @LogParam(value = "taskDefKey") String taskDefKey) {
         return processTaskRuleService.getProcessTaskRule(procDefKey, taskDefKey);

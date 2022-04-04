@@ -31,6 +31,9 @@ spring:
           - dataId: common.yaml
             group: DEFAULT_GROUP
             refresh: true
+          - dataId: resilience4j.yaml
+            group: DEFAULT_GROUP
+            refresh: true
         enable-remote-sync-config: true
         refresh-enabled: true
 logging:

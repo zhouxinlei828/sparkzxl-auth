@@ -5,6 +5,3 @@ spring:
     allow-bean-definition-overriding: true
 web:
   transfer-exception: false
-feign:
-  circuitbreaker:
-    enabled: true

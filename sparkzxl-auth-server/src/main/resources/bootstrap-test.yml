@@ -28,10 +28,12 @@ spring:
           - dataId: common.yaml
             group: DEFAULT_GROUP
             refresh: true
+          - dataId: resilience4j.yaml
+            group: DEFAULT_GROUP
+            refresh: true
         enable-remote-sync-config: true
         refresh-enabled: true
 logging:
   level:
     com.github.sparkzxl.auth.infrastructure.client: debug
     com.github.sparkzxl.auth.infrastructure.mapper: debug
-  enable-alarm: false

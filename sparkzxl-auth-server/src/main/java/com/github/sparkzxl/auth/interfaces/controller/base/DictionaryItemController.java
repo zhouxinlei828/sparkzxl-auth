@@ -61,7 +61,6 @@ public class DictionaryItemController extends SuperController<IDictionaryItemSer
     @SneakyThrows
     @Override
     public Map<String, DictionaryItemDTO> findDictionaryItemMap(String dictionaryType, Set<String> codes) {
-        Thread.sleep(10000);
         return baseService.findDictionaryItemMap(dictionaryType, codes);
     }
 }

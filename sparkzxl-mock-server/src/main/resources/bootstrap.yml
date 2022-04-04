@@ -22,14 +22,6 @@ spring:
         max-active: 20
         max-wait: 200
         min-idle: 0
-feign:
-  okhttp:
-    enabled: true
-  client:
-    config:
-      default:
-        connectTimeout: 500
-        readTimeout: 2000
 server:
   # 优雅停机
   shutdown: GRACEFUL
@@ -47,6 +39,18 @@ server:
     direct-buffers: true  # 是否分配的直接内存
 knife4j:
   enable: false
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 500
+        readTimeout: 2000
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  circuitbreaker:
+    enabled: true
 resilience4j.circuitbreaker:
   configs:
     default:
@@ -85,8 +89,8 @@ resilience4j.circuitbreaker:
 resilience4j.retry:
   configs:
     default:
-      max-retry-Attempts: 3 # 最大重试次数。包括第一次调用,默认为 3
-      wait-duration: 5s # 下次重试的间隔，单位：微秒。默认为 500 毫秒
+      max-retry-Attempts: 2 # 最大重试次数。包括第一次调用,默认为 3
+      wait-duration: 1s # 下次重试的间隔，单位：微秒。默认为 500 毫秒
       retry-exceptions: # 需要重试的异常列表。默认为空
       ingore-exceptions: # 需要忽略的异常列表。默认为空
   instances:

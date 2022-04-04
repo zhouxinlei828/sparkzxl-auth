@@ -9,13 +9,6 @@ spring:
     servlet:
       content-type: text/html
   cloud:
-    sentinel:
-      enabled: true
-      filter:
-        enabled: true
-      eager: true
-      transport:
-        dashboard: 47.114.40.129:8858
     nacos:
       discovery:
         server-addr: 47.114.40.129:8848
@@ -35,6 +28,9 @@ spring:
           - dataId: common.yaml
             group: DEFAULT_GROUP
             refresh: true
+          - dataId: resilience4j.yaml
+            group: DEFAULT_GROUP
+            refresh: true
         enable-remote-sync-config: true
         refresh-enabled: true
 logging:
@@ -43,6 +39,3 @@ logging:
     com.github.sparkzxl.auth.infrastructure.mapper: debug
   file:
     enable: true
-ribbon:
-  isolation:
-    enabled: true

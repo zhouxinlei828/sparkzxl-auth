@@ -11,13 +11,6 @@ spring:
       content-type: text/html
     cache: false
   cloud:
-    sentinel:
-      enabled: true
-      filter:
-        enabled: true
-      eager: true
-      transport:
-        dashboard: 47.114.40.129:8858
     nacos:
       discovery:
         server-addr: 47.114.40.129:8848
@@ -35,6 +28,9 @@ spring:
             group: DEFAULT_GROUP
             refresh: true
           - dataId: common.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - dataId: resilience4j.yaml
             group: DEFAULT_GROUP
             refresh: true
         enable-remote-sync-config: true

@@ -3,6 +3,3 @@ spring:
     active: dev #默认为开发环境
   main:
     allow-bean-definition-overriding: true
-feign:
-  okhttp:
-    enabled: true

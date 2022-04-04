@@ -38,19 +38,7 @@ spring:
     redisson: redisson-dev.yml
 logging:
   level:
-    com:
-      github:
-        sparkzxl:
-          workflow:
-            infrastructure:
-              mapper: debug
-          log: debug
-    org:
-      activiti:
-        engine:
-          impl:
-            persistence:
-              entity: debug
+    com.github.sparkzxl.workflow.infrastructure.mapper: debug
 management:
   metrics:
     tags:

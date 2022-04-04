@@ -2,8 +2,6 @@ server:
   shutdown: graceful
   port: 8800
 spring:
-  application:
-    name: sparkzxl-gateway
   cloud:
     nacos:
       discovery:

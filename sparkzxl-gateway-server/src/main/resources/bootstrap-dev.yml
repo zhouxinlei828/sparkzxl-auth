@@ -2,10 +2,6 @@ server:
   shutdown: graceful
   port: 8800
 spring:
-  application:
-    name: sparkzxl-gateway-resilience4j
-  codec:
-    max-in-memory-size: 100MB
   cloud:
     nacos:
       discovery:

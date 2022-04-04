@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sparkzxl-gateway</artifactId>
+    <artifactId>sparkzxl-gateway-server</artifactId>
 
     <dependencies>
         <!-- Micrometer 对 Prometheus 的支持 -->
@@ -25,7 +25,6 @@
             <groupId>com.github.sparkzxl</groupId>
             <artifactId>sparkzxl-gateway-plugin-autoconfigure</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.github.sparkzxl</groupId>
             <artifactId>sparkzxl-distributed-cloud-starter</artifactId>
@@ -33,10 +32,6 @@
                 <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-webmvc</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.alibaba.cloud</groupId>
-                    <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -81,7 +76,6 @@
         <dependency>
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-spring-boot2</artifactId>
-            <version>1.7.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

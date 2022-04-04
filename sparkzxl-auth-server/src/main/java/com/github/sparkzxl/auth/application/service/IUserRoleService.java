@@ -3,9 +3,9 @@ package com.github.sparkzxl.auth.application.service;
 
 import com.github.sparkzxl.auth.domain.model.vo.RoleResourceVO;
 import com.github.sparkzxl.auth.infrastructure.entity.UserRole;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleUserDTO;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleUserDeleteDTO;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleUserSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleUserDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleUserDeleteDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleUserSaveDTO;
 import com.github.sparkzxl.database.base.service.SuperService;
 
 /**

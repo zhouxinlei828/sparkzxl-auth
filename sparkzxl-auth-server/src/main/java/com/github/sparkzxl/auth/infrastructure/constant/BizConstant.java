@@ -179,7 +179,7 @@ public class BizConstant {
 
     public static final String BUSINESS_PACKAGE = "com.github.sparkzxl.auth";
 
-    public static final String BUSINESS_FEIGN_PACKAGE = "com.github.sparkzxl.auth.infrastructure.client";
+    public static final String BUSINESS_FEIGN_PACKAGE = "com.github.sparkzxl.auth.interfaces.client";
 
 
     /*=====================扫包==========================*/

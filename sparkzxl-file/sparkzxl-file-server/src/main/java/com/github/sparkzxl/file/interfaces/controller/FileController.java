@@ -3,7 +3,7 @@ package com.github.sparkzxl.file.interfaces.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.core.support.ExceptionAssert;
-import com.github.sparkzxl.file.api.FileApi;
+import com.github.sparkzxl.file.api.FileProvider;
 import com.github.sparkzxl.file.application.service.IFileService;
 import com.github.sparkzxl.file.dto.FileDTO;
 import com.github.sparkzxl.file.infrastructure.entity.FileMaterial;
@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @HttpRequestLog
 @Api(tags = "文件管理")
-public class FileController implements FileApi {
+public class FileController implements FileProvider {
 
     private final IFileService fileService;
 

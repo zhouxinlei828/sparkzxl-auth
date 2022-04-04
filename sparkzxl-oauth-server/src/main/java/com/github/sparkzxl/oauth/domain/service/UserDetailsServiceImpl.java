@@ -3,7 +3,7 @@ package com.github.sparkzxl.oauth.domain.service;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.core.util.ListUtils;
 import com.github.sparkzxl.entity.security.AuthUserDetail;
-import com.github.sparkzxl.oauth.infrastructure.client.UserInfoClient;
+import com.github.sparkzxl.oauth.interfaces.client.UserInfoProvider;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -21,11 +21,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private UserInfoClient userInfoClient;
+    private UserInfoProvider userInfoProvider;
 
     @Autowired
-    public void setUserInfoClient(UserInfoClient userInfoClient) {
-        this.userInfoClient = userInfoClient;
+    public void setUserInfoClient(UserInfoProvider userInfoProvider) {
+        this.userInfoProvider = userInfoProvider;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private AuthUserDetail getUserDetail(String username) {
-        UserDetailInfo userDetailInfo = userInfoClient.getUserDetailInfo(username);
+        UserDetailInfo userDetailInfo = userInfoProvider.getUserDetailInfo(username);
         if (ObjectUtils.isNotEmpty(userDetailInfo)) {
             AuthUserDetail authUserDetail = new AuthUserDetail(userDetailInfo.getId(), userDetailInfo.getAccount(),
                     userDetailInfo.getPassword(),

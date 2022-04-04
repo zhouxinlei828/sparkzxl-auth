@@ -15,7 +15,7 @@ import com.github.sparkzxl.core.util.ListUtils;
 import com.github.sparkzxl.core.util.RequestContextHolderUtils;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.oauth.application.service.IOauthService;
-import com.github.sparkzxl.oauth.infrastructure.client.UserInfoClient;
+import com.github.sparkzxl.oauth.interfaces.client.UserInfoProvider;
 import com.github.sparkzxl.oauth.infrastructure.constant.OauthConstant;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AuthorizationRequest;
@@ -55,7 +55,7 @@ public class OauthServiceImpl implements IOauthService {
 
     private TokenEndpoint tokenEndpoint;
     private GeneralCacheService generalCacheService;
-    private UserInfoClient userInfoClient;
+    private UserInfoProvider userInfoProvider;
     private UserStateManager userStateManager;
     private ClientDetailsService clientDetailsService;
     private OpenProperties openProperties;
@@ -72,8 +72,8 @@ public class OauthServiceImpl implements IOauthService {
     }
 
     @Autowired
-    public void setUserInfoClient(UserInfoClient userInfoClient) {
-        this.userInfoClient = userInfoClient;
+    public void setUserInfoClient(UserInfoProvider userInfoProvider) {
+        this.userInfoProvider = userInfoProvider;
     }
 
     @Autowired
@@ -151,7 +151,7 @@ public class OauthServiceImpl implements IOauthService {
         String username = (String) additionalInformation.get("username");
         String tenant = (String) additionalInformation.get(BaseContextConstants.TENANT_ID);
         RequestLocalContextHolder.setTenant(tenant);
-        AuthUserInfo<UserDetail> authUserInfo = userInfoClient.getAuthUserInfo(username);
+        AuthUserInfo<UserDetail> authUserInfo = userInfoProvider.getAuthUserInfo(username);
         userStateManager.addUser(oAuth2AccessToken.getValue(), authUserInfo, oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);
     }
 
@@ -227,6 +227,6 @@ public class OauthServiceImpl implements IOauthService {
     @Override
     public AuthUserBasicVO userinfo(AuthUserInfo<UserDetail> authUserInfo) {
         RequestLocalContextHolder.setTenant(authUserInfo.getTenantId());
-        return userInfoClient.getUserByUserId(Long.valueOf(authUserInfo.getId()));
+        return userInfoProvider.getUserByUserId(Long.valueOf(authUserInfo.getId()));
     }
 }

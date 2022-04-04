@@ -6,7 +6,7 @@ import com.github.sparkzxl.auth.api.dto.DictionaryItemDTO;
 import com.github.sparkzxl.entity.data.SuperEntity;
 import com.github.sparkzxl.oauth.domain.repository.IAuthApplicationRepository;
 import com.github.sparkzxl.oauth.domain.repository.IOauthClientDetailsRepository;
-import com.github.sparkzxl.oauth.infrastructure.client.DictionaryClient;
+import com.github.sparkzxl.oauth.interfaces.client.DictionaryProvider;
 import com.github.sparkzxl.oauth.infrastructure.entity.AuthApplication;
 import com.github.sparkzxl.oauth.infrastructure.entity.OauthClientDetails;
 import com.github.sparkzxl.oauth.infrastructure.mapper.AuthApplicationMapper;
@@ -33,7 +33,7 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
     private final String SERVER_TYPE = "SERVER";
     private AuthApplicationMapper authApplicationMapper;
     private IOauthClientDetailsRepository oauthClientDetailsRepository;
-    private DictionaryClient dictionaryClient;
+    private DictionaryProvider dictionaryProvider;
 
     @Autowired
     public void setAuthApplicationMapper(AuthApplicationMapper authApplicationMapper) {
@@ -46,8 +46,8 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
     }
 
     @Autowired
-    public void setDictionaryClient(DictionaryClient dictionaryClient) {
-        this.dictionaryClient = dictionaryClient;
+    public void setDictionaryClient(DictionaryProvider dictionaryProvider) {
+        this.dictionaryProvider = dictionaryProvider;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
         if (CollectionUtils.isNotEmpty(applicationList)) {
             List<String> clientIds = applicationList.stream().map(AuthApplication::getClientId).filter(ObjectUtils::isNotEmpty).collect(Collectors.toList());
             Set<String> appTypeCodes = applicationList.stream().map(AuthApplication::getAppType).filter(ObjectUtils::isNotEmpty).collect(Collectors.toSet());
-            Map<String, DictionaryItemDTO> dictionaryItemMap = dictionaryClient.findDictionaryItemMap("APPLICATION_TYPE",
+            Map<String, DictionaryItemDTO> dictionaryItemMap = dictionaryProvider.findDictionaryItemMap("APPLICATION_TYPE",
                     appTypeCodes);
             List<OauthClientDetails> oauthClientDetails = oauthClientDetailsRepository.findListByIdList(clientIds);
             Map<String, OauthClientDetails> oauthClientDetailsMap =

@@ -1,8 +1,8 @@
 package com.github.sparkzxl.auth.infrastructure.convert;
 
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
-import com.github.sparkzxl.auth.interfaces.dto.org.OrgSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.org.OrgSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.org.OrgUpdateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

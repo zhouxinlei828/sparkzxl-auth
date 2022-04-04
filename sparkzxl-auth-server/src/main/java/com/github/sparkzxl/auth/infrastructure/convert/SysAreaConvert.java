@@ -1,10 +1,10 @@
 package com.github.sparkzxl.auth.infrastructure.convert;
 
 import com.github.sparkzxl.auth.domain.model.vo.AreaTree;
-import com.github.sparkzxl.auth.infrastructure.client.result.Area;
+import com.github.sparkzxl.auth.interfaces.client.result.Area;
 import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
-import com.github.sparkzxl.auth.interfaces.dto.area.AreaSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.area.AreaUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.area.AreaSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.area.AreaUpdateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

@@ -82,3 +82,9 @@ resilience4j.retry:
         retryExceptions:
           - org.springframework.web.client.HttpServerErrorException
           - java.io.IOException
+resilience4j.thread-pool-bulkhead:
+  configs:
+    default:
+      maxThreadPoolSize: 50
+      coreThreadPoolSize: 10
+      queueCapacity: 1000

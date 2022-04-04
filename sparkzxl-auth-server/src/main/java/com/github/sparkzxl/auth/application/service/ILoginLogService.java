@@ -6,7 +6,7 @@ import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
-import com.github.sparkzxl.auth.interfaces.dto.log.LoginLogQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.log.LoginLogQueryDTO;
 import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;

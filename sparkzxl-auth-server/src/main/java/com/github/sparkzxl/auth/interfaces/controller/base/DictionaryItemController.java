@@ -2,18 +2,19 @@ package com.github.sparkzxl.auth.interfaces.controller.base;
 
 
 import com.github.sparkzxl.annotation.response.Response;
-import com.github.sparkzxl.auth.api.IDictionaryApi;
+import com.github.sparkzxl.auth.api.IDictionaryProvider;
 import com.github.sparkzxl.auth.api.dto.DictionaryItemDTO;
 import com.github.sparkzxl.auth.application.service.IDictionaryItemService;
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
-import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.dictionary.DictionaryItemQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.dictionary.DictionaryItemSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.dictionary.DictionaryItemUpdateDTO;
 import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,7 @@ import java.util.Set;
 @Api(tags = "字典项管理")
 @RequestMapping("/base/dictionaryItem")
 public class DictionaryItemController extends SuperController<IDictionaryItemService, Long,
-        DictionaryItem, DictionaryItemSaveDTO, DictionaryItemUpdateDTO, DictionaryItemQueryDTO, Object> implements IDictionaryApi {
+        DictionaryItem, DictionaryItemSaveDTO, DictionaryItemUpdateDTO, DictionaryItemQueryDTO, Object> implements IDictionaryProvider {
 
     @Override
     public List<DictionaryItem> query(DictionaryItemQueryDTO dictionaryItemQueryDTO) {
@@ -57,8 +58,10 @@ public class DictionaryItemController extends SuperController<IDictionaryItemSer
         }
     }
 
+    @SneakyThrows
     @Override
     public Map<String, DictionaryItemDTO> findDictionaryItemMap(String dictionaryType, Set<String> codes) {
+        Thread.sleep(10000);
         return baseService.findDictionaryItemMap(dictionaryType, codes);
     }
 }

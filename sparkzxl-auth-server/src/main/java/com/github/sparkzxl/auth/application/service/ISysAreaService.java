@@ -2,9 +2,9 @@ package com.github.sparkzxl.auth.application.service;
 
 import com.github.sparkzxl.auth.domain.model.vo.AreaTree;
 import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
-import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.area.AreaSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.area.AreaUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.area.AreaQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.area.AreaSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.area.AreaUpdateDTO;
 import com.github.sparkzxl.database.base.service.SuperService;
 
 import java.util.List;

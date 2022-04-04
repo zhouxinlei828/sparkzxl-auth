@@ -11,11 +11,6 @@
 
     <artifactId>sparkzxl-oauth-server</artifactId>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-
     <dependencies>
         <!-- Micrometer 对 Prometheus 的支持 -->
         <dependency>
@@ -25,6 +20,10 @@
         <dependency>
             <groupId>com.github.sparkzxl</groupId>
             <artifactId>sparkzxl-distributed-cloud-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.sparkzxl</groupId>
+            <artifactId>sparkzxl-feign-resilience4j-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.sparkzxl</groupId>

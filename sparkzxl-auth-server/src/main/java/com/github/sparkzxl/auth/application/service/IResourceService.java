@@ -2,8 +2,8 @@ package com.github.sparkzxl.auth.application.service;
 
 
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
-import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.resource.ResourceQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.resource.ResourceUpdateDTO;
 import com.github.sparkzxl.database.base.service.SuperService;
 
 import java.util.List;

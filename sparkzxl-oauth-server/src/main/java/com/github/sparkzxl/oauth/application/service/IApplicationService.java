@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.oauth.infrastructure.entity.AuthApplication;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationQueryDTO;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationSaveDTO;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationUpdateDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationQueryDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationSaveDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationUpdateDTO;
 
 import java.util.List;
 

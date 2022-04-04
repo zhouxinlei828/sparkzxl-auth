@@ -4,7 +4,7 @@ import com.github.sparkzxl.auth.application.service.IRoleAuthorityService;
 import com.github.sparkzxl.auth.domain.repository.IRoleAuthorityRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthoritySaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleAuthoritySaveDTO;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -8,9 +8,9 @@ import com.github.sparkzxl.oauth.domain.repository.IAuthApplicationRepository;
 import com.github.sparkzxl.oauth.infrastructure.convert.AuthApplicationConvert;
 import com.github.sparkzxl.oauth.infrastructure.entity.AuthApplication;
 import com.github.sparkzxl.oauth.infrastructure.mapper.AuthApplicationMapper;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationQueryDTO;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationSaveDTO;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationUpdateDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationQueryDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationSaveDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

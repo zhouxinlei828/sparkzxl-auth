@@ -3,9 +3,9 @@ package com.github.sparkzxl.auth.application.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleUpdateDTO;
 import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.database.dto.PageParams;
 

@@ -1,8 +1,8 @@
 package com.github.sparkzxl.oauth.infrastructure.convert;
 
 import com.github.sparkzxl.oauth.infrastructure.entity.AuthApplication;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationSaveDTO;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationUpdateDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationSaveDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationUpdateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

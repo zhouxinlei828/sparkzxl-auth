@@ -3,7 +3,7 @@ package com.github.sparkzxl.auth.interfaces.controller.auth;
 import cn.hutool.core.util.DesensitizedUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.annotation.response.Response;
-import com.github.sparkzxl.auth.api.IAuthUserApi;
+import com.github.sparkzxl.auth.api.IAuthUserProvider;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
@@ -13,9 +13,9 @@ import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
-import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.user.UserQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.user.UserSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.user.UserUpdateDTO;
 import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
 import com.github.sparkzxl.database.dto.DeleteDTO;
@@ -44,7 +44,7 @@ import java.util.List;
 @HttpRequestLog
 @Api(tags = "用户管理")
 public class AuthUserController extends SuperController<IUserService, Long,
-        AuthUser, UserSaveDTO, UserUpdateDTO, UserQueryDTO, UserExcel> implements IAuthUserApi {
+        AuthUser, UserSaveDTO, UserUpdateDTO, UserQueryDTO, UserExcel> implements IAuthUserProvider {
 
     private ImportUserDataListener importUserDataListener;
 

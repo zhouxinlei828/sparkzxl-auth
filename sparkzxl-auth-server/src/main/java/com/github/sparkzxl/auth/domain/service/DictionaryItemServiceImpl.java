@@ -7,7 +7,7 @@ import com.github.sparkzxl.auth.domain.repository.IDictionaryItemRepository;
 import com.github.sparkzxl.auth.infrastructure.convert.DictionaryItemConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
 import com.github.sparkzxl.auth.infrastructure.mapper.DictionaryItemMapper;
-import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.dictionary.DictionaryItemQueryDTO;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.MapUtils;

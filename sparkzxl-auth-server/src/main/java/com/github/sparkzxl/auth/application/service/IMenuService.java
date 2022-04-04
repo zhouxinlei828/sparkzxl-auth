@@ -3,7 +3,7 @@ package com.github.sparkzxl.auth.application.service;
 
 import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthMenu;
-import com.github.sparkzxl.auth.interfaces.dto.menu.AuthMenuSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.menu.AuthMenuSaveDTO;
 import com.github.sparkzxl.database.base.service.SuperService;
 
 import java.util.List;

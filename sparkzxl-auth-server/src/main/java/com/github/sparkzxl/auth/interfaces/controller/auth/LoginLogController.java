@@ -5,7 +5,7 @@ import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.application.service.ILoginLogService;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
-import com.github.sparkzxl.auth.interfaces.dto.log.LoginLogQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.log.LoginLogQueryDTO;
 import com.github.sparkzxl.database.dto.DeleteDTO;
 import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;

@@ -3,9 +3,9 @@ package com.github.sparkzxl.auth.application.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationUpdateDTO;
 import com.github.sparkzxl.database.base.service.SuperService;
 import com.github.sparkzxl.database.dto.PageParams;
 

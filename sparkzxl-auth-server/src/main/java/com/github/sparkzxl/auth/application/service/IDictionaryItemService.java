@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.application.service;
 
 import com.github.sparkzxl.auth.api.dto.DictionaryItemDTO;
 import com.github.sparkzxl.auth.infrastructure.entity.DictionaryItem;
-import com.github.sparkzxl.auth.interfaces.dto.dictionary.DictionaryItemQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.dictionary.DictionaryItemQueryDTO;
 import com.github.sparkzxl.database.base.service.SuperService;
 
 import java.util.List;

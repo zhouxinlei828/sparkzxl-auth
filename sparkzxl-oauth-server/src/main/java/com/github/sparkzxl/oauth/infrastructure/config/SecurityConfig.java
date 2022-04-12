@@ -14,6 +14,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +27,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
@@ -39,21 +41,26 @@ import java.util.List;
  * @date 2021-02-23 14:19:05
  */
 @Configuration
+@EnableConfigurationProperties(SecurityProperties.class)
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private SecurityProperties securityProperties;
-    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+
+    public SecurityConfig(AuthenticationFailureHandler authenticationFailureHandler) {
+        this.authenticationFailureHandler = authenticationFailureHandler;
+    }
 
     @Autowired
     public void setSecurityProperties(SecurityProperties securityProperties) {
         this.securityProperties = securityProperties;
     }
 
-    @Autowired
-    public void setSmsCodeAuthenticationSecurityConfig(SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig) {
-        this.smsCodeAuthenticationSecurityConfig = smsCodeAuthenticationSecurityConfig;
+    @Bean
+    public SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig() {
+        return new SmsCodeAuthenticationSecurityConfig(authenticationFailureHandler, userDetailsService());
     }
 
     @Override
@@ -121,7 +128,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if (!securityProperties.isCsrf()) {
             http.csrf().disable();
         }
-        http.apply(smsCodeAuthenticationSecurityConfig)
+        http.apply(smsCodeAuthenticationSecurityConfig())
                 .and()
                 .logout().logoutUrl("/logout")
                 .logoutSuccessHandler(logoutSuccessHandler())

@@ -4,6 +4,7 @@ import com.github.sparkzxl.core.base.result.ExceptionErrorCode;
 import com.github.sparkzxl.entity.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class FallbackController {
 
-    @GetMapping("/fallback")
+    @RequestMapping("/fallback")
     public Response<?> fallback() {
         log.info("fallback 降级========>{}", "响应超时熔断处理器");
         return Response.failDetail(ExceptionErrorCode.SERVICE_DEGRADATION.getErrorCode(), ExceptionErrorCode.SERVICE_DEGRADATION.getErrorMessage());

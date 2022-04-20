@@ -39,6 +39,8 @@
         <module>sparkzxl-file</module>
         <module>sparkzxl-oauth-server</module>
         <module>sparkzxl-mock-server</module>
+        <module>sparkzxl-system-admin</module>
+        <module>sparkzxl-system-admin/system-admin-client</module>
     </modules>
 
     <dependencies>
@@ -66,6 +68,11 @@
             <dependency>
                 <groupId>com.github.sparkzxl</groupId>
                 <artifactId>sparkzxl-file-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.sparkzxl</groupId>
+                <artifactId>system-admin-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

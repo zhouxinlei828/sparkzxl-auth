@@ -18,7 +18,7 @@ import ${customFileConfig.dtoConfig.packageName}.${entity}DTO;
 <#if superControllerClassPackage??>
 import ${superControllerClassPackage};
 </#if>
-import ${package.Service}.I${entity}Service;
+import ${customFileConfig.insideServiceConfig.packageName}.I${entity}Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 

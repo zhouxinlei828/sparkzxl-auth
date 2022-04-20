@@ -1,6 +1,8 @@
 package com.github.sparkzxl.generator;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.lang.TypeReference;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
@@ -87,7 +89,8 @@ public class MybatisPlusGenerator {
              */
             @Override
             protected void outputCustomFile(@NotNull Map<String, String> customFile, @NotNull TableInfo tableInfo, @NotNull Map<String, Object> objectMap) {
-                Map<String, FileConfig> filePathMap = (Map<String, FileConfig>) objectMap.get("customFileConfig");
+
+                Map<String, FileConfig> filePathMap = Convert.convert(new TypeReference<Map<String, FileConfig>>() {}, objectMap.get("customFileConfig"));
                 customFile.forEach((key, value) -> {
                     FileConfig fileConfig = filePathMap.get(key);
                     String fileName = String.format((fileConfig.getFilePath() + File.separator + "%s"), fileConfig.getFileName());
@@ -114,8 +117,6 @@ public class MybatisPlusGenerator {
                         .put("insideServiceImplConfig", "/templates/ctx_inside_serviceImpl.java.ftl")
                         .build();
         builder.beforeOutputFile((tableInfo, objectMap) -> {
-                    System.out.println("tableInfo: " + tableInfo.getEntityName() + " objectMap: " + objectMap.size());
-
                     String projectPath = System.getProperty("user.dir");
                     String packageName = parentPackage.replaceAll("\\.", "/");
                     String apiPath = projectPath.concat("/").concat(apiModule).concat("/src/main/java/").concat(packageName);
@@ -188,6 +189,8 @@ public class MybatisPlusGenerator {
                 .naming(NamingStrategy.underline_to_camel)
                 .columnNaming(NamingStrategy.underline_to_camel)
                 .idType(IdType.ASSIGN_ID)
+                .mapperBuilder()
+                .enableMapperAnnotation()
                 .serviceBuilder()
                 .formatServiceFileName("I%sRepository")
                 .formatServiceImplFileName("%sRepository")

@@ -1,11 +1,11 @@
-package ${package.ServiceImpl};
+package ${customFileConfig.insideServiceImplConfig.packageName};
 
 import ${package.Entity}.${entity};
 import ${package.Service}.${table.serviceName};
+import ${customFileConfig.insideServiceConfig.packageName}.I${entity}Service;
 import ${customFileConfig.convertConfig.packageName}.${entity}Convert;
 import ${customFileConfig.voConfig.packageName}.${entity}VO;
 import ${customFileConfig.dtoConfig.packageName}.${entity}DTO;
-import ${package.Service}.I${entity}Service;
 import org.apache.commons.lang3.ObjectUtils;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import javax.annotation.Resource;
 
 /**
  * <p>
@@ -41,12 +40,7 @@ open class ${table.serviceImplName}ServiceImpl : I${entity}Service {
 @RequiredArgsConstructor
 public class ${entity}ServiceImpl implements I${entity}Service {
 
-
-    /**
-     * ${table.comment!}
-     */
-    @Resource
-    private ${table.serviceName} ${table.serviceName?uncap_first};
+    private final ${table.serviceName} ${table.serviceName?uncap_first};
 
     /**
     * 分页条件查询
@@ -365,6 +359,7 @@ public class ${entity}ServiceImpl implements I${entity}Service {
      * @param ${entity?uncap_first}DTO ${table.comment!}导出DTO
      * @param response http response
      */
+     @Override
      public void exportData(${entity}DTO ${entity?uncap_first}DTO, HttpServletResponse response){
 
     }

@@ -1,4 +1,4 @@
-package ${package.Service};
+package ${customFileConfig.insideServiceConfig.packageName};
 
 import ${package.Entity}.${entity};
 import ${customFileConfig.voConfig.packageName}.${entity}VO;

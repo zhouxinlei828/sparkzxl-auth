@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.domain.model.aggregates;
 
-import com.github.sparkzxl.auth.infrastructure.enums.OperationEnum;
+import com.github.sparkzxl.auth.domain.model.enums.OperationEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

@@ -7,7 +7,7 @@ import com.github.sparkzxl.auth.domain.model.aggregates.ResourceSource;
 import com.github.sparkzxl.auth.domain.repository.IAuthResourceRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
-import com.github.sparkzxl.auth.infrastructure.enums.OperationEnum;
+import com.github.sparkzxl.auth.domain.model.enums.OperationEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthResourceMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;

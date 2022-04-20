@@ -6,7 +6,7 @@ import com.github.sparkzxl.auth.AuthServerApplication;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
-import com.github.sparkzxl.auth.infrastructure.enums.AuthorityTypeEnum;
+import com.github.sparkzxl.auth.domain.model.enums.AuthorityTypeEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.jackson.JsonUtil;

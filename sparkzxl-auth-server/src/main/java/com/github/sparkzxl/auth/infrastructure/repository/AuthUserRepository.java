@@ -17,7 +17,7 @@ import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.*;
-import com.github.sparkzxl.auth.infrastructure.enums.AuthorityTypeEnum;
+import com.github.sparkzxl.auth.domain.model.enums.AuthorityTypeEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.*;
 import com.github.sparkzxl.core.tree.TreeUtils;
 import com.github.sparkzxl.entity.data.RemoteData;

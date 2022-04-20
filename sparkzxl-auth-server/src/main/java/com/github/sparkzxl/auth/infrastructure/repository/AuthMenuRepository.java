@@ -10,7 +10,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthMenu;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.entity.UserRole;
-import com.github.sparkzxl.auth.infrastructure.enums.AuthorityTypeEnum;
+import com.github.sparkzxl.auth.domain.model.enums.AuthorityTypeEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthMenuMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.UserRoleMapper;
@@ -52,10 +52,9 @@ public class AuthMenuRepository implements IAuthMenuRepository {
     @Override
     public List<MenuBasicInfo> getAuthMenuList(Long userId) {
         List<MenuBasicInfo> menuBasicInfoList = Lists.newArrayList();
-        List<Long> roleIds =
-                userRoleMapper.selectList(new LambdaUpdateWrapper<UserRole>()
-                                .eq(UserRole::getUserId, userId)).stream().map(UserRole::getRoleId)
-                        .collect(Collectors.toList());
+        List<Long> roleIds = userRoleMapper.selectList(new LambdaUpdateWrapper<UserRole>()
+                        .eq(UserRole::getUserId, userId)).stream().map(UserRole::getRoleId)
+                .collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(roleIds)) {
             List<RoleAuthority> roleAuthorities =
                     roleAuthorityMapper.selectList(new LambdaQueryWrapper<RoleAuthority>().in(RoleAuthority::getRoleId, roleIds));

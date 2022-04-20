@@ -1,4 +1,4 @@
-package com.github.sparkzxl.auth.infrastructure.enums;
+package com.github.sparkzxl.auth.domain.model.enums;
 
 /**
  * description: 权限类型枚举

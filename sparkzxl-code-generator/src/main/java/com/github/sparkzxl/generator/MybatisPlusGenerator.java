@@ -22,10 +22,7 @@ import com.google.common.collect.Maps;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -111,6 +108,8 @@ public class MybatisPlusGenerator {
         Map<String, String> templateMap =
                 ImmutableMap.<String, String>builder()
                         .put("dtoConfig", "/templates/ctx_dto.java.ftl")
+                        .put("saveDtoFileConfig", "/templates/ctx_dto.java.ftl")
+                        .put("updateDtoFileConfig", "/templates/ctx_dto.java.ftl")
                         .put("voConfig", "/templates/ctx_vo.java.ftl")
                         .put("convertConfig", "/templates/ctx_convert.java.ftl")
                         .put("insideServiceConfig", "/templates/ctx_inside_service.java.ftl")
@@ -124,9 +123,21 @@ public class MybatisPlusGenerator {
                     // dto模板配置
                     FileConfig dtoFileConfig = new FileConfig();
                     dtoFileConfig.setFileName(tableInfo.getEntityName().concat("DTO.java"));
-                    dtoFileConfig.setPackageName(parentPackage.concat(".api.model.dto"));
-                    dtoFileConfig.setFilePath(apiPath.concat("/api/model/dto"));
+                    dtoFileConfig.setPackageName(parentPackage.concat(".api.model.dto.").concat(tableInfo.getEntityName().toLowerCase(Locale.ROOT)));
+                    dtoFileConfig.setFilePath(apiPath.concat("/api/model/dto/").concat(tableInfo.getEntityName().toLowerCase(Locale.ROOT)));
                     filePathMap.put("dtoConfig", dtoFileConfig);
+                    // saveDto模板配置
+                    FileConfig saveDtoFileConfig = new FileConfig();
+                    saveDtoFileConfig.setFileName(tableInfo.getEntityName().concat("SaveDTO.java"));
+                    saveDtoFileConfig.setPackageName(parentPackage.concat(".api.model.dto.").concat(tableInfo.getEntityName().toLowerCase(Locale.ROOT)));
+                    saveDtoFileConfig.setFilePath(apiPath.concat("/api/model/dto/").concat(tableInfo.getEntityName().toLowerCase(Locale.ROOT)));
+                    filePathMap.put("saveDtoFileConfig", saveDtoFileConfig);
+                    // updateDto模板配置
+                    FileConfig updateDtoFileConfig = new FileConfig();
+                    updateDtoFileConfig.setFileName(tableInfo.getEntityName().concat("UpdateDTO.java"));
+                    updateDtoFileConfig.setPackageName(parentPackage.concat(".api.model.dto.").concat(tableInfo.getEntityName().toLowerCase(Locale.ROOT)));
+                    updateDtoFileConfig.setFilePath(apiPath.concat("/api/model/dto/").concat(tableInfo.getEntityName().toLowerCase(Locale.ROOT)));
+                    filePathMap.put("updateDtoFileConfig", updateDtoFileConfig);
                     // VO模板配置
                     FileConfig voFileConfig = new FileConfig();
                     voFileConfig.setFileName(tableInfo.getEntityName().concat("VO.java"));

@@ -1,12 +1,14 @@
 package com.github.sparkzxl.oauth.infrastructure.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.github.sparkzxl.entity.data.Entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * description: 应用信息
@@ -18,9 +20,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName("auth_application")
 @ApiModel(value = "应用信息", description = "")
-public class AuthApplication extends Entity<Long> {
+public class AuthApplication implements Serializable {
 
     private static final long serialVersionUID = -5517070329109683485L;
+
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
 
     @ApiModelProperty(value = "应用名称")
     @TableField("name")
@@ -65,5 +70,17 @@ public class AuthApplication extends Entity<Long> {
     @ApiModelProperty(value = "应用客户端")
     @TableField(exist = false)
     private OauthClientDetails oauthClientDetail;
+
+    @TableField(value = "create_user", fill = FieldFill.INSERT)
+    protected Long createUser;
+
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    protected LocalDateTime createTime;
+
+    @TableField(value = "update_user", fill = FieldFill.INSERT_UPDATE)
+    protected Long updateUser;
+
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    protected LocalDateTime updateTime;
 
 }

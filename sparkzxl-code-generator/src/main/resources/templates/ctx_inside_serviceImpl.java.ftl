@@ -5,6 +5,8 @@ import ${package.Service}.${table.serviceName};
 import ${customFileConfig.insideServiceConfig.packageName}.I${entity}Service;
 import ${customFileConfig.convertConfig.packageName}.${entity}Convert;
 import ${customFileConfig.voConfig.packageName}.${entity}VO;
+import ${customFileConfig.saveDtoFileConfig.packageName}.${entity}SaveDTO;
+import ${customFileConfig.updateDtoFileConfig.packageName}.${entity}UpdateDTO;
 import ${customFileConfig.dtoConfig.packageName}.${entity}DTO;
 import org.apache.commons.lang3.ObjectUtils;
 import com.github.sparkzxl.core.support.ExceptionAssert;
@@ -239,14 +241,14 @@ public class ${entity}ServiceImpl implements I${entity}Service {
      * 新增
      * @author ${author}
      * @since ${date}
-     * @param ${entity?uncap_first}DTO: ${table.comment!}DTO对象
+     * @param ${entity?uncap_first}SaveDTO ${table.comment!}新增对象
      * @return boolean
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
-    public boolean save(${entity}DTO ${entity?uncap_first}DTO) {
-        saveCheck(${entity?uncap_first}DTO);
-        ${entity} ${entity?uncap_first} = convert${entity}SaveModel(${entity?uncap_first}DTO);
+    public boolean save(${entity}DTO ${entity?uncap_first}SaveDTO) {
+        saveCheck(${entity?uncap_first}SaveDTO);
+        ${entity} ${entity?uncap_first} = convert${entity}SaveModel(${entity?uncap_first}SaveDTO);
         return ${table.serviceName?uncap_first}.save(${entity?uncap_first});
     }
 
@@ -256,7 +258,7 @@ public class ${entity}ServiceImpl implements I${entity}Service {
      * @since ${date}
      * @param ${entity?uncap_first}DTO: ${table.comment!}DTO对象
      */
-    private void saveCheck(${entity}DTO ${entity?uncap_first}DTO) {
+    private void saveCheck(${entity}SaveDTO ${entity?uncap_first}SaveDTO) {
 
     }
 
@@ -268,22 +270,22 @@ public class ${entity}ServiceImpl implements I${entity}Service {
      * @param ${entity?uncap_first}DTO: ${table.comment!}DTO对象
      * @return ${entity}
      */
-     private ${entity} convert${entity}SaveModel(${entity}DTO ${entity?uncap_first}DTO){
-        return ${entity}Convert.INSTANCE.convert${entity}(${entity?uncap_first}DTO);
+     private ${entity} convert${entity}SaveModel(${entity}SaveDTO ${entity?uncap_first}SaveDTO){
+        return ${entity}Convert.INSTANCE.convert${entity}(${entity?uncap_first}SaveDTO);
     }
 
     /**
      * 修改
      * @author ${author}
      * @since ${date}
-     * @param ${entity?uncap_first}DTO: ${table.comment!}修改DTO
+     * @param ${entity?uncap_first}UpdateDTO ${table.comment!}修改DTO
      * @return boolean
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
-    public boolean updateById(${entity}DTO ${entity?uncap_first}DTO) {
-        updateCheck(${entity?uncap_first}DTO);
-        ${entity} ${entity?uncap_first} = convertUpdate${entity}Model(${entity?uncap_first}DTO);
+    public boolean updateById(${entity}UpdateDTO ${entity?uncap_first}UpdateDTO) {
+        updateCheck(${entity?uncap_first}UpdateDTO);
+        ${entity} ${entity?uncap_first} = convertUpdate${entity}Model(${entity?uncap_first}UpdateDTO);
         LambdaUpdateWrapper<${entity}> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         buildUpdateWrapper(${entity?uncap_first},lambdaUpdateWrapper);
         return ${table.serviceName?uncap_first}.update(${entity?uncap_first},lambdaUpdateWrapper);
@@ -293,9 +295,9 @@ public class ${entity}ServiceImpl implements I${entity}Service {
      * 更新检查
      * @author ${author}
      * @since ${date}
-     * @param ${entity?uncap_first}DTO: ${table.comment!}DTO对象
+     * @param ${entity?uncap_first}UpdateDTO: ${table.comment!}更新对象
      */
-     private void updateCheck(${entity}DTO ${entity?uncap_first}DTO) {
+     private void updateCheck(${entity}UpdateDTO ${entity?uncap_first}UpdateDTO) {
 
     }
 
@@ -320,7 +322,7 @@ public class ${entity}ServiceImpl implements I${entity}Service {
      * @param ${entity?uncap_first}DTO: ${table.comment!}DTO对象
      * @return ${entity}
      */
-    public ${entity} convertUpdate${entity}Model(${entity}DTO ${entity?uncap_first}DTO){
+    public ${entity} convertUpdate${entity}Model(${entity}UpdateDTO ${entity?uncap_first}UpdateDTO){
         if(ObjectUtils.isEmpty(${entity?uncap_first}DTO.getId())){
             ExceptionAssert.failure("id不能为空");
         }

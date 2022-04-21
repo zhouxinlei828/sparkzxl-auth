@@ -13,6 +13,8 @@ import com.github.sparkzxl.annotation.response.Response;
 import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.Api;
 import ${customFileConfig.voConfig.packageName}.${entity}VO;
+import ${customFileConfig.saveDtoFileConfig.packageName}.${entity}SaveDTO;
+import ${customFileConfig.updateDtoFileConfig.packageName}.${entity}UpdateDTO;
 import ${customFileConfig.dtoConfig.packageName}.${entity}DTO;
 
 <#if superControllerClassPackage??>
@@ -98,26 +100,26 @@ public class ${table.controllerName} {
     /**
      * ${table.comment!}新增
      *
-     * @param ${entity?uncap_first}DTO: ${table.comment!}新增DTO
+     * @param ${entity?uncap_first}SaveDTO: ${table.comment!}新增DTO
      * @return boolean
      */
     @ApiOperation(value = "${table.comment!}新增", httpMethod = "POST", response = Boolean.class)
     @PostMapping("/save")
-    public boolean save${entity}(@Validated @RequestBody ${entity}DTO ${entity?uncap_first}DTO) {
-        return ${entity?uncap_first}Service.save(${entity?uncap_first}DTO);
+    public boolean save${entity}(@Validated @RequestBody ${entity}SaveDTO ${entity?uncap_first}SaveDTO) {
+        return ${entity?uncap_first}Service.save(${entity?uncap_first}SaveDTO);
     }
 
 
     /**
      * ${table.comment!}修改
      *
-     * @param ${entity?uncap_first}DTO: ${table.comment!}修改DTO
+     * @param ${entity?uncap_first}UpdateDTO: ${table.comment!}修改DTO
      * @return boolean
      */
-    @ApiOperation(value = "${table.comment!}修改", httpMethod = "POST", response = Boolean.class)
+    @ApiOperation(value = "${table.comment!}修改", httpMethod = "POST", response = boolean.class)
     @PostMapping("/update")
-    public boolean update${entity}(@Validated @RequestBody ${entity}DTO ${entity?uncap_first}DTO) {
-        return ${entity?uncap_first}Service.updateById(${entity?uncap_first}DTO);
+    public boolean update${entity}(@Validated @RequestBody ${entity}UpdateDTO ${entity?uncap_first}UpdateDTO) {
+        return ${entity?uncap_first}Service.updateById(${entity?uncap_first}UpdateDTO);
     }
 
 
@@ -127,9 +129,9 @@ public class ${table.controllerName} {
      * @param id id
      * @return Boolean
      */
-    @ApiOperation(value = "${table.comment!}删除", httpMethod = "DELETE", response = Boolean.class)
+    @ApiOperation(value = "${table.comment!}删除", httpMethod = "DELETE", response = boolean.class)
     @DeleteMapping("/delete")
-    public Boolean deleteById(@RequestParam(value="id") Long id) {
+    public boolean deleteById(@RequestParam(value="id") Long id) {
         return ${entity?uncap_first}Service.deleteById(id);
     }
 

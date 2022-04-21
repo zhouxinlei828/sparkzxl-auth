@@ -110,7 +110,6 @@ public class ImportUserDataListener extends ImportDataListener<UserExcel> {
                 }
             }
             authUser.setStatus(true);
-            authUser.setPasswordErrorNum(0);
             authUserList.add(authUser);
             count.getAndIncrement();
         });

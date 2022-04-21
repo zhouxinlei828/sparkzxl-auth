@@ -152,7 +152,7 @@ public class AuthUserRepository implements IAuthUserRepository {
         if (MapUtils.isEmpty(authUser.getExtendInfo())) {
             updateWrapper.set(AuthUser::getExtendInfo, null);
         }
-        updateWrapper.eq(SuperEntity::getId, authUser.getId());
+        updateWrapper.eq(AuthUser::getId, authUser.getId());
         return authUserMapper.update(authUser, updateWrapper) == 1;
     }
 

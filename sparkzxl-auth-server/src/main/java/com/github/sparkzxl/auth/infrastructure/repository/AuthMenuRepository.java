@@ -103,7 +103,7 @@ public class AuthMenuRepository implements IAuthMenuRepository {
         List<Long> authorityIds = Lists.newArrayList();
         authorityIds.addAll(ids);
         List<AuthResource> authResources = authResourceRepository.authResourceList(ids);
-        List<Long> resourceIds = authResources.stream().map(SuperEntity::getId).collect(Collectors.toList());
+        List<Long> resourceIds = authResources.stream().map(AuthResource::getId).collect(Collectors.toList());
         authResourceRepository.deleteResource(resourceIds);
         authorityIds.addAll(resourceIds);
         roleAuthorityMapper.delete(new LambdaQueryWrapper<RoleAuthority>().in(RoleAuthority::getAuthorityId, authorityIds));
@@ -117,7 +117,7 @@ public class AuthMenuRepository implements IAuthMenuRepository {
                 .orderByAsc(TreeEntity::getSortNumber);
         List<AuthMenu> authMenuList = authMenuMapper.selectList(menuLambdaQueryWrapper);
         if (CollectionUtils.isNotEmpty(authMenuList)) {
-            List<Long> menuIdList = authMenuList.stream().map(SuperEntity::getId).collect(Collectors.toList());
+            List<Long> menuIdList = authMenuList.stream().map(AuthMenu::getId).collect(Collectors.toList());
             List<AuthResource> authResources = authResourceRepository.authResourceList(menuIdList);
             Map<Long, List<AuthResource>> resourceMap = authResources.stream().collect(Collectors.groupingBy(AuthResource::getMenuId));
             authMenuList.forEach(authMenu -> {

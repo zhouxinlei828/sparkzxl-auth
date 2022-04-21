@@ -29,6 +29,7 @@ public interface SysAreaConvert {
      * @param area 地区
      * @return SysArea
      */
+    @Mapping(target = "parentId", source = "parentCode")
     SysArea convertSysArea(Area area);
 
     /**
@@ -39,7 +40,6 @@ public interface SysAreaConvert {
      */
     @Mappings({
             @Mapping(source = "id", target = "code"),
-            @Mapping(source = "parentId", target = "parentCode"),
             @Mapping(source = "label", target = "name"),
     })
     SysArea convertSysArea(AreaSaveDTO area);
@@ -53,7 +53,6 @@ public interface SysAreaConvert {
     @Mappings({
             @Mapping(source = "id", target = "code"),
             @Mapping(source = "label", target = "name"),
-            @Mapping(source = "parentId", target = "parentCode"),
     })
     SysArea convertSysArea(AreaUpdateDTO area);
 
@@ -66,7 +65,6 @@ public interface SysAreaConvert {
     @Mappings({
             @Mapping(source = "code", target = "id"),
             @Mapping(source = "name", target = "label"),
-            @Mapping(source = "parentCode", target = "parentId"),
     })
     AreaTree convertSysArea(SysArea area);
 

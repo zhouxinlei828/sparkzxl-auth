@@ -65,7 +65,7 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
     public Page<AuthApplication> listPage(int pageNum, int pageSize, String clientId, String appName) {
         LambdaQueryWrapper<AuthApplication> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(StringUtils.isNotEmpty(clientId), AuthApplication::getClientId, clientId)
-                .likeRight(StringUtils.isNotEmpty(appName), AuthApplication::getAppTypeName, appName).orderByDesc(SuperEntity::getCreateTime);
+                .likeRight(StringUtils.isNotEmpty(appName), AuthApplication::getAppTypeName, appName).orderByDesc(AuthApplication::getCreateTime);
         Page<AuthApplication> authApplicationPage = authApplicationMapper.selectPage(new Page<>(pageNum, pageSize), lambdaQueryWrapper);
         List<AuthApplication> applicationList = authApplicationPage.getRecords();
         if (CollectionUtils.isNotEmpty(applicationList)) {

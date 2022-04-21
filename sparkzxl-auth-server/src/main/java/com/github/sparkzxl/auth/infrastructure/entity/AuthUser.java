@@ -1,11 +1,11 @@
 package com.github.sparkzxl.auth.infrastructure.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.sparkzxl.annotation.echo.EchoField;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
+import com.github.sparkzxl.constant.EntityConstant;
 import com.github.sparkzxl.entity.data.Entity;
 import com.github.sparkzxl.entity.data.RemoteData;
 import io.swagger.annotations.ApiModel;
@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -33,9 +34,12 @@ import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstant.*;
 @Accessors(chain = true)
 @TableName(value = "auth_user", autoResultMap = true)
 @ApiModel(value = "AuthUser对象", description = "用户")
-public class AuthUser extends Entity<Long> {
+public class AuthUser implements Serializable {
 
     private static final long serialVersionUID = -2722880054053904869L;
+
+    @TableId(value = EntityConstant.COLUMN_ID, type = IdType.INPUT)
+    protected Long id;
 
     @ApiModelProperty(value = "账号")
     @TableField("account")
@@ -100,18 +104,6 @@ public class AuthUser extends Entity<Long> {
     @EchoField(api = DICTIONARY_ITEM_CLASS, dictType = BizConstant.POSITION_STATUS)
     private RemoteData<String, String> positionStatus;
 
-    @ApiModelProperty(value = "工作描述比如：市长、管理员、局长等等   用于登陆展示")
-    @TableField("work_describe")
-    private String workDescribe;
-
-    @ApiModelProperty(value = "密码错误次数")
-    @TableField("password_error_num")
-    private Integer passwordErrorNum;
-
-    @ApiModelProperty(value = "最后登录时间")
-    @TableField("last_login_time")
-    private LocalDateTime lastLoginTime;
-
     @ApiModelProperty(value = "状态 1启用 0禁用")
     @TableField("status")
     private Boolean status;
@@ -119,4 +111,16 @@ public class AuthUser extends Entity<Long> {
     @ApiModelProperty(value = "扩展信息")
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> extendInfo;
+
+    @TableField(value = "create_user", fill = FieldFill.INSERT)
+    protected Long createUser;
+
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    protected LocalDateTime createTime;
+
+    @TableField(value = "update_user", fill = FieldFill.INSERT_UPDATE)
+    protected Long updateUser;
+
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    protected LocalDateTime updateTime;
 }

@@ -34,6 +34,14 @@ public interface ${entity}Convert {
     ${entity} convert${entity}(${entity}DTO ${entity?uncap_first}DTO);
 
     /**
+     * ${entity?uncap_first}SaveDTO转换为${entity}
+     *
+     * @param ${entity?uncap_first}SaveDTO ${table.comment!}新增对象
+     * @return ${entity}
+     */
+    ${entity} convert${entity}(${entity}SaveDTO ${entity?uncap_first}SaveDTO);
+
+    /**
      * ${entity}转换为${entity}VO
      *
      * @param ${entity?uncap_first} ${table.comment!}DTO对象

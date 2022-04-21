@@ -25,12 +25,10 @@ import java.time.LocalDateTime;
 public class ExtProcessTaskDetail {
 
     private static final long serialVersionUID = -8334040441264344916L;
-    @TableField(value = EntityConstant.COLUMN_UPDATE_TIME, fill = FieldFill.INSERT_UPDATE)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    protected LocalDateTime updateTime;
-    @TableField(value = EntityConstant.COLUMN_CREATE_TIME, fill = FieldFill.INSERT)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     protected LocalDateTime createTime;
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    protected LocalDateTime updateTime;
     @ApiModelProperty(value = "主键id")
     @TableId(value = EntityConstant.COLUMN_ID, type = IdType.ASSIGN_ID)
     private Long id;

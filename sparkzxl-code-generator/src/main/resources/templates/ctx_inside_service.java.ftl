@@ -2,6 +2,8 @@ package ${customFileConfig.insideServiceConfig.packageName};
 
 import ${package.Entity}.${entity};
 import ${customFileConfig.voConfig.packageName}.${entity}VO;
+import ${customFileConfig.saveDtoFileConfig.packageName}.${entity}SaveDTO;
+import ${customFileConfig.updateDtoFileConfig.packageName}.${entity}UpdateDTO;
 import ${customFileConfig.dtoConfig.packageName}.${entity}DTO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import java.util.List;
@@ -48,18 +50,18 @@ public interface I${entity}Service {
 
     /**
      * 新增${table.comment!}
-     * @param ${entity?uncap_first}DTO: ${table.comment!}新增DTO
+     * @param ${entity?uncap_first}SaveDTO ${table.comment!}新增DTO
      * @return boolean
      */
-     boolean save(${entity}DTO ${entity?uncap_first}DTO);
+     boolean save(${entity}SaveDTO ${entity?uncap_first}SaveDTO);
 
 
     /**
      * 修改${table.comment!}
-     * @param ${entity?uncap_first}DTO ${table.comment!}修改DTO
+     * @param ${entity?uncap_first}UpdateDTO ${table.comment!}修改DTO
      * @return boolean
      */
-     boolean updateById(${entity}DTO ${entity?uncap_first}DTO);
+     boolean updateById(${entity}UpdateDTO ${entity?uncap_first}UpdateDTO);
 
 
     /**

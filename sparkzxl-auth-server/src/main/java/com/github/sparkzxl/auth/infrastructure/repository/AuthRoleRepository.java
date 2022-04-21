@@ -63,7 +63,7 @@ public class AuthRoleRepository implements IAuthRoleRepository {
         if (MapUtils.isEmpty(authRole.getExtendInfo())) {
             updateWrapper.set(AuthRole::getExtendInfo, null);
         }
-        updateWrapper.eq(SuperEntity::getId, authRole.getId());
+        updateWrapper.eq(AuthRole::getId, authRole.getId());
         return authRoleMapper.update(authRole, updateWrapper) == 1;
     }
 

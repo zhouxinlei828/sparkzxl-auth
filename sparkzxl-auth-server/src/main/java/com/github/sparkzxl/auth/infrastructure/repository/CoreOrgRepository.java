@@ -70,7 +70,7 @@ public class CoreOrgRepository implements ICoreOrgRepository {
         if (MapUtils.isEmpty(coreOrg.getExtendInfo())) {
             updateWrapper.set(CoreOrg::getExtendInfo, null);
         }
-        updateWrapper.eq(SuperEntity::getId, coreOrg.getId());
+        updateWrapper.eq(CoreOrg::getId, coreOrg.getId());
         return coreOrgMapper.update(coreOrg, updateWrapper) == 1;
     }
 

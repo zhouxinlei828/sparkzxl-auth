@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.application.rule.external;
 
 import com.github.sparkzxl.core.util.ArgumentAssert;
-import com.github.sparkzxl.redisson.annotation.RedisLock;
+import com.github.sparkzxl.lock.annotation.DistributedLock;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRuntimeService;
 import com.github.sparkzxl.workflow.domain.model.bo.ExecuteData;
 import com.github.sparkzxl.workflow.domain.model.bo.ExecuteProcess;
@@ -39,7 +39,7 @@ public class WorkflowStartActionHandler implements IWorkflowActionHandler {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @RedisLock(prefix = "act_driver")
+    @DistributedLock(keys = {"#p0.businessId","#p0.actType"})
     public DriverResult execute(ExecuteProcess executeProcess) {
         log.info("流程启动业务处理：actType:[{}],businessId:[{}]", executeProcess.getActType(), executeProcess.getBusinessId());
         DriverResult driverResult = new DriverResult();

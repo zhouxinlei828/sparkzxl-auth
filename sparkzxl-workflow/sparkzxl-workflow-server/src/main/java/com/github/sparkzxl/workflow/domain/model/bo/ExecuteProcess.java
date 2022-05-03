@@ -1,6 +1,5 @@
 package com.github.sparkzxl.workflow.domain.model.bo;
 
-import com.github.sparkzxl.redisson.annotation.RedisLockParam;
 import com.google.common.collect.Maps;
 import lombok.Data;
 
@@ -10,7 +9,6 @@ import java.util.Map;
  * description: 流程驱动model
  *
  * @author charles.zhou
- * @date 2020-07-20 16:11:51
  */
 @Data
 public class ExecuteProcess {
@@ -18,7 +16,6 @@ public class ExecuteProcess {
     /**
      * 业务主键
      */
-    @RedisLockParam(name = "businessId")
     protected String businessId;
     /**
      * 流程名称
@@ -35,7 +32,6 @@ public class ExecuteProcess {
     /**
      * 流程动作类型 0:启动流程，1：提交审批，2：同意，3：跳转，-1：驳回
      */
-    @RedisLockParam(name = "actType")
     private int actType;
 
     /**

@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.sparkzxl</groupId>
-            <artifactId>sparkzxl-redisson-starter</artifactId>
+            <artifactId>sparkzxl-distributed-lock-redisson-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.sparkzxl</groupId>

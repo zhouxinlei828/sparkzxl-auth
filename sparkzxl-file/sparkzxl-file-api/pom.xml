@@ -13,9 +13,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <scope>provided</scope>
+            <groupId>com.github.sparkzxl</groupId>
+            <artifactId>sparkzxl-core</artifactId>
         </dependency>
     </dependencies>
     <build>

@@ -21,13 +21,4 @@ public interface FileProvider {
     @PostMapping("/pdf")
     FileDTO getPdf(@RequestBody FileDTO fileDTO);
 
-
-    /**
-     * 转换HTML文件
-     *
-     * @param fileDTO 文件入参
-     * @return FileDTO
-     */
-    @PostMapping("/html")
-    FileDTO getHtml(@RequestBody FileDTO fileDTO) throws Exception;
 }

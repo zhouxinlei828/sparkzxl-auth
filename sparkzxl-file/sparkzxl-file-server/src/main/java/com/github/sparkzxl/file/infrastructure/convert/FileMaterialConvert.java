@@ -1,8 +1,10 @@
 package com.github.sparkzxl.file.infrastructure.convert;
 
 import com.github.sparkzxl.file.infrastructure.entity.FileMaterial;
-import com.github.sparkzxl.file.interfaces.dto.FileMaterialDTO;
+import com.github.sparkzxl.file.vo.FileUploadModel;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -22,5 +24,9 @@ public interface FileMaterialConvert {
      * @param fileMaterial 文件素材
      * @return FileMaterialDTO
      */
-    FileMaterialDTO convertFileMaterialDTO(FileMaterial fileMaterial);
+    @Mappings({
+            @Mapping(source = "fullPath", target = "fileUrl"),
+            @Mapping(source = "originalFilename", target = "fileName")
+    })
+    FileUploadModel convertFileUploadModel(FileMaterial fileMaterial);
 }

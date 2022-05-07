@@ -9,6 +9,7 @@ import com.github.sparkzxl.file.dto.FileDTO;
 import com.github.sparkzxl.file.infrastructure.entity.FileMaterial;
 import com.github.sparkzxl.file.interfaces.dto.FileMaterialDTO;
 import com.github.sparkzxl.file.interfaces.dto.FileMaterialPageDTO;
+import com.github.sparkzxl.file.vo.FileUploadModel;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +36,7 @@ public class FileController implements FileProvider {
     @ApiOperation("文件上传")
     @Response
     @PostMapping("/file/upload")
-    public FileMaterialDTO upload(@RequestParam("file") MultipartFile multipartFile, @RequestParam("fileType") String fileType) {
+    public FileUploadModel upload(@RequestParam("file") MultipartFile multipartFile, @RequestParam("fileType") String fileType) {
         return fileService.upload(multipartFile, fileType);
     }
 
@@ -50,12 +51,6 @@ public class FileController implements FileProvider {
     @DeleteMapping("/file/delete/{fileName}")
     public boolean delete(@PathVariable("fileName") String fileName) {
         return fileService.deleteFile(fileName);
-    }
-
-    @Override
-    @ApiOperation("转换html文件")
-    public FileDTO getHtml(@RequestBody FileDTO fileDTO) throws Exception {
-        return fileService.getHtml(fileDTO);
     }
 
     @Override

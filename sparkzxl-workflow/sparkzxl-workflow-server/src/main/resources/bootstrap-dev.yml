@@ -36,6 +36,11 @@ spring:
         enable-remote-sync-config: true
   redis:
     redisson: redisson-dev.yml
+  alarm:
+    alarms:
+      wetalk:
+        token-id: 03b92f73-3064-4999-9e99-a77e6c2802ec
+    enabled: true
 logging:
   level:
     com.github.sparkzxl.workflow.infrastructure.mapper: debug

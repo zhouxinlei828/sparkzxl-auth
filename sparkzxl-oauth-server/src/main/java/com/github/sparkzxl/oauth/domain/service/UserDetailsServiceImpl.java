@@ -49,6 +49,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             authUserDetail.setTenantId(userDetailInfo.getTenantId());
             return authUserDetail;
         }
-        return null;
+        throw new UsernameNotFoundException("用户不存在");
     }
 }

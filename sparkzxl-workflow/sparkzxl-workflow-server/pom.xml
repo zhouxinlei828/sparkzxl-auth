@@ -27,10 +27,6 @@
         </dependency>
         <dependency>
             <groupId>com.github.sparkzxl</groupId>
-            <artifactId>sparkzxl-alarm-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.sparkzxl</groupId>
             <artifactId>sparkzxl-boot-starter</artifactId>
         </dependency>
         <dependency>

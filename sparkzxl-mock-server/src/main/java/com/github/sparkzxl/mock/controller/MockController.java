@@ -1,8 +1,9 @@
-package com.github.sparkzxl.mock;
+package com.github.sparkzxl.mock.controller;
 
 import com.github.sparkzxl.annotation.response.Response;
 import com.github.sparkzxl.auth.api.dto.DictionaryItemDTO;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
+import com.github.sparkzxl.mock.DictionaryProvider;
 import com.google.common.collect.Sets;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

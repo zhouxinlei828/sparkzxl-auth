@@ -88,6 +88,10 @@
             <artifactId>sparkzxl-auth-api</artifactId>
             <version>1.0.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.sparkzxl</groupId>
+            <artifactId>sparkzxl-alarm-core</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

@@ -90,7 +90,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.sparkzxl</groupId>
-            <artifactId>sparkzxl-alarm-core</artifactId>
+            <artifactId>sparkzxl-alarm-starter</artifactId>
         </dependency>
     </dependencies>
     <build>

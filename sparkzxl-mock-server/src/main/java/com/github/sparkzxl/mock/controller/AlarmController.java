@@ -1,5 +1,7 @@
 package com.github.sparkzxl.mock.controller;
 
+import com.github.sparkzxl.alarm.annotation.Alarm;
+import com.github.sparkzxl.alarm.annotation.AlarmParam;
 import com.github.sparkzxl.alarm.entity.AlarmLink;
 import com.github.sparkzxl.alarm.entity.AlarmRequest;
 import com.github.sparkzxl.alarm.entity.AlarmResponse;
@@ -15,7 +17,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -38,7 +39,6 @@ public class AlarmController {
 
     @ApiOperation("testAlarmImageText")
     @GetMapping("testAlarmImageText")
-    @ResponseBody
     public AlarmResponse testAlarmImageText() {
         AlarmRequest request = new AlarmRequest();
         request.setTitle("测试");
@@ -55,7 +55,6 @@ public class AlarmController {
 
     @ApiOperation("testAlarmLink")
     @GetMapping("testAlarmLink")
-    @ResponseBody
     public AlarmResponse testAlarmLink() {
         AlarmRequest request = new AlarmRequest();
         request.setTitle("测试");
@@ -70,7 +69,6 @@ public class AlarmController {
 
     @ApiOperation("testAlarmActionCard")
     @GetMapping("testAlarmActionCard")
-    @ResponseBody
     public AlarmResponse testAlarmActionCard() {
         AlarmRequest request = new AlarmRequest();
         request.setTitle("测试");
@@ -84,5 +82,14 @@ public class AlarmController {
         hashMap.put("actionCard", actionCard);
         request.setVariables(hashMap);
         return alarmSender.send(MessageSubType.ACTION_CARD, request);
+    }
+
+    @ApiOperation("testAlarmAspect")
+    @GetMapping("testAlarmAspect")
+    @Alarm(name = "测试告警", messageType = MessageSubType.MARKDOWN, templateId = "gbw-claims-notify", extractParams = "tenantId")
+    public String testAlarmAspect(@AlarmParam(name = "id") String id, @AlarmParam(name = "name") String name) {
+        System.out.println(id);
+        System.out.println(name);
+        return "ok";
     }
 }

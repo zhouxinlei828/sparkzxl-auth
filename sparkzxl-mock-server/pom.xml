@@ -90,6 +90,14 @@
         </dependency>
         <dependency>
             <groupId>com.github.sparkzxl</groupId>
+            <artifactId>sparkzxl-alarm-dingtalk-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.sparkzxl</groupId>
+            <artifactId>sparkzxl-alarm-wetalk-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.sparkzxl</groupId>
             <artifactId>sparkzxl-alarm-starter</artifactId>
         </dependency>
     </dependencies>

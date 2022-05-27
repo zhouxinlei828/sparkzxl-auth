@@ -1,7 +1,7 @@
 [
   {
     "templateId": "gbw-claims-notify",
-    "templateName": "工保网理赔通知",
-    "templateContent": "租户：<font color=\"#e96900\">#{[tenantId]}</font>\n\n请求参数：\n\n```json\n{\n  \"id\":\"#{[id]}\",\n  \"name\":\"#{[name]}\"\n}\n```"
+    "templateName": "告警通知",
+    "templateContent": "- 租户：<font color=\"#e96900\">#{[tenantId]}</font>\n\n- 请求参数：\n\n```json\n{\n  \"id\":\"#{[id]}\",\n  \"name\":\"#{[name]}\"\n}\n```\n"
   }
 ]

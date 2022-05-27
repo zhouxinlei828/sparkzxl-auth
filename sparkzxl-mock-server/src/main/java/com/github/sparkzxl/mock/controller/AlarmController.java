@@ -87,7 +87,7 @@ public class AlarmController {
     @ApiOperation("testAlarmAspect")
     @GetMapping("testAlarmAspect")
     @Alarm(name = "测试告警", messageType = MessageSubType.MARKDOWN, templateId = "gbw-claims-notify", extractParams = "tenantId")
-    public String testAlarmAspect(@AlarmParam(name = "id") String id, @AlarmParam(name = "name") String name) {
+    public String testAlarmAspect(@AlarmParam("id") String id, @AlarmParam("name") String name) {
         System.out.println(id);
         System.out.println(name);
         return "ok";

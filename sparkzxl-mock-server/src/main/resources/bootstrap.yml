@@ -86,6 +86,12 @@ feign:
     enabled: false
   okhttp:
     enabled: true
+  error:
+    predicate:
+      name: NormalResp
+      args:
+        ok: true
+
 resilience4j.circuitbreaker:
   configs:
     default:

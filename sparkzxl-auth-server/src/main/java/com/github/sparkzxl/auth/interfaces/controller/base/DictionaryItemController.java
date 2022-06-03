@@ -14,7 +14,6 @@ import com.github.sparkzxl.database.dto.PageParams;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,7 +57,6 @@ public class DictionaryItemController extends SuperController<IDictionaryItemSer
         }
     }
 
-    @SneakyThrows
     @Override
     public Map<String, DictionaryItemDTO> findDictionaryItemMap(String dictionaryType, Set<String> codes) {
         return baseService.findDictionaryItemMap(dictionaryType, codes);

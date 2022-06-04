@@ -9,22 +9,22 @@ import org.springframework.context.annotation.Bean;
 import java.time.Duration;
 
 /**
- * description: Resilience4j Config
+ * description: CircuitBreaker auto  Config
  *
  * @author zhouxinlei
  * @since 2022-04-03 11:47:47
  */
-public class Resilience4jConfig {
+public class CircuitBreakerAutoConfig {
 
     @Bean
-    public ReactiveResilience4JCircuitBreakerFactory reactiveResilience4JCircuitBreakerFactory(CircuitBreakerRegistry circuitBreakerRegistry, TimeLimiterRegistry timeLimiterRegistry) {
-        ReactiveResilience4JCircuitBreakerFactory reactiveResilience4JCircuitBreakerFactory = new ReactiveResilience4JCircuitBreakerFactory(circuitBreakerRegistry, timeLimiterRegistry);
-        reactiveResilience4JCircuitBreakerFactory.configure(
+    public ReactiveResilience4JCircuitBreakerFactory reactiveCircuitBreakerFactory(CircuitBreakerRegistry circuitBreakerRegistry, TimeLimiterRegistry timeLimiterRegistry) {
+        ReactiveResilience4JCircuitBreakerFactory reactiveCircuitBreakerFactory = new ReactiveResilience4JCircuitBreakerFactory(circuitBreakerRegistry, timeLimiterRegistry);
+        reactiveCircuitBreakerFactory.configure(
                 builder -> builder
                         .timeLimiterConfig(timeLimiterRegistry.getConfiguration("backendB").orElse(TimeLimiterConfig.custom().timeoutDuration(Duration.ofMillis(300)).build()))
                         .circuitBreakerConfig(circuitBreakerRegistry.getConfiguration("backendB").orElse(circuitBreakerRegistry.getDefaultConfig())),
                 "backendB");
-        return reactiveResilience4JCircuitBreakerFactory;
+        return reactiveCircuitBreakerFactory;
     }
 
 }

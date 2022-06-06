@@ -144,6 +144,15 @@ resilience4j.retry:
       retryExceptions:
         - org.springframework.web.client.HttpServerErrorException
         - java.io.IOException
+resilience4j.timelimiter:
+  time-limiter-aspect-order: 398
+  configs:
+    default:
+      timeoutDuration: 15s
+      cancelRunningFuture: false
+  instances:
+    backendB:
+      timeoutDuration: 5s
 resilience4j.thread-pool-bulkhead:
   configs:
     default:

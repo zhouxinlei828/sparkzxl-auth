@@ -10,6 +10,7 @@ import com.github.sparkzxl.alarm.entity.dingtalk.DingTalkActionCard;
 import com.github.sparkzxl.alarm.enums.MessageSubType;
 import com.github.sparkzxl.alarm.send.AlarmSender;
 import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
@@ -90,6 +91,7 @@ public class AlarmController {
     public String testAlarmAspect(@AlarmParam("id") String id, @AlarmParam("name") String name) {
         System.out.println(id);
         System.out.println(name);
+        ExceptionAssert.failure("1111");
         return "ok";
     }
 }

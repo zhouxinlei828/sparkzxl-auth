@@ -12,7 +12,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
 import com.github.sparkzxl.auth.infrastructure.mapper.LoginLogMapper;
 import com.github.sparkzxl.auth.domain.model.dto.log.LoginLogQueryDTO;
-import com.github.sparkzxl.cache.service.GeneralCacheService;
+import com.github.sparkzxl.cache.service.CacheService;
 import com.github.sparkzxl.core.util.KeyGeneratorUtil;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.github.sparkzxl.database.dto.PageParams;
@@ -37,7 +37,7 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
 
     private final IAuthUserRepository authUserRepository;
     private final ILoginLogRepository loginLogRepository;
-    private final GeneralCacheService generalCacheService;
+    private final CacheService cacheService;
 
     @Override
     public void save(LoginStatus<Long> loginStatus) {
@@ -69,49 +69,49 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
         loginLogRepository.saveLoginLog(loginLog);
         LocalDate now = LocalDate.now();
         LocalDate tenDays = now.plusDays(-9);
-        generalCacheService.remove(BizConstant.LOGIN_LOG_TOTAL);
-        generalCacheService.remove(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_TODAY, now));
-        generalCacheService.remove(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_TODAY_IP, now));
-        generalCacheService.remove(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_BROWSER));
-        generalCacheService.remove(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_SYSTEM));
+        cacheService.remove(BizConstant.LOGIN_LOG_TOTAL);
+        cacheService.remove(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_TODAY, now));
+        cacheService.remove(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_TODAY_IP, now));
+        cacheService.remove(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_BROWSER));
+        cacheService.remove(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_SYSTEM));
         if (authUser != null) {
-            generalCacheService.remove(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_TEN_DAY, tenDays, loginStatus.getAccount()));
+            cacheService.remove(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_TEN_DAY, tenDays, loginStatus.getAccount()));
         }
     }
 
     @Override
     public Long findTotalVisitCount() {
-        return generalCacheService.get(BizConstant.LOGIN_LOG_TOTAL);
+        return cacheService.get(BizConstant.LOGIN_LOG_TOTAL);
     }
 
     @Override
     public Long findTodayVisitCount() {
         LocalDate now = LocalDate.now();
-        return generalCacheService.get(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_TODAY, now));
+        return cacheService.get(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_TODAY, now));
     }
 
     @Override
     public Long findTodayIp() {
         LocalDate now = LocalDate.now();
-        return generalCacheService.get(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_TODAY_IP, now));
+        return cacheService.get(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_TODAY_IP, now));
     }
 
     @Override
     public List<LoginLogCount> findLastTenDaysVisitCount(String account) {
         LocalDate tenDays = LocalDate.now().plusDays(-9);
-        return generalCacheService.get(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_TEN_DAY, tenDays, account),
+        return cacheService.get(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_TEN_DAY, tenDays, account),
                 (key) -> loginLogRepository.findLastTenDaysVisitCount(tenDays, account));
     }
 
     @Override
     public List<LoginLogCount> findByBrowser() {
-        return generalCacheService.get(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_BROWSER),
+        return cacheService.get(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_BROWSER),
                 (key) -> loginLogRepository.findByBrowser());
     }
 
     @Override
     public List<LoginLogCount> findByOperatingSystem() {
-        return generalCacheService.get(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_SYSTEM),
+        return cacheService.get(KeyGeneratorUtil.generateKey(BizConstant.LOGIN_LOG_SYSTEM),
                 (key) -> loginLogRepository.findByOperatingSystem());
     }
 

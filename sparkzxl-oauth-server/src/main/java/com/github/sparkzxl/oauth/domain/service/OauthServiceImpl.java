@@ -7,7 +7,7 @@ import cn.hutool.core.util.EscapeUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.auth.api.dto.UserDetail;
-import com.github.sparkzxl.cache.service.GeneralCacheService;
+import com.github.sparkzxl.cache.service.CacheService;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.util.KeyGeneratorUtil;
@@ -15,11 +15,11 @@ import com.github.sparkzxl.core.util.ListUtils;
 import com.github.sparkzxl.core.util.RequestContextHolderUtils;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.oauth.application.service.IOauthService;
-import com.github.sparkzxl.oauth.interfaces.client.UserInfoProvider;
 import com.github.sparkzxl.oauth.infrastructure.constant.OauthConstant;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AuthorizationRequest;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.OpenProperties;
+import com.github.sparkzxl.oauth.interfaces.client.UserInfoProvider;
 import com.github.sparkzxl.user.manager.UserStateManager;
 import com.google.common.collect.Maps;
 import lombok.SneakyThrows;
@@ -37,6 +37,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -54,7 +55,7 @@ import java.util.concurrent.TimeUnit;
 public class OauthServiceImpl implements IOauthService {
 
     private TokenEndpoint tokenEndpoint;
-    private GeneralCacheService generalCacheService;
+    private CacheService cacheService;
     private UserInfoProvider userInfoProvider;
     private UserStateManager userStateManager;
     private ClientDetailsService clientDetailsService;
@@ -67,8 +68,8 @@ public class OauthServiceImpl implements IOauthService {
     }
 
     @Autowired
-    public void setGeneralCacheService(GeneralCacheService generalCacheService) {
-        this.generalCacheService = generalCacheService;
+    public void setGeneralCacheService(CacheService cacheService) {
+        this.cacheService = cacheService;
     }
 
     @Autowired
@@ -152,7 +153,7 @@ public class OauthServiceImpl implements IOauthService {
         String tenant = (String) additionalInformation.get(BaseContextConstants.TENANT_ID);
         RequestLocalContextHolder.setTenant(tenant);
         AuthUserInfo<UserDetail> authUserInfo = userInfoProvider.getAuthUserInfo(username);
-        userStateManager.addUser(oAuth2AccessToken.getValue(), authUserInfo, oAuth2AccessToken.getExpiresIn(), TimeUnit.SECONDS);
+        userStateManager.addUser(oAuth2AccessToken.getValue(), authUserInfo, Duration.ofSeconds(oAuth2AccessToken.getExpiresIn()));
     }
 
     /**
@@ -197,7 +198,7 @@ public class OauthServiceImpl implements IOauthService {
             UrlBuilder builder = UrlBuilder.ofHttp(referer, CharsetUtil.CHARSET_UTF_8);
             builder.setPath(UrlPath.of("jump", StandardCharsets.UTF_8));
             String frontStateKey = KeyGeneratorUtil.generateKey(OauthConstant.FRONT_STATE, state);
-            generalCacheService.set(frontStateKey, builder.build(), 5L, TimeUnit.MINUTES);
+            cacheService.set(frontStateKey, builder.build(), Duration.ofMinutes(5));
         }
         return EscapeUtil.safeUnescape(authorizeUrl);
     }
@@ -205,11 +206,11 @@ public class OauthServiceImpl implements IOauthService {
     @Override
     public AccessTokenInfo authorizationCodeCallBack(String authorizationCode, String loginState) {
         String frontStateKey = KeyGeneratorUtil.generateKey(OauthConstant.FRONT_STATE, loginState);
-        String frontUrl = generalCacheService.get(frontStateKey);
+        String frontUrl = cacheService.get(frontStateKey);
         if (StringUtils.isEmpty(frontUrl)) {
             return null;
         }
-        generalCacheService.remove(frontStateKey);
+        cacheService.remove(frontStateKey);
         ClientDetails clientDetails = clientDetailsService.loadClientByClientId(openProperties.getAppId());
         Map<String, String> parameters = Maps.newHashMap();
         parameters.put("grant_type", "authorization_code");

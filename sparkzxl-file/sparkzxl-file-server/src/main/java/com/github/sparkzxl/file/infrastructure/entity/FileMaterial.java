@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * description: 文件素材实体类
  *
  * @author charles.zhou
- * @date 2020-05-24 12:38:24
+ * @since 2020-05-24 12:38:24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

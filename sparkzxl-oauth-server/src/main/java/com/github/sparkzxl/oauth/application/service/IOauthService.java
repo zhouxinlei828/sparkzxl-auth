@@ -15,7 +15,7 @@ import java.util.Map;
  * description: Oauth认证 服务类
  *
  * @author charles.zhou
- * @date 2020-06-25 09:49:22
+ * @since 2020-06-25 09:49:22
  */
 public interface IOauthService {
 

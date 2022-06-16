@@ -3,10 +3,9 @@ package com.github.sparkzxl.auth.infrastructure.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.sparkzxl.annotation.echo.EchoField;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.constant.EntityConstant;
-import com.github.sparkzxl.entity.data.Entity;
+import com.github.sparkzxl.database.echo.annotation.EchoField;
 import com.github.sparkzxl.entity.data.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,7 +25,7 @@ import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstant.*;
  * description: 用户信息
  *
  * @author charles.zhou
- * @date 2020-05-24 12:24:03
+ * @since 2020-05-24 12:24:03
  */
 @Data
 @NoArgsConstructor

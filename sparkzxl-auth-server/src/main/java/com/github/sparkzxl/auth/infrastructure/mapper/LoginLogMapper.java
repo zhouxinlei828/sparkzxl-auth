@@ -16,7 +16,7 @@ import java.util.List;
  * description：系统日志
  *
  * @author charles.zhou
- * @date 2020-06-17 11:56:18
+ * @since 2020-06-17 11:56:18
  */
 @Mapper
 public interface LoginLogMapper extends SuperMapper<LoginLog> {

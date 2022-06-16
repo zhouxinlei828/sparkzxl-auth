@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.controller.base;
 
 
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.api.IDictionaryProvider;
 import com.github.sparkzxl.auth.api.dto.DictionaryItemDTO;
 import com.github.sparkzxl.auth.application.service.IDictionaryItemService;
@@ -10,7 +10,7 @@ import com.github.sparkzxl.auth.domain.model.dto.dictionary.DictionaryItemQueryD
 import com.github.sparkzxl.auth.domain.model.dto.dictionary.DictionaryItemSaveDTO;
 import com.github.sparkzxl.auth.domain.model.dto.dictionary.DictionaryItemUpdateDTO;
 import com.github.sparkzxl.database.base.controller.SuperController;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ import java.util.Set;
  * description: 字典项管理
  *
  * @author charles.zhou
- * @date 2020-07-28 19:48:30
+ * @since 2020-07-28 19:48:30
  */
 @AllArgsConstructor
 @RestController

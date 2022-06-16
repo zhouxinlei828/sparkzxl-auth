@@ -12,7 +12,7 @@ import java.util.List;
  * description: 用户 Mapper 接口
  *
  * @author charles.zhou
- * @date 2020-05-24 12:23:50
+ * @since 2020-05-24 12:23:50
  */
 @Mapper
 public interface AuthUserMapper extends SuperMapper<AuthUser> {

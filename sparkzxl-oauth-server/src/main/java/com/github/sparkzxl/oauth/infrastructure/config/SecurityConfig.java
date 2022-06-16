@@ -38,7 +38,7 @@ import java.util.List;
  * description: 安全认证
  *
  * @author charles.zhou
- * @date 2021-02-23 14:19:05
+ * @since 2021-02-23 14:19:05
  */
 @Configuration
 @EnableConfigurationProperties(SecurityProperties.class)

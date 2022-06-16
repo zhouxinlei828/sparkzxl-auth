@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.domain.model.dto.user;
 
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
-import com.github.sparkzxl.database.dto.PageDTO;
+import com.github.sparkzxl.dto.PageDTO;
 import com.github.sparkzxl.entity.data.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,7 +15,7 @@ import java.util.Map;
  * description: 用户信息
  *
  * @author charles.zhou
- * @date 2020-05-24 12:24:03
+ * @since 2020-05-24 12:24:03
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

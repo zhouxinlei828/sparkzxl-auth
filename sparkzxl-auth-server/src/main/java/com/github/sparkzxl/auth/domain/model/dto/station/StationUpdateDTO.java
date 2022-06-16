@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
  * description: 岗位更新对象
  *
  * @author charles.zhou
- * @date 2020-07-27 19:49:46
+ * @since 2020-07-27 19:49:46
  */
 @Data
 @ApiModel(value = "岗位更新对象")

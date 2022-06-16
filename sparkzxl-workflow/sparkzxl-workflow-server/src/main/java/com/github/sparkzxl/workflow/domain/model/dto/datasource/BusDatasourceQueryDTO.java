@@ -8,7 +8,7 @@ import lombok.Data;
  * description: 业务数据源查询对象
  *
  * @author charles.zhou
- * @date 2020-08-15 18:05:09
+ * @since 2020-08-15 18:05:09
  */
 @Data
 @ApiModel(value = "业务数据源查询对象")

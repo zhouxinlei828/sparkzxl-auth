@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  * description: 短信登录验证逻辑
  *
  * @author zhoux
- * @date 2021-06-14 09:28:33
+ * @since 2021-06-14 09:28:33
  */
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 

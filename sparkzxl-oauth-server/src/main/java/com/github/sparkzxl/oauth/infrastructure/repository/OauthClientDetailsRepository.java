@@ -18,7 +18,7 @@ import java.util.List;
  * description: 客户端 仓储实现类
  *
  * @author charles.zhou
- * @date 2021-02-20 09:54:44
+ * @since 2021-02-20 09:54:44
  */
 @Repository
 public class OauthClientDetailsRepository implements IOauthClientDetailsRepository {

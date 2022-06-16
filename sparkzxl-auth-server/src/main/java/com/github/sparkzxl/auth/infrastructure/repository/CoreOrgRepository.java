@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * description: 组织 仓储层实现类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:32:24
+ * @since 2020-06-07 13:32:24
  */
 @Repository
 public class CoreOrgRepository implements ICoreOrgRepository {

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * description: 角色的资源 服务实现类
  *
  * @author charles.zhou
- * @date 2020-07-19 20:59:45
+ * @since 2020-07-19 20:59:45
  */
 @Service
 public class RoleAuthorityServiceImpl extends SuperServiceImpl<RoleAuthorityMapper, RoleAuthority> implements IRoleAuthorityService {

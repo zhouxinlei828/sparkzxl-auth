@@ -1,6 +1,6 @@
 package com.github.sparkzxl.oauth.infrastructure.security.handle;
 
-import com.github.sparkzxl.core.base.result.ExceptionErrorCode;
+import com.github.sparkzxl.core.support.code.ResultErrorCode;
 import com.github.sparkzxl.core.util.HttpRequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
@@ -15,7 +15,7 @@ import java.io.IOException;
  * description: 自定义登录失败处理
  *
  * @author zhoux
- * @date 2021-06-14 08:45:41
+ * @since 2021-06-14 08:45:41
  */
 @Slf4j
 @Component
@@ -25,6 +25,6 @@ public class CustomizeAuthenticationFailureHandler extends SimpleUrlAuthenticati
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         log.error("登陆失败：{}", exception.getMessage());
         HttpRequestUtils.failResponse(response,
-                ExceptionErrorCode.LOGIN_EXPIRE);
+                ResultErrorCode.LOGIN_EXPIRE);
     }
 }

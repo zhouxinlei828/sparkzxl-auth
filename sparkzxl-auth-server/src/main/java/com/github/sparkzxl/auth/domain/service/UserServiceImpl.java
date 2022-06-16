@@ -25,7 +25,7 @@ import com.github.sparkzxl.auth.domain.model.dto.user.UserSaveDTO;
 import com.github.sparkzxl.auth.domain.model.dto.user.UserUpdateDTO;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.entity.data.RemoteData;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +46,7 @@ import java.util.Locale;
  * description: 用户查询 服务实现类
  *
  * @author charles.zhou
- * @date 2020-05-24 12:22:57
+ * @since 2020-05-24 12:22:57
  */
 @Service
 @Slf4j

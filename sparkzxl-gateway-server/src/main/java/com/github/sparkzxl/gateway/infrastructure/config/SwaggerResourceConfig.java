@@ -31,7 +31,7 @@ import java.util.stream.Stream;
  * description: 资源配置
  *
  * @author charles.zhou
- * @date 2020-05-24 12:16:52
+ * @since 2020-05-24 12:16:52
  */
 @Component
 @Primary

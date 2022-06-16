@@ -1,6 +1,6 @@
 package com.github.sparkzxl.oauth.interfaces.controller;
 
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
@@ -26,7 +26,7 @@ import java.util.Map;
  * description：token令牌管理
  *
  * @author charles.zhou
- * @date 2020/6/6 9:08 上午
+ * @since 2020/6/6 9:08 上午
  */
 @Controller
 @HttpRequestLog

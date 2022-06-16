@@ -8,7 +8,7 @@ import java.util.List;
  * description: 角色资源聚合
  *
  * @author charles.zhou
- * @date 2020-12-01 14:06:31
+ * @since 2020-12-01 14:06:31
  */
 @Data
 public class RoleResource {

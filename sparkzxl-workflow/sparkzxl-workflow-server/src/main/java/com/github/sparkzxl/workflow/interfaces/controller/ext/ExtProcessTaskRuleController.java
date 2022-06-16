@@ -1,6 +1,6 @@
 package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.log.annotation.OptLogParam;
 import com.github.sparkzxl.log.annotation.OptLogRecord;
@@ -19,7 +19,7 @@ import java.util.List;
  * description:流程流向管理
  *
  * @author charles.zhou
- * @date 2020-07-21 15:44:59
+ * @since 2020-07-21 15:44:59
  */
 @RestController
 @Response

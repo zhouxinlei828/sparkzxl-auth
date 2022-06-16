@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  * description: 资源保存对象
  *
  * @author charles.zhou
- * @date 2020-06-07 13:24:26
+ * @since 2020-06-07 13:24:26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

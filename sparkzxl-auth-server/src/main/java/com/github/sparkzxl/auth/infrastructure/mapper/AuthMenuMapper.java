@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
  * description: 菜单 Mapper 接口
  *
  * @author charles.zhou
- * @date 2020-06-07 13:28:51
+ * @since 2020-06-07 13:28:51
  */
 @Mapper
 public interface AuthMenuMapper extends SuperMapper<AuthMenu> {

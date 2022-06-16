@@ -8,7 +8,7 @@ import lombok.Data;
  * description: 地区分页查询入参
  *
  * @author charles.zhou
- * @date 2020-12-02 10:13:57
+ * @since 2020-12-02 10:13:57
  */
 @Data
 @ApiModel("地区分页查询入参")

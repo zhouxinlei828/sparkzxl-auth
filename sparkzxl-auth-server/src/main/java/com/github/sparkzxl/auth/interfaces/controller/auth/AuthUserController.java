@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 import cn.hutool.core.util.DesensitizedUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.api.IAuthUserProvider;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.auth.api.dto.UserDetail;
@@ -18,8 +18,8 @@ import com.github.sparkzxl.auth.domain.model.dto.user.UserSaveDTO;
 import com.github.sparkzxl.auth.domain.model.dto.user.UserUpdateDTO;
 import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
-import com.github.sparkzxl.database.dto.DeleteDTO;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.DeleteDTO;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
@@ -36,7 +36,7 @@ import java.util.List;
  * description: 用户管理
  *
  * @author charles.zhou
- * @date 2020-05-24 12:25:32
+ * @since 2020-05-24 12:25:32
  */
 @RestController
 @RequestMapping("/user")

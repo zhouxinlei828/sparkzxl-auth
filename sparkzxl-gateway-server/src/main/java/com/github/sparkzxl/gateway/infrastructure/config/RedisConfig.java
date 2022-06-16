@@ -13,7 +13,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * description: Redis配置
  *
  * @author charles.zhou
- * @date 2020-08-02 22:38:50
+ * @since 2020-08-02 22:38:50
  */
 @Configuration
 @EnableRedisRepositories

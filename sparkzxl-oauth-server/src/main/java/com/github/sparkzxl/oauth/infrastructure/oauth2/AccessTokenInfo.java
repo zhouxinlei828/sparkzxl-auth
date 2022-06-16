@@ -11,7 +11,7 @@ import java.util.Date;
  * description: token信息
  *
  * @author charles.zhou
- * @date '2021-03-10 17:18:06'
+ * @since '2021-03-10 17:18:06'
  */
 @ApiModel("token信息")
 @Data

@@ -18,7 +18,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * description：登录日志
  *
  * @author charles.zhou
- * @date 2020/6/17 0017
+ * @since 2020/6/17 0017
  */
 @Data
 @NoArgsConstructor

@@ -9,7 +9,7 @@ import com.github.sparkzxl.workflow.infrastructure.entity.ActReModel;
  * description: 模型 服务类
  *
  * @author charles.zhou
- * @date 2020-07-25 11:14:40
+ * @since 2020-07-25 11:14:40
  */
 public interface IActReModelService extends SuperService<ActReModel> {
 

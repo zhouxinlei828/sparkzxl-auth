@@ -7,7 +7,7 @@ import com.github.sparkzxl.workflow.infrastructure.entity.ActReModel;
  * description: 模型 仓储类
  *
  * @author charles.zhou
- * @date 2020-07-25 11:16:57
+ * @since 2020-07-25 11:16:57
  */
 public interface IActReModelRepository {
     /**

@@ -8,7 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * description: 文件存储启动类
  *
  * @author charles.zhou
- * @date 2020-05-24 12:42:02
+ * @since 2020-05-24 12:42:02
  */
 @SpringBootApplication(scanBasePackages = {"com.github.sparkzxl.file"})
 @EnableDiscoveryClient

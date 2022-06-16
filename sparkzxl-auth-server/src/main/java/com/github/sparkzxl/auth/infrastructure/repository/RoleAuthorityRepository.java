@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
  * description: 角色资源绑定 仓储实现类
  *
  * @author charles.zhou
- * @date 2020-08-15 11:14:18
+ * @since 2020-08-15 11:14:18
  */
 @Repository
 public class RoleAuthorityRepository implements IRoleAuthorityRepository {

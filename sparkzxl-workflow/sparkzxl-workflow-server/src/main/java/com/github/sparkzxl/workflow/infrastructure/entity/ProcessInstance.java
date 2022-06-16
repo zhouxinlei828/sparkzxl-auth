@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * description: 流程实例实体类
  *
  * @author charles.zhou
- * @date 2020-07-27 10:04:02
+ * @since 2020-07-27 10:04:02
  */
 @Data
 @ApiModel(value = "ProcessInstance对象", description = "流程实例对象")

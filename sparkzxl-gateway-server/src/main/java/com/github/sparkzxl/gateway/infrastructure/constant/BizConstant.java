@@ -4,7 +4,7 @@ package com.github.sparkzxl.gateway.infrastructure.constant;
  * description: 角色属性常量
  *
  * @author charles.zhou
- * @date 2021-03-23 09:44:45
+ * @since 2021-03-23 09:44:45
  */
 public class BizConstant {
 

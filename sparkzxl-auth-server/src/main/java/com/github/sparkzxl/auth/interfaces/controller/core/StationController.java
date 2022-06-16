@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.interfaces.controller.core;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.application.event.ImportStationDataListener;
 import com.github.sparkzxl.auth.application.service.ICoreStationService;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.StationExcel;
@@ -13,8 +13,8 @@ import com.github.sparkzxl.auth.domain.model.dto.station.StationSaveDTO;
 import com.github.sparkzxl.auth.domain.model.dto.station.StationUpdateDTO;
 import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
-import com.github.sparkzxl.database.dto.DeleteDTO;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.DeleteDTO;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import java.util.List;
  * description: 岗位 前端控制器
  *
  * @author charles.zhou
- * @date 2020-06-07 13:41:11
+ * @since 2020-06-07 13:41:11
  */
 @RestController
 @Response

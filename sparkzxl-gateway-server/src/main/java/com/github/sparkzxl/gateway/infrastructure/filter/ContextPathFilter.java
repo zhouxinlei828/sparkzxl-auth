@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  * 要么就做差异化配置，还有种方法，通过WebFilter的方式做一层ContextPath的转发，不过有一定风险，不推荐使用。
  *
  * @author charles.zhou
- * @date 2020-05-24 12:15:34
+ * @since 2020-05-24 12:15:34
  */
 @Component
 

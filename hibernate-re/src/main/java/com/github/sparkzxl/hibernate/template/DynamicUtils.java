@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  * description: SQL处理工具类
  *
  * @author zhouxinlei
- * @date 2021-08-02 10:25:08
+ * @since 2021-08-02 10:25:08
  */
 public class DynamicUtils {
 

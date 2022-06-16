@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
  * description: 模型Mapper 接口
  *
  * @author charles.zhou
- * @date 2020-07-25 11:13:42
+ * @since 2020-07-25 11:13:42
  */
 @Mapper
 public interface ActReModelMapper extends SuperMapper<ActReModel> {

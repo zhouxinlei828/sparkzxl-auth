@@ -24,7 +24,7 @@ import java.util.Set;
  * description: 字典项 服务实现类
  *
  * @author charles.zhou
- * @date 2020-07-28 19:43:58
+ * @since 2020-07-28 19:43:58
  */
 @Service
 public class DictionaryItemServiceImpl extends SuperServiceImpl<DictionaryItemMapper, DictionaryItem> implements IDictionaryItemService {

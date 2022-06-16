@@ -2,7 +2,7 @@ package com.github.sparkzxl.oauth.domain.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.oauth.application.service.IApplicationService;
 import com.github.sparkzxl.oauth.domain.repository.IAuthApplicationRepository;
 import com.github.sparkzxl.oauth.infrastructure.convert.AuthApplicationConvert;
@@ -20,7 +20,7 @@ import java.util.List;
  * description: 租户信息客户端服务实现类
  *
  * @author charles.zhou
- * @date 2021-02-20 09:44:43
+ * @since 2021-02-20 09:44:43
  */
 @Service
 public class ApplicationServiceServiceImpl extends SuperServiceImpl<AuthApplicationMapper, AuthApplication> implements IApplicationService {

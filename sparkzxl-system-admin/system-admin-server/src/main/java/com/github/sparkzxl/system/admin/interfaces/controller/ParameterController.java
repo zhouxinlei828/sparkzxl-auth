@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 
 import org.springframework.validation.annotation.Validated;
 import io.swagger.annotations.Api;

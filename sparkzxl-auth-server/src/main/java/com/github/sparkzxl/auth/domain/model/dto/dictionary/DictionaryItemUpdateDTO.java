@@ -8,7 +8,7 @@ import lombok.Data;
  * description: 字典项更新入参
  *
  * @author charles.zhou
- * @date 2020-12-02 10:15:37
+ * @since 2020-12-02 10:15:37
  */
 @Data
 @ApiModel("字典项更新入参")

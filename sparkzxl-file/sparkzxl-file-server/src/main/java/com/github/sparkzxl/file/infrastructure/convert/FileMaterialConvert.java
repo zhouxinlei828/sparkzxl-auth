@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
  * description：FileMaterial对象Convert
  *
  * @author charles.zhou
- * @date 2020/6/16 0016
+ * @since 2020/6/16 0016
  */
 @Mapper
 public interface FileMaterialConvert {

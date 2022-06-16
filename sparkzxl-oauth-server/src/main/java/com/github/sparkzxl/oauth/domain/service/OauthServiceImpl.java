@@ -48,7 +48,7 @@ import java.util.concurrent.TimeUnit;
  * description：授权登录 服务实现类
  *
  * @author charles.zhou
- * @date 2020-06-24 14:50:40
+ * @since 2020-06-24 14:50:40
  */
 @Service
 @Slf4j

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * description: 流程用户信息
  *
  * @author charles.zhou
- * @date 2021-01-08 16:47:21
+ * @since 2021-01-08 16:47:21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

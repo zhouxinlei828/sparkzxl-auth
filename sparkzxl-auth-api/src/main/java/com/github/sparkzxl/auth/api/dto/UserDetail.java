@@ -8,7 +8,7 @@ import java.io.Serializable;
  * description: 用户详情信息
  *
  * @author zhouxinlei
- * @date 2022-02-11 17:07:30
+ * @since 2022-02-11 17:07:30
  */
 @Data
 public class UserDetail implements Serializable {

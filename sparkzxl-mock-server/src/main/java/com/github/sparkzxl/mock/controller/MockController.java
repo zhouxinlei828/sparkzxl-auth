@@ -1,6 +1,6 @@
 package com.github.sparkzxl.mock.controller;
 
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.api.dto.DictionaryItemDTO;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.mock.DictionaryProvider;

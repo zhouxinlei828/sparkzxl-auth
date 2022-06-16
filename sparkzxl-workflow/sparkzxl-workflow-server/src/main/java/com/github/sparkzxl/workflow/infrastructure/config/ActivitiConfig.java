@@ -21,7 +21,7 @@ import java.io.IOException;
  * description: Activiti配置
  *
  * @author charles.zhou
- * @date 2020-07-17 14:01:53
+ * @since 2020-07-17 14:01:53
  */
 @Configuration
 public class ActivitiConfig extends AbstractProcessEngineAutoConfiguration {

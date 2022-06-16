@@ -1,14 +1,14 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.application.service.IRoleService;
 import com.github.sparkzxl.auth.application.service.IUserRoleService;
 import com.github.sparkzxl.auth.domain.model.dto.role.*;
 import com.github.sparkzxl.auth.domain.model.vo.RoleResourceVO;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 import com.github.sparkzxl.database.base.controller.SuperController;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,7 +22,7 @@ import java.util.List;
  * description: 角色 前端控制器
  *
  * @author charles.zhou
- * @date 2020-06-07 13:40:03
+ * @since 2020-06-07 13:40:03
  */
 @RestController
 @RequestMapping("/role")

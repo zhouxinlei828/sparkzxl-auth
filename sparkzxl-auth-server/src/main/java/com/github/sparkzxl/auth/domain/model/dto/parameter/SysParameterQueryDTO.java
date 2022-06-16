@@ -8,7 +8,7 @@ import lombok.Data;
  * description: 系统参数
  *
  * @author zhoux
- * @date 2021-06-13 12:05:27
+ * @since 2021-06-13 12:05:27
  */
 @Data
 @ApiModel(value = "SysParameter查询对象", description = "系统参数")

@@ -1,8 +1,7 @@
 package com.github.sparkzxl.auth.infrastructure.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.github.sparkzxl.annotation.echo.EchoField;
-import com.github.sparkzxl.entity.data.Entity;
+import com.github.sparkzxl.database.echo.annotation.EchoField;
 import com.github.sparkzxl.entity.data.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,7 +18,7 @@ import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstant.STAT
  * description: 岗位
  *
  * @author charles.zhou
- * @date 2020-06-07 13:23:52
+ * @since 2020-06-07 13:23:52
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

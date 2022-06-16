@@ -12,7 +12,7 @@ import com.github.sparkzxl.auth.domain.model.dto.station.StationQueryDTO;
 import com.github.sparkzxl.auth.domain.model.dto.station.StationSaveDTO;
 import com.github.sparkzxl.auth.domain.model.dto.station.StationUpdateDTO;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.PageParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * description: 岗位 服务实现类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:37:46
+ * @since 2020-06-07 13:37:46
  */
 @Service
 public class CoreStationServiceImpl extends SuperServiceImpl<CoreStationMapper, CoreStation> implements ICoreStationService {

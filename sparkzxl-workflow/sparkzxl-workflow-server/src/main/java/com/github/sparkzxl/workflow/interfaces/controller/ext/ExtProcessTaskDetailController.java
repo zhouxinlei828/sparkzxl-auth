@@ -2,7 +2,7 @@ package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessTaskDetailService;
 import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessTaskDetailDTO;
@@ -23,7 +23,7 @@ import java.util.List;
  * description: 流程节点管理
  *
  * @author charles.zhou
- * @date 2020-07-21 14:53:25
+ * @since 2020-07-21 14:53:25
  */
 @RestController
 @Response

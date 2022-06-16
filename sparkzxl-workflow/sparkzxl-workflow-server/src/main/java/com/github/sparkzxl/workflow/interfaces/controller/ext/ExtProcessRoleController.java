@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.interfaces.controller.ext;
 
 
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessRoleService;
@@ -21,7 +21,7 @@ import java.util.List;
  * description: 流程角色管理
  *
  * @author fin-9062
- * @date 2021-01-08 17:11:20
+ * @since 2021-01-08 17:11:20
  */
 @Response
 @RestController

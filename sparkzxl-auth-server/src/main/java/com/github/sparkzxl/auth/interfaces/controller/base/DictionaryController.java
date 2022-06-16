@@ -1,14 +1,14 @@
 package com.github.sparkzxl.auth.interfaces.controller.base;
 
 
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.application.service.IDictionaryService;
 import com.github.sparkzxl.auth.infrastructure.entity.Dictionary;
 import com.github.sparkzxl.auth.domain.model.dto.dictionary.DictionaryQueryDTO;
 import com.github.sparkzxl.auth.domain.model.dto.dictionary.DictionarySaveDTO;
 import com.github.sparkzxl.auth.domain.model.dto.dictionary.DictionaryUpdateDTO;
 import com.github.sparkzxl.database.base.controller.SuperController;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * description: 字典类型管理
  *
  * @author charles.zhou
- * @date 2020-07-28 19:48:00
+ * @since 2020-07-28 19:48:00
  */
 @RestController
 @Response

@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.interfaces.controller.mock;
 
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.application.service.IUserService;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * description:
  *
  * @author zhouxinlei
- * @date 2021-07-12 15:08
+ * @since 2021-07-12 15:08
  */
 @RestController
 @Response

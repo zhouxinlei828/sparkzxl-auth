@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * description: 系统参数 服务实现类
  *
  * @author zhoux
- * @date 2021-06-13 12:07:45
+ * @since 2021-06-13 12:07:45
  */
 @Service
 public class SysParameterServiceImpl extends SuperServiceImpl<SysParameterMapper, SysParameter> implements ISysParameterService {

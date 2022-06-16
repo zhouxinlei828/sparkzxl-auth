@@ -18,7 +18,7 @@ import java.util.List;
  * description: 资源 服务实现类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:36:15
+ * @since 2020-06-07 13:36:15
  */
 @Service
 public class ResourceServiceImpl extends SuperServiceImpl<AuthResourceMapper, AuthResource> implements IResourceService {

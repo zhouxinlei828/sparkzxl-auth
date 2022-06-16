@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * description: 认证授权启动类
  *
  * @author charles.zhou
- * @date 2021-02-01 11:18:40
+ * @since 2021-02-01 11:18:40
  */
 @SpringBootApplication(scanBasePackages = {BizConstant.BUSINESS_PACKAGE})
 @EnableFeignClients(basePackages = BizConstant.BUSINESS_FEIGN_PACKAGE)

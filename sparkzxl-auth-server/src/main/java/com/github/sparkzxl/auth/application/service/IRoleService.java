@@ -7,7 +7,7 @@ import com.github.sparkzxl.auth.domain.model.dto.role.RoleQueryDTO;
 import com.github.sparkzxl.auth.domain.model.dto.role.RoleSaveDTO;
 import com.github.sparkzxl.auth.domain.model.dto.role.RoleUpdateDTO;
 import com.github.sparkzxl.database.base.service.SuperService;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.PageParams;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * description: 角色 服务类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:31:48
+ * @since 2020-06-07 13:31:48
  */
 public interface IRoleService extends SuperService<AuthRole> {
 

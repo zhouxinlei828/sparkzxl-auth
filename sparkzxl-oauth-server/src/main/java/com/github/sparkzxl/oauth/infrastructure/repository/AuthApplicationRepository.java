@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * description: 应用 仓储实现类
  *
  * @author charles.zhou
- * @date 2021-03-06 19:23:56
+ * @since 2021-03-06 19:23:56
  */
 @Repository
 public class AuthApplicationRepository implements IAuthApplicationRepository {

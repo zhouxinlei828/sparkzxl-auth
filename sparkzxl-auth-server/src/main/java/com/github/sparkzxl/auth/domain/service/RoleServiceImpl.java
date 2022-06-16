@@ -10,7 +10,7 @@ import com.github.sparkzxl.auth.domain.model.dto.role.RoleQueryDTO;
 import com.github.sparkzxl.auth.domain.model.dto.role.RoleSaveDTO;
 import com.github.sparkzxl.auth.domain.model.dto.role.RoleUpdateDTO;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.PageParams;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
  * description: 角色 服务实现类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:37:09
+ * @since 2020-06-07 13:37:09
  */
 @Service
 public class RoleServiceImpl extends SuperServiceImpl<AuthRoleMapper, AuthRole> implements IRoleService {

@@ -10,7 +10,7 @@ import java.util.List;
  * description: 流程角色 服务类
  *
  * @author charles.zhou
- * @date 2021-01-08 17:05:32
+ * @since 2021-01-08 17:05:32
  */
 public interface IExtProcessRoleService extends SuperService<ExtProcessRole> {
 

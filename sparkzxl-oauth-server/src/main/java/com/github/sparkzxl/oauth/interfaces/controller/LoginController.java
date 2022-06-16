@@ -1,6 +1,6 @@
 package com.github.sparkzxl.oauth.interfaces.controller;
 
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.oauth.application.service.IOauthService;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AccessTokenInfo;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * description: 登录管理
  *
  * @author charles.zhou
- * @date 2021-03-13 18:58:25
+ * @since 2021-03-13 18:58:25
  */
 @Controller
 @Api(tags = "登录管理")

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * description: 流程任务节点
  *
  * @author charles.zhou
- * @date 2020-07-21 14:20:50
+ * @since 2020-07-21 14:20:50
  */
 @Data
 @Accessors(chain = true)

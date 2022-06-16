@@ -22,7 +22,7 @@ import java.util.List;
  * description:
  *
  * @author zhouxinlei
- * @date 2021-06-09 17:18
+ * @since 2021-06-09 17:18
  */
 @SpringBootTest(classes = {AuthServerApplication.class}, properties = {"spring.profiles.active=dev"})
 class AuthUserRepositoryTest {

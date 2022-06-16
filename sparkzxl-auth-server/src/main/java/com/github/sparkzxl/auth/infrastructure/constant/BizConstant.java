@@ -4,7 +4,7 @@ package com.github.sparkzxl.auth.infrastructure.constant;
  * description: 业务常量类
  *
  * @author zhouxinlei
- * @date 2021-07-11 09:47:39
+ * @since 2021-07-11 09:47:39
  */
 public class BizConstant {
 

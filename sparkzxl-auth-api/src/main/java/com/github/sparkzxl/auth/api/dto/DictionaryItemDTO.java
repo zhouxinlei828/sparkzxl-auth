@@ -11,7 +11,7 @@ import java.io.Serializable;
  * description: 字典项DTO
  *
  * @author charles.zhou
- * @date 2021-02-02 11:34:07
+ * @since 2021-02-02 11:34:07
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

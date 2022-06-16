@@ -11,7 +11,7 @@ import java.util.Map;
  * description: 用户基本信息显示层对象
  *
  * @author charles.zhou
- * @date 2020-12-27 11:08:49
+ * @since 2020-12-27 11:08:49
  */
 @Data
 public class AuthUserBasicVO {

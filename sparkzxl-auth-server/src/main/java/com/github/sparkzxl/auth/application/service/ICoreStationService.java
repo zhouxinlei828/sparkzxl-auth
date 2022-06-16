@@ -7,7 +7,7 @@ import com.github.sparkzxl.auth.domain.model.dto.station.StationQueryDTO;
 import com.github.sparkzxl.auth.domain.model.dto.station.StationSaveDTO;
 import com.github.sparkzxl.auth.domain.model.dto.station.StationUpdateDTO;
 import com.github.sparkzxl.database.base.service.SuperService;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.PageParams;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * description: 岗位 服务类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:32:55
+ * @since 2020-06-07 13:32:55
  */
 public interface ICoreStationService extends SuperService<CoreStation> {
 

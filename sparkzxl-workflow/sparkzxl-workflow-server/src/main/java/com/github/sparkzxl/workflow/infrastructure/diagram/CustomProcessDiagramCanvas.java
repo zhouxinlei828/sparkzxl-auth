@@ -25,7 +25,7 @@ import java.text.AttributedString;
  * description: 流程图渲染
  *
  * @author charles.zhou
- * @date 2020-07-17 14:01:20
+ * @since 2020-07-17 14:01:20
  */
 public class CustomProcessDiagramCanvas extends DefaultProcessDiagramCanvas {
 

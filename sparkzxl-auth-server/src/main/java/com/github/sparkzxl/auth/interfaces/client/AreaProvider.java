@@ -11,7 +11,7 @@ import java.util.Map;
  * description: 地区client
  *
  * @author zhouxinlei
- * @date 2021-10-14 14:35:47
+ * @since 2021-10-14 14:35:47
  */
 @FeignClient(contextId = "areaProvider", name = "area", url = "https://restapi.amap.com")
 public interface AreaProvider {

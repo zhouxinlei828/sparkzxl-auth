@@ -13,7 +13,7 @@ import java.util.List;
  * description: 岗位 仓储类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:32:55
+ * @since 2020-06-07 13:32:55
  */
 public interface ICoreStationRepository extends LoadService {
 

@@ -20,7 +20,7 @@ import java.util.List;
  * description: 动态SQL操作类
  *
  * @author zhouxinlei
- * @date 2021-07-31 17:26:30
+ * @since 2021-07-31 17:26:30
  */
 public class DynamicSqlOps {
 

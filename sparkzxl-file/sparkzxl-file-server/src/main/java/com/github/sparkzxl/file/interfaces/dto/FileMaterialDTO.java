@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * description：文件入参
  *
  * @author charles.zhou
- * @date 2020/6/16 0016
+ * @since 2020/6/16 0016
  */
 @Data
 public class FileMaterialDTO {

@@ -19,7 +19,7 @@ import java.util.List;
  * description: 菜单 服务实现类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:35:18
+ * @since 2020-06-07 13:35:18
  */
 @Service
 public class MenuServiceImpl extends SuperServiceImpl<AuthMenuMapper, AuthMenu> implements IMenuService {

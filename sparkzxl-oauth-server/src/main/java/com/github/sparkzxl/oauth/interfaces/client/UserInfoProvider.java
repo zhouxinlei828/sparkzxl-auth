@@ -5,8 +5,8 @@ import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
 import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
+import com.github.sparkzxl.feign.annotation.RetryableMethod;
 import com.github.sparkzxl.feign.resilience4j.FeignDecoratorBuilderInterceptor;
-import com.github.sparkzxl.feign.resilience4j.annoation.RetryableMethod;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * description: 用户client
  *
  * @author zhoux
- * @date 2021-08-22 12:07:48
+ * @since 2021-08-22 12:07:48
  */
 @FeignClient(contextId = "userInfoProvider", value = "sparkzxl-auth-server", path = "/user", configuration = UserInfoProvider.UserInfoConfig.class)
 @Component

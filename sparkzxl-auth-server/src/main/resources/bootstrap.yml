@@ -3,3 +3,17 @@ spring:
     active: dev #默认为开发环境
   main:
     allow-bean-definition-overriding: true
+  alarm:
+    enabled: true
+    channel:
+      wetalk:
+        enabled: true
+        configs:
+          - token-id: 03b92f73-3064-4999-9e99-a77e6c2802ec
+          - token-id: c5f66428-f7d5-494d-88bf-dad31100a4f6
+      dingtalk:
+        enabled: true
+        configs:
+          - token-id: 979162a102696b4bd63e58417a074ce62ed9d46c04c5335a0a96a96464008ae0
+            secret: SEC6e6808e6eba4144aa46bef4e6b9146a1385bd3db98ccaa0e5221862fb555ad7c
+    primary-alarm: dingtalk

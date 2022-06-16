@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * description: 获取授权用户 服务实现类
  *
  * @author charles.zhou
- * @date 2020-08-03 17:16:17
+ * @since 2020-08-03 17:16:17
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

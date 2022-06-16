@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * description: 文件Provider
  *
  * @author charles.zhou
- * @date 2020-05-24 12:27:04
+ * @since 2020-05-24 12:27:04
  */
 public interface FileProvider {
 

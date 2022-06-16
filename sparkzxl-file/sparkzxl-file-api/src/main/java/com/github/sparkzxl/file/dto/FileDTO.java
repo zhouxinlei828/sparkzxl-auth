@@ -9,7 +9,7 @@ import java.util.List;
  * description: 文件入参
  *
  * @author charles.zhou
- * @date 2020-05-24 12:30:13
+ * @since 2020-05-24 12:30:13
  */
 @Data
 public class FileDTO {

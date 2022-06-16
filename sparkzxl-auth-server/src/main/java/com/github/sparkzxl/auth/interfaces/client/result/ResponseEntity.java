@@ -9,7 +9,7 @@ import java.util.List;
  * description: 响应实体类
  *
  * @author zhouxinlei
- * @date 2021-10-14 16:13:49
+ * @since 2021-10-14 16:13:49
  */
 @Data
 public class ResponseEntity {

@@ -1,8 +1,9 @@
 package com.github.sparkzxl.workflow.interfaces.controller.model;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.sparkzxl.annotation.response.Response;
-import com.github.sparkzxl.database.dto.DeleteDTO;
+import com.github.sparkzxl.dto.DeleteDTO;
+import com.github.sparkzxl.web.annotation.Response;
+
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.application.service.act.IActReModelService;
 import com.github.sparkzxl.workflow.application.service.model.IModelerService;
@@ -23,7 +24,7 @@ import javax.validation.Valid;
  * description:流程控制器
  *
  * @author charles.zhou
- * @date 2020-07-17 14:46:24
+ * @since 2020-07-17 14:46:24
  */
 @AllArgsConstructor
 @RestController

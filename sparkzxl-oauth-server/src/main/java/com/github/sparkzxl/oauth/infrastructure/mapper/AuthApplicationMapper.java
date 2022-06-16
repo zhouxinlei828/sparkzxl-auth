@@ -11,7 +11,7 @@ import java.util.List;
  * description: 租户信息客户端Mapper 接口
  *
  * @author charles.zhou
- * @date 2021-02-20 09:43:16
+ * @since 2021-02-20 09:43:16
  */
 @Mapper
 public interface AuthApplicationMapper extends SuperMapper<AuthApplication> {

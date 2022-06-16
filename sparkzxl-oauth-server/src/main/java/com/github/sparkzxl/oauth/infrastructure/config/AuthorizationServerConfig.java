@@ -38,7 +38,7 @@ import java.util.Optional;
  * description: 授权服务器配置
  *
  * @author charles.zhou
- * @date 2021-02-23 14:13:03
+ * @since 2021-02-23 14:13:03
  */
 @Configuration
 @EnableAuthorizationServer

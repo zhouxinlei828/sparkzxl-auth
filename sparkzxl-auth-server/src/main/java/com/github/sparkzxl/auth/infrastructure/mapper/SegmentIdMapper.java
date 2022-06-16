@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
  * description: id序列Mapper 接口
  *
  * @author charles.zhou
- * @date 2021-02-14 10:34:04
+ * @since 2021-02-14 10:34:04
  */
 @Mapper
 public interface SegmentIdMapper extends BaseMapper<SegmentId> {

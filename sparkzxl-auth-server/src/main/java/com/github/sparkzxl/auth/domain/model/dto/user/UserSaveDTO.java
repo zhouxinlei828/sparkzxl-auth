@@ -13,7 +13,7 @@ import java.util.Map;
  * description: 用户信息
  *
  * @author charles.zhou
- * @date 2020-05-24 12:24:03
+ * @since 2020-05-24 12:24:03
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

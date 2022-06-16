@@ -22,7 +22,7 @@ import java.util.List;
  * description: 组织 服务实现类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:37:19
+ * @since 2020-06-07 13:37:19
  */
 @Service
 public class CoreOrgServiceImpl extends SuperServiceImpl<CoreOrgMapper, CoreOrg> implements ICoreOrgService {

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * description: 初始化角色资源加载类
  *
  * @author charles.zhou
- * @date 2020-08-02 22:10:40
+ * @since 2020-08-02 22:10:40
  */
 @Component
 public class InitRolePathApplicationRunner implements CommandLineRunner, Ordered {

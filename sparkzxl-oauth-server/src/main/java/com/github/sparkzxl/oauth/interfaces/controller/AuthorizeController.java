@@ -1,6 +1,6 @@
 package com.github.sparkzxl.oauth.interfaces.controller;
 
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.oauth.application.service.IOauthService;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AccessTokenInfo;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * description: 授权管理
  *
  * @author zhouxinlei
- * @date 2021-08-19 12:31:52
+ * @since 2021-08-19 12:31:52
  */
 @Controller
 @HttpRequestLog

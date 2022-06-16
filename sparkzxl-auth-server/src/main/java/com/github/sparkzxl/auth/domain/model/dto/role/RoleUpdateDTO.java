@@ -11,7 +11,7 @@ import java.util.Map;
  * description：角色更新对象
  *
  * @author charles.zhou
- * @date 2020/6/16 0016
+ * @since 2020/6/16 0016
  */
 @Data
 @ApiModel("角色更新对象")

@@ -5,6 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.DesensitizedUtil;
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -40,7 +41,7 @@ import java.util.stream.Collectors;
  * description：用户仓储层实现类
  *
  * @author charles.zhou
- * @date 2020/6/5 8:45 下午
+ * @since 2020/6/5 8:45 下午
  */
 @Repository
 @Slf4j
@@ -60,8 +61,6 @@ public class AuthUserRepository implements IAuthUserRepository {
     private CoreOrgMapper coreOrgMapper;
     @Resource
     private PasswordEncoder passwordEncoder;
-    @Resource
-    private Snowflake snowflake;
 
     @Override
     public AuthUser selectById(Long id) {
@@ -217,7 +216,7 @@ public class AuthUserRepository implements IAuthUserRepository {
             List<AuthRole> roleList = authRoleMapper.selectBatchIds(roleIds);
             List<RoleBasicInfo> roleBasicInfos = AuthRoleConvert.INSTANCE.convertRoleBasicInfo(roleList);
             RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
-            roleBasicInfo.setId(snowflake.nextId());
+            roleBasicInfo.setId(IdUtil.getSnowflake().nextId());
             roleBasicInfo.setCode(BizConstant.USER_CODE);
             roleBasicInfo.setName("普通用户");
             roleBasicInfos.add(roleBasicInfo);
@@ -247,7 +246,7 @@ public class AuthUserRepository implements IAuthUserRepository {
             authUserBasicInfo.setResourceList(resourceBasicInfos);
         } else {
             RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
-            roleBasicInfo.setId(snowflake.nextId());
+            roleBasicInfo.setId(IdUtil.getSnowflake().nextId());
             roleBasicInfo.setCode(BizConstant.USER_CODE);
             roleBasicInfo.setName("普通用户");
             List<RoleBasicInfo> roleBasicInfos = Lists.newArrayList(roleBasicInfo);

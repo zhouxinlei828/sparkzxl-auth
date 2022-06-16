@@ -2,7 +2,7 @@ package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.application.service.IRoleAuthorityService;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.domain.model.dto.role.RoleAuthorityQueryDTO;
@@ -21,7 +21,7 @@ import java.util.List;
  * description: 角色资源管理
  *
  * @author charles.zhou
- * @date 2020-07-19 21:05:10
+ * @since 2020-07-19 21:05:10
  */
 @RestController
 @RequestMapping("/role/authority")

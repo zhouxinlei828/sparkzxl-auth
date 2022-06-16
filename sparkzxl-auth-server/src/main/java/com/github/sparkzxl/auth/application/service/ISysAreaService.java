@@ -13,7 +13,7 @@ import java.util.List;
  * description: 地区表 服务类
  *
  * @author charles.zhou
- * @date 2020-07-28 19:41:37
+ * @since 2020-07-28 19:41:37
  */
 public interface ISysAreaService extends SuperService<SysArea> {
 

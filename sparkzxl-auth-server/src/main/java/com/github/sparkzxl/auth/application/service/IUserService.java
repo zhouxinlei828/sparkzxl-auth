@@ -10,7 +10,7 @@ import com.github.sparkzxl.auth.domain.model.dto.user.UserQueryDTO;
 import com.github.sparkzxl.auth.domain.model.dto.user.UserSaveDTO;
 import com.github.sparkzxl.auth.domain.model.dto.user.UserUpdateDTO;
 import com.github.sparkzxl.database.base.service.SuperService;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * description: 用户查询 服务类
  *
  * @author charles.zhou
- * @date 2020-05-24 12:22:23
+ * @since 2020-05-24 12:22:23
  */
 public interface IUserService extends SuperService<AuthUser> {
 

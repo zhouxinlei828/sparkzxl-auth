@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * description: 用户降级处理
  *
  * @author zhoux
- * @date 2021-08-22 12:12:28
+ * @since 2021-08-22 12:12:28
  */
 @Component
 public class UserInfoFallback implements UserInfoProvider {

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * description: 获取model的节点信息，编辑器根据返回的json进行绘图
  *
  * @author charles.zhou
- * @date 2020-07-17 14:23:53
+ * @since 2020-07-17 14:23:53
  */
 @RestController
 @RequestMapping("/service/")

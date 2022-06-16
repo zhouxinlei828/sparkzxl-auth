@@ -10,7 +10,7 @@ import java.util.Set;
  * description: 账户角色绑定 仓储类
  *
  * @author charles.zhou
- * @date 2020-07-19 21:12:43
+ * @since 2020-07-19 21:12:43
  */
 public interface IUserRoleRepository {
 

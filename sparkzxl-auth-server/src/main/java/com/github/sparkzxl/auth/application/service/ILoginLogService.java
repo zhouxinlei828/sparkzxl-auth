@@ -8,7 +8,7 @@ import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
 import com.github.sparkzxl.auth.domain.model.dto.log.LoginLogQueryDTO;
 import com.github.sparkzxl.database.base.service.SuperService;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ import java.util.List;
  * description：系统日志 服务类
  *
  * @author charles.zhou
- * @date 2020-06-17 11:33:15
+ * @since 2020-06-17 11:33:15
  */
 public interface ILoginLogService extends SuperService<LoginLog> {
 

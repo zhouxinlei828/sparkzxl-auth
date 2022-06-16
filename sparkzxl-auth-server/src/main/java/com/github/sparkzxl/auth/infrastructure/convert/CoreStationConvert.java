@@ -17,7 +17,7 @@ import java.util.List;
  * description: CoreStation对象Convert
  *
  * @author charles.zhou
- * @date 2020-06-05 21:28:06
+ * @since 2020-06-05 21:28:06
  */
 @Mapper
 public interface CoreStationConvert {

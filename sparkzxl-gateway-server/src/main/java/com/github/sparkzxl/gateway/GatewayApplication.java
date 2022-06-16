@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * description: 网关启动类
  *
  * @author charles.zhou
- * @date 2020-05-24 12:18:18
+ * @since 2020-05-24 12:18:18
  */
 @SpringBootApplication(scanBasePackages = {"com.github.sparkzxl.gateway"})
 public class GatewayApplication {

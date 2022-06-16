@@ -2,10 +2,10 @@ package com.github.sparkzxl.oauth.interfaces.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.database.base.controller.SuperController;
-import com.github.sparkzxl.database.dto.DeleteDTO;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.DeleteDTO;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.oauth.application.service.IApplicationService;
 import com.github.sparkzxl.oauth.infrastructure.entity.AuthApplication;
 import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationQueryDTO;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * description: 应用客户端管理
  *
  * @author charles.zhou
- * @date 2021-02-02 11:31:18
+ * @since 2021-02-02 11:31:18
  */
 @RestController
 @Api(tags = "应用客户端管理")

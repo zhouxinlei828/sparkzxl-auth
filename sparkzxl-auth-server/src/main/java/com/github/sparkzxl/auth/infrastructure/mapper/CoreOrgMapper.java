@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
  * description: 组织 Mapper 接口
  *
  * @author charles.zhou
- * @date 2020-06-07 13:29:56
+ * @since 2020-06-07 13:29:56
  */
 @Mapper
 public interface CoreOrgMapper extends SuperMapper<CoreOrg> {

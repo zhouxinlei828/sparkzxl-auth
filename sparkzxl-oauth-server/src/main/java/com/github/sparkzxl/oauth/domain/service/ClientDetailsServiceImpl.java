@@ -21,7 +21,7 @@ import java.util.Optional;
  * description: oauth 客户端应用管理
  *
  * @author zhouxinlei
- * @date 2021-07-03 15:28:51
+ * @since 2021-07-03 15:28:51
  */
 @Service
 public class ClientDetailsServiceImpl implements ClientDetailsService {

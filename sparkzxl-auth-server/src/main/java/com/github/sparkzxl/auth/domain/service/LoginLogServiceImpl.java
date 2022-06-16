@@ -15,7 +15,7 @@ import com.github.sparkzxl.auth.domain.model.dto.log.LoginLogQueryDTO;
 import com.github.sparkzxl.cache.service.CacheService;
 import com.github.sparkzxl.core.util.KeyGeneratorUtil;
 import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.entity.core.UserAgentEntity;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ import java.util.List;
  * description：系统日志 服务实现类
  *
  * @author charles.zhou
- * @date 2020/6/17 0017
+ * @since 2020/6/17 0017
  */
 @Service
 @RequiredArgsConstructor

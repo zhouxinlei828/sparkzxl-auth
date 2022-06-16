@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * description: 任务历史状态记录（新加表）
  *
  * @author charles.zhou
- * @date 2020-07-16 18:39:32
+ * @since 2020-07-16 18:39:32
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

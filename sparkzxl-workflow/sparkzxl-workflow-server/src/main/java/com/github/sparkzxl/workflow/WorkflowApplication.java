@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * description: 工作流引擎启动类
  *
  * @author charles.zhou
- * @date 2020-07-16 20:01:10
+ * @since 2020-07-16 20:01:10
  */
 @Slf4j
 @SpringBootApplication(scanBasePackages = {"com.github.sparkzxl.workflow"}, exclude = SecurityAutoConfiguration.class)

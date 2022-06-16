@@ -13,7 +13,7 @@ import java.util.Map;
  * description: 组织更新实体类
  *
  * @author charles.zhou
- * @date 2020-07-28 10:21:46
+ * @since 2020-07-28 10:21:46
  */
 @Data
 @NoArgsConstructor

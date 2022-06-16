@@ -8,7 +8,7 @@ import lombok.Data;
  * description:ProcessTaskDetail显示层对象
  *
  * @author charles.zhou
- * @date 2020-07-21 14:56:57
+ * @since 2020-07-21 14:56:57
  */
 @Data
 @ApiModel(value = "ProcessTaskDetail显示层对象", description = "")

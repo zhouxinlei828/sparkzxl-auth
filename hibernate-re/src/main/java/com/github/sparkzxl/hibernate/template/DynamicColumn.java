@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
  * description: 动态字段实体类
  *
  * @author zhouxinlei
- * @date 2021-08-02 12:12:26
+ * @since 2021-08-02 12:12:26
  */
 @Data
 @Accessors(chain = true)

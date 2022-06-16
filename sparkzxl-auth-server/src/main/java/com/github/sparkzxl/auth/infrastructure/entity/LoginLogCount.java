@@ -14,7 +14,7 @@ import java.time.LocalDate;
  * description：登录日志统计
  *
  * @author charles.zhou
- * @date 2020/6/17 0017
+ * @since 2020/6/17 0017
  */
 @Data
 @NoArgsConstructor

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * description: 地区表
  *
  * @author charles.zhou
- * @date 2020-07-28 19:35:34
+ * @since 2020-07-28 19:35:34
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

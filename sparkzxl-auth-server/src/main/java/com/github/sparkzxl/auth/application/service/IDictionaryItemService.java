@@ -13,7 +13,7 @@ import java.util.Set;
  * description: 字典项 服务类
  *
  * @author charles.zhou
- * @date 2020-07-28 19:42:04
+ * @since 2020-07-28 19:42:04
  */
 public interface IDictionaryItemService extends SuperService<DictionaryItem> {
 

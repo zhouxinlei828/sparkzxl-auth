@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.interfaces.controller.base;
 
 
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.application.service.ISysAreaService;
 import com.github.sparkzxl.auth.domain.model.vo.AreaTree;
 import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
@@ -20,7 +20,7 @@ import java.util.List;
  * description: 地区管理
  *
  * @author charles.zhou
- * @date 2020-07-28 19:48:13
+ * @since 2020-07-28 19:48:13
  */
 @RestController
 @Response

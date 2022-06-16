@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
  * description: 账号角色绑定 Mapper 接口
  *
  * @author charles.zhou
- * @date 2020-07-19 20:58:18
+ * @since 2020-07-19 20:58:18
  */
 @Mapper
 public interface UserRoleMapper extends SuperMapper<UserRole> {

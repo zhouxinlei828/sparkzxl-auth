@@ -1,7 +1,7 @@
 package com.github.sparkzxl.file.interfaces.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.core.support.ExceptionAssert;
 import com.github.sparkzxl.file.api.FileProvider;
 import com.github.sparkzxl.file.application.service.IFileService;
@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
  * description: 文件上传 前端控制器
  *
  * @author charles.zhou
- * @date 2020-05-24 12:40:10
+ * @since 2020-05-24 12:40:10
  */
 @RestController
 @HttpRequestLog

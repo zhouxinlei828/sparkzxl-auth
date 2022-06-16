@@ -10,7 +10,7 @@ import java.util.List;
  * description: 用户仓储层
  *
  * @author charles.zhou
- * @date 2020-06-05 20:39:15
+ * @since 2020-06-05 20:39:15
  */
 public interface IAuthUserRepository {
 

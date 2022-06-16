@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * description: 岗位 仓储层实现类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:32:55
+ * @since 2020-06-07 13:32:55
  */
 @Repository
 public class CoreStationRepository implements ICoreStationRepository {

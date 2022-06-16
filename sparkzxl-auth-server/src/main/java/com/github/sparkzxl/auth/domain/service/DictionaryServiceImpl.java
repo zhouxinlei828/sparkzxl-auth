@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * description: 字典类型 服务实现类
  *
  * @author charles.zhou
- * @date 2020-07-28 19:44:24
+ * @since 2020-07-28 19:44:24
  */
 @Service
 public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Dictionary> implements IDictionaryService {

@@ -10,7 +10,7 @@ import java.util.Set;
  * description: 字典降级处理
  *
  * @author zhoux
- * @date 2021-08-22 12:12:28
+ * @since 2021-08-22 12:12:28
  */
 @Component
 public class DictionaryFallback implements DictionaryProvider {

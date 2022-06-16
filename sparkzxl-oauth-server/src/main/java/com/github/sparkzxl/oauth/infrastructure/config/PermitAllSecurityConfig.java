@@ -11,7 +11,7 @@ import javax.servlet.Filter;
  * description: 配置PermitAuthenticationFilter
  *
  * @author charles.zhou
- * @date 2021-02-24 10:25:44
+ * @since 2021-02-24 10:25:44
  */
 public class PermitAllSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 

@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
  * description: 系统参数 Mapper 接口
  *
  * @author zhoux
- * @date 2021-06-13 12:06:01
+ * @since 2021-06-13 12:06:01
  */
 @Mapper
 public interface SysParameterMapper extends SuperMapper<SysParameter> {

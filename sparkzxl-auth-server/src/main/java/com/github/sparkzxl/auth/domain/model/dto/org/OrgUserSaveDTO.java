@@ -11,7 +11,7 @@ import java.util.List;
  * description: 组织用户保存DTO
  *
  * @author zhouxinlei
- * @date 2021-08-08 17:14:35
+ * @since 2021-08-08 17:14:35
  */
 @Data
 @ApiModel(value = "OrgUserSaveDTO", description = "组织用户保存DTO")

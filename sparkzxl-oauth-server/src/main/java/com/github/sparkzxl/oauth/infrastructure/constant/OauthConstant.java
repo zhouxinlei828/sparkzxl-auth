@@ -4,7 +4,7 @@ package com.github.sparkzxl.oauth.infrastructure.constant;
  * description: oauth2 常量
  *
  * @author zhoux
- * @date 2021-08-22 12:02:40
+ * @since 2021-08-22 12:02:40
  */
 public class OauthConstant {
 

@@ -11,7 +11,7 @@ import java.util.List;
  * description: 资源 Mapper 接口
  *
  * @author charles.zhou
- * @date 2020-06-07 13:29:12
+ * @since 2020-06-07 13:29:12
  */
 @Mapper
 public interface AuthResourceMapper extends SuperMapper<AuthResource> {

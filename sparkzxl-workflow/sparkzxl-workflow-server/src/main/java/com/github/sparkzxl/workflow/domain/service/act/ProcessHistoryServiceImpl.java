@@ -3,7 +3,6 @@ package com.github.sparkzxl.workflow.domain.service.act;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.date.DatePattern;
 import com.github.sparkzxl.core.util.DateUtils;
-import com.github.sparkzxl.database.factory.CustomThreadFactory;
 import com.github.sparkzxl.workflow.application.service.act.IProcessHistoryService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRepositoryService;
 import com.github.sparkzxl.workflow.application.service.act.IProcessRuntimeService;
@@ -33,6 +32,7 @@ import org.activiti.engine.task.Comment;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
  * description: 历史流程 服务实现类
  *
  * @author charles.zhou
- * @date 2020-07-17 15:21:22
+ * @since 2020-07-17 15:21:22
  */
 @Service
 @Slf4j
@@ -61,7 +61,7 @@ public class ProcessHistoryServiceImpl implements IProcessHistoryService {
             10,
             TimeUnit.MILLISECONDS,
             new ArrayBlockingQueue<>(30),
-            new CustomThreadFactory());
+            new BasicThreadFactory.Builder().namingPattern("process").build());
 
     @Autowired
     private HistoryService historyService;

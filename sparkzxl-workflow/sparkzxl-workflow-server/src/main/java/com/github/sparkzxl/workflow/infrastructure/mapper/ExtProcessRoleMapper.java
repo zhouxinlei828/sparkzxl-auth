@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
  * description: 流程角色 Mapper 接口
  *
  * @author charles.zhou
- * @date 2021-01-08 16:50:18
+ * @since 2021-01-08 16:50:18
  */
 @Mapper
 public interface ExtProcessRoleMapper extends SuperMapper<ExtProcessRole> {

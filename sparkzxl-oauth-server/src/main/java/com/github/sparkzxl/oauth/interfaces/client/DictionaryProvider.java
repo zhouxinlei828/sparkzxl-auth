@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * description: 用户client
  *
  * @author zhoux
- * @date 2021-08-22 12:07:48
+ * @since 2021-08-22 12:07:48
  */
 @FeignClient(contextId = "dictionaryProvider", value = "sparkzxl-auth-server", path = "/base/dictionaryItem", fallback = DictionaryFallback.class)
 @Component

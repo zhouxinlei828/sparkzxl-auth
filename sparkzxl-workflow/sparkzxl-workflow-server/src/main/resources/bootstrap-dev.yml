@@ -33,9 +33,10 @@ spring:
           - dataId: resilience4j.yaml
             group: DEFAULT_GROUP
             refresh: true
+          - dataId: redisson.yaml
+            group: DEFAULT_GROUP
+            refresh: true
         enable-remote-sync-config: true
-  redis:
-    redisson: redisson-dev.yml
 logging:
   level:
     com.github.sparkzxl.workflow.infrastructure.mapper: debug

@@ -39,7 +39,7 @@ public class WorkflowStartActionHandler implements IWorkflowActionHandler {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @DistributedLock(keys = {"#p0.businessId","#p0.actType"})
+    @DistributedLock(keys = {"#p0.businessId", "#p0.actType"}, expire = 15000, acquireTimeout = 200)
     public DriverResult execute(ExecuteProcess executeProcess) {
         log.info("流程启动业务处理：actType:[{}],businessId:[{}]", executeProcess.getActType(), executeProcess.getBusinessId());
         DriverResult driverResult = new DriverResult();

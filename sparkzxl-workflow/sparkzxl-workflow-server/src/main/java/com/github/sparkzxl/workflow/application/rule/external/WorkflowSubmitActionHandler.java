@@ -24,7 +24,7 @@ public class WorkflowSubmitActionHandler implements IWorkflowActionHandler {
     private ActWorkApiService actWorkApiService;
 
     @Override
-    @DistributedLock(keys = {"#p0.businessId","#p0.actType"})
+    @DistributedLock(keys = {"#p0.businessId","#p0.actType"}, expire = 15000, acquireTimeout = 200)
     public DriverResult execute(ExecuteProcess executeProcess) {
         log.info("流程提交业务处理：actType:[{}],businessId:[{}]", executeProcess.getActType(), executeProcess.getBusinessId());
         ExecuteData executeData = assemblyData(executeProcess);

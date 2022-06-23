@@ -8,7 +8,7 @@ import lombok.Data;
  * description: 岗位基本信息
  *
  * @author charles.zhou
- * @date 2020-12-27 11:21:33
+ * @since 2020-12-27 11:21:33
  */
 @Data
 @ApiModel("岗位基本信息")

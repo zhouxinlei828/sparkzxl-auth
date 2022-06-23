@@ -1,13 +1,11 @@
 package com.github.sparkzxl.auth.infrastructure.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.sparkzxl.annotation.echo.EchoField;
-import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
 import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
-import com.github.sparkzxl.entity.data.Entity;
+import com.github.sparkzxl.constant.EntityConstant;
+import com.github.sparkzxl.database.echo.annotation.EchoField;
 import com.github.sparkzxl.entity.data.RemoteData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,6 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstant.*;
  * description: 用户信息
  *
  * @author charles.zhou
- * @date 2020-05-24 12:24:03
+ * @since 2020-05-24 12:24:03
  */
 @Data
 @NoArgsConstructor
@@ -34,9 +33,12 @@ import static com.github.sparkzxl.auth.infrastructure.constant.EchoConstant.*;
 @Accessors(chain = true)
 @TableName(value = "auth_user", autoResultMap = true)
 @ApiModel(value = "AuthUser对象", description = "用户")
-public class AuthUser extends Entity<Long> {
+public class AuthUser implements Serializable {
 
     private static final long serialVersionUID = -2722880054053904869L;
+
+    @TableId(value = EntityConstant.COLUMN_ID, type = IdType.INPUT)
+    protected Long id;
 
     @ApiModelProperty(value = "账号")
     @TableField("account")
@@ -75,7 +77,12 @@ public class AuthUser extends Entity<Long> {
 
     @ApiModelProperty(value = "性别")
     @TableField("sex")
-    private SexEnum sex;
+    @EchoField(ref = "sexDesc", api = DICTIONARY_ITEM_CLASS, dictType = BizConstant.SEX)
+    private Integer sex;
+
+    @ApiModelProperty(value = "性别")
+    @TableField(exist = false)
+    private String sexDesc;
 
     @ApiModelProperty(value = "头像")
     @TableField("avatar")
@@ -83,30 +90,18 @@ public class AuthUser extends Entity<Long> {
 
     @ApiModelProperty(value = "民族")
     @TableField("nation")
-    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = BizConstant.NATION)
+    @EchoField(api = DICTIONARY_ITEM_CLASS, dictType = BizConstant.NATION)
     private RemoteData<String, String> nation;
 
     @ApiModelProperty(value = "学历")
     @TableField("education")
-    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = BizConstant.EDUCATION)
+    @EchoField(api = DICTIONARY_ITEM_CLASS, dictType = BizConstant.EDUCATION)
     private RemoteData<String, String> education;
 
     @ApiModelProperty(value = "职位状态")
     @TableField("position_status")
-    @EchoField(api = DICTIONARY_ITEM_CLASS, method = FIND_NAME_BY_IDS, dictType = BizConstant.POSITION_STATUS)
+    @EchoField(api = DICTIONARY_ITEM_CLASS, dictType = BizConstant.POSITION_STATUS)
     private RemoteData<String, String> positionStatus;
-
-    @ApiModelProperty(value = "工作描述比如：市长、管理员、局长等等   用于登陆展示")
-    @TableField("work_describe")
-    private String workDescribe;
-
-    @ApiModelProperty(value = "密码错误次数")
-    @TableField("password_error_num")
-    private Integer passwordErrorNum;
-
-    @ApiModelProperty(value = "最后登录时间")
-    @TableField("last_login_time")
-    private LocalDateTime lastLoginTime;
 
     @ApiModelProperty(value = "状态 1启用 0禁用")
     @TableField("status")
@@ -115,4 +110,16 @@ public class AuthUser extends Entity<Long> {
     @ApiModelProperty(value = "扩展信息")
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> extendInfo;
+
+    @TableField(value = "create_user", fill = FieldFill.INSERT)
+    protected Long createUser;
+
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    protected LocalDateTime createTime;
+
+    @TableField(value = "update_user", fill = FieldFill.INSERT_UPDATE)
+    protected Long updateUser;
+
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    protected LocalDateTime updateTime;
 }

@@ -1,13 +1,14 @@
 package com.github.sparkzxl.auth.application.service;
 
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.domain.model.aggregates.LoginStatus;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLogCount;
-import com.github.sparkzxl.auth.interfaces.dto.log.LoginLogQueryDTO;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.auth.domain.model.dto.log.LoginLogQueryDTO;
+import com.github.sparkzxl.database.base.service.SuperService;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 
 import java.time.LocalDateTime;
@@ -17,9 +18,9 @@ import java.util.List;
  * description：系统日志 服务类
  *
  * @author charles.zhou
- * @date 2020-06-17 11:33:15
+ * @since 2020-06-17 11:33:15
  */
-public interface ILoginLogService extends SuperCacheService<LoginLog> {
+public interface ILoginLogService extends SuperService<LoginLog> {
 
     /**
      * 记录登录日志
@@ -86,9 +87,9 @@ public interface ILoginLogService extends SuperCacheService<LoginLog> {
      *
      * @param authUserInfo 全局用户信息
      * @param pageParams   分页查询参数
-     * @return PageInfo<LoginLog>
+     * @return Page<LoginLog>
      */
-    PageInfo<LoginLog> getLoginLogPage(AuthUserInfo<Long> authUserInfo, PageParams<LoginLogQueryDTO> pageParams);
+    Page<LoginLog> getLoginLogPage(AuthUserInfo<UserDetail> authUserInfo, PageParams<LoginLogQueryDTO> pageParams);
 
     /**
      * 删除登录日志

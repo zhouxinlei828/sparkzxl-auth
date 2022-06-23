@@ -1,23 +1,31 @@
 package com.github.sparkzxl.file.domain.repository;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.file.infrastructure.entity.FileMaterial;
 
 /**
  * description：文件 仓储类
  *
  * @author charles.zhou
- * @date 2020/6/16 0016
+ * @since 2020/6/16 0016
  */
 public interface IFileMaterialRepository {
 
     /**
      * 根据文件名查询文件
      *
-     * @param fileName 文件名
+     * @param originalFilename 原始文件名
      * @return FileMaterial
      */
-    FileMaterial selectByFileName(String fileName);
+    FileMaterial selectByOriginalFilename(String originalFilename);
+
+    /**
+     * 根据文件摘要文件
+     *
+     * @param fileDigest 文件摘要
+     * @return FileMaterial
+     */
+    FileMaterial selectByDigest(String fileDigest);
 
     /**
      * 保存文件上传记录
@@ -50,7 +58,7 @@ public interface IFileMaterialRepository {
      * @param pageSize    页面大小
      * @param fileName    文件名
      * @param contentType 媒体类型
-     * @return PageInfo<FileMaterial>
+     * @return Page<FileMaterial>
      */
-    PageInfo<FileMaterial> fileMaterialPageList(int pageNum, int pageSize, String fileName, String contentType);
+    Page<FileMaterial> fileMaterialPageList(int pageNum, int pageSize, String fileName, String contentType);
 }

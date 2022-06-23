@@ -1,16 +1,16 @@
 package com.github.sparkzxl.oauth.interfaces.controller;
 
 
-import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.annotation.response.Response;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
-import com.github.sparkzxl.database.dto.DeleteDTO;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.sparkzxl.web.annotation.Response;
+import com.github.sparkzxl.database.base.controller.SuperController;
+import com.github.sparkzxl.dto.DeleteDTO;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.oauth.application.service.IApplicationService;
 import com.github.sparkzxl.oauth.infrastructure.entity.AuthApplication;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationQueryDTO;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationSaveDTO;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationUpdateDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationQueryDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationSaveDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationUpdateDTO;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
  * description: 应用客户端管理
  *
  * @author charles.zhou
- * @date 2021-02-02 11:31:18
+ * @since 2021-02-02 11:31:18
  */
 @RestController
 @Api(tags = "应用客户端管理")
 @Response
 @RequestMapping("/application")
-public class AppController extends SuperCacheController<IApplicationService, Long,
+public class AppController extends SuperController<IApplicationService, Long,
         AuthApplication, AuthApplicationSaveDTO, AuthApplicationUpdateDTO, AuthApplicationQueryDTO, Object> {
 
     @Override
@@ -44,7 +44,7 @@ public class AppController extends SuperCacheController<IApplicationService, Lon
     }
 
     @Override
-    public PageInfo<AuthApplication> page(PageParams<AuthApplicationQueryDTO> params) {
+    public Page<AuthApplication> page(PageParams<AuthApplicationQueryDTO> params) {
         return baseService.listPage(params);
     }
 }

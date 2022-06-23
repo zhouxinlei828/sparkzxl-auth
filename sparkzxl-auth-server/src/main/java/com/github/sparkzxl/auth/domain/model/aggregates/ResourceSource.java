@@ -1,6 +1,6 @@
 package com.github.sparkzxl.auth.domain.model.aggregates;
 
-import com.github.sparkzxl.auth.infrastructure.enums.OperationEnum;
+import com.github.sparkzxl.auth.domain.model.enums.OperationEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import lombok.Data;
  * description: 资源触发事件源
  *
  * @author charles.zhou
- * @date 2021-03-08 14:17:10
+ * @since 2021-03-08 14:17:10
  */
 @Data
 @AllArgsConstructor

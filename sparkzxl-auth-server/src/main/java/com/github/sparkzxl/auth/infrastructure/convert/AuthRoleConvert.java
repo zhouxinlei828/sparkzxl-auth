@@ -4,8 +4,8 @@ import com.github.sparkzxl.auth.api.dto.RoleBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.RoleResource;
 import com.github.sparkzxl.auth.domain.model.vo.RoleResourceVO;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleUpdateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * description: AuthRole对象Convert
  *
  * @author charles.zhou
- * @date 2020-06-05 21:28:06
+ * @since 2020-06-05 21:28:06
  */
 @Mapper
 public interface AuthRoleConvert {

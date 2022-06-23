@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * description: 任务历史状态记录（新加表）
  *
  * @author charles.zhou
- * @date 2020-07-16 18:39:32
+ * @since 2020-07-16 18:39:32
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -27,12 +27,12 @@ public class ExtHiTaskStatus {
     @ApiModelProperty(value = "主键id")
     @TableId(value = EntityConstant.COLUMN_ID, type = IdType.INPUT)
     protected Long id;
-    @TableField(value = EntityConstant.COLUMN_UPDATE_TIME, fill = FieldFill.INSERT_UPDATE)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    protected LocalDateTime updateTime;
-    @TableField(value = EntityConstant.COLUMN_CREATE_TIME, fill = FieldFill.INSERT)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     protected LocalDateTime createTime;
+
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    protected LocalDateTime updateTime;
     @ApiModelProperty(value = "流程实例id")
     @TableField("process_instance_id")
     private String processInstanceId;
@@ -42,6 +42,9 @@ public class ExtHiTaskStatus {
     @ApiModelProperty(value = "任务定义key")
     @TableField("task_def_key")
     private String taskDefKey;
+    @ApiModelProperty(value = "任务名称")
+    @TableField("task_name")
+    private String taskName;
     @ApiModelProperty(value = "任务状态")
     @TableField("task_status")
     private Integer taskStatus;

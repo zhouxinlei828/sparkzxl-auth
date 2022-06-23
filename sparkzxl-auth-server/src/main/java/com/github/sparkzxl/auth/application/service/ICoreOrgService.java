@@ -2,11 +2,10 @@ package com.github.sparkzxl.auth.application.service;
 
 
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
-import com.github.sparkzxl.auth.interfaces.dto.org.OrgSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
-import com.github.sparkzxl.auth.interfaces.dto.org.OrgUserSaveDTO;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
-import com.github.sparkzxl.database.echo.core.LoadService;
+import com.github.sparkzxl.auth.domain.model.dto.org.OrgSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.org.OrgUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.org.OrgUserSaveDTO;
+import com.github.sparkzxl.database.base.service.SuperService;
 
 import java.util.List;
 
@@ -14,9 +13,9 @@ import java.util.List;
  * description: 组织 服务类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:32:24
+ * @since 2020-06-07 13:32:24
  */
-public interface ICoreOrgService extends SuperCacheService<CoreOrg>, LoadService {
+public interface ICoreOrgService extends SuperService<CoreOrg> {
 
     /**
      * 查询组织列表

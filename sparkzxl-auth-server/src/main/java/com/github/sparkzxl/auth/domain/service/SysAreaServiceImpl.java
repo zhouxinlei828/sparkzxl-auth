@@ -4,18 +4,17 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.auth.application.service.ISysAreaService;
 import com.github.sparkzxl.auth.domain.model.vo.AreaTree;
-import com.github.sparkzxl.auth.infrastructure.client.AreaClient;
-import com.github.sparkzxl.auth.infrastructure.client.result.Area;
-import com.github.sparkzxl.auth.infrastructure.client.result.ResponseEntity;
-import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
+import com.github.sparkzxl.auth.interfaces.client.AreaProvider;
+import com.github.sparkzxl.auth.interfaces.client.result.Area;
+import com.github.sparkzxl.auth.interfaces.client.result.ResponseEntity;
 import com.github.sparkzxl.auth.infrastructure.convert.SysAreaConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
 import com.github.sparkzxl.auth.infrastructure.mapper.SysAreaMapper;
-import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.area.AreaSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.area.AreaUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.area.AreaQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.area.AreaSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.area.AreaUpdateDTO;
 import com.github.sparkzxl.core.tree.TreeUtils;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -35,11 +34,11 @@ import java.util.stream.Collectors;
  * description: 地区表 服务实现类
  *
  * @author charles.zhou
- * @date 2020-07-28 19:43:36
+ * @since 2020-07-28 19:43:36
  */
 @Slf4j
 @Service
-public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, SysArea> implements ISysAreaService {
+public class SysAreaServiceImpl extends SuperServiceImpl<SysAreaMapper, SysArea> implements ISysAreaService {
 
     /**
      * 标识符
@@ -48,7 +47,7 @@ public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, Sys
     private static final String STREET = "street";
     private static final String PROVINCE = "province";
     @Autowired
-    private AreaClient areaClient;
+    private AreaProvider areaProvider;
     @Value("${area.key}")
     private String areaKey;
 
@@ -69,7 +68,7 @@ public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, Sys
         queryMap.put("keywords", "");
         queryMap.put("subdistrict", subDistrict);
         queryMap.put("key", areaKey);
-        ResponseEntity responseEntity = areaClient.getAreaList(queryMap);
+        ResponseEntity responseEntity = areaProvider.getAreaList(queryMap);
         List<Area> areaList = responseEntity.getDistricts();
         areaList.forEach(country -> {
             // 获取国家下面的所有省份
@@ -140,8 +139,4 @@ public class SysAreaServiceImpl extends SuperCacheServiceImpl<SysAreaMapper, Sys
         return save(sysArea);
     }
 
-    @Override
-    protected String getRegion() {
-        return BizConstant.AREA;
-    }
 }

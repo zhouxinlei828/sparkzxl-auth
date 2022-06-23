@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * description: 流程用户信息
  *
  * @author charles.zhou
- * @date 2021-01-08 16:47:21
+ * @since 2021-01-08 16:47:21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -23,9 +23,11 @@ import java.time.LocalDateTime;
 public class ExtProcessUser implements Serializable {
 
     private static final long serialVersionUID = -1820198557795317460L;
-    @TableField(value = EntityConstant.COLUMN_CREATE_TIME, fill = FieldFill.INSERT)
+
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     protected LocalDateTime createTime;
-    @TableField(value = EntityConstant.COLUMN_UPDATE_TIME, fill = FieldFill.INSERT_UPDATE)
+
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     protected LocalDateTime updateTime;
     @ApiModelProperty(value = "主键")
     @TableId(value = "id", type = IdType.ASSIGN_ID)

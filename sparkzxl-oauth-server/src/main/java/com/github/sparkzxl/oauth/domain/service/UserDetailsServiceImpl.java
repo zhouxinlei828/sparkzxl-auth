@@ -1,9 +1,9 @@
 package com.github.sparkzxl.oauth.domain.service;
 
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
-import com.github.sparkzxl.core.utils.ListUtils;
+import com.github.sparkzxl.core.util.ListUtils;
 import com.github.sparkzxl.entity.security.AuthUserDetail;
-import com.github.sparkzxl.oauth.infrastructure.client.UserInfoClient;
+import com.github.sparkzxl.oauth.interfaces.client.UserInfoProvider;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -16,16 +16,16 @@ import org.springframework.stereotype.Service;
  * description: 获取授权用户 服务实现类
  *
  * @author charles.zhou
- * @date 2020-08-03 17:16:17
+ * @since 2020-08-03 17:16:17
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private UserInfoClient userInfoClient;
+    private UserInfoProvider userInfoProvider;
 
     @Autowired
-    public void setUserInfoClient(UserInfoClient userInfoClient) {
-        this.userInfoClient = userInfoClient;
+    public void setUserInfoClient(UserInfoProvider userInfoProvider) {
+        this.userInfoProvider = userInfoProvider;
     }
 
     @Override
@@ -33,14 +33,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return getAuthUserDetail(username);
     }
 
-    public AuthUserDetail<Long> getAuthUserDetail(String username) {
+    public AuthUserDetail getAuthUserDetail(String username) {
         return getUserDetail(username);
     }
 
-    private AuthUserDetail<Long> getUserDetail(String username) {
-        UserDetailInfo userDetailInfo = userInfoClient.getUserDetailInfo(username);
+    private AuthUserDetail getUserDetail(String username) {
+        UserDetailInfo userDetailInfo = userInfoProvider.getUserDetailInfo(username);
         if (ObjectUtils.isNotEmpty(userDetailInfo)) {
-            AuthUserDetail<Long> authUserDetail = new AuthUserDetail<>(userDetailInfo.getId(), userDetailInfo.getAccount(),
+            AuthUserDetail authUserDetail = new AuthUserDetail(userDetailInfo.getId(), userDetailInfo.getAccount(),
                     userDetailInfo.getPassword(),
                     userDetailInfo.getName(),
                     AuthorityUtils.createAuthorityList(ListUtils.listToArray(userDetailInfo.getAuthorityList())));
@@ -49,6 +49,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             authUserDetail.setTenantId(userDetailInfo.getTenantId());
             return authUserDetail;
         }
-        return null;
+        throw new UsernameNotFoundException("用户不存在");
     }
 }

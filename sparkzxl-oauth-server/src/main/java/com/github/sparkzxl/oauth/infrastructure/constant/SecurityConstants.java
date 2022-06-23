@@ -4,7 +4,7 @@ package com.github.sparkzxl.oauth.infrastructure.constant;
  * description:  权限常量类
  *
  * @author zhouxinlei
- * @date 2021-07-11 09:51:19
+ * @since 2021-07-11 09:51:19
  */
 public interface SecurityConstants {
 
@@ -63,7 +63,7 @@ public interface SecurityConstants {
     String DEFAULT_PASSWORD = "123456";
 
     /**
-     * 默认用户密码
+     * mock
      */
     String MOCK_REQUEST = "/mock/**";
 }

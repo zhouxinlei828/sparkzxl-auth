@@ -4,7 +4,7 @@ package com.github.sparkzxl.auth.infrastructure.constant;
  * description:  权限常量类
  *
  * @author zhouxinlei
- * @date 2021-07-11 09:51:19
+ * @since 2021-07-11 09:51:19
  */
 public interface SecurityConstants {
 

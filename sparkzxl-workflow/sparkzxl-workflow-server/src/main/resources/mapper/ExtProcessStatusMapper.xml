@@ -4,6 +4,24 @@
 
     <select id="getProcessInstanceList"
             resultType="com.github.sparkzxl.workflow.infrastructure.entity.ProcessInstance">
+        SELECT DISTINCT(pts.process_instance_id)                 processInstanceId,
+                       ahp.BUSINESS_KEY_                         businessKey,
+                       SUBSTRING_INDEX(ahp.PROC_DEF_ID_, ':', 1) processKey,
+                       pts.process_name,
+                       IFNULL(aru.SUSPENSION_STATE_, 1)          suspensionState,
+                       pts.`status`,
+                       ahp.START_TIME_                           startTime,
+                       ahp.START_USER_ID_                        originator,
+                       ahp.END_TIME_                             finishTime,
+                       ahp.DURATION_                             duration,
+                       pts.create_time                           createTime
+        FROM ext_process_status pts
+                 LEFT JOIN ACT_HI_PROCINST ahp ON ahp.PROC_INST_ID_ = pts.process_instance_id
+                 LEFT JOIN ACT_RU_EXECUTION aru ON aru.PROC_INST_ID_ = pts.process_instance_id
+        order by pts.process_instance_id DESC
+    </select>
+    <select id="getProcessInstancePage"
+            resultType="com.github.sparkzxl.workflow.infrastructure.entity.ProcessInstance">
         SELECT
         DISTINCT(pts.process_instance_id) processInstanceId,
         ahp.BUSINESS_KEY_ businessKey,
@@ -23,5 +41,6 @@
             where pts.process_instance_id = #{processInstanceId}
         </if>
         order by pts.process_instance_id DESC
+
     </select>
 </mapper>

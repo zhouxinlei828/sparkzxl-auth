@@ -1,15 +1,15 @@
 package com.github.sparkzxl.auth.interfaces.controller.core;
 
 
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.application.service.ICoreOrgService;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
-import com.github.sparkzxl.auth.interfaces.dto.org.OrgQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.org.OrgSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
-import com.github.sparkzxl.auth.interfaces.dto.org.OrgUserSaveDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
-import com.github.sparkzxl.database.dto.DeleteDTO;
+import com.github.sparkzxl.auth.domain.model.dto.org.OrgQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.org.OrgSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.org.OrgUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.org.OrgUserSaveDTO;
+import com.github.sparkzxl.database.base.controller.SuperController;
+import com.github.sparkzxl.dto.DeleteDTO;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,14 +22,14 @@ import java.util.List;
  * description: 组织管理
  *
  * @author charles.zhou
- * @date 2020-06-07 13:40:59
+ * @since 2020-06-07 13:40:59
  */
 @RestController
 @Response
 @HttpRequestLog
 @Api(tags = "组织管理")
 @RequestMapping("/org")
-public class OrgController extends SuperCacheController<ICoreOrgService, Long,
+public class OrgController extends SuperController<ICoreOrgService, Long,
         CoreOrg, OrgSaveDTO, OrgUpdateDTO, OrgQueryDTO, Object> {
 
     @ApiOperation("组织树查询")

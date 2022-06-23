@@ -1,12 +1,13 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
-import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.annotation.response.Response;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.sparkzxl.web.annotation.Response;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.application.service.ILoginLogService;
 import com.github.sparkzxl.auth.infrastructure.entity.LoginLog;
-import com.github.sparkzxl.auth.interfaces.dto.log.LoginLogQueryDTO;
-import com.github.sparkzxl.database.dto.DeleteDTO;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.auth.domain.model.dto.log.LoginLogQueryDTO;
+import com.github.sparkzxl.dto.DeleteDTO;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
  * description：登录日志
  *
  * @author charles.zhou
- * @date 2020/6/17 0017
+ * @since 2020/6/17 0017
  */
 @RestController
 @Response
@@ -37,8 +38,8 @@ public class LoginLogController {
 
     @ApiOperation("登录日志分页")
     @PostMapping("/page")
-    public PageInfo<LoginLog> getLoginLogPage(@ApiIgnore AuthUserInfo<Long> authUserInfo,
-                                              @RequestBody PageParams<LoginLogQueryDTO> pageParams) {
+    public Page<LoginLog> getLoginLogPage(@ApiIgnore AuthUserInfo<UserDetail> authUserInfo,
+                                          @RequestBody PageParams<LoginLogQueryDTO> pageParams) {
         return loginLogService.getLoginLogPage(authUserInfo, pageParams);
     }
 

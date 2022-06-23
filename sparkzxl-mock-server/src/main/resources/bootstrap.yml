@@ -1,0 +1,168 @@
+spring:
+  profiles:
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: sparkzxl-mock-server
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  servlet:
+    multipart:
+      max-file-size: 512MB
+      max-request-size: 512MB
+  redis:
+    host: 47.114.40.129
+    port: 6379
+    time-out: 28800
+    database: 0
+    password: 123456
+    jedis:
+      pool:
+        max-active: 20
+        max-wait: 200
+        min-idle: 0
+  alarm:
+    enabled: true
+    channel:
+      wetalk:
+        enabled: true
+        configs:
+          - token-id: 03b92f73-3064-4999-9e99-a77e6c2802ec
+          - token-id: c5f66428-f7d5-494d-88bf-dad31100a4f6
+      dingtalk:
+        enabled: true
+        configs:
+          - token-id: 979162a102696b4bd63e58417a074ce62ed9d46c04c5335a0a96a96464008ae0
+            secret: SEC6e6808e6eba4144aa46bef4e6b9146a1385bd3db98ccaa0e5221862fb555ad7c
+    primary-alarm: dingtalk
+    template:
+      enabled: true
+      channel: file
+      template-path: template.json
+server:
+  # 优雅停机
+  shutdown: GRACEFUL
+  port: 8081
+  servlet:
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+  undertow:
+    threads:
+      io: 4 # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+      worker: 80  # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+    buffer-size: 2048  # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理 , 每块buffer的空间大小,越小的空间被利用越充分
+    direct-buffers: true  # 是否分配的直接内存
+knife4j:
+  enable: true
+  group: Mock应用
+  base-package: com.github.sparkzxl.mock.controller
+  title: Mock应用
+  description: Mock应用
+  terms-of-service-url: https://www.sparksys.top
+  version: 1.0
+  license: Powered By sparkzxl
+  licenseUrl: https://github.com/sparkzxl
+  contact:
+    url: https://github.com/sparkzxl
+    name: zhouxinlei
+    email: zhouxinlei298@163.com
+  global-operation-parameters:
+    - name: Authorization
+      description: 客户端信息
+      modelRef: String
+      parameterType: header
+      required: true
+      defaultValue: "Bearer enVpaG91X3VpOnp1aWhvdV91aV9zZWNyZXQ="
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 500
+        readTimeout: 2000
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10 #滑动窗口大小
+      registerHealthIndicator: true #是否注册到健康监测
+      minimumNumberOfCalls: 5
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true #如果置为 true，当等待时间结束会自动由打开变为半开；若置为 false，则需要一个请求进入来触发熔断器状态转换。默认为 true
+      waitDurationInOpenState: 5000 # 熔断器从打开状态转变为半开状态等待的时间，单位：微秒
+      failureRateThreshold: 50 #熔断器关闭状态和半开状态使用的同一个失败率阈值，单位：百分比。默认为 50
+      eventConsumerBufferSize: 10 #事件缓冲区大小
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+      ignoreExceptions:
+        - java.lang.IllegalStateException
+    shared:
+      slidingWindowSize: 100
+      permittedNumberOfCallsInHalfOpenState: 30
+      waitDurationInOpenState: 1s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+      ignoreExceptions:
+        - java.lang.IllegalStateException
+  instances:
+    backendA:
+      baseConfig: default
+    backendB:
+      slidingWindowSize: 10
+      minimumNumberOfCalls: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      waitDurationInOpenState: 1s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+      ringBufferSizeInClosedState: 5 # 熔断器关闭状态的缓冲区大小，不会限制线程的并发量，在熔断器发生状态转换前所有请求都会调用后端服务。默认为 100
+resilience4j.retry:
+  configs:
+    default:
+      max-attempts: 2 # 最大重试次数。包括第一次调用,默认为 3
+      wait-duration: 1s # 下次重试的间隔，单位：微秒。默认为 500 毫秒
+      retry-exceptions: # 需要重试的异常列表。默认为空
+      ingore-exceptions: # 需要忽略的异常列表。默认为空
+  instances:
+    backendA:
+      max-attempts: 3 # 最大重试次数。包括第一次调用,默认为 3
+      waitDuration: 10s
+      enableExponentialBackoff: true # 启用随机等待时间，范围是 waitDuration - randomizedWaitFactor*waitDuration ~ waitDuration + randomizedWaitFactor*waitDuration
+      exponentialBackoffMultiplier: 2
+      retryExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+    backendB:
+      max-attempts: 3 # 最大重试次数。包括第一次调用,默认为 3
+      waitDuration: 10s
+      retryExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+resilience4j.timelimiter:
+  time-limiter-aspect-order: 398
+  configs:
+    default:
+      timeoutDuration: 15s
+      cancelRunningFuture: false
+  instances:
+    backendB:
+      timeoutDuration: 5s
+resilience4j.thread-pool-bulkhead:
+  configs:
+    default:
+      maxThreadPoolSize: 50
+      coreThreadPoolSize: 10
+      queueCapacity: 1000
+logging:
+  level:
+    com:
+      github:
+        sparkzxl:
+          alarm:
+            executor: debug

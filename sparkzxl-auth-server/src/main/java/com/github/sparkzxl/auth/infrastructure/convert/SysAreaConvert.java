@@ -1,10 +1,10 @@
 package com.github.sparkzxl.auth.infrastructure.convert;
 
 import com.github.sparkzxl.auth.domain.model.vo.AreaTree;
-import com.github.sparkzxl.auth.infrastructure.client.result.Area;
+import com.github.sparkzxl.auth.interfaces.client.result.Area;
 import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
-import com.github.sparkzxl.auth.interfaces.dto.area.AreaSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.area.AreaUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.area.AreaSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.area.AreaUpdateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -16,7 +16,7 @@ import java.util.List;
  * description: SysArea 对象Convert
  *
  * @author charles.zhou
- * @date 2020-06-05 21:28:06
+ * @since 2020-06-05 21:28:06
  */
 @Mapper
 public interface SysAreaConvert {
@@ -29,6 +29,7 @@ public interface SysAreaConvert {
      * @param area 地区
      * @return SysArea
      */
+    @Mapping(target = "parentId", source = "parentCode")
     SysArea convertSysArea(Area area);
 
     /**
@@ -39,7 +40,6 @@ public interface SysAreaConvert {
      */
     @Mappings({
             @Mapping(source = "id", target = "code"),
-            @Mapping(source = "parentId", target = "parentCode"),
             @Mapping(source = "label", target = "name"),
     })
     SysArea convertSysArea(AreaSaveDTO area);
@@ -53,7 +53,6 @@ public interface SysAreaConvert {
     @Mappings({
             @Mapping(source = "id", target = "code"),
             @Mapping(source = "label", target = "name"),
-            @Mapping(source = "parentId", target = "parentCode"),
     })
     SysArea convertSysArea(AreaUpdateDTO area);
 
@@ -66,7 +65,6 @@ public interface SysAreaConvert {
     @Mappings({
             @Mapping(source = "code", target = "id"),
             @Mapping(source = "name", target = "label"),
-            @Mapping(source = "parentCode", target = "parentId"),
     })
     AreaTree convertSysArea(SysArea area);
 

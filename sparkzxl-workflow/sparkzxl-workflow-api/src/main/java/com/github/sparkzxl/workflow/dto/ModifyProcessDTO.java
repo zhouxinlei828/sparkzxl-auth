@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  * description:流程状态操作入参
  *
  * @author charles.zhou
- * @date 2020-10-01 19:52:24
+ * @since 2020-10-01 19:52:24
  */
 @Data
 @ApiModel(value = "ModifyProcessDTO对象", description = "流程状态操作入参")

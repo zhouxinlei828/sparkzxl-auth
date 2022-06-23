@@ -1,10 +1,11 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 import cn.hutool.core.util.DesensitizedUtil;
-import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.annotation.response.Response;
-import com.github.sparkzxl.auth.api.IAuthUserApi;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.sparkzxl.web.annotation.Response;
+import com.github.sparkzxl.auth.api.IAuthUserProvider;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
 import com.github.sparkzxl.auth.application.service.IUserService;
@@ -12,13 +13,13 @@ import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.UserExcel;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
-import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.auth.domain.model.dto.user.UserQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.user.UserSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.user.UserUpdateDTO;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
-import com.github.sparkzxl.database.dto.DeleteDTO;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.DeleteDTO;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
@@ -35,15 +36,15 @@ import java.util.List;
  * description: 用户管理
  *
  * @author charles.zhou
- * @date 2020-05-24 12:25:32
+ * @since 2020-05-24 12:25:32
  */
 @RestController
 @RequestMapping("/user")
 @Response
 @HttpRequestLog
 @Api(tags = "用户管理")
-public class AuthUserController extends SuperCacheController<IUserService, Long,
-        AuthUser, UserSaveDTO, UserUpdateDTO, UserQueryDTO, UserExcel> implements IAuthUserApi {
+public class AuthUserController extends SuperController<IUserService, Long,
+        AuthUser, UserSaveDTO, UserUpdateDTO, UserQueryDTO, UserExcel> implements IAuthUserProvider {
 
     private ImportUserDataListener importUserDataListener;
 
@@ -53,7 +54,8 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
     }
 
     @Override
-    public PageInfo<AuthUser> page(PageParams<UserQueryDTO> params) {
+    @HttpRequestLog(value = "用户分页")
+    public Page<AuthUser> page(PageParams<UserQueryDTO> params) {
         return baseService.getAuthUserPage(params);
     }
 
@@ -79,8 +81,8 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
 
     @ApiOperation(value = "用户路由菜单", notes = "用户路由菜单")
     @GetMapping("/routers")
-    public List<MenuBasicInfo> routers(@ApiIgnore AuthUserInfo<Long> authUserInfo) {
-        return baseService.routers(authUserInfo.getId());
+    public List<MenuBasicInfo> routers(@ApiIgnore AuthUserInfo<UserDetail> authUserInfo) {
+        return baseService.routers(Long.valueOf(authUserInfo.getId()));
     }
 
     @Override
@@ -89,7 +91,7 @@ public class AuthUserController extends SuperCacheController<IUserService, Long,
     }
 
     @Override
-    public AuthUserInfo<Long> getAuthUserInfo(String username) {
+    public AuthUserInfo<UserDetail> getAuthUserInfo(String username) {
         return baseService.getAuthUserInfo(username);
     }
 

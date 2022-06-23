@@ -9,7 +9,7 @@ import java.util.List;
  * description: 资源 仓储类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:31:28
+ * @since 2020-06-07 13:31:28
  */
 public interface IAuthResourceRepository {
 

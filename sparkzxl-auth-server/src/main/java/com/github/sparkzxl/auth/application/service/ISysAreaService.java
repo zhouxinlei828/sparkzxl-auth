@@ -2,10 +2,10 @@ package com.github.sparkzxl.auth.application.service;
 
 import com.github.sparkzxl.auth.domain.model.vo.AreaTree;
 import com.github.sparkzxl.auth.infrastructure.entity.SysArea;
-import com.github.sparkzxl.auth.interfaces.dto.area.AreaQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.area.AreaSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.area.AreaUpdateDTO;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.auth.domain.model.dto.area.AreaQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.area.AreaSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.area.AreaUpdateDTO;
+import com.github.sparkzxl.database.base.service.SuperService;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import java.util.List;
  * description: 地区表 服务类
  *
  * @author charles.zhou
- * @date 2020-07-28 19:41:37
+ * @since 2020-07-28 19:41:37
  */
-public interface ISysAreaService extends SuperCacheService<SysArea> {
+public interface ISysAreaService extends SuperService<SysArea> {
 
     /**
      * 查询地区信息

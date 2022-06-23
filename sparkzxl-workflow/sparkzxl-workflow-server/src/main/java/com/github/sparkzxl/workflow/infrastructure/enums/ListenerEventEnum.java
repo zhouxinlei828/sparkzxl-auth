@@ -7,7 +7,7 @@ import lombok.Getter;
  * description: 事件监听类型举类
  *
  * @author charles.zhou
- * @date 2020-07-23 13:09:34
+ * @since 2020-07-23 13:09:34
  */
 @Getter
 @AllArgsConstructor

@@ -8,7 +8,7 @@ import java.util.Map;
  * description: oss属性常量
  *
  * @author charles.zhou
- * @date 2020-05-24 12:35:57
+ * @since 2020-05-24 12:35:57
  */
 public class OssConstant {
 

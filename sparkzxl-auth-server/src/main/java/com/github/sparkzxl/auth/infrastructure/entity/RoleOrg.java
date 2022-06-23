@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * description: 角色组织关系
  *
  * @author charles.zhou
- * @date 2020-07-19 20:53:11
+ * @since 2020-07-19 20:53:11
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.domain.repository;
 
-import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.workflow.domain.model.InstanceOverviewCount;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.sparkzxl.workflow.domain.model.bo.InstanceOverviewCount;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ProcessInstance;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * description: 流程状态 仓储类
  *
  * @author charles.zhou
- * @date 2020-07-23 13:58:34
+ * @since 2020-07-23 13:58:34
  */
 public interface IExtProcessStatusRepository {
 
@@ -29,9 +29,9 @@ public interface IExtProcessStatusRepository {
      * @param pageNum           当前页
      * @param pageSize          分页大小
      * @param processInstanceId 流程实例id
-     * @return PageInfo<ProcessInstance>
+     * @return Page<ProcessInstance>
      */
-    PageInfo<ProcessInstance> getProcessInstanceList(int pageNum, int pageSize, String processInstanceId);
+    Page<ProcessInstance> getProcessInstanceList(int pageNum, int pageSize, String processInstanceId);
 
     /**
      * 获取流程状态

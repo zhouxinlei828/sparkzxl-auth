@@ -2,14 +2,14 @@ package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 
 import cn.hutool.core.convert.Convert;
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.application.service.IMenuService;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthMenu;
-import com.github.sparkzxl.auth.interfaces.dto.menu.AuthMenuQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.menu.AuthMenuSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.menu.AuthMenuUpdateDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
-import com.github.sparkzxl.database.dto.DeleteDTO;
+import com.github.sparkzxl.auth.domain.model.dto.menu.AuthMenuQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.menu.AuthMenuSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.menu.AuthMenuUpdateDTO;
+import com.github.sparkzxl.database.base.controller.SuperController;
+import com.github.sparkzxl.dto.DeleteDTO;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,14 +24,14 @@ import java.util.List;
  * description: 资源管理
  *
  * @author charles.zhou
- * @date 2020-06-07 13:39:30
+ * @since 2020-06-07 13:39:30
  */
 @RestController
 @RequestMapping("/menu")
 @Response
 @HttpRequestLog
 @Api(tags = "菜单管理")
-public class AuthMenuController extends SuperCacheController<IMenuService, Long,
+public class AuthMenuController extends SuperController<IMenuService, Long,
         AuthMenu, AuthMenuSaveDTO, AuthMenuUpdateDTO, AuthMenuQueryDTO, Object> {
 
     @Override

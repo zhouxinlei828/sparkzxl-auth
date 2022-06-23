@@ -1,5 +1,6 @@
 package com.github.sparkzxl.auth.domain.repository;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * description: 用户仓储层
  *
  * @author charles.zhou
- * @date 2020-06-05 20:39:15
+ * @since 2020-06-05 20:39:15
  */
 public interface IAuthUserRepository {
 
@@ -57,8 +58,18 @@ public interface IAuthUserRepository {
     /**
      * 分页查询用户列表
      *
+     * @param pageNum  当前页
+     * @param pageSize 分页大小
      * @param authUser 查询对象
-     * @return PageInfo<AuthUser>
+     * @return Page<AuthUser>
+     */
+    Page<AuthUser> getAuthUserPage(Integer pageNum, Integer pageSize, AuthUser authUser);
+
+    /**
+     * 查询用户列表
+     *
+     * @param authUser 查询对象
+     * @return Page<AuthUser>
      */
     List<AuthUser> getAuthUserList(AuthUser authUser);
 

@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * description: 用户Excel导入监听
  *
  * @author charles.zhou
- * @date 2021-01-04 15:34:07
+ * @since 2021-01-04 15:34:07
  */
 @Component
 @Slf4j
@@ -89,7 +89,7 @@ public class ImportUserDataListener extends ImportDataListener<UserExcel> {
             }
             authUser.setEmail(item.getEmail());
             authUser.setMobile(item.getMobile());
-            authUser.setSex(SexEnum.getEnum(item.getSex()));
+            authUser.setSex(SexEnum.getEnum(item.getSex()).getCode());
             authUser.setPassword(passwordEncoder.encode("123456"));
             if (StringUtils.isNotEmpty(item.getNation())) {
                 DictionaryItem dictionaryItem = dictionaryItemService.getDictionaryItemByName(item.getNation());
@@ -110,7 +110,6 @@ public class ImportUserDataListener extends ImportDataListener<UserExcel> {
                 }
             }
             authUser.setStatus(true);
-            authUser.setPasswordErrorNum(0);
             authUserList.add(authUser);
             count.getAndIncrement();
         });

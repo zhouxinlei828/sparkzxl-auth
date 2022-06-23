@@ -9,7 +9,7 @@ import java.util.Collection;
  * description: 短信登录验证信息
  *
  * @author zhouxinlei
- * @date 2021-07-02 13:14:39
+ * @since 2021-07-02 13:14:39
  */
 public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
     private static final long serialVersionUID = 2383092775910246006L;

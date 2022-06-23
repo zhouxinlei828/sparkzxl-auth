@@ -1,12 +1,13 @@
 package com.github.sparkzxl.oauth.infrastructure.security.logout;
 
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
-import com.github.sparkzxl.core.context.ResponseHelper;
-import com.github.sparkzxl.core.utils.BuildKeyUtil;
-import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
+import com.github.sparkzxl.core.util.HttpRequestUtils;
+import com.github.sparkzxl.core.util.KeyGeneratorUtil;
+import com.github.sparkzxl.core.util.RequestContextHolderUtils;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
-import com.github.sparkzxl.oauth.infrastructure.client.UserInfoClient;
+import com.github.sparkzxl.oauth.interfaces.client.UserInfoProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ import java.util.Map;
 public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
 
     private TokenStore tokenStore;
-    private UserInfoClient userInfoClient;
+    private UserInfoProvider userInfoProvider;
     private RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
@@ -40,8 +41,8 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
     }
 
     @Autowired
-    public void setUserInfoClient(UserInfoClient userInfoClient) {
-        this.userInfoClient = userInfoClient;
+    public void setUserInfoClient(UserInfoProvider userInfoProvider) {
+        this.userInfoProvider = userInfoProvider;
     }
 
     @Autowired
@@ -62,11 +63,11 @@ public class CustomizeLogoutSuccessHandler implements LogoutSuccessHandler {
                 tokenStore.removeRefreshToken(accessToken.getRefreshToken());
                 Map<String, Object> additionalInformation = accessToken.getAdditionalInformation();
                 String username = (String) additionalInformation.get("username");
-                AuthUserInfo<Long> authUserInfo = userInfoClient.getUserDetailInfo(username);
-                String authUserInfoKey = BuildKeyUtil.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
+                AuthUserInfo<UserDetail> authUserInfo = userInfoProvider.getUserDetailInfo(username);
+                String authUserInfoKey = KeyGeneratorUtil.generateKey(BaseContextConstants.AUTH_USER_TOKEN, authUserInfo.getId());
                 redisTemplate.opsForHash().delete(authUserInfoKey, accessToken.getValue());
             }
         }
-        ResponseHelper.writeResponseOutMsg(httpServletResponse, 200, "退出登录成功", true);
+        HttpRequestUtils.successResponse(httpServletResponse, "退出登录成功", true);
     }
 }

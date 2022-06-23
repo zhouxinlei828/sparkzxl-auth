@@ -9,7 +9,7 @@ import java.util.List;
  * description: 客户端 仓储类
  *
  * @author charles.zhou
- * @date 2021-02-20 09:51:03
+ * @since 2021-02-20 09:51:03
  */
 public interface IOauthClientDetailsRepository {
 

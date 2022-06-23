@@ -4,11 +4,10 @@ import cn.hutool.core.bean.OptionalBean;
 import cn.hutool.extra.pinyin.PinyinUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.excel.EasyExcel;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.javafaker.Faker;
-import com.github.pagehelper.PageInfo;
 import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
-import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
-import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
+import com.github.sparkzxl.auth.api.dto.*;
 import com.github.sparkzxl.auth.application.event.ImportUserDataListener;
 import com.github.sparkzxl.auth.application.service.*;
 import com.github.sparkzxl.auth.domain.model.aggregates.AuthUserBasicInfo;
@@ -21,16 +20,14 @@ import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper;
-import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.user.UserQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.user.UserSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.user.UserUpdateDTO;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
-import com.github.sparkzxl.database.dto.PageParams;
-import com.github.sparkzxl.database.utils.PageInfoUtils;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.entity.data.RemoteData;
-import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -44,17 +41,16 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * description: 用户查询 服务实现类
  *
  * @author charles.zhou
- * @date 2020-05-24 12:22:57
+ * @since 2020-05-24 12:22:57
  */
 @Service
 @Slf4j
-public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthUser> implements IUserService {
+public class UserServiceImpl extends SuperServiceImpl<AuthUserMapper, AuthUser> implements IUserService {
 
     @Autowired
     private IAuthUserRepository authUserRepository;
@@ -70,22 +66,36 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     private IDictionaryItemService dictionaryItemService;
 
     @Override
-    public AuthUserInfo<Long> getAuthUserInfo(String username) {
+    public AuthUserInfo<UserDetail> getAuthUserInfo(String username) {
         String tenant = RequestLocalContextHolder.getTenant();
         AuthUser authUser = authUserRepository.selectByAccount(username);
         if (ObjectUtils.isNotEmpty(authUser)) {
-            AuthUserInfo<Long> authUserInfo = AuthUserConvert.INSTANCE.convertAuthUserInfo(authUser);
+            AuthUserInfo<UserDetail> authUserInfo = AuthUserConvert.INSTANCE.convertAuthUserInfo(authUser);
             List<String> authUserRoles = getAuthUserRoles(authUser.getId());
             authUserRoles.add(BizConstant.USER_CODE);
             authUserInfo.setAuthorityList(authUserRoles);
-            Map<String, Object> extraInfo = Maps.newHashMap();
-            extraInfo.put("org", OptionalBean.ofNullable(authUser.getOrg()).getBean(RemoteData::getData).get());
-            extraInfo.put("station", OptionalBean.ofNullable(authUser.getStation()).getBean(RemoteData::getData).get());
-            extraInfo.put("mobile", authUser.getMobile());
-            extraInfo.put("email", authUser.getEmail());
-            extraInfo.put("education", OptionalBean.ofNullable(authUser.getEducation()).getBean(RemoteData::getData).get());
-            extraInfo.put("positionStatus", OptionalBean.ofNullable(authUser.getPositionStatus()).getBean(RemoteData::getData).get());
-            authUserInfo.setExtraInfo(extraInfo);
+            UserDetail userDetail = new UserDetail();
+            CoreOrg coreOrg = OptionalBean.ofNullable(authUser.getOrg()).getBean(RemoteData::getData).get();
+            if (ObjectUtils.isNotEmpty(coreOrg)) {
+                OrgBasicInfo orgBasicInfo = new OrgBasicInfo();
+                orgBasicInfo.setId(coreOrg.getId());
+                orgBasicInfo.setLabel(coreOrg.getLabel());
+                orgBasicInfo.setParentId(coreOrg.getParentId());
+                orgBasicInfo.setSortNumber(coreOrg.getSortNumber());
+                userDetail.setOrg(orgBasicInfo);
+            }
+            CoreStation coreStation = OptionalBean.ofNullable(authUser.getStation()).getBean(RemoteData::getData).get();
+            if (ObjectUtils.isNotEmpty(coreStation)) {
+                StationBasicInfo stationBasicInfo = new StationBasicInfo();
+                stationBasicInfo.setId(coreStation.getId());
+                stationBasicInfo.setName(coreStation.getName());
+                userDetail.setStation(stationBasicInfo);
+            }
+            userDetail.setMobile(authUser.getMobile());
+            userDetail.setEmail(authUser.getEmail());
+            userDetail.setEducation(OptionalBean.ofNullable(authUser.getEducation()).getBean(RemoteData::getData).get());
+            userDetail.setPositionStatus(OptionalBean.ofNullable(authUser.getPositionStatus()).getBean(RemoteData::getData).get());
+            authUserInfo.setDetailInfo(userDetail);
             authUserInfo.setTenantId(tenant);
             return authUserInfo;
         }
@@ -98,11 +108,9 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     }
 
     @Override
-    public PageInfo<AuthUser> getAuthUserPage(PageParams<UserQueryDTO> params) {
+    public Page<AuthUser> getAuthUserPage(PageParams<UserQueryDTO> params) {
         AuthUser authUser = AuthUserConvert.INSTANCE.convertAuthUser(params.getModel());
-        params.startPage();
-        List<AuthUser> authUserList = authUserRepository.getAuthUserList(authUser);
-        return PageInfoUtils.pageInfo(authUserList);
+        return authUserRepository.getAuthUserPage(params.getPageNum(), params.getPageSize(), authUser);
     }
 
     @Override
@@ -139,9 +147,9 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
             String email = pinyin.concat("@163.com");
             userInfo.setEmail(email);
             if (i % 2 == 0) {
-                userInfo.setSex(SexEnum.MAN);
+                userInfo.setSex(SexEnum.MAN.getCode());
             } else {
-                userInfo.setSex(SexEnum.WOMAN);
+                userInfo.setSex(SexEnum.WOMAN.getCode());
             }
             userInfo.setStatus(true);
             RemoteData<String, String> nationRemoteData = new RemoteData<>();
@@ -231,11 +239,6 @@ public class UserServiceImpl extends SuperCacheServiceImpl<AuthUserMapper, AuthU
     public AuthUserBasicVO getUserByUsername(String username) {
         AuthUserBasicInfo authUserBasicInfo = authUserRepository.getUserByUsername(username);
         return AuthUserConvert.INSTANCE.convertAuthUserBasicVO(authUserBasicInfo);
-    }
-
-    @Override
-    protected String getRegion() {
-        return BizConstant.USER;
     }
 
 }

@@ -17,7 +17,7 @@ import java.io.IOException;
  * description: 验证码登录
  *
  * @author zhoux
- * @date 2021-06-14 8:04
+ * @since 2021-06-14 8:04
  */
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -39,7 +39,8 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException, IOException, ServletException {
         //判断是是不是post请求
         if (postOnly && !"POST".equals(request.getMethod())) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());

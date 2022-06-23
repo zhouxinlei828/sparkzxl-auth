@@ -1,9 +1,9 @@
 package com.github.sparkzxl.workflow.application.service.ext;
 
-import com.github.sparkzxl.database.base.service.SuperCacheService;
+import com.github.sparkzxl.database.base.service.SuperService;
+import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessActionDTO;
+import com.github.sparkzxl.workflow.domain.model.dto.process.TaskRuleSaveDTO;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessTaskRule;
-import com.github.sparkzxl.workflow.interfaces.dto.process.ProcessActionDTO;
-import com.github.sparkzxl.workflow.interfaces.dto.process.TaskRuleSaveDTO;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import java.util.List;
  * description: 流程跳转控制 服务类
  *
  * @author charles.zhou
- * @date 2020-07-17 13:20:37
+ * @since 2020-07-17 13:20:37
  */
-public interface IExtProcessTaskRuleService extends SuperCacheService<ExtProcessTaskRule> {
+public interface IExtProcessTaskRuleService extends SuperService<ExtProcessTaskRule> {
 
 
     /**

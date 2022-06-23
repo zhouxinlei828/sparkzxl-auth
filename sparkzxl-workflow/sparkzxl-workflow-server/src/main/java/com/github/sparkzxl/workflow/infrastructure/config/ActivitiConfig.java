@@ -1,6 +1,8 @@
 package com.github.sparkzxl.workflow.infrastructure.config;
 
+import cn.hutool.core.util.IdUtil;
 import com.github.sparkzxl.workflow.infrastructure.diagram.ICustomProcessDiagramGenerator;
+import org.activiti.engine.impl.cfg.IdGenerator;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.spring.SpringAsyncExecutor;
 import org.activiti.spring.SpringProcessEngineConfiguration;
@@ -19,16 +21,13 @@ import java.io.IOException;
  * description: Activiti配置
  *
  * @author charles.zhou
- * @date 2020-07-17 14:01:53
+ * @since 2020-07-17 14:01:53
  */
 @Configuration
 public class ActivitiConfig extends AbstractProcessEngineAutoConfiguration {
 
     @Autowired
     private ICustomProcessDiagramGenerator customProcessDiagramGenerator;
-
-    @Autowired
-    private SnowFlakeGenerator snowFlakeGenerator;
 
     @Primary
     @Bean
@@ -61,10 +60,11 @@ public class ActivitiConfig extends AbstractProcessEngineAutoConfiguration {
 
     @Bean
     public ProcessEngineConfigurationImpl processEngineConfigurationImpl(ProcessEngineConfigurationImpl processEngineConfigurationImpl) {
+        IdGenerator idGenerator = () -> IdUtil.getSnowflake(0, 10).nextIdStr();
         //设置ProcessEngineConfigurationImpl里的uuidGenerator
-        processEngineConfigurationImpl.setIdGenerator(snowFlakeGenerator);
+        processEngineConfigurationImpl.setIdGenerator(idGenerator);
         //设置DbSqlSessionFactory的uuidGenerator，否则流程id，任务id，实例id依然是用DbIdGenerator生成
-        processEngineConfigurationImpl.getDbSqlSessionFactory().setIdGenerator(snowFlakeGenerator);
+        processEngineConfigurationImpl.getDbSqlSessionFactory().setIdGenerator(idGenerator);
         return processEngineConfigurationImpl;
     }
 }

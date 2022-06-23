@@ -4,7 +4,7 @@ package com.github.sparkzxl.auth.infrastructure.constant;
  * description: 业务常量类
  *
  * @author zhouxinlei
- * @date 2021-07-11 09:47:39
+ * @since 2021-07-11 09:47:39
  */
 public class BizConstant {
 
@@ -13,6 +13,10 @@ public class BizConstant {
      * 职位状态
      */
     public static final String POSITION_STATUS = "POSITION_STATUS";
+    /**
+     * 民族
+     */
+    public static final String SEX = "SEX";
     /**
      * 民族
      */
@@ -175,7 +179,7 @@ public class BizConstant {
 
     public static final String BUSINESS_PACKAGE = "com.github.sparkzxl.auth";
 
-    public static final String BUSINESS_FEIGN_PACKAGE = "com.github.sparkzxl.auth.infrastructure.client";
+    public static final String BUSINESS_FEIGN_PACKAGE = "com.github.sparkzxl.auth.interfaces.client";
 
 
     /*=====================扫包==========================*/

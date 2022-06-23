@@ -11,14 +11,14 @@ import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleResourceInfo;
-import com.github.sparkzxl.auth.infrastructure.enums.AuthorityTypeEnum;
-import com.github.sparkzxl.auth.infrastructure.enums.OperationEnum;
+import com.github.sparkzxl.auth.domain.model.enums.AuthorityTypeEnum;
+import com.github.sparkzxl.auth.domain.model.enums.OperationEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthUserMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.spring.SpringContextUtils;
-import com.github.sparkzxl.core.utils.BuildKeyUtil;
+import com.github.sparkzxl.core.util.KeyGeneratorUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
  * description: 角色资源绑定 仓储实现类
  *
  * @author charles.zhou
- * @date 2020-08-15 11:14:18
+ * @since 2020-08-15 11:14:18
  */
 @Repository
 public class RoleAuthorityRepository implements IRoleAuthorityRepository {
@@ -125,7 +125,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
     public boolean refreshAuthorityList(String tenantId) {
         List<AuthResource> authResourceList = resourceRepository.getResourceList();
         if (CollectionUtils.isNotEmpty(authResourceList)) {
-            String generateCacheKey = BuildKeyUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenantId);
+            String generateCacheKey = KeyGeneratorUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenantId);
             Map<String, String> resourceMap = Maps.newHashMap();
             authResourceList.forEach(authResource -> {
                 String roleCodeStr = "";
@@ -157,7 +157,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
     @Override
     public void refreshAuthority(String oldVal, String newVal) {
         String tenantId = RequestLocalContextHolder.getTenant();
-        String cacheKey = BuildKeyUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenantId);
+        String cacheKey = KeyGeneratorUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenantId);
         redisTemplate.opsForHash().delete(cacheKey, oldVal);
         RoleResourceInfo roleResource = authUserMapper.getRoleResource(newVal);
         redisTemplate.opsForHash().put(cacheKey, roleResource.getPath(), roleResource.getRoleCode());
@@ -166,7 +166,7 @@ public class RoleAuthorityRepository implements IRoleAuthorityRepository {
     @Override
     public void refreshAuthority(String oldVal) {
         String tenantId = RequestLocalContextHolder.getTenant();
-        String cacheKey = BuildKeyUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenantId);
+        String cacheKey = KeyGeneratorUtil.generateKey(BaseContextConstants.RESOURCE_ROLES_MAP, tenantId);
         redisTemplate.opsForHash().delete(cacheKey, oldVal);
     }
 }

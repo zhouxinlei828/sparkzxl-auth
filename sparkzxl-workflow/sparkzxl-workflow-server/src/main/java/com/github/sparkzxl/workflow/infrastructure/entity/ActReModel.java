@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * description: 模型对象
  *
  * @author charles.zhou
- * @date 2020-07-25 11:12:50
+ * @since 2020-07-25 11:12:50
  */
 @Data
 @EqualsAndHashCode

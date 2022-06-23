@@ -1,13 +1,13 @@
 package com.github.sparkzxl.auth.application.service;
 
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationUpdateDTO;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationUpdateDTO;
+import com.github.sparkzxl.database.base.service.SuperService;
+import com.github.sparkzxl.dto.PageParams;
 
 import java.util.List;
 
@@ -15,17 +15,17 @@ import java.util.List;
  * description: 岗位 服务类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:32:55
+ * @since 2020-06-07 13:32:55
  */
-public interface ICoreStationService extends SuperCacheService<CoreStation> {
+public interface ICoreStationService extends SuperService<CoreStation> {
 
     /**
      * 查询岗位列表
      *
      * @param params 岗位分页查询对象
-     * @return PageInfo<CoreStation>
+     * @return Page<CoreStation>
      */
-    PageInfo<CoreStation> getStationPageList(PageParams<StationQueryDTO> params);
+    Page<CoreStation> getStationPageList(PageParams<StationQueryDTO> params);
 
     /**
      * 新增岗位

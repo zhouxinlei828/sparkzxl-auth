@@ -1,14 +1,12 @@
 package com.github.sparkzxl.oauth.infrastructure.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.api.dto.DictionaryItemDTO;
-import com.github.sparkzxl.database.utils.PageInfoUtils;
 import com.github.sparkzxl.entity.data.SuperEntity;
 import com.github.sparkzxl.oauth.domain.repository.IAuthApplicationRepository;
 import com.github.sparkzxl.oauth.domain.repository.IOauthClientDetailsRepository;
-import com.github.sparkzxl.oauth.infrastructure.client.DictionaryClient;
+import com.github.sparkzxl.oauth.interfaces.client.DictionaryProvider;
 import com.github.sparkzxl.oauth.infrastructure.entity.AuthApplication;
 import com.github.sparkzxl.oauth.infrastructure.entity.OauthClientDetails;
 import com.github.sparkzxl.oauth.infrastructure.mapper.AuthApplicationMapper;
@@ -27,7 +25,7 @@ import java.util.stream.Collectors;
  * description: 应用 仓储实现类
  *
  * @author charles.zhou
- * @date 2021-03-06 19:23:56
+ * @since 2021-03-06 19:23:56
  */
 @Repository
 public class AuthApplicationRepository implements IAuthApplicationRepository {
@@ -35,7 +33,7 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
     private final String SERVER_TYPE = "SERVER";
     private AuthApplicationMapper authApplicationMapper;
     private IOauthClientDetailsRepository oauthClientDetailsRepository;
-    private DictionaryClient dictionaryClient;
+    private DictionaryProvider dictionaryProvider;
 
     @Autowired
     public void setAuthApplicationMapper(AuthApplicationMapper authApplicationMapper) {
@@ -48,8 +46,8 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
     }
 
     @Autowired
-    public void setDictionaryClient(DictionaryClient dictionaryClient) {
-        this.dictionaryClient = dictionaryClient;
+    public void setDictionaryClient(DictionaryProvider dictionaryProvider) {
+        this.dictionaryProvider = dictionaryProvider;
     }
 
     @Override
@@ -64,21 +62,20 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
     }
 
     @Override
-    public PageInfo<AuthApplication> listPage(int pageNum, int pageSize, String clientId, String appName) {
-        PageHelper.startPage(pageNum, pageSize);
+    public Page<AuthApplication> listPage(int pageNum, int pageSize, String clientId, String appName) {
         LambdaQueryWrapper<AuthApplication> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(StringUtils.isNotEmpty(clientId), AuthApplication::getClientId, clientId)
-                .likeRight(StringUtils.isNotEmpty(appName), AuthApplication::getAppTypeName, appName).orderByDesc(SuperEntity::getCreateTime);
-        List<AuthApplication> authApplications = authApplicationMapper.selectList(lambdaQueryWrapper);
-        PageInfo<AuthApplication> authApplicationPageInfo = PageInfoUtils.pageInfo(authApplications);
-        List<AuthApplication> applicationList = authApplicationPageInfo.getList();
+                .likeRight(StringUtils.isNotEmpty(appName), AuthApplication::getAppTypeName, appName).orderByDesc(AuthApplication::getCreateTime);
+        Page<AuthApplication> authApplicationPage = authApplicationMapper.selectPage(new Page<>(pageNum, pageSize), lambdaQueryWrapper);
+        List<AuthApplication> applicationList = authApplicationPage.getRecords();
         if (CollectionUtils.isNotEmpty(applicationList)) {
             List<String> clientIds = applicationList.stream().map(AuthApplication::getClientId).filter(ObjectUtils::isNotEmpty).collect(Collectors.toList());
             Set<String> appTypeCodes = applicationList.stream().map(AuthApplication::getAppType).filter(ObjectUtils::isNotEmpty).collect(Collectors.toSet());
-            Map<String, DictionaryItemDTO> dictionaryItemMap = dictionaryClient.findDictionaryItemMap("APPLICATION_TYPE",
+            Map<String, DictionaryItemDTO> dictionaryItemMap = dictionaryProvider.findDictionaryItemMap("APPLICATION_TYPE",
                     appTypeCodes);
             List<OauthClientDetails> oauthClientDetails = oauthClientDetailsRepository.findListByIdList(clientIds);
-            Map<String, OauthClientDetails> oauthClientDetailsMap = oauthClientDetails.stream().collect(Collectors.toMap(OauthClientDetails::getClientId, key -> key));
+            Map<String, OauthClientDetails> oauthClientDetailsMap =
+                    oauthClientDetails.stream().collect(Collectors.toMap(OauthClientDetails::getClientId, key -> key));
             applicationList.forEach(application -> {
                 if (StringUtils.isNotEmpty(application.getClientId())) {
                     application.setOauthClientDetail(oauthClientDetailsMap.get(application.getClientId()));
@@ -88,9 +85,9 @@ public class AuthApplicationRepository implements IAuthApplicationRepository {
                     application.setAppTypeName(dictionaryItem.getName());
                 }
             });
-            authApplicationPageInfo.setList(applicationList);
+            authApplicationPage.setRecords(applicationList);
         }
-        return authApplicationPageInfo;
+        return authApplicationPage;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.github.sparkzxl.auth.domain.model.aggregates;
 
-import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
 import com.github.sparkzxl.auth.api.dto.OrgBasicInfo;
 import com.github.sparkzxl.auth.api.dto.ResourceBasicInfo;
 import com.github.sparkzxl.auth.api.dto.RoleBasicInfo;
@@ -17,7 +16,7 @@ import java.util.Map;
  * description: 用户基本信息
  *
  * @author charles.zhou
- * @date 2020-12-27 11:08:49
+ * @since 2020-12-27 11:08:49
  */
 @Data
 public class AuthUserBasicInfo {
@@ -47,7 +46,10 @@ public class AuthUserBasicInfo {
     private String mobile;
 
     @ApiModelProperty(value = "性别")
-    private SexEnum sex;
+    private Integer sex;
+
+    @ApiModelProperty(value = "性别名称")
+    private String sexDesc;
 
     @ApiModelProperty(value = "头像")
     private String avatar;

@@ -5,10 +5,10 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.DesensitizedUtil;
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.github.sparkzxl.annotation.echo.EchoResult;
-import com.github.sparkzxl.auth.api.constant.enums.SexEnum;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.api.dto.OrgBasicInfo;
 import com.github.sparkzxl.auth.api.dto.ResourceBasicInfo;
 import com.github.sparkzxl.auth.api.dto.RoleBasicInfo;
@@ -18,22 +18,21 @@ import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthUserConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.*;
-import com.github.sparkzxl.auth.infrastructure.enums.AuthorityTypeEnum;
+import com.github.sparkzxl.auth.domain.model.enums.AuthorityTypeEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.*;
 import com.github.sparkzxl.core.tree.TreeUtils;
 import com.github.sparkzxl.entity.data.RemoteData;
 import com.github.sparkzxl.entity.data.SuperEntity;
 import com.google.common.collect.Lists;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,61 +41,26 @@ import java.util.stream.Collectors;
  * description：用户仓储层实现类
  *
  * @author charles.zhou
- * @date 2020/6/5 8:45 下午
+ * @since 2020/6/5 8:45 下午
  */
-@RequiredArgsConstructor
 @Repository
 @Slf4j
 public class AuthUserRepository implements IAuthUserRepository {
 
+    @Resource
     private AuthUserMapper authUserMapper;
+    @Resource
     private UserRoleMapper userRoleMapper;
+    @Resource
     private AuthRoleMapper authRoleMapper;
+    @Resource
     private RoleAuthorityMapper roleAuthorityMapper;
+    @Resource
     private AuthResourceMapper authResourceMapper;
+    @Resource
     private CoreOrgMapper coreOrgMapper;
+    @Resource
     private PasswordEncoder passwordEncoder;
-    private Snowflake snowflake;
-
-    @Autowired
-    public void setAuthUserMapper(AuthUserMapper authUserMapper) {
-        this.authUserMapper = authUserMapper;
-    }
-
-    @Autowired
-    public void setUserRoleMapper(UserRoleMapper userRoleMapper) {
-        this.userRoleMapper = userRoleMapper;
-    }
-
-    @Autowired
-    public void setAuthRoleMapper(AuthRoleMapper authRoleMapper) {
-        this.authRoleMapper = authRoleMapper;
-    }
-
-    @Autowired
-    public void setRoleAuthorityMapper(RoleAuthorityMapper roleAuthorityMapper) {
-        this.roleAuthorityMapper = roleAuthorityMapper;
-    }
-
-    @Autowired
-    public void setAuthResourceMapper(AuthResourceMapper authResourceMapper) {
-        this.authResourceMapper = authResourceMapper;
-    }
-
-    @Autowired
-    public void setCoreOrgMapper(CoreOrgMapper coreOrgMapper) {
-        this.coreOrgMapper = coreOrgMapper;
-    }
-
-    @Autowired(required = false)
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @Autowired
-    public void setSnowflake(Snowflake snowflake) {
-        this.snowflake = snowflake;
-    }
 
     @Override
     public AuthUser selectById(Long id) {
@@ -104,7 +68,6 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    @EchoResult
     public AuthUser selectByAccount(String account) {
         LambdaQueryWrapper<AuthUser> queryWrapper = new LambdaQueryWrapper<>();
         boolean mobile = Validator.isMobile(account);
@@ -130,22 +93,33 @@ public class AuthUserRepository implements IAuthUserRepository {
     }
 
     @Override
-    @EchoResult
+    public Page<AuthUser> getAuthUserPage(Integer pageNum, Integer pageSize, AuthUser authUser) {
+        LambdaQueryWrapper<AuthUser> queryWrapper = buildQueryWrapper(authUser);
+        Page<AuthUser> userPage = authUserMapper.selectPage(new Page<>(pageNum, pageSize), queryWrapper);
+        userPage.getRecords().forEach(user -> user.setPassword(null));
+        return userPage;
+    }
+
+    @Override
     public List<AuthUser> getAuthUserList(AuthUser authUser) {
-        Integer sexCode = OptionalBean.ofNullable(authUser.getSex()).getBean(SexEnum::getCode).get();
-        String nationCode = OptionalBean.ofNullable(authUser.getNation()).getBean(RemoteData::getKey).get();
-        Long orgId = OptionalBean.ofNullable(authUser.getOrg()).getBean(RemoteData::getKey).get();
-        LambdaQueryWrapper<AuthUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.likeRight(StringUtils.isNotEmpty(authUser.getAccount()), AuthUser::getAccount, authUser.getAccount())
-                .likeRight(StringUtils.isNotEmpty(authUser.getName()), AuthUser::getName, authUser.getName())
-                .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
-                .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
-                .eq(ObjectUtils.isNotEmpty(sexCode), AuthUser::getSex, sexCode)
-                .eq(StringUtils.isNotEmpty(nationCode), AuthUser::getNation, nationCode)
-                .eq(ObjectUtils.isNotEmpty(orgId), AuthUser::getOrg, orgId);
+        LambdaQueryWrapper<AuthUser> queryWrapper = buildQueryWrapper(authUser);
         List<AuthUser> authUsers = authUserMapper.selectList(queryWrapper);
         authUsers.forEach(user -> user.setPassword(DesensitizedUtil.password(user.getPassword())));
         return authUsers;
+    }
+
+    private LambdaQueryWrapper<AuthUser> buildQueryWrapper(AuthUser authUser) {
+        LambdaQueryWrapper<AuthUser> queryWrapper = new LambdaQueryWrapper<>();
+        if (ObjectUtils.isNotEmpty(authUser)) {
+            Long orgId = OptionalBean.ofNullable(authUser).getBean(AuthUser::getOrg).getBean(RemoteData::getKey).get();
+            queryWrapper.likeRight(StringUtils.isNotEmpty(authUser.getAccount()), AuthUser::getAccount, authUser.getAccount())
+                    .likeRight(StringUtils.isNotEmpty(authUser.getName()), AuthUser::getName, authUser.getName())
+                    .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
+                    .eq(ObjectUtils.isNotEmpty(authUser.getStatus()), AuthUser::getStatus, authUser.getStatus())
+                    .eq(ObjectUtils.isNotEmpty(authUser.getSex()), AuthUser::getSex, authUser.getSex())
+                    .eq(ObjectUtils.isNotEmpty(orgId), AuthUser::getOrg, orgId);
+        }
+        return queryWrapper;
     }
 
     private OrgBasicInfo buildOrgBasicInfo(CoreOrg coreOrg) {
@@ -177,7 +151,7 @@ public class AuthUserRepository implements IAuthUserRepository {
         if (MapUtils.isEmpty(authUser.getExtendInfo())) {
             updateWrapper.set(AuthUser::getExtendInfo, null);
         }
-        updateWrapper.eq(SuperEntity::getId, authUser.getId());
+        updateWrapper.eq(AuthUser::getId, authUser.getId());
         return authUserMapper.update(authUser, updateWrapper) == 1;
     }
 
@@ -242,7 +216,7 @@ public class AuthUserRepository implements IAuthUserRepository {
             List<AuthRole> roleList = authRoleMapper.selectBatchIds(roleIds);
             List<RoleBasicInfo> roleBasicInfos = AuthRoleConvert.INSTANCE.convertRoleBasicInfo(roleList);
             RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
-            roleBasicInfo.setId(snowflake.nextId());
+            roleBasicInfo.setId(IdUtil.getSnowflake().nextId());
             roleBasicInfo.setCode(BizConstant.USER_CODE);
             roleBasicInfo.setName("普通用户");
             roleBasicInfos.add(roleBasicInfo);
@@ -272,7 +246,7 @@ public class AuthUserRepository implements IAuthUserRepository {
             authUserBasicInfo.setResourceList(resourceBasicInfos);
         } else {
             RoleBasicInfo roleBasicInfo = new RoleBasicInfo();
-            roleBasicInfo.setId(snowflake.nextId());
+            roleBasicInfo.setId(IdUtil.getSnowflake().nextId());
             roleBasicInfo.setCode(BizConstant.USER_CODE);
             roleBasicInfo.setName("普通用户");
             List<RoleBasicInfo> roleBasicInfos = Lists.newArrayList(roleBasicInfo);

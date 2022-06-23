@@ -7,7 +7,7 @@ import com.github.sparkzxl.auth.domain.model.aggregates.ResourceSource;
 import com.github.sparkzxl.auth.domain.repository.IAuthResourceRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
-import com.github.sparkzxl.auth.infrastructure.enums.OperationEnum;
+import com.github.sparkzxl.auth.domain.model.enums.OperationEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthResourceMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
@@ -24,7 +24,7 @@ import java.util.List;
  * description: 资源 仓储层实现类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:31:28
+ * @since 2020-06-07 13:31:28
  */
 @AllArgsConstructor
 @Repository

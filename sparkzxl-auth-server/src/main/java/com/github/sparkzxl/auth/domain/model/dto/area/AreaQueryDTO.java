@@ -1,0 +1,22 @@
+package com.github.sparkzxl.auth.domain.model.dto.area;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+/**
+ * description: 地区分页查询入参
+ *
+ * @author charles.zhou
+ * @since 2020-12-02 10:13:57
+ */
+@Data
+@ApiModel("地区分页查询入参")
+public class AreaQueryDTO {
+
+    @ApiModelProperty(value = "名称")
+    protected String name;
+    @ApiModelProperty(value = "编码")
+    private String code;
+
+}

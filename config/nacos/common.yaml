@@ -6,12 +6,12 @@ feign:
   hystrix:
     enabled: true
     #支持压缩的mime types
-  compression:  # 请求压缩
+  compression: # 请求压缩
     request:
       enabled: true
       mime-types: text/xml,application/xml,application/json
       min-request-size: 2048
-    response:  # 响应压缩
+    response: # 响应压缩
       enabled: true
 ribbon:
   httpclient:
@@ -46,4 +46,4 @@ management:
       enabled: true
       show-details: always
   security:
-    enabled : false
+    enabled: false

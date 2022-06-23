@@ -2919,7 +2919,14 @@ input[type="button"].btn-block {
     content: "\2212";
 }
 
-.glyphicon-cloud:before {
+.glyphicon-cloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true
+      transport:
+        dashboard: 47.114.40.129:8858before {
     content: "\2601";
 }
 

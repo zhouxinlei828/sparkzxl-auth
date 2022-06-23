@@ -1,20 +1,20 @@
 package com.github.sparkzxl.auth.interfaces.controller.core;
 
 
-import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.annotation.response.Response;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.application.event.ImportStationDataListener;
 import com.github.sparkzxl.auth.application.service.ICoreStationService;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.StationExcel;
 import com.github.sparkzxl.auth.infrastructure.convert.CoreStationConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationUpdateDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationUpdateDTO;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.database.base.listener.ImportDataListener;
-import com.github.sparkzxl.database.dto.DeleteDTO;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.dto.DeleteDTO;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +28,14 @@ import java.util.List;
  * description: 岗位 前端控制器
  *
  * @author charles.zhou
- * @date 2020-06-07 13:41:11
+ * @since 2020-06-07 13:41:11
  */
 @RestController
 @Response
 @HttpRequestLog
 @Api(tags = "岗位管理")
 @RequestMapping("/station")
-public class StationController extends SuperCacheController<ICoreStationService, Long,
+public class StationController extends SuperController<ICoreStationService, Long,
         CoreStation, StationSaveDTO, StationUpdateDTO, StationQueryDTO, StationExcel> {
 
     private ImportStationDataListener importStationDataListener;
@@ -46,7 +46,7 @@ public class StationController extends SuperCacheController<ICoreStationService,
     }
 
     @Override
-    public PageInfo<CoreStation> page(PageParams<StationQueryDTO> params) {
+    public Page<CoreStation> page(PageParams<StationQueryDTO> params) {
         return baseService.getStationPageList(params);
     }
 

@@ -12,7 +12,7 @@ import java.util.Set;
  * description: Activiti生成流程图片接口
  *
  * @author charles.zhou
- * @date 2020-07-17 13:58:45
+ * @since 2020-07-17 13:58:45
  */
 public interface ICustomProcessDiagramGenerator extends ProcessDiagramGenerator {
 

@@ -14,7 +14,7 @@ import java.util.Map;
  * description: Jwt内容增强器
  *
  * @author charles.zhou
- * @date 2020-05-24 13:24:10
+ * @since 2020-05-24 13:24:10
  */
 public class JwtTokenEnhancer implements TokenEnhancer {
 

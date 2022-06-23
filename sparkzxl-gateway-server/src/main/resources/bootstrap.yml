@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: dev #默认为开发环境
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: sparkzxl-gateway-server
+  codec:
+    max-in-memory-size: 100MB

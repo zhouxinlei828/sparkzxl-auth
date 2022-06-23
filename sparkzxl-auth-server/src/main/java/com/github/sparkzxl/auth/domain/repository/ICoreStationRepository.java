@@ -1,6 +1,7 @@
 package com.github.sparkzxl.auth.domain.repository;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.database.echo.core.LoadService;
@@ -12,7 +13,7 @@ import java.util.List;
  * description: 岗位 仓储类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:32:55
+ * @since 2020-06-07 13:32:55
  */
 public interface ICoreStationRepository extends LoadService {
 
@@ -23,9 +24,9 @@ public interface ICoreStationRepository extends LoadService {
      * @param pageSize 分页大小
      * @param name     岗位名称
      * @param org      组织id
-     * @return List<CoreStation>
+     * @return Page<CoreStation>
      */
-    List<CoreStation> getStationPageList(int pageNum, int pageSize, String name, RemoteData<Long, CoreOrg> org);
+    Page<CoreStation> getStationPagePage(int pageNum, int pageSize, String name, RemoteData<Long, CoreOrg> org);
 
     /**
      * 删除岗位

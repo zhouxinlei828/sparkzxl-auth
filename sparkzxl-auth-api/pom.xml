@@ -20,7 +20,6 @@
         <dependency>
             <groupId>com.github.sparkzxl</groupId>
             <artifactId>sparkzxl-core</artifactId>
-            <version>${sparkzxl-dependencies.version}</version>
         </dependency>
     </dependencies>
     <build>

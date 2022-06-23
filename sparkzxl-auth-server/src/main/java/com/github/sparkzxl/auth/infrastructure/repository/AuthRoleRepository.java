@@ -2,8 +2,7 @@ package com.github.sparkzxl.auth.infrastructure.repository;
 
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.domain.repository.IAuthRoleRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
@@ -11,7 +10,6 @@ import com.github.sparkzxl.auth.infrastructure.entity.UserRole;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthRoleMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.auth.infrastructure.mapper.UserRoleMapper;
-import com.github.sparkzxl.database.utils.PageInfoUtils;
 import com.github.sparkzxl.entity.data.SuperEntity;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +22,7 @@ import java.util.List;
  * description: 角色 仓储层实现类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:31:48
+ * @since 2020-06-07 13:31:48
  */
 @Repository
 public class AuthRoleRepository implements IAuthRoleRepository {
@@ -65,17 +63,15 @@ public class AuthRoleRepository implements IAuthRoleRepository {
         if (MapUtils.isEmpty(authRole.getExtendInfo())) {
             updateWrapper.set(AuthRole::getExtendInfo, null);
         }
-        updateWrapper.eq(SuperEntity::getId, authRole.getId());
+        updateWrapper.eq(AuthRole::getId, authRole.getId());
         return authRoleMapper.update(authRole, updateWrapper) == 1;
     }
 
     @Override
-    public PageInfo<AuthRole> getPageList(int pageNum, int pageSize, String code, String name) {
+    public Page<AuthRole> getPageList(int pageNum, int pageSize, String code, String name) {
         LambdaUpdateWrapper<AuthRole> roleLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         roleLambdaUpdateWrapper.eq(StringUtils.isNotEmpty(code), AuthRole::getCode, code)
                 .likeRight(StringUtils.isNotEmpty(name), AuthRole::getName, name);
-        PageHelper.startPage(pageNum, pageSize);
-        List<AuthRole> roleList = authRoleMapper.selectList(roleLambdaUpdateWrapper);
-        return PageInfoUtils.pageInfo(roleList);
+        return authRoleMapper.selectPage(new Page<>(pageNum, pageSize), roleLambdaUpdateWrapper);
     }
 }

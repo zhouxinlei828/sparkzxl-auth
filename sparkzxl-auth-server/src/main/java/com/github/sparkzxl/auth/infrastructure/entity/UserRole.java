@@ -15,7 +15,7 @@ import java.io.Serializable;
  * description: 角色分配 账号角色绑定
  *
  * @author charles.zhou
- * @date 2020-07-19 20:55:33
+ * @since 2020-07-19 20:55:33
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

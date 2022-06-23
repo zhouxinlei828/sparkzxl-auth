@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.infrastructure.config;
 
-import com.github.sparkzxl.core.utils.ListUtils;
-import com.github.sparkzxl.core.utils.SwaggerStaticResource;
+import com.github.sparkzxl.core.util.ListUtils;
+import com.github.sparkzxl.core.util.SwaggerStaticResource;
 import com.github.sparkzxl.oauth.infrastructure.constant.SecurityConstants;
 import com.github.sparkzxl.oauth.infrastructure.security.RestAuthenticationEntryPoint;
 import com.github.sparkzxl.oauth.infrastructure.security.RestfulAccessDeniedHandler;
@@ -21,7 +21,7 @@ import java.util.List;
  * description: 资源服务器
  *
  * @author charles.zhou
- * @date 2021-02-01 11:30:00
+ * @since 2021-02-01 11:30:00
  */
 @Configuration
 @EnableResourceServer

@@ -2,13 +2,13 @@ package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.auth.application.service.IRoleAuthorityService;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthorityQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthoritySaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleAuthorityUpdateDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleAuthorityQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleAuthoritySaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleAuthorityUpdateDTO;
+import com.github.sparkzxl.database.base.controller.SuperController;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,14 +21,14 @@ import java.util.List;
  * description: 角色资源管理
  *
  * @author charles.zhou
- * @date 2020-07-19 21:05:10
+ * @since 2020-07-19 21:05:10
  */
 @RestController
 @RequestMapping("/role/authority")
 @Response
 @HttpRequestLog
 @Api(tags = "角色资源管理")
-public class RoleAuthorityController extends SuperCacheController<IRoleAuthorityService, Long,
+public class RoleAuthorityController extends SuperController<IRoleAuthorityService, Long,
         RoleAuthority, RoleAuthoritySaveDTO, RoleAuthorityUpdateDTO, RoleAuthorityQueryDTO, Object> {
 
     @ApiOperation("批量保存角色资源")

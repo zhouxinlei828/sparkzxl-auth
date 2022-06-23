@@ -1,20 +1,18 @@
 package com.github.sparkzxl.auth.domain.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.application.service.ICoreStationService;
 import com.github.sparkzxl.auth.domain.repository.ICoreStationRepository;
 import com.github.sparkzxl.auth.domain.repository.ISegmentIdRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.CoreStationConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
 import com.github.sparkzxl.auth.infrastructure.mapper.CoreStationMapper;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationUpdateDTO;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
-import com.github.sparkzxl.database.dto.PageParams;
-import com.github.sparkzxl.database.utils.PageInfoUtils;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationUpdateDTO;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
+import com.github.sparkzxl.dto.PageParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +22,10 @@ import java.util.List;
  * description: 岗位 服务实现类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:37:46
+ * @since 2020-06-07 13:37:46
  */
 @Service
-public class CoreStationServiceImpl extends SuperCacheServiceImpl<CoreStationMapper, CoreStation> implements ICoreStationService {
+public class CoreStationServiceImpl extends SuperServiceImpl<CoreStationMapper, CoreStation> implements ICoreStationService {
 
     @Autowired
     private ICoreStationRepository coreStationRepository;
@@ -37,10 +35,10 @@ public class CoreStationServiceImpl extends SuperCacheServiceImpl<CoreStationMap
 
 
     @Override
-    public PageInfo<CoreStation> getStationPageList(PageParams<StationQueryDTO> params) {
-        return PageInfoUtils.pageInfo(coreStationRepository.getStationPageList(params.getPageNum(),
+    public Page<CoreStation> getStationPageList(PageParams<StationQueryDTO> params) {
+        return coreStationRepository.getStationPagePage(params.getPageNum(),
                 params.getPageSize(), params.getModel().getName(),
-                params.getModel().getOrg()));
+                params.getModel().getOrg());
     }
 
     @Override
@@ -70,8 +68,4 @@ public class CoreStationServiceImpl extends SuperCacheServiceImpl<CoreStationMap
         return coreStationRepository.deleteCoreStation(ids);
     }
 
-    @Override
-    protected String getRegion() {
-        return BizConstant.STATION;
-    }
 }

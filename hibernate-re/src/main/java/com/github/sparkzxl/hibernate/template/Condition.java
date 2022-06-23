@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
  * description: 条件构造
  *
  * @author zhouxinlei
- * @date 2021-08-01 21:00:04
+ * @since 2021-08-01 21:00:04
  */
 @Data
 @Accessors(chain = true)

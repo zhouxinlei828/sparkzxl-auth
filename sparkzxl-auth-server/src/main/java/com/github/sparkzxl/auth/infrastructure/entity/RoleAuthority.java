@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  * description: 角色的资源
  *
  * @author charles.zhou
- * @date 2020-07-19 20:56:02
+ * @since 2020-07-19 20:56:02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

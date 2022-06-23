@@ -6,7 +6,7 @@ import com.github.sparkzxl.auth.AuthServerApplication;
 import com.github.sparkzxl.auth.domain.repository.IAuthUserRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
 import com.github.sparkzxl.auth.infrastructure.entity.RoleAuthority;
-import com.github.sparkzxl.auth.infrastructure.enums.AuthorityTypeEnum;
+import com.github.sparkzxl.auth.domain.model.enums.AuthorityTypeEnum;
 import com.github.sparkzxl.auth.infrastructure.mapper.RoleAuthorityMapper;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.jackson.JsonUtil;
@@ -22,7 +22,7 @@ import java.util.List;
  * description:
  *
  * @author zhouxinlei
- * @date 2021-06-09 17:18
+ * @since 2021-06-09 17:18
  */
 @SpringBootTest(classes = {AuthServerApplication.class}, properties = {"spring.profiles.active=dev"})
 class AuthUserRepositoryTest {
@@ -35,7 +35,7 @@ class AuthUserRepositoryTest {
     @DisplayName("测试数据自动回显")
     @Test
     void selectByAccount() {
-        RequestLocalContextHolder.setTenant("6055fc0465a6f7ecf13fe03a");
+        RequestLocalContextHolder.setTenant("hz");
         AuthUser authUser = authUserRepository.selectByAccount("zhouxinlei");
         System.out.println(JsonUtil.toJsonPretty(authUser));
     }

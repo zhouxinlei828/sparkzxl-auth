@@ -1,7 +1,7 @@
 package com.github.sparkzxl.workflow.application.service.driver;
 
+import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessNextTaskDTO;
 import com.github.sparkzxl.workflow.dto.*;
-import com.github.sparkzxl.workflow.interfaces.dto.process.ProcessNextTaskDTO;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * description: 流程驱动 服务类
  *
  * @author charles.zhou
- * @date 2020-07-17 16:26:54
+ * @since 2020-07-17 16:26:54
  */
 public interface IProcessDriveService {
 

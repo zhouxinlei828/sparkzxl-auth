@@ -1,6 +1,7 @@
 package com.github.sparkzxl.oauth.application.service;
 
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AccessTokenInfo;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.AuthorizationRequest;
@@ -14,7 +15,7 @@ import java.util.Map;
  * description: Oauth认证 服务类
  *
  * @author charles.zhou
- * @date 2020-06-25 09:49:22
+ * @since 2020-06-25 09:49:22
  */
 public interface IOauthService {
 
@@ -78,5 +79,5 @@ public interface IOauthService {
      * @param authUserInfo 全局用户
      * @return AuthUserBasicVO
      */
-    AuthUserBasicVO userinfo(AuthUserInfo<Long> authUserInfo);
+    AuthUserBasicVO userinfo(AuthUserInfo<UserDetail> authUserInfo);
 }

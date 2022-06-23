@@ -11,7 +11,7 @@ import java.util.List;
  * description: 用户任务详情
  *
  * @author charles.zhou
- * @date 2020-07-22 18:14:38
+ * @since 2020-07-22 18:14:38
  */
 @Data
 @ApiModel("用户任务详情")

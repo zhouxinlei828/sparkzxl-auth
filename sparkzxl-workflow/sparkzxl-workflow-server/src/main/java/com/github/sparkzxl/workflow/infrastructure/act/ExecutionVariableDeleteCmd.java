@@ -11,7 +11,7 @@ import java.util.List;
  * description:
  *
  * @author zhouxinlei
- * @date 2021-07-18 10:59
+ * @since 2021-07-18 10:59
  */
 public class ExecutionVariableDeleteCmd implements Command<String> {
 

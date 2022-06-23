@@ -1,15 +1,16 @@
 package com.github.sparkzxl.auth.application.service;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.api.dto.AuthUserBasicVO;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.api.dto.UserDetailInfo;
 import com.github.sparkzxl.auth.domain.model.aggregates.MenuBasicInfo;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthUser;
-import com.github.sparkzxl.auth.interfaces.dto.user.UserQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.user.UserSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.user.UserUpdateDTO;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.auth.domain.model.dto.user.UserQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.user.UserSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.user.UserUpdateDTO;
+import com.github.sparkzxl.database.base.service.SuperService;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,17 +20,17 @@ import java.util.List;
  * description: 用户查询 服务类
  *
  * @author charles.zhou
- * @date 2020-05-24 12:22:23
+ * @since 2020-05-24 12:22:23
  */
-public interface IUserService extends SuperCacheService<AuthUser> {
+public interface IUserService extends SuperService<AuthUser> {
 
     /**
      * 获取全局用户信息
      *
      * @param username 用户账户
-     * @return AuthUserInfo<Long>
+     * @return AuthUserInfo<UserDetail>
      */
-    AuthUserInfo<Long> getAuthUserInfo(String username);
+    AuthUserInfo<UserDetail> getAuthUserInfo(String username);
 
     /**
      * 根据账户查询用户信息
@@ -43,9 +44,9 @@ public interface IUserService extends SuperCacheService<AuthUser> {
      * 获取用户分页
      *
      * @param params 分页入参
-     * @return PageInfo<AuthUser>
+     * @return Page<AuthUser>
      */
-    PageInfo<AuthUser> getAuthUserPage(PageParams<UserQueryDTO> params);
+    Page<AuthUser> getAuthUserPage(PageParams<UserQueryDTO> params);
 
     /**
      * 保存用户信息

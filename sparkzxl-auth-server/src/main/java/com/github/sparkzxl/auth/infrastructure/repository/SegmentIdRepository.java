@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.sparkzxl.auth.domain.repository.ISegmentIdRepository;
 import com.github.sparkzxl.auth.infrastructure.entity.SegmentId;
 import com.github.sparkzxl.auth.infrastructure.mapper.SegmentIdMapper;
-import com.github.sparkzxl.core.utils.DateUtils;
+import com.github.sparkzxl.core.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +15,7 @@ import java.util.Date;
  * description: 序列生成仓储实现类
  *
  * @author charles.zhou
- * @date 2021-02-20 17:38:32
+ * @since 2021-02-20 17:38:32
  */
 @Repository
 public class SegmentIdRepository implements ISegmentIdRepository {

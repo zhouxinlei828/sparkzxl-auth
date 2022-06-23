@@ -3,7 +3,7 @@ package com.github.sparkzxl.oauth.domain.service;
 import com.github.sparkzxl.constant.BaseContextConstants;
 import com.github.sparkzxl.core.context.RequestLocalContextHolder;
 import com.github.sparkzxl.core.jackson.JsonUtil;
-import com.github.sparkzxl.core.utils.RequestContextHolderUtils;
+import com.github.sparkzxl.core.util.RequestContextHolderUtils;
 import com.github.sparkzxl.oauth.domain.repository.IOauthClientDetailsRepository;
 import com.github.sparkzxl.oauth.infrastructure.entity.OauthClientDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.Optional;
  * description: oauth 客户端应用管理
  *
  * @author zhouxinlei
- * @date 2021-07-03 15:28:51
+ * @since 2021-07-03 15:28:51
  */
 @Service
 public class ClientDetailsServiceImpl implements ClientDetailsService {
@@ -52,7 +52,8 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
             baseClientDetails.setAdditionalInformation(additionalInformationMap);
         }
         String autoApproveScopes = oauthClientDetails.getAutoApprove();
-        Optional.ofNullable(oauthClientDetails.getAutoApprove()).ifPresent(value -> baseClientDetails.setAutoApproveScopes(StringUtils.commaDelimitedListToSet(autoApproveScopes)));
+        Optional.ofNullable(oauthClientDetails.getAutoApprove())
+                .ifPresent(value -> baseClientDetails.setAutoApproveScopes(StringUtils.commaDelimitedListToSet(autoApproveScopes)));
         return baseClientDetails;
     }
 }

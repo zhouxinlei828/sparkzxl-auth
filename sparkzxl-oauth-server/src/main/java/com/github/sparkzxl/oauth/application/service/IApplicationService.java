@@ -1,12 +1,12 @@
 package com.github.sparkzxl.oauth.application.service;
 
-import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.sparkzxl.database.base.service.SuperService;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.oauth.infrastructure.entity.AuthApplication;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationQueryDTO;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationSaveDTO;
-import com.github.sparkzxl.oauth.interfaces.dto.application.AuthApplicationUpdateDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationQueryDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationSaveDTO;
+import com.github.sparkzxl.oauth.domain.model.dto.AuthApplicationUpdateDTO;
 
 import java.util.List;
 
@@ -14,9 +14,9 @@ import java.util.List;
  * description: 租户信息客户端服务类
  *
  * @author charles.zhou
- * @date 2021-02-20 09:44:35
+ * @since 2021-02-20 09:44:35
  */
-public interface IApplicationService extends SuperCacheService<AuthApplication> {
+public interface IApplicationService extends SuperService<AuthApplication> {
 
     /**
      * 保存应用客户端信息
@@ -30,9 +30,9 @@ public interface IApplicationService extends SuperCacheService<AuthApplication> 
      * 获取客户端分页
      *
      * @param params 应用分页DTO
-     * @return PageInfo<OauthClientDetails>
+     * @return Page<OauthClientDetails>
      */
-    PageInfo<AuthApplication> listPage(PageParams<AuthApplicationQueryDTO> params);
+    Page<AuthApplication> listPage(PageParams<AuthApplicationQueryDTO> params);
 
     /**
      * 查询应用列表

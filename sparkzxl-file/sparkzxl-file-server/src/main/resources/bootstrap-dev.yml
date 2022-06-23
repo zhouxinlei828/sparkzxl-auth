@@ -1,0 +1,46 @@
+server:
+  shutdown: graceful
+  port: 8804
+spring:
+  application:
+    name: sparkzxl-file-server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.114.40.129:8848
+        namespace: 41618410-b6bb-40ba-99cf-f2c8d2fe4da0
+      config:
+        server-addr: 47.114.40.129:8848
+        namespace: 41618410-b6bb-40ba-99cf-f2c8d2fe4da0
+        file-extension: yaml
+        prefix: ${spring.application.name}
+        shared-configs:
+          - dataId: mysql.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - dataId: redis.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - dataId: common.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - dataId: resilience4j.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+        enable-remote-sync-config: true
+logging:
+  level:
+    com.github.sparkzxl.file.infrastructure.mapper: debug
+oss:
+  enabled: true
+  store: yaml
+  primary-executor: com.github.sparkzxl.oss.executor.MinioExecutor
+  provider:
+    test:
+      client-id: hz
+      client-type: minio
+      endpoint: http://127.0.0.1:9000
+      domain: http://127.0.0.1:9000
+      access-key: admin
+      secret-key: zxl298828
+      bucket-name: sparkzxl

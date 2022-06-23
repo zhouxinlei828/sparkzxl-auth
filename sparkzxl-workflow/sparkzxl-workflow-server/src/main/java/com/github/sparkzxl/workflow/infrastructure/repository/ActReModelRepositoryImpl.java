@@ -1,8 +1,7 @@
 package com.github.sparkzxl.workflow.infrastructure.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.database.utils.PageInfoUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.workflow.domain.repository.IActReModelRepository;
 import com.github.sparkzxl.workflow.infrastructure.entity.ActReModel;
 import com.github.sparkzxl.workflow.infrastructure.mapper.ActReModelMapper;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Repository;
  * description: 模型 仓储实现类
  *
  * @author charles.zhou
- * @date 2020-07-25 11:17:47
+ * @since 2020-07-25 11:17:47
  */
 @Repository
 public class ActReModelRepositoryImpl implements IActReModelRepository {
@@ -23,7 +22,7 @@ public class ActReModelRepositoryImpl implements IActReModelRepository {
     private ActReModelMapper actReModelMapper;
 
     @Override
-    public PageInfo<ActReModel> actReModelList(String key, String name) {
+    public Page<ActReModel> actReModelList(Page<ActReModel> page, String key, String name) {
         LambdaQueryWrapper<ActReModel> modelQueryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotBlank(key)) {
             modelQueryWrapper.eq(ActReModel::getKey, key);
@@ -31,6 +30,6 @@ public class ActReModelRepositoryImpl implements IActReModelRepository {
         if (StringUtils.isNotBlank(name)) {
             modelQueryWrapper.eq(ActReModel::getName, name);
         }
-        return PageInfoUtils.pageInfo(actReModelMapper.selectList(modelQueryWrapper));
+        return actReModelMapper.selectPage(page, modelQueryWrapper);
     }
 }

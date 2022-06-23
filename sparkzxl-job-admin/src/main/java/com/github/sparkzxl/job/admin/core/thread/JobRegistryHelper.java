@@ -75,7 +75,8 @@ public class JobRegistryHelper {
 
                             // fresh online address (admin/executor)
                             HashMap<String, List<String>> appAddressMap = new HashMap<String, List<String>>();
-                            List<XxlJobRegistry> list = XxlJobAdminConfig.getAdminConfig().getXxlJobRegistryDao().findAll(RegistryConfig.DEAD_TIMEOUT, new Date());
+                            List<XxlJobRegistry> list =
+                                    XxlJobAdminConfig.getAdminConfig().getXxlJobRegistryDao().findAll(RegistryConfig.DEAD_TIMEOUT, new Date());
                             JobGroupController.buildJobRegistry(appAddressMap, list);
 
                             // fresh group address
@@ -147,9 +148,11 @@ public class JobRegistryHelper {
 
         // async execute
         registryOrRemoveThreadPool.execute(() -> {
-            int ret = XxlJobAdminConfig.getAdminConfig().getXxlJobRegistryDao().registryUpdate(registryParam.getRegistryGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue(), new Date());
+            int ret = XxlJobAdminConfig.getAdminConfig().getXxlJobRegistryDao()
+                    .registryUpdate(registryParam.getRegistryGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue(), new Date());
             if (ret < 1) {
-                XxlJobAdminConfig.getAdminConfig().getXxlJobRegistryDao().registrySave(registryParam.getRegistryGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue(), new Date());
+                XxlJobAdminConfig.getAdminConfig().getXxlJobRegistryDao()
+                        .registrySave(registryParam.getRegistryGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue(), new Date());
 
                 // fresh
                 freshGroupRegistryInfo(registryParam);
@@ -170,7 +173,8 @@ public class JobRegistryHelper {
 
         // async execute
         registryOrRemoveThreadPool.execute(() -> {
-            int ret = XxlJobAdminConfig.getAdminConfig().getXxlJobRegistryDao().registryDelete(registryParam.getRegistryGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue());
+            int ret = XxlJobAdminConfig.getAdminConfig().getXxlJobRegistryDao()
+                    .registryDelete(registryParam.getRegistryGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue());
             if (ret > 0) {
                 // fresh
                 freshGroupRegistryInfo(registryParam);

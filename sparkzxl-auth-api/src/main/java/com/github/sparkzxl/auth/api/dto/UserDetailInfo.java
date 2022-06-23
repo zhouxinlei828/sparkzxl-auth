@@ -8,11 +8,11 @@ import lombok.EqualsAndHashCode;
  * description: 用户详细信息
  *
  * @author zhoux
- * @date 2021-08-22 12:41:50
+ * @since 2021-08-22 12:41:50
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UserDetailInfo extends AuthUserInfo<Long> {
+public class UserDetailInfo extends AuthUserInfo<UserDetail> {
 
     private String password;
 

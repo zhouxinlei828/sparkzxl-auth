@@ -1,8 +1,8 @@
 package com.github.sparkzxl.auth.infrastructure.convert;
 
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
-import com.github.sparkzxl.auth.interfaces.dto.org.OrgSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.org.OrgUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.org.OrgSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.org.OrgUpdateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
  * description: CoreOrg对象Convert
  *
  * @author charles.zhou
- * @date 2020-06-05 21:28:06
+ * @since 2020-06-05 21:28:06
  */
 @Mapper
 public interface CoreOrgConvert {

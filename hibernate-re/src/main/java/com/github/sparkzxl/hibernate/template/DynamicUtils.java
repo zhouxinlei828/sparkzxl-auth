@@ -5,7 +5,7 @@ import com.alibaba.druid.sql.ast.SQLDataType;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.expr.*;
 import com.baomidou.mybatisplus.core.enums.SqlKeyword;
-import com.github.sparkzxl.core.utils.DateUtils;
+import com.github.sparkzxl.core.util.DateUtils;
 
 import java.math.BigDecimal;
 
@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  * description: SQL处理工具类
  *
  * @author zhouxinlei
- * @date 2021-08-02 10:25:08
+ * @since 2021-08-02 10:25:08
  */
 public class DynamicUtils {
 

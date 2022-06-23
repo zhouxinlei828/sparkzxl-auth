@@ -1,11 +1,9 @@
 package com.github.sparkzxl.workflow.infrastructure.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.core.utils.DateUtils;
-import com.github.sparkzxl.database.utils.PageInfoUtils;
-import com.github.sparkzxl.workflow.domain.model.InstanceOverviewCount;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.sparkzxl.core.util.DateUtils;
+import com.github.sparkzxl.workflow.domain.model.bo.InstanceOverviewCount;
 import com.github.sparkzxl.workflow.domain.repository.IExtProcessStatusRepository;
 import com.github.sparkzxl.workflow.infrastructure.entity.ExtProcessStatus;
 import com.github.sparkzxl.workflow.infrastructure.entity.ProcessInstance;
@@ -21,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * description:流程状态 仓储实现类
  *
  * @author charles.zhou
- * @date 2020-07-23 13:59:16
+ * @since 2020-07-23 13:59:16
  */
 @Repository
 public class ExtProcessStatusRepositoryImpl implements IExtProcessStatusRepository {
@@ -43,9 +41,8 @@ public class ExtProcessStatusRepositoryImpl implements IExtProcessStatusReposito
     }
 
     @Override
-    public PageInfo<ProcessInstance> getProcessInstanceList(int pageNum, int pageSize, String processInstanceId) {
-        PageHelper.startPage(pageNum, pageSize);
-        return PageInfoUtils.pageInfo(extProcessStatusMapper.getProcessInstanceList(processInstanceId));
+    public Page<ProcessInstance> getProcessInstanceList(int pageNum, int pageSize, String processInstanceId) {
+        return extProcessStatusMapper.getProcessInstancePage(new Page<>(pageNum, pageSize), processInstanceId);
     }
 
     @Override
@@ -56,7 +53,7 @@ public class ExtProcessStatusRepositoryImpl implements IExtProcessStatusReposito
         AtomicInteger finishCount = new AtomicInteger(0);
         AtomicInteger unFinishCount = new AtomicInteger(0);
         AtomicInteger monthCount = new AtomicInteger(0);
-        List<ProcessInstance> processInstanceList = extProcessStatusMapper.getProcessInstanceList(null);
+        List<ProcessInstance> processInstanceList = extProcessStatusMapper.getProcessInstanceList();
         processInstanceList.forEach(processInstance -> {
             if (DateUtils.isToday(processInstance.getCreateTime())) {
                 todayCount.getAndIncrement();

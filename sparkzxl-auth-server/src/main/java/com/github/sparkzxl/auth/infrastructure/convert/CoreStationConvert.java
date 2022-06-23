@@ -3,8 +3,8 @@ package com.github.sparkzxl.auth.infrastructure.convert;
 import com.github.sparkzxl.auth.domain.model.aggregates.excel.StationExcel;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreOrg;
 import com.github.sparkzxl.auth.infrastructure.entity.CoreStation;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.station.StationUpdateDTO;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.station.StationUpdateDTO;
 import com.github.sparkzxl.entity.data.RemoteData;
 import org.apache.commons.lang3.ObjectUtils;
 import org.mapstruct.Mapper;
@@ -17,7 +17,7 @@ import java.util.List;
  * description: CoreStation对象Convert
  *
  * @author charles.zhou
- * @date 2020-06-05 21:28:06
+ * @since 2020-06-05 21:28:06
  */
 @Mapper
 public interface CoreStationConvert {

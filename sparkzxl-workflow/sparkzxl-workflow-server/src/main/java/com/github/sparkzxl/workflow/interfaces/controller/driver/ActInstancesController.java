@@ -1,21 +1,21 @@
 package com.github.sparkzxl.workflow.interfaces.controller.driver;
 
 
-import com.github.pagehelper.PageInfo;
-import com.github.sparkzxl.annotation.response.Response;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.sparkzxl.web.annotation.Response;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import com.github.sparkzxl.workflow.api.ProcessApi;
 import com.github.sparkzxl.workflow.application.service.act.IProcessHistoryService;
 import com.github.sparkzxl.workflow.application.service.driver.IProcessDriveService;
 import com.github.sparkzxl.workflow.application.service.ext.IExtProcessStatusService;
-import com.github.sparkzxl.workflow.domain.vo.InstanceOverview;
+import com.github.sparkzxl.workflow.domain.model.dto.act.InstancePageDTO;
+import com.github.sparkzxl.workflow.domain.model.dto.process.ProcessNextTaskDTO;
+import com.github.sparkzxl.workflow.domain.model.vo.InstanceOverview;
 import com.github.sparkzxl.workflow.dto.BusTaskInfo;
 import com.github.sparkzxl.workflow.dto.ProcessHistory;
 import com.github.sparkzxl.workflow.dto.ProcessHistoryParam;
 import com.github.sparkzxl.workflow.dto.UserNextTask;
 import com.github.sparkzxl.workflow.infrastructure.entity.ProcessInstance;
-import com.github.sparkzxl.workflow.interfaces.dto.act.InstancePageDTO;
-import com.github.sparkzxl.workflow.interfaces.dto.process.ProcessNextTaskDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -29,7 +29,7 @@ import java.util.List;
  * description: 流程实例管理
  *
  * @author charles.zhou
- * @date 2020-07-21 14:53:25
+ * @since 2020-07-21 14:53:25
  */
 @AllArgsConstructor
 @RestController
@@ -60,13 +60,14 @@ public class ActInstancesController implements ProcessApi {
     }
 
     @Override
+    @ApiOperation("获取流程历史")
     public List<ProcessHistory> processHistoryList(ProcessHistoryParam processHistoryParam) {
         return processHistoryService.processHistoryList(processHistoryParam);
     }
 
     @ApiOperation("分页查询流程列表")
     @GetMapping("/page")
-    public PageInfo<ProcessInstance> getProcessInstanceList(InstancePageDTO instancePageDTO) {
+    public Page<ProcessInstance> getProcessInstanceList(InstancePageDTO instancePageDTO) {
         return processTaskStatusService.getProcessInstanceList(instancePageDTO);
     }
 

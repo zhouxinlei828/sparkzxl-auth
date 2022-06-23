@@ -1,7 +1,7 @@
 package com.github.sparkzxl.auth.domain.repository;
 
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
  * description: 角色 仓储类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:31:48
+ * @since 2020-06-07 13:31:48
  */
 public interface IAuthRoleRepository {
 
@@ -46,5 +46,5 @@ public interface IAuthRoleRepository {
      * @param name     角色名称
      * @return List<AuthRole>
      */
-    PageInfo<AuthRole> getPageList(int pageNum, int pageSize, String code, String name);
+    Page<AuthRole> getPageList(int pageNum, int pageSize, String code, String name);
 }

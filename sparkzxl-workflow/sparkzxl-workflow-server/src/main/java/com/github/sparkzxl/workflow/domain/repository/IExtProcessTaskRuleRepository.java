@@ -8,7 +8,7 @@ import java.util.List;
  * description: 流程控制规则 仓储类
  *
  * @author charles.zhou
- * @date 2020-07-20 18:19:15
+ * @since 2020-07-20 18:19:15
  */
 public interface IExtProcessTaskRuleRepository {
 

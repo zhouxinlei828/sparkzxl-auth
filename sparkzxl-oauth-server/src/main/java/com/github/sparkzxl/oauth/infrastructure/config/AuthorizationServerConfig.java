@@ -3,7 +3,6 @@ package com.github.sparkzxl.oauth.infrastructure.config;
 import com.github.sparkzxl.jwt.properties.JwtProperties;
 import com.github.sparkzxl.jwt.properties.KeyStoreProperties;
 import com.github.sparkzxl.oauth.domain.service.ClientDetailsServiceImpl;
-import com.github.sparkzxl.oauth.infrastructure.oauth2.Oauth2ExceptionHandler;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.OpenProperties;
 import com.github.sparkzxl.oauth.infrastructure.oauth2.enhancer.JwtTokenEnhancer;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,12 +38,11 @@ import java.util.Optional;
  * description: 授权服务器配置
  *
  * @author charles.zhou
- * @date 2021-02-23 14:13:03
+ * @since 2021-02-23 14:13:03
  */
 @Configuration
 @EnableAuthorizationServer
 @EnableConfigurationProperties(OpenProperties.class)
-@Import(Oauth2ExceptionHandler.class)
 @Slf4j
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 

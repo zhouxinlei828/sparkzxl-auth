@@ -11,7 +11,7 @@ import java.util.List;
  * description: 动态SQL服务类
  *
  * @author zhouxinlei
- * @date 2021-08-01 18:26:28
+ * @since 2021-08-01 18:26:28
  */
 public interface DynamicSqlService {
 

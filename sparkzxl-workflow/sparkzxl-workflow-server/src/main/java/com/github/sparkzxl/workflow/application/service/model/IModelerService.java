@@ -6,7 +6,7 @@ import java.util.List;
  * description: 模型控制 服务类
  *
  * @author charles.zhou
- * @date 2020-07-17 14:49:49
+ * @since 2020-07-17 14:49:49
  */
 public interface IModelerService {
 
@@ -39,9 +39,8 @@ public interface IModelerService {
      * 删除流程实例
      *
      * @param modelId 模型id
-     * @return boolean
      */
-    boolean deleteModel(String modelId);
+    void deleteModel(String modelId);
 
     /**
      * 批量删除流程

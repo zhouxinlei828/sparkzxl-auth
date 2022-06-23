@@ -98,7 +98,8 @@ public class XxlJobServiceImpl implements XxlJobService {
         if (GlueTypeEnum.match(jobInfo.getGlueType()) == null) {
             return new ReturnT<>(ReturnT.FAIL_CODE, (I18nUtil.getString("jobinfo_field_gluetype") + I18nUtil.getString("system_unvalid")));
         }
-        if (GlueTypeEnum.BEAN == GlueTypeEnum.match(jobInfo.getGlueType()) && (jobInfo.getExecutorHandler() == null || jobInfo.getExecutorHandler().trim().length() == 0)) {
+        if (GlueTypeEnum.BEAN == GlueTypeEnum.match(jobInfo.getGlueType()) && (jobInfo.getExecutorHandler() == null
+                || jobInfo.getExecutorHandler().trim().length() == 0)) {
             return new ReturnT<>(ReturnT.FAIL_CODE, (I18nUtil.getString("system_please_input") + "JobHandler"));
         }
         // 》fix "\r" in shell
@@ -125,11 +126,13 @@ public class XxlJobServiceImpl implements XxlJobService {
                     XxlJobInfo childJobInfo = xxlJobInfoDao.loadById(Integer.parseInt(childJobIdItem));
                     if (childJobInfo == null) {
                         return new ReturnT<>(ReturnT.FAIL_CODE,
-                                MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId") + "({0})" + I18nUtil.getString("system_not_found")), childJobIdItem));
+                                MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId") + "({0})" + I18nUtil.getString("system_not_found")),
+                                        childJobIdItem));
                     }
                 } else {
                     return new ReturnT<>(ReturnT.FAIL_CODE,
-                            MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId") + "({0})" + I18nUtil.getString("system_unvalid")), childJobIdItem));
+                            MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId") + "({0})" + I18nUtil.getString("system_unvalid")),
+                                    childJobIdItem));
                 }
             }
 
@@ -217,11 +220,13 @@ public class XxlJobServiceImpl implements XxlJobService {
                     XxlJobInfo childJobInfo = xxlJobInfoDao.loadById(Integer.parseInt(childJobIdItem));
                     if (childJobInfo == null) {
                         return new ReturnT<>(ReturnT.FAIL_CODE,
-                                MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId") + "({0})" + I18nUtil.getString("system_not_found")), childJobIdItem));
+                                MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId") + "({0})" + I18nUtil.getString("system_not_found")),
+                                        childJobIdItem));
                     }
                 } else {
                     return new ReturnT<>(ReturnT.FAIL_CODE,
-                            MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId") + "({0})" + I18nUtil.getString("system_unvalid")), childJobIdItem));
+                            MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId") + "({0})" + I18nUtil.getString("system_unvalid")),
+                                    childJobIdItem));
                 }
             }
 
@@ -248,7 +253,8 @@ public class XxlJobServiceImpl implements XxlJobService {
 
         // next trigger time (5s后生效，避开预读周期)
         long nextTriggerTime = existsJobInfo.getTriggerNextTime();
-        boolean scheduleDataNotChanged = jobInfo.getScheduleType().equals(existsJobInfo.getScheduleType()) && jobInfo.getScheduleConf().equals(existsJobInfo.getScheduleConf());
+        boolean scheduleDataNotChanged =
+                jobInfo.getScheduleType().equals(existsJobInfo.getScheduleType()) && jobInfo.getScheduleConf().equals(existsJobInfo.getScheduleConf());
         if (existsJobInfo.getTriggerStatus() == 1 && !scheduleDataNotChanged) {
             try {
                 Date nextValidTime = JobScheduleHelper.generateNextValidTime(jobInfo, new Date(System.currentTimeMillis() + JobScheduleHelper.PRE_READ_MS));

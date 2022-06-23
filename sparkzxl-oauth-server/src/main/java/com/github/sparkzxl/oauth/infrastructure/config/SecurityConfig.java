@@ -1,7 +1,7 @@
 package com.github.sparkzxl.oauth.infrastructure.config;
 
 import cn.hutool.core.util.ArrayUtil;
-import com.github.sparkzxl.core.utils.SwaggerStaticResource;
+import com.github.sparkzxl.core.util.SwaggerStaticResource;
 import com.github.sparkzxl.oauth.domain.service.UserDetailsServiceImpl;
 import com.github.sparkzxl.oauth.infrastructure.constant.SecurityConstants;
 import com.github.sparkzxl.oauth.infrastructure.security.RestfulAccessDeniedHandler;
@@ -14,6 +14,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,12 +27,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
@@ -39,24 +38,29 @@ import java.util.List;
  * description: 安全认证
  *
  * @author charles.zhou
- * @date 2021-02-23 14:19:05
+ * @since 2021-02-23 14:19:05
  */
 @Configuration
+@EnableConfigurationProperties(SecurityProperties.class)
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private SecurityProperties securityProperties;
-    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+
+    public SecurityConfig(AuthenticationFailureHandler authenticationFailureHandler) {
+        this.authenticationFailureHandler = authenticationFailureHandler;
+    }
 
     @Autowired
     public void setSecurityProperties(SecurityProperties securityProperties) {
         this.securityProperties = securityProperties;
     }
 
-    @Autowired
-    public void setSmsCodeAuthenticationSecurityConfig(SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig) {
-        this.smsCodeAuthenticationSecurityConfig = smsCodeAuthenticationSecurityConfig;
+    @Bean
+    public SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig() {
+        return new SmsCodeAuthenticationSecurityConfig(authenticationFailureHandler, userDetailsService());
     }
 
     @Override
@@ -124,7 +128,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if (!securityProperties.isCsrf()) {
             http.csrf().disable();
         }
-        http.apply(smsCodeAuthenticationSecurityConfig)
+        http.apply(smsCodeAuthenticationSecurityConfig())
                 .and()
                 .logout().logoutUrl("/logout")
                 .logoutSuccessHandler(logoutSuccessHandler())
@@ -146,18 +150,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(restfulAccessDeniedHandler)
                 .and()
                 .addFilterBefore(tenantLoginPreFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
     }
 
     @Override

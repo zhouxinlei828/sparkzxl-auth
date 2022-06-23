@@ -1,15 +1,16 @@
 package com.github.sparkzxl.auth.interfaces.controller.auth;
 
 
-import com.github.sparkzxl.annotation.response.Response;
+import com.github.sparkzxl.web.annotation.Response;
+import com.github.sparkzxl.auth.api.dto.UserDetail;
 import com.github.sparkzxl.auth.application.service.IResourceService;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthResource;
-import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.resource.ResourceUpdateDTO;
-import com.github.sparkzxl.database.base.controller.SuperCacheController;
-import com.github.sparkzxl.database.dto.DeleteDTO;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.auth.domain.model.dto.resource.ResourceQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.resource.ResourceSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.resource.ResourceUpdateDTO;
+import com.github.sparkzxl.database.base.controller.SuperController;
+import com.github.sparkzxl.dto.DeleteDTO;
+import com.github.sparkzxl.dto.PageParams;
 import com.github.sparkzxl.entity.core.AuthUserInfo;
 import com.github.sparkzxl.log.annotation.HttpRequestLog;
 import io.swagger.annotations.Api;
@@ -26,21 +27,21 @@ import java.util.List;
  * description: 资源管理
  *
  * @author charles.zhou
- * @date 2020-06-07 13:39:30
+ * @since 2020-06-07 13:39:30
  */
 @RestController
 @RequestMapping("/resource")
 @Response
 @HttpRequestLog
 @Api(tags = "资源管理")
-public class AuthResourceController extends SuperCacheController<IResourceService, Long,
+public class AuthResourceController extends SuperController<IResourceService, Long,
         AuthResource, ResourceSaveDTO, ResourceUpdateDTO, ResourceQueryDTO, Object> {
 
 
     @ApiOperation("查询用户可用的所有资源")
     @GetMapping("/visible")
-    public List<AuthResource> visible(@ApiIgnore AuthUserInfo<Long> authUserInfo, ResourceQueryDTO resourceQueryDTO) {
-        return baseService.findVisibleResource(authUserInfo.getId(), resourceQueryDTO);
+    public List<AuthResource> visible(@ApiIgnore AuthUserInfo<UserDetail> authUserInfo, ResourceQueryDTO resourceQueryDTO) {
+        return baseService.findVisibleResource(Long.valueOf(authUserInfo.getId()), resourceQueryDTO);
     }
 
     @Override

@@ -11,7 +11,7 @@ import java.util.Map;
  * description: 用户基本信息显示层对象
  *
  * @author charles.zhou
- * @date 2020-12-27 11:08:49
+ * @since 2020-12-27 11:08:49
  */
 @Data
 public class AuthUserBasicVO {
@@ -41,7 +41,10 @@ public class AuthUserBasicVO {
     private String mobile;
 
     @ApiModelProperty(value = "性别")
-    private String sex;
+    private Integer sex;
+
+    @ApiModelProperty(value = "性别名称")
+    private String sexDesc;
 
     @ApiModelProperty(value = "头像")
     private String avatar;

@@ -18,7 +18,7 @@ import java.util.List;
  * description:
  *
  * @author zhouxinlei
- * @date 2021-07-20 10:55
+ * @since 2021-07-20 10:55
  */
 @SpringBootTest(classes = {AuthServerApplication.class}, properties = {"spring.profiles.active=dev"})
 class AuthRoleRepositoryTest {

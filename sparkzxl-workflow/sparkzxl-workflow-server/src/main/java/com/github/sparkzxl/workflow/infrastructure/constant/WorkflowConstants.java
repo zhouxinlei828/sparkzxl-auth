@@ -6,7 +6,7 @@ import java.awt.*;
  * description: 流程常量
  *
  * @author charles.zhou
- * @date 2020-07-23 13:25:17
+ * @since 2020-07-23 13:25:17
  */
 public final class WorkflowConstants {
 
@@ -21,89 +21,10 @@ public final class WorkflowConstants {
      */
     public static final int PROCESS_PADDING = 5;
 
-
-    /**
-     * 流程任务动作类型
-     */
-    public static class WorkflowAction {
-        /**
-         * 启动
-         */
-        public static final int START = 0;
-        /**
-         * 提交
-         */
-        public static final int SUBMIT = 1;
-        /**
-         * 同意
-         */
-        public static final int AGREE = 2;
-        /**
-         * 跳转
-         */
-        public static final int JUMP = 3;
-        /**
-         * 流程挂起
-         */
-        public static final int SUSPEND = 3;
-
-        /**
-         * 流程结束
-         */
-        public static final int END = 4;
-        /**
-         * 驳回
-         */
-        public static final int REJECTED = -1;
-        /**
-         * 回退
-         */
-        public static final int ROLLBACK = -2;
-    }
-
     public static class ActType {
 
         public static final String START_EVENT = "startEvent";
 
         public static final String END_EVENT = "endEvent";
     }
-
-    public static class BusinessTaskStrategy {
-
-        public static final String BUSINESS_TASK_DRIVER = "business_task_driver";
-
-        /**
-         * 启动
-         */
-        public static final String START = "0";
-        /**
-         * 提交
-         */
-        public static final String SUBMIT = "1";
-        /**
-         * 同意
-         */
-        public static final String AGREE = "2";
-        /**
-         * 跳转
-         */
-        public static final String JUMP = "3";
-
-        /**
-         * 流程结束
-         */
-        public static final String END = "4";
-        /**
-         * 驳回
-         */
-        public static final String REJECTED = "-1";
-        /**
-         * 回退
-         */
-        public static final String ROLLBACK = "-2";
-
-
-    }
-
-
 }

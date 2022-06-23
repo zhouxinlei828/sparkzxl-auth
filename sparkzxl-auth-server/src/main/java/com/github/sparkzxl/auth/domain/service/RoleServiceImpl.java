@@ -1,17 +1,16 @@
 package com.github.sparkzxl.auth.domain.service;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.application.service.IRoleService;
 import com.github.sparkzxl.auth.domain.repository.IAuthRoleRepository;
-import com.github.sparkzxl.auth.infrastructure.constant.BizConstant;
 import com.github.sparkzxl.auth.infrastructure.convert.AuthRoleConvert;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
 import com.github.sparkzxl.auth.infrastructure.mapper.AuthRoleMapper;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleUpdateDTO;
-import com.github.sparkzxl.database.base.service.impl.SuperCacheServiceImpl;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleUpdateDTO;
+import com.github.sparkzxl.database.base.service.impl.SuperServiceImpl;
+import com.github.sparkzxl.dto.PageParams;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +19,10 @@ import java.util.List;
  * description: 角色 服务实现类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:37:09
+ * @since 2020-06-07 13:37:09
  */
 @Service
-public class RoleServiceImpl extends SuperCacheServiceImpl<AuthRoleMapper, AuthRole> implements IRoleService {
+public class RoleServiceImpl extends SuperServiceImpl<AuthRoleMapper, AuthRole> implements IRoleService {
 
     private final IAuthRoleRepository authRoleRepository;
 
@@ -32,7 +31,7 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<AuthRoleMapper, AuthR
     }
 
     @Override
-    public PageInfo<AuthRole> getPageList(PageParams<RoleQueryDTO> params) {
+    public Page<AuthRole> getPageList(PageParams<RoleQueryDTO> params) {
         return authRoleRepository.getPageList(params.getPageNum(), params.getPageSize(), params.getModel().getCode(), params.getModel().getName());
     }
 
@@ -61,8 +60,4 @@ public class RoleServiceImpl extends SuperCacheServiceImpl<AuthRoleMapper, AuthR
         return authRoleRepository.updateRole(authRole);
     }
 
-    @Override
-    protected String getRegion() {
-        return BizConstant.ROLE;
-    }
 }

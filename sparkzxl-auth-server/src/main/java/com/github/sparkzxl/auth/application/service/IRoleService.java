@@ -1,13 +1,13 @@
 package com.github.sparkzxl.auth.application.service;
 
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.sparkzxl.auth.infrastructure.entity.AuthRole;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleQueryDTO;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleSaveDTO;
-import com.github.sparkzxl.auth.interfaces.dto.role.RoleUpdateDTO;
-import com.github.sparkzxl.database.base.service.SuperCacheService;
-import com.github.sparkzxl.database.dto.PageParams;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleQueryDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleSaveDTO;
+import com.github.sparkzxl.auth.domain.model.dto.role.RoleUpdateDTO;
+import com.github.sparkzxl.database.base.service.SuperService;
+import com.github.sparkzxl.dto.PageParams;
 
 import java.util.List;
 
@@ -15,17 +15,17 @@ import java.util.List;
  * description: 角色 服务类
  *
  * @author charles.zhou
- * @date 2020-06-07 13:31:48
+ * @since 2020-06-07 13:31:48
  */
-public interface IRoleService extends SuperCacheService<AuthRole> {
+public interface IRoleService extends SuperService<AuthRole> {
 
     /**
      * 分页查询角色信息
      *
      * @param params 分页查询
-     * @return PageInfo<AuthRole>
+     * @return Page<AuthRole>
      */
-    PageInfo<AuthRole> getPageList(PageParams<RoleQueryDTO> params);
+    Page<AuthRole> getPageList(PageParams<RoleQueryDTO> params);
 
     /**
      * 删除角色信息

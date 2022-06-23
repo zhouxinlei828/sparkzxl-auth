@@ -10,7 +10,7 @@ import java.util.Map;
  * description: 业务任务数据
  *
  * @author charles.zhou
- * @date 2020-10-01 19:56:14
+ * @since 2020-10-01 19:56:14
  */
 @Data
 @ApiModel("业务任务数据")

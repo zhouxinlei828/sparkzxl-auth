@@ -19,7 +19,7 @@ import java.util.Map;
  * description: 运行中的Task相关 服务实现类
  *
  * @author charles.zhou
- * @date 2020-07-17 16:23:03
+ * @since 2020-07-17 16:23:03
  */
 @Service
 public class ProcessTaskServiceImpl implements IProcessTaskService {
@@ -107,6 +107,11 @@ public class ProcessTaskServiceImpl implements IProcessTaskService {
     @Override
     public Task getLatestTaskByProInstId(String processInstanceId) {
         return taskService.createTaskQuery().processInstanceId(processInstanceId).orderByTaskCreateTime().desc().singleResult();
+    }
+
+    @Override
+    public Task getLatestTaskByBusinessKey(String businessKey) {
+        return taskService.createTaskQuery().processInstanceBusinessKey(businessKey).orderByTaskCreateTime().desc().singleResult();
     }
 
     @Override
